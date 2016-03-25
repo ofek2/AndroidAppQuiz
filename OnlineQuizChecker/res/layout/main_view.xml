@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Choose Login Option:"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.07"
+            android:layout_above="@+id/studentBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="62dp" />
+
+        <Button
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:text="Student Login"
+            android:id="@+id/studentBtn"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/lecturerBtn"
+            android:layout_alignStart="@+id/lecturerBtn" />
+
+        <Button
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:text="Lecturer Login"
+            android:id="@+id/lecturerBtn"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@+id/studentBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="41dp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            android:text="Online Quiz"
+            android:layout_weight="0.19"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+
+</LinearLayout>
