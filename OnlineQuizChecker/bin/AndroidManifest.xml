@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="23" />
-
+ 	<uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -20,6 +20,20 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+           <activity
+            android:name="com.dropbox.client2.android.AuthActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboard">
+            <intent-filter>
+                <!-- Change this to be db- followed by your app key -->
+                <data android:scheme="db-6uzu0uyprajxb0p" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
