@@ -1,56 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center" >
+
+            <TextView
+                android:id="@+id/onlineQuizTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Online Quiz"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#80D8FF"
+                android:textSize="@dimen/Titles_font" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Choose Login Option:"
-            android:id="@+id/textView2"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.07"
-            android:layout_above="@+id/studentBtn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="62dp" />
-
-        <Button
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:text="Student Login"
-            android:id="@+id/studentBtn"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/lecturerBtn"
-            android:layout_alignStart="@+id/lecturerBtn" />
-
-        <Button
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:text="Lecturer Login"
-            android:id="@+id/lecturerBtn"
-            android:layout_gravity="center_horizontal"
-            android:layout_below="@+id/studentBtn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="41dp" />
+        android:layout_height="match_parent"
+        android:background="@color/background_color_blue" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/titleStudentReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
-            android:text="Online Quiz"
-            android:layout_weight="0.19"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginTop="40dp"
+            android:text="Choose the correct option in order to login"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <Button
+            android:id="@+id/studentBtn"
+            style="@drawable/buttonshape"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleStudentReg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="66dp"
+            android:background="@drawable/custom_button"
+            android:text="Student Login" />
+
+        <Button
+            android:id="@+id/lecturerBtn"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/studentBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="68dp"
+            android:background="@drawable/custom_button"
+            android:text="Lecturer Login" />
 
     </RelativeLayout>
 
