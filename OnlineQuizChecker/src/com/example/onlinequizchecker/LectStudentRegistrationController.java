@@ -53,7 +53,8 @@ public class LectStudentRegistrationController{
 		
 		File filelist;
 		try {
-			DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
+			//DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
+			new DownloadFolderDB().execute(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
 			ArrayList<String> courses = new ArrayList<>();
 			for (int i=0;i<filelist.list().length;i++)
