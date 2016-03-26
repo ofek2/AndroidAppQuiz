@@ -41,7 +41,7 @@ public class DropBoxSimple {
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
         mDBApi = new DropboxAPI<AndroidAuthSession>(session);
         mDBApi.getSession().startOAuth2Authentication(activity);
-
+        
     }
     public static void uploadFolder(File file, String path) {
 
