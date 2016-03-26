@@ -44,7 +44,7 @@ public class LectStudentRegistrationController  extends ListActivity{
 
 	private ArrayList<String> getCoursesFromDB() {
 		// TODO Auto-generated method stub
-		DropBoxSimple.
+		//DropBoxSimple.
 		return null;
 	}
 
