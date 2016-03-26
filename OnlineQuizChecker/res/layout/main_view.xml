@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:text="Online Quiz"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/text_primary"
+                android:textColor="@color/title_color"
                 android:textSize="@dimen/Titles_font" />
 
         </LinearLayout>

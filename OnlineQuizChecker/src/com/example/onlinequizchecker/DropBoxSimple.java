@@ -17,6 +17,9 @@ import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AppKeyPair;
 
+import android.app.Activity;
+import android.content.Context;
+
 /**
  * Created by 311165906 on 10/03/2016.
  */
@@ -26,10 +29,11 @@ public class DropBoxSimple {
 
     private static String rootPath;
     public static DropboxAPI<AndroidAuthSession> mDBApi;
-    private MainActivity activity;
+    private static MainActivity activity;
     public DropBoxSimple(MainActivity activity)
 
     {
+    	
     	try {
 			rootPath = new File(".").getCanonicalPath() + "\\OnlineQuizChecker";
 		} catch (IOException e) {
@@ -87,7 +91,13 @@ public class DropBoxSimple {
 
 	}
     public static void downloadFolder(String path, String dropPath) {
-		FileOutputStream outputStream = null;
+		FileOutputStream outputStream;
+		try {
+			outputStream = activity.openFileOutput(path, Context.MODE_PRIVATE);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			File file = new File(path);
 

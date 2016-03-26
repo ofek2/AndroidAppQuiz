@@ -2,6 +2,8 @@ package com.example.onlinequizchecker;
 
 import android.app.ListActivity;
 import android.os.Environment;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -13,15 +15,16 @@ import java.util.ArrayList;
 /**
  * Created by 311165906 on 10/03/2016.
  */
-public class LectStudentRegistrationController  extends ListActivity{
+public class LectStudentRegistrationController{
     private MainActivity activity;
     private Spinner spinner;
     private Button connectionBtn;
     public LectStudentRegistrationController(MainActivity activity) {
         this.activity = activity;
         this.activity.setContentView(R.layout.lect_studentregistrationview);
-        spinner = (Spinner)findViewById(R.id.coursesSpinner);
-        connectionBtn = (Button)findViewById(R.id.connectionBtn);
+        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
+        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);
+        connectionBtn.setOnClickListener(new connectionBtnListener());
         initView();
 //        // -- Display mode of the ListView
 //        ArrayList<String> students = new ArrayList<String>();
@@ -46,14 +49,30 @@ public class LectStudentRegistrationController  extends ListActivity{
 	private ArrayList<String> getCoursesFromDB() {
 		// TODO Auto-generated method stub
 		//DropBoxSimple.
-		return null;
+		ArrayList<String> courses = new ArrayList<>();
+		courses.add("314152,History");
+		courses.add("314152,History");
+		courses.add("314152,History");
+		return courses;
 	}
 
 	private void populateSpinner(ArrayList<String> courses) {
 		// TODO Auto-generated method stub
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-		           android.R.layout.simple_spinner_item,courses);
+		
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, 
+		           R.drawable.simple_spinner_item,courses);
+	
 		spinner.setAdapter(adapter);
 		
 	}
+	
+	 class connectionBtnListener implements View.OnClickListener
+	    {
+
+	        @Override
+	        public void onClick(View v) {
+	          
+	            new LectStudentRegListController(activity);
+	        }
+	    }
 }

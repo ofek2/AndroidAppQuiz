@@ -27,6 +27,7 @@ public class MainController {
         public void onClick(View v) {
             activity.setUserClassification("Lecturer");
             new LectDropBoxAuthController(activity);
+           
         }
     }
     class studentBtnListener implements View.OnClickListener
