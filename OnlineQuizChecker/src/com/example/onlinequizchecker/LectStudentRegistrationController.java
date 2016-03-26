@@ -10,6 +10,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -48,12 +50,22 @@ public class LectStudentRegistrationController{
 
 	private ArrayList<String> getCoursesFromDB() {
 		// TODO Auto-generated method stub
-		//DropBoxSimple.
-		ArrayList<String> courses = new ArrayList<>();
-		courses.add("314152,History");
-		courses.add("314152,History");
-		courses.add("314152,History");
-		return courses;
+		
+		File filelist;
+		try {
+			DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
+			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
+			ArrayList<String> courses = new ArrayList<>();
+			for (int i=0;i<filelist.list().length;i++)
+				courses.add(filelist.list()[i]);
+			return courses;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return null;
+	
 	}
 
 	private void populateSpinner(ArrayList<String> courses) {

@@ -91,13 +91,8 @@ public class DropBoxSimple {
 
 	}
     public static void downloadFolder(String path, String dropPath) {
-		FileOutputStream outputStream;
-		try {
-			outputStream = activity.openFileOutput(path, Context.MODE_PRIVATE);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		FileOutputStream outputStream=null;
+		
 		try {
 			File file = new File(path);
 
@@ -108,8 +103,12 @@ public class DropBoxSimple {
 					downloadFolder(path + "/" + entry.fileName(), dropPath + "/" + entry.fileName());
 				}
 			} else {
-				outputStream = new FileOutputStream(file);
-				
+				try {
+					outputStream = activity.openFileOutput(path, Context.MODE_PRIVATE);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
 			}
 		} catch (Exception e) {
