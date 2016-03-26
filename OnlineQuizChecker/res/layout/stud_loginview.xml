@@ -101,6 +101,7 @@
 
     <Button
         android:id="@+id/loginBtn"
+        style="@style/buttonStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

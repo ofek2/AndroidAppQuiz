@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/top_bar_backgroundcolor_blue"
+        android:background="@color/primary_dark"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:text="Online Quiz"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#80D8FF"
+                android:textColor="@color/text_primary"
                 android:textSize="@dimen/Titles_font" />
 
         </LinearLayout>
@@ -42,12 +42,11 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="Choose the correct option in order to login"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:text="Choose the correct option in order to login" />
 
         <Button
             android:id="@+id/studentBtn"
-            style="@drawable/buttonshape"
+            style="@style/buttonStyle"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titleStudentReg"
@@ -58,6 +57,7 @@
 
         <Button
             android:id="@+id/lecturerBtn"
+            style="@style/buttonStyle"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/studentBtn"

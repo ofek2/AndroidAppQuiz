@@ -69,7 +69,8 @@
 
         <Button
             android:id="@+id/connectionBtn"
-            android:layout_width="wrap_content"
+            style="@style/buttonStyle"
+            android:layout_width="245dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tableLayout2"
             android:layout_centerHorizontal="true"
