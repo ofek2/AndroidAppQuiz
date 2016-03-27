@@ -105,7 +105,7 @@ public class DropBoxSimple {
 				}
 			} else {
 				try {
-					outputStream = activity.openFileOutput(path, Context.MODE_PRIVATE);
+					outputStream = new FileOutputStream(file);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
