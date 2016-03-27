@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 public class LectStudentRegListController extends ListActivity{
@@ -37,8 +38,16 @@ public class LectStudentRegListController extends ListActivity{
 		// TODO Auto-generated method stub
 		listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
 		listview.setTextFilterEnabled(true);
-		
+		listview.setItemChecked(2,true);
 		listview.setAdapter(new ArrayAdapter<String>(this.activity, android.R.layout.simple_list_item_multiple_choice, students));
+		for(int i=0 ; i<listview.getCount() ; i++){
+			listview.setItemChecked(i, false);
+			CheckedTextView cb = (CheckedTextView)listview.getChildAt(i).findViewById(android.R.id.text1);
+			cb.setEnabled(false);
+		}
+		listview.setItemChecked(2,true);
+
 	}
+
 	
 }
