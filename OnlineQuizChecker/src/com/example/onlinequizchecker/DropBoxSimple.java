@@ -19,6 +19,7 @@ import com.dropbox.client2.session.AppKeyPair;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * Created by 311165906 on 10/03/2016.
@@ -38,6 +39,7 @@ public class DropBoxSimple {
 			rootPath = new File(".").getCanonicalPath() + "\\OnlineQuizChecker";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 			e.printStackTrace();
 		}
         this.activity=activity;
@@ -65,6 +67,7 @@ public class DropBoxSimple {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 				}
 				for (File f : file.listFiles()) {
 					uploadFolder(f, path);
@@ -73,6 +76,7 @@ public class DropBoxSimple {
 				} catch (IOException | DropboxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 				}
 		} else {
 			
@@ -83,6 +87,7 @@ public class DropBoxSimple {
 				} catch (FileNotFoundException | DropboxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 				}
 			
 				
@@ -109,11 +114,13 @@ public class DropBoxSimple {
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+					Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 				}
 				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			Toast.makeText(activity.getApplicationContext(), "exception", 5000).show();//////////////////
 		}
 	}
 
