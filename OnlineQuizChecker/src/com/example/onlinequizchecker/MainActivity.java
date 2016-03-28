@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	 private String userClassification;
@@ -50,6 +51,7 @@ public class MainActivity extends Activity {
 
 	                } catch (IllegalStateException e) {
 	                    Log.i("DbAuthLog", "Error authenticating", e);
+	                    Toast.makeText(this.getApplicationContext(), "exception", 5000).show();//////////////////
 	                }
 	            }
 	        }
