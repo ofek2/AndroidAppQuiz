@@ -198,7 +198,14 @@ public class ClientBT {
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
         // Add each connected thread to an array
-        mConnThreads.add(mConnectedThread);
+        ///////////////
+        ////////////////
+        /////////////////
+        ///////////////
+        mConnThreads.add(mConnectedThread);///////////////
+        ///////////////
+        ////////////////
+        //////////////////
 
 //        // Send the name of the connected device back to the UI Activity
 //        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
