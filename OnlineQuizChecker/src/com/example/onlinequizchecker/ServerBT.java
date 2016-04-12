@@ -318,6 +318,10 @@ public class ServerBT {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();
 ////////////////////
+                    mAcceptThreads.remove(uuidPos);
+                    mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
+                	mAcceptThreads.get(uuidPos).start();
+////////////////////                	
                     break;
                 }
 
