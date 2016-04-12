@@ -26,7 +26,7 @@ public class ClientBT {
 
     // Member fields
     private final BluetoothAdapter mAdapter;
-    private final Handler mHandler;
+//    private final Handler mHandler;
 //    private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -43,7 +43,9 @@ public class ClientBT {
      */
     private ArrayList<UUID> mUuids;
 
-    private boolean found=false;
+
+
+	private boolean found=false;
     private int stage=1;
 	private String pincode;
     // Constants that indicate the current connection state
@@ -57,10 +59,10 @@ public class ClientBT {
      * @param context  The UI Activity Context
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ClientBT(Context context, Handler handler) {
+    public ClientBT(Context context) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
-        mHandler = handler;
+//        mHandler = handler;
         mDeviceAddresses = new ArrayList<String>();
         mConnThreads = new ArrayList<ConnectedThread>();
         mSockets = new ArrayList<BluetoothSocket>();
@@ -397,4 +399,7 @@ public class ClientBT {
             }
         }
     }
+    public ArrayList<UUID> getUuids() {
+		return mUuids;
+	}
 }
