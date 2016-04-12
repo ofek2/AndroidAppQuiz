@@ -160,6 +160,9 @@ public class ServerBT {
     /**
      * Stop all threads
      */
+    ///////////////////////////////////////
+    ///////////////////////////////////////
+    ///////////////////////////////////////
     public synchronized void stop() {
         if (D) Log.d(TAG, "stop");
 //        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
@@ -173,7 +176,9 @@ public class ServerBT {
 		}
         setState(STATE_NONE);
     }
-
+    ///////////////////////////////////////
+    ///////////////////////////////////////
+    ///////////////////////////////////////
     /**
      * Write to the ConnectedThread in an unsynchronized manner
      * @param out The bytes to write
