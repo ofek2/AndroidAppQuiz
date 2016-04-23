@@ -22,7 +22,7 @@ public class LectStudentRegListController extends ListActivity {
 		listview = (ListView) activity.findViewById(R.id.studentListView);
 		serverBT = new ServerBT(activity);/////////////////////////////
 		initView();
-		serverBT.start();///////////////////////////////////
+		serverBT.start(listview);///////////////////////////////////
 
 
 	}

@@ -6,7 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.ParcelUuid;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,6 +26,8 @@ public class StudLoginController {
 	private int maxDiscoveryIteration = 10;
 	public static boolean loginPressed = false;
 	BluetoothAdapter mBluetoothAdapter;
+	
+	BluetoothDevice bluetoothDevice;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
@@ -50,13 +54,23 @@ public class StudLoginController {
 				        String action = intent.getAction();
 				        boolean matchingUuids = true;
 				        // When discovery finds a device
+				        if (BluetoothDevice.ACTION_UUID.equals(action)) {
+				        	BluetoothDevice d = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				        	Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+				        	Bundle b = intent.getExtras();
+						}
 				        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
 				            // Get the BluetoothDevice object from the Intent
 				            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				            bluetoothDevice = device;
+//				            device.fetchUuidsWithSdp();
 //							ParcelUuid parcelUuids;
 //							parcelUuids	= ((ParcelUuid)intent.getParcelableExtra(BluetoothDevice.EXTRA_UUID));
-							String s = intent.getParcelableExtra(BluetoothDevice.EXTRA_PAIRING_KEY);
+//							String s = intent.getParcelableExtra(BluetoothDevice.EXTRA_PAIRING_KEY);
+//				            Bundle b = intent.getExtras();
+				            		//(BluetoothDevice.EXTRA_RSSI);
+//				            String s = intent.getParcelableExtra(BluetoothDevice.EXTRA_RSSI);
 							Toast.makeText(mainActivity.getApplicationContext(), device.getName(),
 									Toast.LENGTH_SHORT).show();
 							String name = device.getName();
@@ -82,6 +96,8 @@ public class StudLoginController {
 							if(maxDiscoveryIteration>0) {
 								mBluetoothAdapter.startDiscovery();
 								maxDiscoveryIteration--;
+								bluetoothDevice.fetchUuidsWithSdp();
+								
 							}
 							else
 								mBluetoothAdapter.cancelDiscovery();

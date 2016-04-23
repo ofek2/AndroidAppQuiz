@@ -77,7 +77,9 @@ public class MainActivity extends Activity {
 					if (mBluetoothAdapter.isEnabled()) {
 						IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 						IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+						IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
 						registerReceiver(blueToothReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+						registerReceiver(blueToothReceiver, actionUuid);
 						registerReceiver(blueToothReceiver, actionDiscoveryFinishedFilter);
 						/*****/////*****//////******/////****////
 						mBluetoothAdapter.startDiscovery();

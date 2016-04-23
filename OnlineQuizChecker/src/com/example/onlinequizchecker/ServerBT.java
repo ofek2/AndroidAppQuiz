@@ -1,22 +1,27 @@
 package com.example.onlinequizchecker;
 
         import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.util.ArrayList;
-        import java.util.UUID;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.UUID;
 
-        import android.bluetooth.BluetoothAdapter;
-        import android.bluetooth.BluetoothDevice;
-        import android.bluetooth.BluetoothServerSocket;
-        import android.bluetooth.BluetoothSocket;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.os.Message;
-        import android.provider.SyncStateContract;
-        import android.util.Log;
+import com.dropbox.client2.SdkVersion;
+
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.SyncStateContract;
+import android.util.Log;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class ServerBT {
 
@@ -52,15 +57,24 @@ public class ServerBT {
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
-
+    
+    private MainActivity activity;
+    private ListView listView;
     /**
      * Constructor. Prepares a new BluetoothChat session.
 //     * @param context  The UI Activity Context
 //     * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ServerBT(MainActivity activity){
+    @SuppressLint("NewApi")
+	public ServerBT(MainActivity activity){
             //, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
+        this.activity = activity;
+//        Toast.makeText(activity.getApplicationContext(), "shit",
+//				Toast.LENGTH_SHORT).show();
+      Toast.makeText(activity.getApplicationContext(), mAdapter.getAddress(),
+				Toast.LENGTH_SHORT).show();
+        
         if (mAdapter == null) {
             // Device does not support Bluetooth
             /////////////////////
@@ -77,8 +91,11 @@ public class ServerBT {
         }
         Intent discoverableIntent = new
                 Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothDevice.EXTRA_UUID,"b7746a40-c758-4868-aa19-7ac6b3475dfc");
-        discoverableIntent.putExtra(BluetoothDevice.EXTRA_PAIRING_KEY,14242314);
+        
+//        discoverableIntent.putExtra(BluetoothDevice.EXTRA_UUID,"b7746a40-c758-4868-aa19-7ac6b3475dfc");
+//        discoverableIntent.putExtra(BluetoothDevice.EXTRA_PAIRING_KEY,14242314);
+//        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_STATE,"634697");
+//        discoverableIntent.putExtra(BluetoothDevice.EXTRA_NAME,"15");
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
         activity.startActivity(discoverableIntent);
 
@@ -123,8 +140,10 @@ public class ServerBT {
 
     /**
      * Start the chat service. Specifically start AcceptThread to begin a
-     * session in listening (server) mode. Called by the Activity onResume() */
-    public synchronized void start() {
+     * session in listening (server) mode. Called by the Activity onResume() 
+     * @param listview */
+    public synchronized void start(ListView listview) {
+    	this.listView = listview;
 //        if (D) Log.d(TAG, "start");
 
         // Cancel any thread attempting to make a connection
@@ -282,7 +301,14 @@ public class ServerBT {
             try {
                 // Listen for all 7 UUIDs
 //                for (int i = 0; i < 7; i++) {
+//            	Toast.makeText(activity.getApplicationContext(), "shit1",
+//						Toast.LENGTH_SHORT).show();
+//            	listView.setItemChecked(1,true);
                     serverSocket = mAdapter.listenUsingRfcommWithServiceRecord(NAME, mUuids.get(uuidPos));
+//                    listView.setItemChecked(0,true);
+
+//                    Toast.makeText(activity.getApplicationContext(), "shit2",
+//							Toast.LENGTH_SHORT).show();
                     socket = serverSocket.accept();
                     if (socket != null) {
                         String address = socket.getRemoteDevice().getAddress();
@@ -292,9 +318,11 @@ public class ServerBT {
                     }
 //                }
             } catch (IOException e) {
+//            	listView.setItemChecked(3,true);
                 Log.e(TAG, "accept() failed", e);
             }
             if (D) Log.i(TAG, "END mAcceptThread");
+//            listView.setItemChecked(3,true);
         }
 
         public void cancel() {
