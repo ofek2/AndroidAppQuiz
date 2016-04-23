@@ -47,7 +47,7 @@ public class ClientBT {
 
 	private boolean found=false;
     private int stage=1;
-	private String pincode;
+	private CharSequence pincode;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -59,9 +59,10 @@ public class ClientBT {
      * @param context  The UI Activity Context
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ClientBT(Context context) {
+    public ClientBT(Context context,CharSequence pincode) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
+        this.pincode = pincode;
 //        mHandler = handler;
         mDeviceAddresses = new ArrayList<String>();
         mConnThreads = new ArrayList<ConnectedThread>();

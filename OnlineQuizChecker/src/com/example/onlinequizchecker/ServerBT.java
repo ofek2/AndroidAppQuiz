@@ -11,9 +11,11 @@ package com.example.onlinequizchecker;
         import android.bluetooth.BluetoothServerSocket;
         import android.bluetooth.BluetoothSocket;
         import android.content.Context;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.os.Handler;
         import android.os.Message;
+        import android.provider.SyncStateContract;
         import android.util.Log;
 
 public class ServerBT {
@@ -27,7 +29,7 @@ public class ServerBT {
 
     // Member fields
     private final BluetoothAdapter mAdapter;
-    private final Handler mHandler;
+//    private final Handler mHandler;
     private ArrayList<AcceptThread> mAcceptThreads;
 //    private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -36,6 +38,7 @@ public class ServerBT {
     private ArrayList<String> mDeviceAddresses;
     private ArrayList<ConnectedThread> mConnThreads;
     private ArrayList<BluetoothSocket> mSockets;
+    private int maxUuid= 1;
     /**
      * A bluetooth piconet can support up to 7 connections. This array holds 7 unique UUIDs.
      * When attempting to make a connection, the UUID on the client must match one that the server
@@ -52,26 +55,52 @@ public class ServerBT {
 
     /**
      * Constructor. Prepares a new BluetoothChat session.
-     * @param context  The UI Activity Context
-     * @param handler  A Handler to send messages back to the UI Activity
+//     * @param context  The UI Activity Context
+//     * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ServerBT(Context context, Handler handler) {
+    public ServerBT(MainActivity activity){
+            //, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mAdapter == null) {
+            // Device does not support Bluetooth
+            /////////////////////
+
+
+
+
+
+
+
+
+
+            //////////////
+        }
+        Intent discoverableIntent = new
+                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+        discoverableIntent.putExtra(BluetoothDevice.EXTRA_UUID,"b7746a40-c758-4868-aa19-7ac6b3475dfc");
+        discoverableIntent.putExtra(BluetoothDevice.EXTRA_PAIRING_KEY,14242314);
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+        activity.startActivity(discoverableIntent);
+
+
         mState = STATE_NONE;
-        mHandler = handler;
+//        mHandler = handler;
         mDeviceAddresses = new ArrayList<String>();
-        mConnThreads = new ArrayList<ConnectedThread>(7);
-        mAcceptThreads = new ArrayList<AcceptThread>(7);
+        mConnThreads = new ArrayList<ConnectedThread>(maxUuid);
+        mAcceptThreads = new ArrayList<AcceptThread>(maxUuid);
+        for (int i = 0; i < maxUuid; i++) {
+            mAcceptThreads.add(null);
+        }
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
-        mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
-        mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
-        mUuids.add(UUID.fromString("a81d6504-4536-49ee-a475-7d96d09439e4"));
-        mUuids.add(UUID.fromString("aa91eab1-d8ad-448e-abdb-95ebba4a9b55"));
-        mUuids.add(UUID.fromString("4d34da73-d0a4-4f40-ac38-917e0a9dee97"));
-        mUuids.add(UUID.fromString("5e14d4df-9c8a-4db7-81e4-c937564c86e0"));
+//        mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
+//        mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
+//        mUuids.add(UUID.fromString("a81d6504-4536-49ee-a475-7d96d09439e4"));
+//        mUuids.add(UUID.fromString("aa91eab1-d8ad-448e-abdb-95ebba4a9b55"));
+//        mUuids.add(UUID.fromString("4d34da73-d0a4-4f40-ac38-917e0a9dee97"));
+//        mUuids.add(UUID.fromString("5e14d4df-9c8a-4db7-81e4-c937564c86e0"));
     }
 
     /**
@@ -96,7 +125,7 @@ public class ServerBT {
      * Start the chat service. Specifically start AcceptThread to begin a
      * session in listening (server) mode. Called by the Activity onResume() */
     public synchronized void start() {
-        if (D) Log.d(TAG, "start");
+//        if (D) Log.d(TAG, "start");
 
         // Cancel any thread attempting to make a connection
 //        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
@@ -105,8 +134,9 @@ public class ServerBT {
         if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
 
         // Start the thread to listen on a BluetoothServerSocket
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < maxUuid; i++) {
             if (mAcceptThreads.get(i) == null) {
+                mAcceptThreads.remove(i);
             	mAcceptThreads.add(i, new AcceptThread(i));
             	mAcceptThreads.get(i).start();
             }
@@ -168,7 +198,7 @@ public class ServerBT {
 //        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
         if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
 ///////////////////////       if (mAcceptThread != null) {mAcceptThread.cancel(); mAcceptThread = null;}
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < maxUuid; i++) {
             if (mAcceptThreads.get(i) != null) {
             	mAcceptThreads.get(i).cancel();
             	mAcceptThreads.remove(i);

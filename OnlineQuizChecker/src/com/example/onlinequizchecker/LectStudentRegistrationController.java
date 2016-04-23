@@ -57,6 +57,7 @@ public class LectStudentRegistrationController{
 			new DownloadFolderDB().execute(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
 			ArrayList<String> courses = new ArrayList<>();
+			if(filelist.list()!=null)
 			for (int i=0;i<filelist.list().length;i++)
 				courses.add(filelist.list()[i]);
 			return courses;
@@ -73,7 +74,7 @@ public class LectStudentRegistrationController{
 		// TODO Auto-generated method stub
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, 
-		           R.drawable.simple_spinner_item,courses);
+		           R.layout.simple_spinner_item,courses);
 	
 		spinner.setAdapter(adapter);
 		

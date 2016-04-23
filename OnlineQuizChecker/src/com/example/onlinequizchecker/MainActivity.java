@@ -1,6 +1,10 @@
 package com.example.onlinequizchecker;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,6 +13,8 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	 private String userClassification;
+	 private boolean didDropboxAuth = false;
+	 private BroadcastReceiver blueToothReceiver=null;
 
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +45,45 @@ public class MainActivity extends Activity {
 
 	        return super.onOptionsItemSelected(item);
 	    }
-	    protected void onResume() {
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (blueToothReceiver!=null)
+		unregisterReceiver(blueToothReceiver);
+
+	}
+
+	protected void onResume() {
 	        super.onResume();
-	        if (userClassification.equals("Lecturer")) {
+	        if (userClassification.equals("Lecturer")&&!didDropboxAuth) {
 	            if (DropBoxSimple.mDBApi.getSession().authenticationSuccessful()) {
 	                try {
 	                    // Required to complete auth, sets the access token on the session
 	                    DropBoxSimple.mDBApi.getSession().finishAuthentication();
+						didDropboxAuth = true;
 	                    new LectStudentRegistrationController(this);
 	                    String accessToken = DropBoxSimple.mDBApi.getSession().getOAuth2AccessToken();
 
 	                } catch (IllegalStateException e) {
 	                    Log.i("DbAuthLog", "Error authenticating", e);
-	                    Toast.makeText(this.getApplicationContext(), "exception", 5000).show();//////////////////
+	                    Toast.makeText(this.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 	                }
 	            }
-	        }
+			}
+			if (StudLoginController.loginPressed)
+				{
+					BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+					if (mBluetoothAdapter.isEnabled()) {
+						IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+						IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+						registerReceiver(blueToothReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+						registerReceiver(blueToothReceiver, actionDiscoveryFinishedFilter);
+						/*****/////*****//////******/////****////
+						mBluetoothAdapter.startDiscovery();
+					}
+				}
+
 	    }
 	    public String getUserClassification() {
 	        return userClassification;
@@ -63,5 +92,7 @@ public class MainActivity extends Activity {
 	    public void setUserClassification(String userClassification) {
 	        this.userClassification = userClassification;
 	    }
-
+		public void setBlueToothReceiver(BroadcastReceiver blueToothReceiver) {
+			this.blueToothReceiver = blueToothReceiver;
+		}
 }

@@ -41,7 +41,6 @@ public final class R {
         public static final int buttonshape=0x7f020000;
         public static final int custom_button=0x7f020001;
         public static final int ic_launcher=0x7f020002;
-        public static final int simple_spinner_item=0x7f020003;
     }
     public static final class id {
         public static final int LinearLayout=0x7f0a0000;
@@ -73,7 +72,8 @@ public final class R {
         public static final int lect_studentregistrationview=0x7f030002;
         public static final int lect_studentreglist=0x7f030003;
         public static final int main_view=0x7f030004;
-        public static final int stud_loginview=0x7f030005;
+        public static final int simple_spinner_item=0x7f030005;
+        public static final int stud_loginview=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f090000;
