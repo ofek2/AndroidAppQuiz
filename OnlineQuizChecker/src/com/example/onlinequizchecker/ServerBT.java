@@ -4,6 +4,7 @@ package com.example.onlinequizchecker;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 
 import com.dropbox.client2.SdkVersion;
@@ -21,6 +22,7 @@ import android.os.Message;
 import android.provider.SyncStateContract;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServerBT {
@@ -58,6 +60,11 @@ public class ServerBT {
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
     
+    private char [] randomOrderedMacCharacters = {'0','A','6','7','C','D','8','9','E','4','1','5','F','3','2','B'};
+    private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+    private char [] pinCode = new char[8];
+//    private String hexaPosInPinCode;
+    private int decimalPosInPinCode;
     private MainActivity activity;
     private ListView listView;
     /**
@@ -69,12 +76,36 @@ public class ServerBT {
 	public ServerBT(MainActivity activity){
             //, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
+        
         this.activity = activity;
 //        Toast.makeText(activity.getApplicationContext(), "shit",
 //				Toast.LENGTH_SHORT).show();
+        String macAddress = mAdapter.getAddress();
       Toast.makeText(activity.getApplicationContext(), mAdapter.getAddress(),
 				Toast.LENGTH_SHORT).show();
-        
+      int j=0;
+         for (int i = 0; i < macAddress.length(); i++) {
+        	 
+        	 int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
+        	 int secondPos = findInArray(macAddress.charAt(i+1), randomOrderedMacCharacters);
+        	 
+        	 
+			if (firstPos>=secondPos) {
+				decimalPosInPinCode = firstPos-secondPos;
+			}
+			else
+				decimalPosInPinCode = 16-(secondPos-firstPos);
+			pinCode[j]=macCharacters[decimalPosInPinCode];
+			j++;
+			i+=2;
+		}
+         Random random = new Random();
+         int randomNumber = random.nextInt(16);
+         pinCode[j] = macCharacters[randomNumber];
+         pinCode[j+1] = randomOrderedMacCharacters[randomNumber];
+         String stringPinCode = String.valueOf(pinCode);
+         ( (TextView) activity.findViewById(R.id.PINCodeTxt))
+					.setText(stringPinCode);
         if (mAdapter == null) {
             // Device does not support Bluetooth
             /////////////////////
@@ -120,6 +151,16 @@ public class ServerBT {
 //        mUuids.add(UUID.fromString("5e14d4df-9c8a-4db7-81e4-c937564c86e0"));
     }
 
+    private int findInArray(char ch,char [] array)
+    {
+    	for (int i = 0; i < array.length; i++) {
+			if(array[i]==ch)
+				return i;  	
+		}
+		return -1;
+		
+    }
+    
     /**
      * Set the current state of the chat connection
      * @param state  An integer defining the current connection state
