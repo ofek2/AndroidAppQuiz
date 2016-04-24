@@ -28,6 +28,12 @@ public class StudLoginController {
 	BluetoothAdapter mBluetoothAdapter;
 	
 	BluetoothDevice bluetoothDevice;
+	
+    private char [] randomOrderedMacCharacters = {'0','A','6','7','C','D','8','9','E','4','1','5','F','3','2','B'};
+    private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+    private char [] pinCode = new char[8];
+    private int decimalPosInPinCode;
+	CharSequence PINcode;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
@@ -35,7 +41,7 @@ public class StudLoginController {
 			public void onClick(View v) {
 				loginPressed=true;
 				// TODO Auto-generated method stub
-				CharSequence PINcode = ((TextView) mainActivity.findViewById(R.id.pinCodeTxt))
+				PINcode = ((TextView) mainActivity.findViewById(R.id.pinCodeTxt))
 						.getText();
 				final ClientBT clientBT = new ClientBT(mainActivity,PINcode);
 				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -54,11 +60,11 @@ public class StudLoginController {
 				        String action = intent.getAction();
 				        boolean matchingUuids = true;
 				        // When discovery finds a device
-				        if (BluetoothDevice.ACTION_UUID.equals(action)) {
-				        	BluetoothDevice d = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				        	Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
-				        	Bundle b = intent.getExtras();
-						}
+//				        if (BluetoothDevice.ACTION_UUID.equals(action)) {
+//				        	BluetoothDevice d = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+//				        	Parcelable[] uuidExtra = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+//				        	Bundle b = intent.getExtras();
+//						}
 				        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
 				            // Get the BluetoothDevice object from the Intent
@@ -74,12 +80,17 @@ public class StudLoginController {
 							Toast.makeText(mainActivity.getApplicationContext(), device.getName(),
 									Toast.LENGTH_SHORT).show();
 							String name = device.getName();
-							if(device.getUuids()!=null) {
+							if(deviceIsServer(device))
+							{
+								clientBT.connect(device);
+							}
+								
+//							if(device.getUuids()!=null) {
 //							if(parcelUuids!=null) {
 //								ParcelUuid[] parcelUuids = device.getUuids();
 //								Toast.makeText(activity.getApplicationContext(), parcelUuids[0].getUuid().toString(),
 //										Toast.LENGTH_LONG).show();
-							}
+//							}
 //				            for (int i = 0; i < maxUuid; i++) {
 //								if(!parcelUuids[i].getUuid().equals(clientBT.getUuids().get(i)))
 //									matchingUuids = false;
@@ -102,6 +113,36 @@ public class StudLoginController {
 							else
 								mBluetoothAdapter.cancelDiscovery();
 						}
+				    }
+
+					private boolean deviceIsServer(BluetoothDevice device) 
+					{
+						String macAddress = device.getAddress();
+						int j = 0;
+						for (int i = 0; i < macAddress.length(); i++) {
+
+							int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
+							int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
+
+							if (firstPos >= secondPos) {
+								decimalPosInPinCode = firstPos - secondPos;
+							} else
+								decimalPosInPinCode = 16 - (secondPos - firstPos);
+							pinCode[j] = macCharacters[decimalPosInPinCode];
+							j++;
+							i += 2;
+						}
+						
+						return false;
+					}
+					private int findInArray(char ch,char [] array)
+				    {
+				    	for (int i = 0; i < array.length; i++) {
+							if(array[i]==ch)
+								return i;  	
+						}
+						return -1;
+						
 				    }
 				};
 //				// Register the BroadcastReceiver
