@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +54,17 @@ public class MainActivity extends Activity {
 		unregisterReceiver(blueToothReceiver);
 
 	}
-
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (userClassification.equals("Lecturer"))
+		{
+//			LectStudentRegListController.listview.setItemChecked(0,true);
+			LectStudentRegListController.serverBT.start(LectStudentRegListController.listview);			
+		}
+	}
 	protected void onResume() {
 	        super.onResume();
 	        if (userClassification.equals("Lecturer")&&!didDropboxAuth) {

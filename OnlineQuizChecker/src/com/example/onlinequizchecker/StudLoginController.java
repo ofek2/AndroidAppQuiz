@@ -31,7 +31,7 @@ public class StudLoginController {
 	
     private char [] randomOrderedMacCharacters = {'0','A','6','7','C','D','8','9','E','4','1','5','F','3','2','B'};
     private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-    private char [] pinCode = new char[8];
+    
     private int decimalPosInPinCode;
 	CharSequence PINcode;
 	public StudLoginController(MainActivity activity) {
@@ -82,6 +82,9 @@ public class StudLoginController {
 							String name = device.getName();
 							if(deviceIsServer(device))
 							{
+								mBluetoothAdapter.cancelDiscovery();
+								maxDiscoveryIteration=0;
+								loginPressed=false;
 								clientBT.connect(device);
 							}
 								
@@ -117,6 +120,7 @@ public class StudLoginController {
 
 					private boolean deviceIsServer(BluetoothDevice device) 
 					{
+						char [] pinCode = new char[8];
 						String macAddress = device.getAddress();
 						int j = 0;
 						for (int i = 0; i < macAddress.length(); i++) {
@@ -132,8 +136,14 @@ public class StudLoginController {
 							j++;
 							i += 2;
 						}
-						
-						return false;
+						pinCode[j] = macCharacters[findInArray(PINcode.charAt(7), randomOrderedMacCharacters)];
+						pinCode[j+1] = PINcode.charAt(7);
+						for (int i = 0; i < pinCode.length; i++) {
+							if (pinCode[i]!=PINcode.charAt(i)) {
+								return false;
+							}
+						}
+						return true;
 					}
 					private int findInArray(char ch,char [] array)
 				    {

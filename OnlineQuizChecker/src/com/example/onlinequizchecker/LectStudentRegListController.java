@@ -13,16 +13,17 @@ import android.widget.Toast;
 
 public class LectStudentRegListController extends ListActivity {
 	private MainActivity activity;
-	private ListView listview;
-	private ServerBT serverBT;
+	public static ListView listview;
+	public static ServerBT serverBT;
 	public LectStudentRegListController(MainActivity activity) {
 		super();
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) activity.findViewById(R.id.studentListView);
-		serverBT = new ServerBT(activity);/////////////////////////////
 		initView();
-		serverBT.start(listview);///////////////////////////////////
+		serverBT = new ServerBT(activity);/////////////////////////////
+		
+//		serverBT.start(listview);///////////////////////////////////
 
 
 	}

@@ -69,22 +69,23 @@ public class ClientBT {
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
         // 7 randomly-generated UUIDs. These must match on both server and client.
-        mUuids.add(UUID.fromString("0000"+pincode+"-c758-4868-aa19-7ac6b3475dfc"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-5a2c-4511-a074-77f199fd0834"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-51f3-4a7b-91cb-f638491d1412"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-4536-49ee-a475-7d96d09439e4"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-d8ad-448e-abdb-95ebba4a9b55"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-d0a4-4f40-ac38-917e0a9dee97"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-9c8a-4db7-81e4-c937564c86e0"));
-        
-    
-        mUuids.add(UUID.fromString("0000"+pincode+"-1d84-48fc-bb18-c1c7c014af68"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-6854-4964-8fd7-0a1b7b71e807"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-0cd9-4005-a818-b39504ea2a68"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-8fcb-4c1d-a295-e53efdfce330"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-9004-4792-a4ab-1b87a8e182c7"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-ace9-4489-aa11-68220bcf23b0"));
-        mUuids.add(UUID.fromString("0000"+pincode+"-33c1-41e8-a0d8-371c70e67a93"));
+        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-c758-4868-aa19-7ac6b3475dfc"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-5a2c-4511-a074-77f199fd0834"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-51f3-4a7b-91cb-f638491d1412"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-4536-49ee-a475-7d96d09439e4"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-d8ad-448e-abdb-95ebba4a9b55"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-d0a4-4f40-ac38-917e0a9dee97"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-9c8a-4db7-81e4-c937564c86e0"));
+//        
+//    
+//        mUuids.add(UUID.fromString("0000"+pincode+"-1d84-48fc-bb18-c1c7c014af68"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-6854-4964-8fd7-0a1b7b71e807"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-0cd9-4005-a818-b39504ea2a68"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-8fcb-4c1d-a295-e53efdfce330"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-9004-4792-a4ab-1b87a8e182c7"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-ace9-4489-aa11-68220bcf23b0"));
+//        mUuids.add(UUID.fromString("0000"+pincode+"-33c1-41e8-a0d8-371c70e67a93"));
     }
 
     /**
@@ -145,7 +146,8 @@ public class ClientBT {
         int j = 0;
         if (stage==1) {
 			i=0;
-			j=7;
+//			j=7;
+			j=1;
 		}
         else if (stage==2) {
 			i=7;
@@ -165,17 +167,17 @@ public class ClientBT {
             }
         }
         
-        if(stage==1&&found==true)
-        {
-        	stop();
-        	stage=2;
-        	found=false;
-        	connect(device);
-        }
-        else if (stage==1&&found==false) {
-        	connect(device);
-		}
-        
+//        if(stage==1&&found==true)
+//        {
+//        	stop();
+//        	stage=2;
+//        	found=false;
+//        	connect(device);
+//        }
+//        else if (stage==1&&found==false) {
+//        	connect(device);
+//		}
+//        
         
     }
 
@@ -275,7 +277,7 @@ public class ClientBT {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-                tmp = device.createRfcommSocketToServiceRecord(uuidToTry);
+                tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
             } catch (IOException e) {
                 Log.e(TAG, "create() failed", e);
             }
@@ -315,7 +317,7 @@ public class ClientBT {
 //            }
 
             // Start the connected thread
-            connected(mmSocket, mmDevice);
+   /////////////////////         connected(mmSocket, mmDevice);
         }
 
         public void cancel() {

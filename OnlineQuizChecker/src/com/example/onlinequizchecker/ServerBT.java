@@ -101,7 +101,7 @@ public class ServerBT {
 		// discoverableIntent.putExtra(BluetoothAdapter.EXTRA_STATE,"634697");
 		// discoverableIntent.putExtra(BluetoothDevice.EXTRA_NAME,"15");
 		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-		activity.startActivity(discoverableIntent);
+		activity.startActivityForResult(discoverableIntent,1);
 
 		mState = STATE_NONE;
 		// mHandler = handler;
@@ -370,9 +370,8 @@ public class ServerBT {
 				// Toast.makeText(activity.getApplicationContext(), "shit1",
 				// Toast.LENGTH_SHORT).show();
 				// listView.setItemChecked(1,true);
-				serverSocket = mAdapter.listenUsingRfcommWithServiceRecord(NAME, mUuids.get(uuidPos));
-				// listView.setItemChecked(0,true);
-
+				serverSocket = mAdapter.listenUsingInsecureRfcommWithServiceRecord(NAME, mUuids.get(uuidPos));
+//				 listView.setItemChecked(1,true);
 				// Toast.makeText(activity.getApplicationContext(), "shit2",
 				// Toast.LENGTH_SHORT).show();
 				socket = serverSocket.accept();
@@ -380,7 +379,7 @@ public class ServerBT {
 					String address = socket.getRemoteDevice().getAddress();
 					mSockets.add(socket);
 					mDeviceAddresses.add(address);
-					connected(socket, socket.getRemoteDevice(), uuidPos);
+////////////////////////					connected(socket, socket.getRemoteDevice(), uuidPos);
 				}
 				// }
 			} catch (IOException e) {
