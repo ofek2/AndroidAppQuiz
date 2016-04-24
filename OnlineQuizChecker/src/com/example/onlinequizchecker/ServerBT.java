@@ -80,32 +80,8 @@ public class ServerBT {
         this.activity = activity;
 //        Toast.makeText(activity.getApplicationContext(), "shit",
 //				Toast.LENGTH_SHORT).show();
-        String macAddress = mAdapter.getAddress();
-      Toast.makeText(activity.getApplicationContext(), mAdapter.getAddress(),
-				Toast.LENGTH_SHORT).show();
-      int j=0;
-         for (int i = 0; i < macAddress.length(); i++) {
-        	 
-        	 int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
-        	 int secondPos = findInArray(macAddress.charAt(i+1), randomOrderedMacCharacters);
-        	 
-        	 
-			if (firstPos>=secondPos) {
-				decimalPosInPinCode = firstPos-secondPos;
-			}
-			else
-				decimalPosInPinCode = 16-(secondPos-firstPos);
-			pinCode[j]=macCharacters[decimalPosInPinCode];
-			j++;
-			i+=2;
-		}
-         Random random = new Random();
-         int randomNumber = random.nextInt(16);
-         pinCode[j] = macCharacters[randomNumber];
-         pinCode[j+1] = randomOrderedMacCharacters[randomNumber];
-         String stringPinCode = String.valueOf(pinCode);
-         ( (TextView) activity.findViewById(R.id.PINCodeTxt))
-					.setText(stringPinCode);
+        initializePINCode();
+       
         if (mAdapter == null) {
             // Device does not support Bluetooth
             /////////////////////
@@ -151,7 +127,36 @@ public class ServerBT {
 //        mUuids.add(UUID.fromString("5e14d4df-9c8a-4db7-81e4-c937564c86e0"));
     }
 
-    private int findInArray(char ch,char [] array)
+    private void initializePINCode() {
+    	 String macAddress = mAdapter.getAddress();
+         Toast.makeText(activity.getApplicationContext(), mAdapter.getAddress(),
+   				Toast.LENGTH_SHORT).show();
+         int j=0;
+            for (int i = 0; i < macAddress.length(); i++) {
+           	 
+           	 int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
+           	 int secondPos = findInArray(macAddress.charAt(i+1), randomOrderedMacCharacters);
+           	 
+           	 
+   			if (firstPos>=secondPos) {
+   				decimalPosInPinCode = firstPos-secondPos;
+   			}
+   			else
+   				decimalPosInPinCode = 16-(secondPos-firstPos);
+   			pinCode[j]=macCharacters[decimalPosInPinCode];
+   			j++;
+   			i+=2;
+   		}
+            Random random = new Random();
+            int randomNumber = random.nextInt(16);
+            pinCode[j] = macCharacters[randomNumber];
+            pinCode[j+1] = randomOrderedMacCharacters[randomNumber];
+            String stringPinCode = String.valueOf(pinCode);
+            ( (TextView) activity.findViewById(R.id.PINCodeTxt))
+   					.setText(stringPinCode);
+	}
+
+	private int findInArray(char ch,char [] array)
     {
     	for (int i = 0; i < array.length; i++) {
 			if(array[i]==ch)
