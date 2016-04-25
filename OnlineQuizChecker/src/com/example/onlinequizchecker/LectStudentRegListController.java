@@ -22,6 +22,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static ServerBT serverBT;
 	private File filelist;
 	private String course;
+	private ArrayList<String> students;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -65,9 +66,10 @@ public class LectStudentRegListController extends ListActivity {
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
-// ////////////////                   String readMessage = new String(readBuf, 0, msg.arg1);
-                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-					LectStudentRegListController.receivePos(pos);
+                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    
+//                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
+					receivePos(studentPosInList(readMessage));
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
@@ -90,7 +92,7 @@ public class LectStudentRegListController extends ListActivity {
 	
 	private void initView() {
 		// TODO Auto-generated method stub
-		ArrayList<String> students = getStudentsListFromDB();
+		students = getStudentsListFromDB();
 		populateList(students);
 	}
 
@@ -147,7 +149,28 @@ public class LectStudentRegListController extends ListActivity {
 
 	}
 	
-	public static void receivePos(int pos)
+	private int studentPosInList(String Id)
+	{
+		for (int i = 0; i < students.size(); i++) {
+			if (students.get(i).equals(Id)) {
+				return i;
+			}
+		}
+		return -1;
+		
+		
+		
+		
+		////////////////////////////////////////
+		/////the student is not in the list
+		////////////////////////////////////////
+		
+		
+		
+		
+	}
+	
+	private void receivePos(int pos)
 	{
 		listview.setItemChecked(pos, true);
 	}
