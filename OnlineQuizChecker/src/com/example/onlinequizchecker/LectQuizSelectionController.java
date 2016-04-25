@@ -8,9 +8,12 @@ import com.example.onlinequizchecker.LectStudentRegListController.itemListener;
 import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class LectQuizSelectionController {
 	private MainActivity activity;
@@ -19,6 +22,8 @@ public class LectQuizSelectionController {
 	private Button viewQuizBtn;
 	private ListView listview;
 	private String course;
+	private int selectedIndex=0;
+	private ArrayAdapter<String> adapter;
 	public LectQuizSelectionController(MainActivity activity,String course)
 	{
 		this.activity = activity;
@@ -63,13 +68,20 @@ public class LectQuizSelectionController {
 		// TODO Auto-generated method stub
 		listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
 		listview.setTextFilterEnabled(true);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.activity,
+		adapter = new ArrayAdapter<String>(this.activity,
 				android.R.layout.simple_list_item_single_choice, quizzes);
 		listview.setAdapter(adapter);
-		//listview.setItemChecked(2,true);
+		listview.setOnItemClickListener(new itemListener());
+	}
+	class itemListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			// TODO Auto-generated method stub
+			selectedIndex = position;	
+		}
 
 	}
-	
 	class chooseQuizBtnListener implements View.OnClickListener
 	{
 		@Override
@@ -83,7 +95,7 @@ public class LectQuizSelectionController {
 	{
 		@Override
 		public void onClick(View v) {
-			new LectViewQuizController(activity, course, listview.getSelectedItem().toString());
+			new LectViewQuizController(activity, course, adapter.getItem(selectedIndex));
 		}
 		
 	}
