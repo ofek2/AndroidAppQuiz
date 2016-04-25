@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -26,13 +29,65 @@ public class LectStudentRegListController extends ListActivity {
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) activity.findViewById(R.id.studentListView);
 		initView();
-		serverBT = new ServerBT(activity);/////////////////////////////
+		serverBT = new ServerBT(activity,mHandler);/////////////////////////////
 		
 //		serverBT.start(listview);///////////////////////////////////
 
 
 	}
 
+	private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+//            FragmentActivity activity = getActivity();
+            switch (msg.what) {
+//                case Constants.MESSAGE_STATE_CHANGE:
+//                    switch (msg.arg1) {
+//                        case BluetoothChatService.STATE_CONNECTED:
+//                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+//                            mConversationArrayAdapter.clear();
+//                            break;
+//                        case BluetoothChatService.STATE_CONNECTING:
+//                            setStatus(R.string.title_connecting);
+//                            break;
+//                        case BluetoothChatService.STATE_LISTEN:
+//                        case BluetoothChatService.STATE_NONE:
+//                            setStatus(R.string.title_not_connected);
+//                            break;
+//                    }
+//                    break;
+//                case Constants.MESSAGE_WRITE:
+//                    byte[] writeBuf = (byte[]) msg.obj;
+//                    // construct a string from the buffer
+//                    String writeMessage = new String(writeBuf);
+//                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+//                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    // construct a string from the valid bytes in the buffer
+// ////////////////                   String readMessage = new String(readBuf, 0, msg.arg1);
+                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
+					LectStudentRegListController.receivePos(pos);
+//                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    break;
+//                case Constants.MESSAGE_DEVICE_NAME:
+//                    // save the connected device's name
+//                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+//                    if (null != activity) {
+//                        Toast.makeText(activity, "Connected to "
+//                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+//                case Constants.MESSAGE_TOAST:
+//                    if (null != activity) {
+//                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+            }
+        }
+    };
+	
 	private void initView() {
 		// TODO Auto-generated method stub
 		ArrayList<String> students = getStudentsListFromDB();
@@ -90,6 +145,11 @@ public class LectStudentRegListController extends ListActivity {
 
 		}
 
+	}
+	
+	public static void receivePos(int pos)
+	{
+		listview.setItemChecked(pos, true);
 	}
 
 }

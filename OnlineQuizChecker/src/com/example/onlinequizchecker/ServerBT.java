@@ -36,7 +36,7 @@ public class ServerBT {
 
 	// Member fields
 	private final BluetoothAdapter mAdapter;
-	// private final Handler mHandler;
+	 private final Handler mHandler;
 	private ArrayList<AcceptThread> mAcceptThreads;
 	// private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
@@ -77,9 +77,10 @@ public class ServerBT {
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
 	 * back to the UI Activity
+	 * @param mHandler 
 	 */
 	@SuppressLint("NewApi")
-	public ServerBT(MainActivity activity) {
+	public ServerBT(MainActivity activity, Handler mHandler) {
 		// , Handler handler) {
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -104,7 +105,7 @@ public class ServerBT {
 		activity.startActivityForResult(discoverableIntent,1);
 
 		mState = STATE_NONE;
-		// mHandler = handler;
+		 this.mHandler = mHandler;
 		mDeviceAddresses = new ArrayList<String>();
 		mConnThreads = new ArrayList<ConnectedThread>(maxUuid);
 		mAcceptThreads = new ArrayList<AcceptThread>(maxUuid);
@@ -222,7 +223,8 @@ public class ServerBT {
 	 *            The BluetoothDevice that has been connected
 	 * @param uuidPos
 	 */
-	public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, int uuidPos) {
+	public synchronized void connected(BluetoothSocket socket, BluetoothDevice device){
+//			, int uuidPos) {
 		if (D)
 			Log.d(TAG, "connected");
 
@@ -239,15 +241,17 @@ public class ServerBT {
 		 */
 
 		// Start the thread to manage the connection and perform transmissions
-		mConnectedThread = new ConnectedThread(socket, uuidPos);
+		mConnectedThread = new ConnectedThread(socket);
+//				, uuidPos);
 		mConnectedThread.start();
 		// Add each connected thread to an array
-		if (mConnThreads.get(uuidPos) == null)
-			mConnThreads.add(uuidPos, mConnectedThread);
-		else {
-			mConnThreads.remove(uuidPos);
-			mConnThreads.add(uuidPos, mConnectedThread);
-		}
+//		if (mConnThreads.get(uuidPos) == null)
+//			mConnThreads.add(uuidPos, mConnectedThread);
+		mConnThreads.add(mConnectedThread);
+//		else {
+//			mConnThreads.remove(uuidPos);
+//			mConnThreads.add(uuidPos, mConnectedThread);
+//		}
 		// Send the name of the connected device back to the UI Activity
 		// Message msg =
 		// mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
@@ -379,7 +383,8 @@ public class ServerBT {
 					String address = socket.getRemoteDevice().getAddress();
 					mSockets.add(socket);
 					mDeviceAddresses.add(address);
-////////////////////////					connected(socket, socket.getRemoteDevice(), uuidPos);
+					connected(socket, socket.getRemoteDevice());
+//							, uuidPos);
 				}
 				// }
 			} catch (IOException e) {
@@ -410,14 +415,15 @@ public class ServerBT {
 		private final BluetoothSocket mmSocket;
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
-		private int uuidPos;
+//		private int uuidPos;
 
-		public ConnectedThread(BluetoothSocket socket, int uuidPos) {
+		public ConnectedThread(BluetoothSocket socket){
+//				, int uuidPos) {
 			Log.d(TAG, "create ConnectedThread");
 			mmSocket = socket;
 			InputStream tmpIn = null;
 			OutputStream tmpOut = null;
-			this.uuidPos = uuidPos;
+//			this.uuidPos = uuidPos;
 			// Get the BluetoothSocket input and output streams
 			try {
 				tmpIn = socket.getInputStream();
@@ -440,18 +446,19 @@ public class ServerBT {
 				try {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
-
+//					int pos = Integer.parseInt((Character.toString((char) buffer[0])));
+//					LectStudentRegListController.receivePos(pos);
+					
 					// Send the obtained bytes to the UI Activity
-					// mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes,
-					// -1, buffer)
-					// .sendToTarget();
+					 mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
+					 -1, buffer).sendToTarget();
 				} catch (IOException e) {
 					Log.e(TAG, "disconnected", e);
 					connectionLost();
 					////////////////////
-					mAcceptThreads.remove(uuidPos);
-					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
-					mAcceptThreads.get(uuidPos).start();
+//					mAcceptThreads.remove(uuidPos);
+//					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
+//					mAcceptThreads.get(uuidPos).start();
 					////////////////////
 					break;
 				}

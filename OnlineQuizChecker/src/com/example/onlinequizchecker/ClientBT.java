@@ -198,7 +198,7 @@ public class ClientBT {
         // Cancel the accept thread because we only want to connect to one device
         if (mAcceptThread != null) {mAcceptThread.cancel(); mAcceptThread = null;}
          */
-        found=true;
+//        found=true;
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
@@ -317,7 +317,7 @@ public class ClientBT {
 //            }
 
             // Start the connected thread
-   /////////////////////         connected(mmSocket, mmDevice);
+            connected(mmSocket, mmDevice);
         }
 
         public void cancel() {
@@ -354,6 +354,8 @@ public class ClientBT {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
+            byte [] msg = {(byte)'0'};
+            write(msg);
         }
 
         public void run() {
