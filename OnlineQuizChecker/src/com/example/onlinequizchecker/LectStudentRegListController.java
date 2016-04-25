@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class LectStudentRegListController extends ListActivity {
 	private File filelist;
 	private String course;
 	public static ArrayList<String> students;
+	private Button quizSelectionBtn;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -94,6 +96,8 @@ public class LectStudentRegListController extends ListActivity {
 		// TODO Auto-generated method stub
 		students = getStudentsListFromDB();
 		populateList(students);
+		quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
+		quizSelectionBtn.setOnClickListener(new quizSelectionBtnListener());
 	}
 
 	private ArrayList<String> getStudentsListFromDB() {
@@ -102,9 +106,13 @@ public class LectStudentRegListController extends ListActivity {
 		filelist = activity.getFilelist();
 		try {
 			File studentFolder = new File(filelist.getCanonicalFile()+"/"+course+"/Students");
+			if(studentFolder.list()!=null)
 			for(int i=0;i<studentFolder.list().length;i++)
 			{
 				students.add(studentFolder.list()[i].split("\\.")[0]);
+			}
+			else{
+				//Do something to notice the user that his students folder is empty
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -148,7 +156,15 @@ public class LectStudentRegListController extends ListActivity {
 		}
 
 	}
-	
+	class quizSelectionBtnListener implements View.OnClickListener
+	    {
+
+	        @Override
+	        public void onClick(View v) {
+	          
+	            new LectQuizSelectionController(activity,course);
+	        }
+	    }
 	public static int studentPosInList(String Id)
 	{
 		for (int i = 0; i < students.size(); i++) {
@@ -174,5 +190,6 @@ public class LectStudentRegListController extends ListActivity {
 	{
 		listview.setItemChecked(pos, true);
 	}
+	
 
 }
