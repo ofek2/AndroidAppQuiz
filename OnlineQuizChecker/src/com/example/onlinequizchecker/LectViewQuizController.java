@@ -26,6 +26,12 @@ public class LectViewQuizController {
 		filelist = activity.getFilelist();
 		try {
 			File quizFileToView = new File("file:///"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
+			
+			WebView view=new WebView(this);
+			setContentView(view);
+			WebSettings settings = view.getSettings();
+			settings.setJavaScriptEnabled(true);
+			
 			webView.loadUrl(quizFileToView.getAbsolutePath());;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
