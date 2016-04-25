@@ -38,6 +38,7 @@ public class StudLoginController {
     private ClientBT clientBT=null;
 	private CharSequence PINcode;
 	private CharSequence studentId;
+	public static boolean loginsuccedded = false;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
@@ -163,6 +164,8 @@ public class StudLoginController {
 				if (mBluetoothAdapter == null) {
 				    // Device does not support Bluetooth
 				}
+				if(loginsuccedded==false)
+				{
 				if (!mBluetoothAdapter.isEnabled()) {
 				    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 				    mainActivity.startActivityForResult(enableBtIntent, 1);
@@ -175,9 +178,12 @@ public class StudLoginController {
 					mainActivity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
 					mainActivity.registerReceiver(mReceiver, actionUuid);
 					mainActivity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
+					loginsuccedded = true;
 					/*****/////*****//////******/////****////
-					mBluetoothAdapter.startDiscovery();
+					
 				}
+				}
+				mBluetoothAdapter.startDiscovery();
 				}
 				else
 					Toast.makeText(mainActivity.getApplicationContext(), "Please fill all fields",

@@ -448,7 +448,8 @@ public class ServerBT {
 			int bytes;
 
 			// Keep listening to the InputStream while connected
-			while (true) {
+			ConnectedThread connectedThread = mConnThreads.get(posInConnectedThreadList);
+			while (true&&connectedThread!=null) {
 				try {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
@@ -473,16 +474,18 @@ public class ServerBT {
 					{
 			            byte [] msg = toByteArray("You have not registered to this course");
 			            write(msg);
-			            ConnectedThread connectedThread = mConnThreads.get(posInConnectedThreadList);
-			            cancel();
+			            
+//			            cancel();
 			            mConnThreads.remove(posInConnectedThreadList);
 			            lastPosInConnectedThreadList--;
-			            connectedThread.destroy();
+			            connectedThread=null;
+//			            connectedThread.destroy();
 			            
 					}
 				} catch (IOException e) {
 					Log.e(TAG, "disconnected", e);
-					connectionLost();
+//					connectionLost();
+					cancel();
 					////////////////////
 //					mAcceptThreads.remove(uuidPos);
 //					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));

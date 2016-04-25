@@ -218,10 +218,21 @@ public class ClientBT {
     /**
      * Stop all threads
      */
-    public synchronized void stop() {
-        if (D) Log.d(TAG, "stop");
-        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
+    @SuppressWarnings("deprecation")
+	public synchronized void stop() {
+//        if (D) Log.d(TAG, "stop");
+//        if (mConnectThread.isAlive()) 
+//        {
+////        	mConnectThread.cancel();
+//        	mConnectThread.destroy();
+//        	mConnectThread = null;
+//        }
+        if (mConnectedThread != null)
+        {
+        	mConnectedThread.cancel();
+//        	mConnectedThread.destroy();
+        	mConnectedThread = null;
+        }
 //        if (mAcceptThread != null) {mAcceptThread.cancel(); mAcceptThread = null;}
         setState(STATE_NONE);
     }
@@ -298,9 +309,9 @@ public class ClientBT {
                 // successful connection or an exception
                 mmSocket.connect();
             } catch (IOException e) {
-                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
-                    connectionFailed();
-                }
+//                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
+//                    connectionFailed();
+//                }
                 // Close the socket
                 try {
                     mmSocket.close();
@@ -377,7 +388,7 @@ public class ClientBT {
             int bytes;
 
             // Keep listening to the InputStream while connected
-            while (true) {
+            while (true&&mConnectedThread!=null) {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
@@ -386,6 +397,8 @@ public class ClientBT {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                               .sendToTarget();
+//                      cancel();
+                      ClientBT.this.stop();
 					}
 
                 } catch (IOException e) {
@@ -420,7 +433,7 @@ public class ClientBT {
             }
         }
     }
-    public ArrayList<UUID> getUuids() {
-		return mUuids;
-	}
+//    public ArrayList<UUID> getUuids() {
+//		return mUuids;
+//	}
 }

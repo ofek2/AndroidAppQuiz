@@ -53,7 +53,10 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		if (blueToothReceiver!=null)
+		{
 		unregisterReceiver(blueToothReceiver);
+		StudLoginController.loginsuccedded = false;
+		}
 
 	}
 	
@@ -94,8 +97,9 @@ public class MainActivity extends Activity {
 						registerReceiver(blueToothReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
 						registerReceiver(blueToothReceiver, actionUuid);
 						registerReceiver(blueToothReceiver, actionDiscoveryFinishedFilter);
+						StudLoginController.loginsuccedded = true;
 						/*****/////*****//////******/////****////
-						mBluetoothAdapter.startDiscovery();
+//						mBluetoothAdapter.startDiscovery();
 					}
 				}
 
