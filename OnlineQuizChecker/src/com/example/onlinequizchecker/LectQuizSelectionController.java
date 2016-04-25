@@ -83,7 +83,7 @@ public class LectQuizSelectionController {
 	{
 		@Override
 		public void onClick(View v) {
-			
+			new LectViewQuizController(activity, course, listview.getSelectedItem().toString());
 		}
 		
 	}
