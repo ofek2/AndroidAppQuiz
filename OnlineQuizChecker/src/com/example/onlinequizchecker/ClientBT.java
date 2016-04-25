@@ -1,20 +1,20 @@
 package com.example.onlinequizchecker;
 
         import java.io.IOException;
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.util.ArrayList;
-        import java.util.UUID;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.UUID;
 
         import android.bluetooth.BluetoothAdapter;
-        import android.bluetooth.BluetoothDevice;
-        import android.bluetooth.BluetoothServerSocket;
-        import android.bluetooth.BluetoothSocket;
-        import android.content.Context;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.os.Message;
-        import android.util.Log;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
+import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 public class ClientBT {
     // Debugging
@@ -26,7 +26,7 @@ public class ClientBT {
 
     // Member fields
     private final BluetoothAdapter mAdapter;
-//    private final Handler mHandler;
+    private final Handler mHandler;
 //    private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -47,7 +47,7 @@ public class ClientBT {
 
 	private boolean found=false;
     private int stage=1;
-	private CharSequence pincode;
+	private CharSequence studentId;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -57,13 +57,14 @@ public class ClientBT {
     /**
      * Constructor. Prepares a new BluetoothChat session.
      * @param context  The UI Activity Context
+     * @param mHandler 
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ClientBT(Context context,CharSequence pincode) {
+    public ClientBT(Context context,CharSequence studentId, Handler mHandler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
-        this.pincode = pincode;
-//        mHandler = handler;
+        this.studentId = studentId;
+        this.mHandler = mHandler;
         mDeviceAddresses = new ArrayList<String>();
         mConnThreads = new ArrayList<ConnectedThread>();
         mSockets = new ArrayList<BluetoothSocket>();
@@ -354,10 +355,22 @@ public class ClientBT {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
-            byte [] msg = {(byte)'0'};
+            byte [] msg = toByteArray(studentId);
             write(msg);
         }
+        
+        private byte[] toByteArray(CharSequence charSequence) {
+            if (charSequence == null) {
+              return null;
+            }
+            byte[] bytesArray = new byte[charSequence.length()];
+            for (int i = 0; i < bytesArray.length; i++) {
+            	bytesArray[i] = (byte) charSequence.charAt(i);
+            }
 
+            return bytesArray;
+        }
+        
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[1024];
@@ -368,10 +381,13 @@ public class ClientBT {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
+                    String receivedMessage = new String(buffer, 0, bytes);
+                    if (receivedMessage.equals("You have not registered to this course")) {
+                        // Send the obtained bytes to the UI Activity
+                      mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+                              .sendToTarget();
+					}
 
-                    // Send the obtained bytes to the UI Activity
-//                    mHandler.obtainMessage(BluetoothChat.MESSAGE_READ, bytes, -1, buffer)
-//                            .sendToTarget();
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
                     connectionLost();

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.view.View;
@@ -33,7 +35,9 @@ public class StudLoginController {
     private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     
     private int decimalPosInPinCode;
-	CharSequence PINcode;
+    private ClientBT clientBT=null;
+	private CharSequence PINcode;
+	private CharSequence studentId;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
@@ -43,7 +47,11 @@ public class StudLoginController {
 				// TODO Auto-generated method stub
 				PINcode = ((TextView) mainActivity.findViewById(R.id.pinCodeTxt))
 						.getText();
-				final ClientBT clientBT = new ClientBT(mainActivity,PINcode);
+				studentId = ((TextView) mainActivity.findViewById(R.id.studentIdTxt))
+						.getText();
+				if(studentId.length()>0&&PINcode.length()>0)
+				{
+				clientBT = new ClientBT(mainActivity,studentId,mHandler);
 				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 				if (mBluetoothAdapter == null) {
 				    // Device does not support Bluetooth
@@ -52,7 +60,10 @@ public class StudLoginController {
 				    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 				    mainActivity.startActivityForResult(enableBtIntent, 1);
 				}
-
+				}
+				else
+					Toast.makeText(mainActivity.getApplicationContext(), "Please fill all fields",
+					Toast.LENGTH_LONG).show();
 				// Create a BroadcastReceiver for ACTION_FOUND
 				final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 				    public void onReceive(Context context, Intent intent) {
@@ -110,7 +121,9 @@ public class StudLoginController {
 							if(maxDiscoveryIteration>0) {
 								mBluetoothAdapter.startDiscovery();
 								maxDiscoveryIteration--;
-								bluetoothDevice.fetchUuidsWithSdp();
+//								bluetoothDevice.fetchUuidsWithSdp();
+								Toast.makeText(mainActivity.getApplicationContext(), "The PIN code is not correct",
+								Toast.LENGTH_LONG).show();
 								
 							}
 							else
@@ -118,6 +131,8 @@ public class StudLoginController {
 						}
 				    }
 
+				    
+				    
 					private boolean deviceIsServer(BluetoothDevice device) 
 					{
 						char [] pinCode = new char[8];
@@ -168,4 +183,58 @@ public class StudLoginController {
 			}
 		});
 	}
+	private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+//            FragmentActivity activity = getActivity();
+            switch (msg.what) {
+//                case Constants.MESSAGE_STATE_CHANGE:
+//                    switch (msg.arg1) {
+//                        case BluetoothChatService.STATE_CONNECTED:
+//                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+//                            mConversationArrayAdapter.clear();
+//                            break;
+//                        case BluetoothChatService.STATE_CONNECTING:
+//                            setStatus(R.string.title_connecting);
+//                            break;
+//                        case BluetoothChatService.STATE_LISTEN:
+//                        case BluetoothChatService.STATE_NONE:
+//                            setStatus(R.string.title_not_connected);
+//                            break;
+//                    }
+//                    break;
+//                case Constants.MESSAGE_WRITE:
+//                    byte[] writeBuf = (byte[]) msg.obj;
+//                    // construct a string from the buffer
+//                    String writeMessage = new String(writeBuf);
+//                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+//                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    // construct a string from the valid bytes in the buffer
+                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    if (readMessage.equals("You have not registered to this course"))
+						Toast.makeText(mainActivity.getApplicationContext(), "You have not registered to this course",
+						Toast.LENGTH_LONG).show();
+//                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
+//					receivePos(studentPosInList(readMessage));
+//                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
+                    break;
+//                case Constants.MESSAGE_DEVICE_NAME:
+//                    // save the connected device's name
+//                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+//                    if (null != activity) {
+//                        Toast.makeText(activity, "Connected to "
+//                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+//                case Constants.MESSAGE_TOAST:
+//                    if (null != activity) {
+//                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                    break;
+            }
+        }
+    };
 }

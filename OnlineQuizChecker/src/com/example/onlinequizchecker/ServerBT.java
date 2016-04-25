@@ -72,7 +72,7 @@ public class ServerBT {
 	private int decimalPosInPinCode;
 	private MainActivity activity;
 	private ListView listView;
-
+	private int lastPosInConnectedThreadList=0;
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -241,13 +241,14 @@ public class ServerBT {
 		 */
 
 		// Start the thread to manage the connection and perform transmissions
-		mConnectedThread = new ConnectedThread(socket);
+		mConnectedThread = new ConnectedThread(socket,lastPosInConnectedThreadList);
 //				, uuidPos);
 		mConnectedThread.start();
 		// Add each connected thread to an array
 //		if (mConnThreads.get(uuidPos) == null)
 //			mConnThreads.add(uuidPos, mConnectedThread);
-		mConnThreads.add(mConnectedThread);
+		mConnThreads.add(lastPosInConnectedThreadList,mConnectedThread);
+		lastPosInConnectedThreadList++;
 //		else {
 //			mConnThreads.remove(uuidPos);
 //			mConnThreads.add(uuidPos, mConnectedThread);
@@ -415,14 +416,16 @@ public class ServerBT {
 		private final BluetoothSocket mmSocket;
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
+		private int posInConnectedThreadList;
 //		private int uuidPos;
 
-		public ConnectedThread(BluetoothSocket socket){
+		public ConnectedThread(BluetoothSocket socket, int posInConnectedThreadList){
 //				, int uuidPos) {
 			Log.d(TAG, "create ConnectedThread");
 			mmSocket = socket;
 			InputStream tmpIn = null;
 			OutputStream tmpOut = null;
+			this.posInConnectedThreadList = posInConnectedThreadList;
 //			this.uuidPos = uuidPos;
 			// Get the BluetoothSocket input and output streams
 			try {
@@ -446,12 +449,34 @@ public class ServerBT {
 				try {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
+					
+					String studentId = new String(buffer, 0, bytes);
+					
+					////////////////////////////////////////
+					/////check if the student is not in the list
+					////////////////////////////////////////
+					
+					
 //					int pos = Integer.parseInt((Character.toString((char) buffer[0])));
 //					LectStudentRegListController.receivePos(pos);
 					
 					// Send the obtained bytes to the UI Activity
+					if(LectStudentRegListController.studentPosInList(studentId)!=-1)
+					{
 					 mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
 					 -1, buffer).sendToTarget();
+					}
+					else
+					{
+			            byte [] msg = toByteArray("You have not registered to this course");
+			            write(msg);
+			            ConnectedThread connectedThread = mConnThreads.get(posInConnectedThreadList);
+			            cancel();
+			            mConnThreads.remove(posInConnectedThreadList);
+			            lastPosInConnectedThreadList--;
+			            connectedThread.yield();
+			            
+					}
 				} catch (IOException e) {
 					Log.e(TAG, "disconnected", e);
 					connectionLost();
@@ -466,6 +491,18 @@ public class ServerBT {
 			}
 		}
 
+        private byte[] toByteArray(CharSequence charSequence) {
+            if (charSequence == null) {
+              return null;
+            }
+            byte[] bytesArray = new byte[charSequence.length()];
+            for (int i = 0; i < bytesArray.length; i++) {
+            	bytesArray[i] = (byte) charSequence.charAt(i);
+            }
+
+            return bytesArray;
+        }
+        
 		/**
 		 * Write to the connected OutStream.
 		 * 

@@ -22,7 +22,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static ServerBT serverBT;
 	private File filelist;
 	private String course;
-	private ArrayList<String> students;
+	public static ArrayList<String> students;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -149,7 +149,7 @@ public class LectStudentRegListController extends ListActivity {
 
 	}
 	
-	private int studentPosInList(String Id)
+	public static int studentPosInList(String Id)
 	{
 		for (int i = 0; i < students.size(); i++) {
 			if (students.get(i).equals(Id)) {
