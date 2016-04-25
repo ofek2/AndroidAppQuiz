@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 
@@ -31,6 +32,7 @@ public class LectViewQuizController {
 			setContentView(view);
 			WebSettings settings = view.getSettings();
 			settings.setJavaScriptEnabled(true);
+			view.loadUrl("file:///android_asset/1.html");
 			
 			webView.loadUrl(quizFileToView.getAbsolutePath());;
 		} catch (IOException e) {
