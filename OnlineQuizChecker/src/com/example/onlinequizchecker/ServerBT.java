@@ -379,6 +379,7 @@ public class ServerBT {
 //				 listView.setItemChecked(1,true);
 				// Toast.makeText(activity.getApplicationContext(), "shit2",
 				// Toast.LENGTH_SHORT).show();
+				while(true){
 				socket = serverSocket.accept();
 				if (socket != null) {
 					String address = socket.getRemoteDevice().getAddress();
@@ -386,6 +387,7 @@ public class ServerBT {
 					mDeviceAddresses.add(address);
 					connected(socket, socket.getRemoteDevice());
 //							, uuidPos);
+				}
 				}
 				// }
 			} catch (IOException e) {
@@ -439,6 +441,7 @@ public class ServerBT {
 			mmOutStream = tmpOut;
 		}
 
+		@SuppressWarnings("deprecation")
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
 			byte[] buffer = new byte[1024];
@@ -474,7 +477,7 @@ public class ServerBT {
 			            cancel();
 			            mConnThreads.remove(posInConnectedThreadList);
 			            lastPosInConnectedThreadList--;
-			            connectedThread.yield();
+			            connectedThread.destroy();
 			            
 					}
 				} catch (IOException e) {

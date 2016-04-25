@@ -49,22 +49,7 @@ public class StudLoginController {
 						.getText();
 				studentId = ((TextView) mainActivity.findViewById(R.id.studentIdTxt))
 						.getText();
-				if(studentId.length()>0&&PINcode.length()>0)
-				{
-				clientBT = new ClientBT(mainActivity,studentId,mHandler);
-				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-				if (mBluetoothAdapter == null) {
-				    // Device does not support Bluetooth
-				}
-				if (!mBluetoothAdapter.isEnabled()) {
-				    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				    mainActivity.startActivityForResult(enableBtIntent, 1);
-				}
-				}
-				else
-					Toast.makeText(mainActivity.getApplicationContext(), "Please fill all fields",
-					Toast.LENGTH_LONG).show();
-				// Create a BroadcastReceiver for ACTION_FOUND
+				
 				final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 				    public void onReceive(Context context, Intent intent) {
 
@@ -170,6 +155,35 @@ public class StudLoginController {
 						
 				    }
 				};
+				
+				if(studentId.length()>0&&PINcode.length()>0)
+				{
+				clientBT = new ClientBT(mainActivity,studentId,mHandler);
+				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+				if (mBluetoothAdapter == null) {
+				    // Device does not support Bluetooth
+				}
+				if (!mBluetoothAdapter.isEnabled()) {
+				    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				    mainActivity.startActivityForResult(enableBtIntent, 1);
+				}
+				else
+				{
+					IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+					IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+					IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
+					mainActivity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+					mainActivity.registerReceiver(mReceiver, actionUuid);
+					mainActivity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
+					/*****/////*****//////******/////****////
+					mBluetoothAdapter.startDiscovery();
+				}
+				}
+				else
+					Toast.makeText(mainActivity.getApplicationContext(), "Please fill all fields",
+					Toast.LENGTH_LONG).show();
+				// Create a BroadcastReceiver for ACTION_FOUND
+
 //				// Register the BroadcastReceiver
 //				IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 //				IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
