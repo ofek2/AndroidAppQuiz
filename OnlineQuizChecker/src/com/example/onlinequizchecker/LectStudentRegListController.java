@@ -102,7 +102,7 @@ public class LectStudentRegListController extends ListActivity {
 			File studentFolder = new File(filelist.getCanonicalFile()+"/"+course+"/Students");
 			for(int i=0;i<studentFolder.list().length;i++)
 			{
-				students.add(studentFolder.list()[i]);
+				students.add(studentFolder.list()[i].split(".")[0]);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
