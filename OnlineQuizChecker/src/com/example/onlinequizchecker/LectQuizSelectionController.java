@@ -16,6 +16,7 @@ public class LectQuizSelectionController {
 	private MainActivity activity;
 	private ArrayList<String> quizzes;
 	private Button chooseQuizBtn;
+	private Button viewQuizBtn;
 	private ListView listview;
 	private String course;
 	public LectQuizSelectionController(MainActivity activity,String course)
@@ -24,6 +25,8 @@ public class LectQuizSelectionController {
 		this.activity.setContentView(R.layout.lect_quizselectionview);
 		chooseQuizBtn = (Button)this.activity.findViewById(R.id.chooseQuizBtn);
 		chooseQuizBtn.setOnClickListener(new chooseQuizBtnListener());
+		viewQuizBtn = (Button)this.activity.findViewById(R.id.viewQuizBtn);
+		viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
 		listview = (ListView)this.activity.findViewById(R.id.quizzesListView);
 		this.course = course;
 		initView();
@@ -69,11 +72,18 @@ public class LectQuizSelectionController {
 	
 	class chooseQuizBtnListener implements View.OnClickListener
 	{
-
 		@Override
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
+		
 			// Send quiz to students
+		}
+		
+	}
+	class viewQuizBtnListener implements View.OnClickListener
+	{
+		@Override
+		public void onClick(View v) {
+			
 		}
 		
 	}
