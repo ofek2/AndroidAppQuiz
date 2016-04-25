@@ -56,6 +56,7 @@ public class LectStudentRegistrationController{
 			//DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			new DownloadFolderDB().execute(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
+			activity.setFilelist(filelist);
 			ArrayList<String> courses = new ArrayList<>();
 			if(filelist.list()!=null)
 			for (int i=0;i<filelist.list().length;i++)
@@ -86,7 +87,7 @@ public class LectStudentRegistrationController{
 	        @Override
 	        public void onClick(View v) {
 	          
-	            new LectStudentRegListController(activity);
+	            new LectStudentRegListController(activity,spinner.getSelectedItem().toString());
 	        }
 	    }
 }

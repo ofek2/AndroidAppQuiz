@@ -1,5 +1,7 @@
 package com.example.onlinequizchecker;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -16,7 +18,7 @@ public class MainActivity extends Activity {
 	 private String userClassification;
 	 private boolean didDropboxAuth = false;
 	 private BroadcastReceiver blueToothReceiver=null;
-
+	 private File filelist;
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -107,5 +109,13 @@ public class MainActivity extends Activity {
 	    }
 		public void setBlueToothReceiver(BroadcastReceiver blueToothReceiver) {
 			this.blueToothReceiver = blueToothReceiver;
+		}
+
+		public File getFilelist() {
+			return filelist;
+		}
+
+		public void setFilelist(File filelist) {
+			this.filelist = filelist;
 		}
 }

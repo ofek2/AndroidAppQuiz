@@ -1,5 +1,7 @@
 package com.example.onlinequizchecker;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
@@ -15,8 +17,11 @@ public class LectStudentRegListController extends ListActivity {
 	private MainActivity activity;
 	public static ListView listview;
 	public static ServerBT serverBT;
-	public LectStudentRegListController(MainActivity activity) {
+	private File filelist;
+	private String course;
+	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
+		this.course = course;
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) activity.findViewById(R.id.studentListView);
@@ -37,26 +42,17 @@ public class LectStudentRegListController extends ListActivity {
 	private ArrayList<String> getStudentsListFromDB() {
 		// TODO Auto-generated method stub
 		ArrayList<String> students = new ArrayList<>();
-		students.add("David");
-		students.add("Asaf");
-		students.add("Shlomo");
-		students.add("Yakov");
-		students.add("David");
-		students.add("Asaf");
-		students.add("Shlomo");
-		students.add("Yakov");
-		students.add("David");
-		students.add("Asaf");
-		students.add("Shlomo");
-		students.add("Yakov");
-		students.add("David");
-		students.add("Asaf");
-		students.add("Shlomo");
-		students.add("Yakov");
-		students.add("David");
-		students.add("Asaf");
-		students.add("Shlomo");
-		students.add("Yakov");
+		filelist = activity.getFilelist();
+		try {
+			File studentFolder = new File(filelist.getCanonicalFile()+"/"+course+"/Students");
+			for(int i=0;i<studentFolder.list().length;i++)
+			{
+				students.add(studentFolder.list()[i]);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return students;
 	}
 
@@ -70,7 +66,7 @@ public class LectStudentRegListController extends ListActivity {
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new itemListener());
 		
-		 listview.setItemChecked(2,true);
+		//listview.setItemChecked(2,true);
 
 	}
 
