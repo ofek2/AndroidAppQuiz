@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/accent"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -85,12 +86,15 @@
 
             <Button
                 android:id="@+id/quizSelectionBtn"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_margin="4dp"
                 android:drawableTop="@drawable/paper1"
                 android:gravity="bottom|center"
                 android:text="Quiz Selection"
                 android:textColor="@color/accent" />
+
         </LinearLayout>
     </LinearLayout>
 

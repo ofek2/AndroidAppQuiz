@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center" >
+
+            <TextView
+                android:id="@+id/titleStudentReg"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Quiz Selection"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/Titles_font" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/studentListView"
+        android:layout_width="match_parent"
+        android:layout_height="411dp"
+        android:layout_weight="0.55" >
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:dividerPadding="10dp"
+        android:gravity="center"
+        android:showDividers="middle" >
+
+        <Button
+            android:id="@+id/chooseQuizBtn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/top_bar_backgroundcolor_blue"
+            android:text="Choose Quiz"
+            android:textColor="@color/accent" />
+
+    </LinearLayout>
+
+</LinearLayout>
