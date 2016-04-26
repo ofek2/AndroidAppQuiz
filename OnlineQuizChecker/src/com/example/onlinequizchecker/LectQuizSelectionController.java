@@ -48,7 +48,7 @@ public class LectQuizSelectionController {
 		File filelist;
 		filelist = activity.getFilelist();
 		try {
-			File quizzesFolder = new File(filelist.getCanonicalFile()+"/"+course+"/Quizzes");
+			File quizzesFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes");
 			if(quizzesFolder.list()!=null)
 			for(int i=0;i<quizzesFolder.list().length;i++)
 			{

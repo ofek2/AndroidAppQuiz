@@ -105,7 +105,7 @@ public class LectStudentRegListController extends ListActivity {
 		ArrayList<String> students = new ArrayList<>();
 		filelist = activity.getFilelist();
 		try {
-			File studentFolder = new File(filelist.getCanonicalFile()+"/"+course+"/Students");
+			File studentFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Students");
 			if(studentFolder.list()!=null)
 			for(int i=0;i<studentFolder.list().length;i++)
 			{
