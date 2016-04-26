@@ -36,7 +36,7 @@ public class DropBoxSimple {
     {
     	
     	try {
-			rootPath = "file:///android_asset/"+new File(".").getCanonicalPath() + "\\OnlineQuizChecker";
+			rootPath = new File(".").getCanonicalPath() + "\\OnlineQuizChecker";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
