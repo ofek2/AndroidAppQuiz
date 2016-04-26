@@ -33,7 +33,7 @@ public class LectViewQuizController {
 			settings.setJavaScriptEnabled(true);
 //			webView.loadUrl("file:///android_asset/1.html");
 
-			webView.loadUrl(quizFileToView.getAbsolutePath());
+			webView.loadUrl("file://"+quizFileToView.getAbsolutePath());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
