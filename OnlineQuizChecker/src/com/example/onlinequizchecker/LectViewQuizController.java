@@ -26,8 +26,8 @@ public class LectViewQuizController {
 		// TODO Auto-generated method stub
 		filelist = activity.getFilelist();
 		try {
-//			File quizFileToView = new File("file:///"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
-			File quizFileToView = new File("file:///android_asset/"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
+			File quizFileToView = new File("file:///"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
+//			File quizFileToView = new File("file:///android_asset/"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
 
 			webView.loadUrl(quizFileToView.getAbsolutePath());;
 		} catch (IOException e) {
