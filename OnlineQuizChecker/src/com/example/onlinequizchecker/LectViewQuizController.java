@@ -27,7 +27,9 @@ public class LectViewQuizController {
 		filelist = activity.getFilelist();
 		try {
 			File quizFileToView = new File("file:///"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
-//			File quizFileToView = new File("file:///android_asset/"+filelist.getCanonicalFile()+"/"+course+"/Quizzes/Form/"+quiz+".html");
+			WebSettings settings = webView.getSettings();
+			settings.setJavaScriptEnabled(true);
+//			webView.loadUrl("file:///android_asset/1.html");
 
 			webView.loadUrl(quizFileToView.getAbsolutePath());;
 		} catch (IOException e) {
