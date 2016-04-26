@@ -26,8 +26,7 @@ public class LectViewQuizController {
 		// TODO Auto-generated method stub
 		filelist = activity.getFilelist();
 		try {
-//			File quizFileToView = new File("file:///"+filelist.getCanonicalPath()+"/"+course+"/Quizzes/Form/"+quiz+".html");
-			File quizFileToView = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes/Form/"+quiz+".html");
+			File quizFileToView = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form/"+quiz+".html");
 			WebSettings settings = webView.getSettings();
 			settings.setJavaScriptEnabled(true);
 //			webView.loadUrl("file:///android_asset/1.html");
