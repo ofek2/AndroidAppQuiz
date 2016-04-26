@@ -13,9 +13,11 @@ public class LectViewQuizController {
 	private WebView webView;
 	private Button back;
 	private File filelist;
+	private String course;
 	public LectViewQuizController(MainActivity activity,String course,String quiz)
 	{
 		this.activity = activity;
+		this.course = course;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
 		this.back = (Button)this.activity.findViewById(R.id.backBtn);
@@ -42,7 +44,7 @@ public class LectViewQuizController {
 		@Override
 		public void onClick(View v) {
 		
-			activity.setContentView(R.layout.lect_quizselectionview);
+			new LectQuizSelectionController(activity, course);
 		}
 		
 	}
