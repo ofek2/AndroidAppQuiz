@@ -43,7 +43,7 @@ public class ServerBT {
 	private int mState;
 	private int stage = 1;
 	private ArrayList<String> mDeviceAddresses;
-	private ArrayList<ConnectedThread> mConnThreads;
+	public static ArrayList<ConnectedThread> mConnThreads;
 	private ArrayList<BluetoothSocket> mSockets;
 	private int maxUuid = 1;
 	/**
@@ -414,7 +414,7 @@ public class ServerBT {
 	 * This thread runs during a connection with a remote device. It handles all
 	 * incoming and outgoing transmissions.
 	 */
-	private class ConnectedThread extends Thread {
+	class ConnectedThread extends Thread {
 		private final BluetoothSocket mmSocket;
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
@@ -496,7 +496,15 @@ public class ServerBT {
 
 			}
 		}
+		
+        public InputStream getMmInStream() {
+			return mmInStream;
+		}
 
+		public OutputStream getMmOutStream() {
+			return mmOutStream;
+		}
+		
         private byte[] toByteArray(CharSequence charSequence) {
             if (charSequence == null) {
               return null;

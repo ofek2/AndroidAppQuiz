@@ -1,8 +1,12 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import com.example.onlinequizchecker.LectStudentRegListController.itemListener;
 import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
@@ -88,8 +92,57 @@ public class LectQuizSelectionController {
 		public void onClick(View v) {
 		
 			// Send quiz to students
+			try {
+				String zipFile = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
+						adapter.getItem(selectedIndex) + "/Form/" + adapter.getItem(selectedIndex)+".zip";
+		        String srcDir = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
+						adapter.getItem(selectedIndex) + "/Form";     
+				byte[] buffer = new byte[1024];
+				FileOutputStream fos = new FileOutputStream(zipFile);
+				ZipOutputStream zos = new ZipOutputStream(fos);
+				File dir = new File(srcDir);
+				File[] files = dir.listFiles();
+				for (int i = 0; i < files.length; i++) {
+					if (!files[i].getName().equals("quiz.html")&&
+							!files[i].getName().startsWith("Question"))
+						{
+						System.out.println("Adding file: " + files[i].getName());
+						FileInputStream fis = new FileInputStream(files[i]);
+						// begin writing a new ZIP entry, positions the stream to
+						// the start of the entry data
+						zos.putNextEntry(new ZipEntry(files[i].getName()));
+						int length;
+						while ((length = fis.read(buffer)) > 0) {
+							zos.write(buffer, 0, length);
+						}
+						zos.closeEntry();
+						// close the InputStream
+						fis.close();
+						}
+
+				}
+				// close the ZipOutputStream
+				zos.close();
+				
+		    	FileInputStream fileInputStream=null;
+		        
+		        File file = new File(zipFile);
+		        
+		        byte[] bFile = new byte[(int) file.length()];
+		        
+		            //convert file into array of bytes
+			    fileInputStream = new FileInputStream(file);
+			    fileInputStream.read(bFile);
+			    fileInputStream.close();
+
+			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
+				}	
+			   
+			}catch(Exception e){
+	        	e.printStackTrace();
+	        }
 		}
-		
 	}
 	class viewQuizBtnListener implements View.OnClickListener
 	{

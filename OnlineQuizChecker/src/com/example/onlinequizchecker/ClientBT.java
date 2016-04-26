@@ -29,7 +29,7 @@ public class ClientBT {
     private final Handler mHandler;
 //    private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
-    private ConnectedThread mConnectedThread;
+    public static ConnectedThread mConnectedThread;
     private int mState;
 
     private ArrayList<String> mDeviceAddresses;
@@ -345,10 +345,10 @@ public class ClientBT {
      * This thread runs during a connection with a remote device.
      * It handles all incoming and outgoing transmissions.
      */
-    private class ConnectedThread extends Thread {
+    class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
+		private final OutputStream mmOutStream;
 
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "create ConnectedThread");
@@ -369,6 +369,14 @@ public class ClientBT {
             byte [] msg = toByteArray(studentId);
             write(msg);
         }
+        
+        public InputStream getMmInStream() {
+			return mmInStream;
+		}
+
+		public OutputStream getMmOutStream() {
+			return mmOutStream;
+		}
         
         private byte[] toByteArray(CharSequence charSequence) {
             if (charSequence == null) {
@@ -392,6 +400,7 @@ public class ClientBT {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
+                    
                     String receivedMessage = new String(buffer, 0, bytes);
                     if (receivedMessage.equals("You have not registered to this course")) {
                         // Send the obtained bytes to the UI Activity
