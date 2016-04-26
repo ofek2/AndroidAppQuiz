@@ -52,22 +52,23 @@ public class LectStudentRegistrationController{
 		// TODO Auto-generated method stub
 		
 		File filelist;
-		try {
+//		try {
 			//DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
-			new DownloadFolderDB().execute(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
-			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
+			new DownloadFolderDB().execute("file:///android_asset/OnlineQuizChecker", "/");
+//			filelist = new File(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
+			filelist = new File("file:///android_asset/OnlineQuizChecker");
 			activity.setFilelist(filelist);
 			ArrayList<String> courses = new ArrayList<>();
 			if(filelist.list()!=null)
 			for (int i=0;i<filelist.list().length;i++)
 				courses.add(filelist.list()[i]);
 			return courses;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	
-		return null;
+//		return null;
 	
 	}
 
