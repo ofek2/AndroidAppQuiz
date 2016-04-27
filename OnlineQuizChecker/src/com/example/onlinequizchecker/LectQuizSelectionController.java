@@ -103,8 +103,8 @@ public class LectQuizSelectionController {
 				File dir = new File(srcDir);
 				File[] files = dir.listFiles();
 				for (int i = 0; i < files.length; i++) {
-					if (!files[i].getName().equals("quiz.html")&&
-							!files[i].getName().startsWith("Question"))
+					if (files[i].getName().equals(adapter.getItem(selectedIndex)+".html")||
+							files[i].getName().startsWith("Question"))
 						{
 						System.out.println("Adding file: " + files[i].getName());
 						FileInputStream fis = new FileInputStream(files[i]);
