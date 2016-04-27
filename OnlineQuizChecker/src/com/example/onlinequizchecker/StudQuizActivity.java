@@ -57,13 +57,13 @@ public class StudQuizActivity extends Activity {
 			// TODO Auto-generated method stub
 
 			long millis = millisUntilFinished;
-			String hms = String.format("%02d:%02d",
+			String ms = String.format("%02d:%02d",
 					TimeUnit.MILLISECONDS.toMinutes(millis)
 							- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
 					TimeUnit.MILLISECONDS.toSeconds(millis)
 							- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-			System.out.println(hms);
-			timeLeftText.setText(hms);
+			System.out.println(ms);
+			timeLeftText.setText(ms);
 		}
 
 		@Override
