@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
-        import java.io.ByteArrayOutputStream;
+        import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -461,21 +462,47 @@ public class ClientBT {
                     	}
                     	String zipFile = quizPath+quizName+".zip";
 
-                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    	ZipOutputStream zos = new ZipOutputStream(baos);
-                    	ZipEntry entry = new ZipEntry(zipFile);
-                    	entry.setSize(readFile.length);
-                    	zos.putNextEntry(entry);
-                    	zos.write(readFile);
-                    	zos.closeEntry();
-                    	zos.close();
+//                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    	ZipOutputStream zos = new ZipOutputStream(baos);
+//                    	ZipEntry entry = new ZipEntry(zipFile);
+//                    	entry.setSize(readFile.length);
+//                    	zos.putNextEntry(entry);
+//                    	zos.write(readFile);
+//                    	zos.closeEntry();
+//                    	zos.close();
+                    	
+                    	
+                    	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
+                    	ZipEntry entry = null;
+                    	while ((entry = zipStream.getNextEntry()) != null) {
+
+                    	    String entryName = entry.getName();
+
+                    	    FileOutputStream out = new FileOutputStream(quizPath+entryName);
+
+                    	    byte[] byteBuff = new byte[4096];
+                    	    int bytesRead = 0;
+                    	    while ((bytesRead = zipStream.read(byteBuff)) != -1)
+                    	    {
+                    	        out.write(byteBuff, 0, bytesRead);
+                    	    }
+
+                    	    out.close();
+                    	    zipStream.closeEntry();
+                    	}
+                    	zipStream.close(); 
+                    	
                     	
 //                	    ZipOutputStream fileOuputStream = 
 //                                new ZipOutputStream(zipFile); 
 //                	    fileOuputStream.write(readFile);
 //                	    fileOuputStream.close();
                     	
-//                    	File file = new File(zipFile);
+                    	File file = new File(zipFile);
+                    	if(file.exists())
+                    	{
+                    		;
+                    	}
                     	unZipIt(zipFile, quizPath);
                     	
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
