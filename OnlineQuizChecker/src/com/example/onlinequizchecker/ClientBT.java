@@ -53,7 +53,6 @@ public class ClientBT {
 
 	private boolean found=false;
     private int stage=1;
-    private Context context;
 	private CharSequence studentId;
 	private String applicationPath;
 	private MainActivity mainActivity;
