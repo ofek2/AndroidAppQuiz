@@ -55,7 +55,7 @@ public class LectStudentRegistrationController{
 		try {
 			//DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			String path = activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
-			folderRecursiveDelete(new File(path));
+//			folderRecursiveDelete(new File(path));
 			new DownloadFolderDB().execute(path, "/");
 			filelist = new File(path);
 			activity.setFilelist(filelist);

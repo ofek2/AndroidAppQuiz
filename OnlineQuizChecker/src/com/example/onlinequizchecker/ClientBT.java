@@ -443,15 +443,17 @@ public class ClientBT {
                         quizPeriod.length()+
                         +4;
                     	int bIndex = 0;
-                    	for (int i = byteStartIndex; i < buffer.length; i++) {
+                    	for (int i = byteStartIndex; i < bytes; i++) {
 							readFile[bIndex] = buffer[i];
 							bIndex++;
 						}
-                    	while ((bytes = mmInStream.read(buffer)) > 0) {
-                    		for (int i = 0; i < buffer.length; i++) {
+                    	buffer = new byte[1024];
+                    	while ((bytes = mmInStream.read(buffer)) > -1) {                   		
+                    		for (int i = 0; i < bytes; i++) {
 								readFile[bIndex] = buffer[i];
 								bIndex++;
 							}
+                    		buffer = new byte[1024];
                     	}
                     	String zipFile = quizPath+quizName+".zip";
                 	    FileOutputStream fileOuputStream = 
