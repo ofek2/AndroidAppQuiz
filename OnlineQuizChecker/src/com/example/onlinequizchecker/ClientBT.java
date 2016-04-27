@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
-        import java.io.File;
+        import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
         import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -454,15 +456,32 @@ public class ClientBT {
 								bIndex++;
 							}
                     		buffer = new byte[1024];
+                    		if(bIndex==Integer.valueOf(fileSize))
+                    			break;
                     	}
                     	String zipFile = quizPath+quizName+".zip";
-                	    FileOutputStream fileOuputStream = 
-                                new FileOutputStream(zipFile); 
-                	    fileOuputStream.write(readFile);
-                	    fileOuputStream.close();
+
+                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    	ZipOutputStream zos = new ZipOutputStream(baos);
+                    	ZipEntry entry = new ZipEntry(zipFile);
+                    	entry.setSize(readFile.length);
+                    	zos.putNextEntry(entry);
+                    	zos.write(readFile);
+                    	zos.closeEntry();
+                    	zos.close();
+                    	
+//                	    ZipOutputStream fileOuputStream = 
+//                                new ZipOutputStream(zipFile); 
+//                	    fileOuputStream.write(readFile);
+//                	    fileOuputStream.close();
+                    	
+//                    	File file = new File(zipFile);
                     	unZipIt(zipFile, quizPath);
                     	
-                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
+                        mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
+                        		-1, quizPath+quizName+".html").sendToTarget();
+                    	
+//                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	
                     }
 

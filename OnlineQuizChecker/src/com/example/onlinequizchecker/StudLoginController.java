@@ -248,6 +248,10 @@ public class StudLoginController {
 //					receivePos(studentPosInList(readMessage));
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
+                case Constants.QUIZ_INITIATION:
+                    String quizPath = (String) msg.obj;
+                    new StudQuizActivity(mainActivity,msg.arg1,quizPath);
+                    break;
 //                case Constants.MESSAGE_DEVICE_NAME:
 //                    // save the connected device's name
 //                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
