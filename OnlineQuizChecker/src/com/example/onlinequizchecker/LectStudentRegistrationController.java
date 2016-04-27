@@ -88,7 +88,7 @@ public class LectStudentRegistrationController{
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, 
 		           R.layout.simple_spinner_item,courses);
-	
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		
 	}
