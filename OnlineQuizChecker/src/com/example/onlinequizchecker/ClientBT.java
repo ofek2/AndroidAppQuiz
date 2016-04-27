@@ -400,6 +400,11 @@ public class ClientBT {
             while (true&&mConnectedThread!=null) {
                 try {
                     // Read from the InputStream
+                	
+//					while ((length = fis.read(buffer)) > 0) {
+//						zos.write(buffer, 0, length);
+//					}
+                	
                     bytes = mmInStream.read(buffer);
                     
                     String receivedMessage = new String(buffer, 0, bytes);

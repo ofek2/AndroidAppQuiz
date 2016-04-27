@@ -128,17 +128,53 @@ public class LectQuizSelectionController {
 		        
 		        File file = new File(zipFile);
 		        
-		        byte[] bFile = new byte[(int) file.length()];
+		        byte[] bFile = new byte[(int) file.length()+
+		                                String.valueOf(file.length()).length()+
+		                                adapter.getItem(selectedIndex).length()+
+		                                //time.length+
+		                                3];
 		        
+		        byte[] readFile = new byte[(int) file.length()];
 		            //convert file into array of bytes
 			    fileInputStream = new FileInputStream(file);
-			    fileInputStream.read(bFile);
+//			    fileInputStream.read(bFile);
+			    fileInputStream.read(readFile);
 			    fileInputStream.close();
 			    file.delete();
+			    int bIndex;
+			    for (bIndex = 0; bIndex < adapter.getItem(selectedIndex).length(); bIndex++) {
+					bFile[bIndex] = (byte)adapter.getItem(selectedIndex).charAt(bIndex);
+				}
+			    bFile[bIndex] = (byte)'-';
+			    bIndex++;
+			    String time = "15";
+			    for (int j = 0; j < time.length(); j++) {
+					bFile[bIndex] = (byte)time.charAt(j);
+					bIndex++;
+				}
+			    bFile[bIndex] = (byte)'-';
+			    bIndex++;
+			    int shit2 = readFile.length;
+			    int shit = String.valueOf(readFile.length).length();
+			    for (int k = 0; k < String.valueOf(readFile.length).length(); k++) {
+					bFile[bIndex] = (byte)String.valueOf(readFile.length).charAt(k);
+					bIndex++;
+				}
+			    bFile[bIndex] = (byte)'-';
+			    bIndex++;
+			    for (int l = 0; l < readFile.length; l++) {
+					bFile[bIndex] = readFile[l];
+					bIndex++;
+				}
+			    
 			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-					ServerBT.mConnThreads.get(i).getMmOutStream().
-					write(toByteArray(adapter.getItem(selectedIndex)));
+					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
 				}	
+			    
+//			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+//					ServerBT.mConnThreads.get(i).getMmOutStream().
+//					write(toByteArray(adapter.getItem(selectedIndex)));
+//				}	
 			    
 //			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
 //					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
@@ -151,17 +187,6 @@ public class LectQuizSelectionController {
 		}
 	}
 	
-    private byte[] toByteArray(CharSequence charSequence) {
-        if (charSequence == null) {
-          return null;
-        }
-        byte[] bytesArray = new byte[charSequence.length()];
-        for (int i = 0; i < bytesArray.length; i++) {
-        	bytesArray[i] = (byte) charSequence.charAt(i);
-        }
-
-        return bytesArray;
-    }
     
 	class viewQuizBtnListener implements View.OnClickListener
 	{
