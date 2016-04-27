@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
         import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -49,6 +50,7 @@ public class ClientBT {
 	private boolean found=false;
     private int stage=1;
 	private CharSequence studentId;
+	private String applicationPath;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -61,11 +63,12 @@ public class ClientBT {
      * @param mHandler 
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ClientBT(Context context,CharSequence studentId, Handler mHandler) {
+    public ClientBT(Context context,CharSequence studentId, Handler mHandler,String applicationPath) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         this.studentId = studentId;
         this.mHandler = mHandler;
+        this.applicationPath = applicationPath;
         mDeviceAddresses = new ArrayList<String>();
         mConnThreads = new ArrayList<ConnectedThread>();
         mSockets = new ArrayList<BluetoothSocket>();
@@ -417,6 +420,40 @@ public class ClientBT {
 //                      cancel();
                       ClientBT.this.stop();
 					}
+                    else
+                    {
+                    	String[] splited= receivedMessage.split("-");
+                    	String quizName = splited[0];
+                    	String course = splited[1];
+                    	String quizPeriod = splited[2];
+                    	String fileSize = splited[3];
+                    	byte[] readFile = new byte[Integer.valueOf(fileSize)];
+                    	String quizPath = applicationPath+"/"+course+"/Quizzes/"+
+                    			quizName + "/Form/";
+                    	int byteStartIndex = String.valueOf(fileSize).length()+
+                        course.length()+
+                        quizName.length()+
+                        quizPeriod.length()+
+                        +4;
+                    	int bIndex = 0;
+                    	for (int i = byteStartIndex; i < buffer.length; i++) {
+							readFile[bIndex] = buffer[i];
+							bIndex++;
+						}
+                    	while ((bytes = mmInStream.read(buffer)) > 0) {
+                    		for (int i = 0; i < buffer.length; i++) {
+								readFile[bIndex] = buffer[i];
+								bIndex++;
+							}
+                    	}
+                	    FileOutputStream fileOuputStream = 
+                                new FileOutputStream(quizPath+quizName+".zip"); 
+                	    fileOuputStream.write(readFile);
+                	    fileOuputStream.close();
+                    	
+                    	
+                    	
+                    }
 
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);

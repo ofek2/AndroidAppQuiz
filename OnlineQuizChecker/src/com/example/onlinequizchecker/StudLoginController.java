@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -41,6 +42,7 @@ public class StudLoginController {
 	public static boolean loginsuccedded = false;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
+		
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -159,7 +161,13 @@ public class StudLoginController {
 				
 				if(studentId.length()>0&&PINcode.length()>0)
 				{
-				clientBT = new ClientBT(mainActivity,studentId,mHandler);
+				try {
+					clientBT = new ClientBT(mainActivity,studentId,mHandler,
+							mainActivity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 				if (mBluetoothAdapter == null) {
 				    // Device does not support Bluetooth

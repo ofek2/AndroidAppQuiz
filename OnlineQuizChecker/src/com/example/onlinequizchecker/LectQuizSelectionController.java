@@ -125,16 +125,17 @@ public class LectQuizSelectionController {
 				zos.close();
 				
 		    	FileInputStream fileInputStream=null;
-		        
+		    	String time = "15";
 		        File file = new File(zipFile);
-		        
-		        byte[] bFile = new byte[(int) file.length()+
-		                                String.valueOf(file.length()).length()+
+		        int fileSize = (int) file.length();		       
+		        byte[] bFile = new byte[fileSize+
+		                                String.valueOf(fileSize).length()+
+		                                course.length()+
 		                                adapter.getItem(selectedIndex).length()+
-		                                //time.length+
-		                                3];
+		                                time.length()+
+		                                4];
 		        
-		        byte[] readFile = new byte[(int) file.length()];
+		        byte[] readFile = new byte[fileSize];
 		            //convert file into array of bytes
 			    fileInputStream = new FileInputStream(file);
 //			    fileInputStream.read(bFile);
@@ -147,29 +148,54 @@ public class LectQuizSelectionController {
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
-			    String time = "15";
+			    
+			    for (int m = 0; m < course.length(); m++) {
+					bFile[bIndex] = (byte)course.charAt(m);
+					bIndex++;
+				}
+			    bFile[bIndex] = (byte)'-';
+			    bIndex++;
+			    
 			    for (int j = 0; j < time.length(); j++) {
 					bFile[bIndex] = (byte)time.charAt(j);
 					bIndex++;
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
-			    int shit2 = readFile.length;
-			    int shit = String.valueOf(readFile.length).length();
-			    for (int k = 0; k < String.valueOf(readFile.length).length(); k++) {
-					bFile[bIndex] = (byte)String.valueOf(readFile.length).charAt(k);
+			    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
+			    	char shit = String.valueOf(fileSize).charAt(k);
+					bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
 					bIndex++;
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
-			    for (int l = 0; l < readFile.length; l++) {
+			    for (int l = 0; l < fileSize; l++) {
 					bFile[bIndex] = readFile[l];
 					bIndex++;
 				}
-			    
-			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
-				}	
+//			    int sendedBytes = 0;
+//			    while(bFile.length>sendedBytes)
+//			    {
+					for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+//						byte[] bytesToSend = new byte[1024];					
+//						if (bFile.length - sendedBytes > 1024) 
+//						{
+//							for (int j = 0; j < 1024; j++) {
+//								bytesToSend[j] = bFile[sendedBytes];
+//								sendedBytes++;
+//							}
+//						} 
+//						else
+//						{
+//							for (int j = 0; j < bFile.length - sendedBytes; j++) {
+//								bytesToSend[j] = bFile[sendedBytes];
+//								sendedBytes++;
+//							}
+//						}
+						 ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
+//						ServerBT.mConnThreads.get(i).getMmOutStream().write(bytesToSend);
+					}
+//			    }
 			    
 //			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
 //					ServerBT.mConnThreads.get(i).getMmOutStream().
