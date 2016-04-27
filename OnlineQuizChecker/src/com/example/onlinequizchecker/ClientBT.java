@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
-        import java.io.IOException;
+        import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -402,6 +403,8 @@ public class ClientBT {
                     bytes = mmInStream.read(buffer);
                     
                     String receivedMessage = new String(buffer, 0, bytes);
+                    
+                    
                     if (receivedMessage.equals("You have not registered to this course")) {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)

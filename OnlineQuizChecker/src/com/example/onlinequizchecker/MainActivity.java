@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
 						registerReceiver(blueToothReceiver, actionDiscoveryFinishedFilter);
 						StudLoginController.loginsuccedded = true;
 						/*****/////*****//////******/////****////
-//						mBluetoothAdapter.startDiscovery();
+						mBluetoothAdapter.startDiscovery();
 					}
 				}
 

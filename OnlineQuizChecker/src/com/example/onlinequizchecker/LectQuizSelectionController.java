@@ -134,16 +134,35 @@ public class LectQuizSelectionController {
 			    fileInputStream = new FileInputStream(file);
 			    fileInputStream.read(bFile);
 			    fileInputStream.close();
-
+			    file.delete();
 			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
+					ServerBT.mConnThreads.get(i).getMmOutStream().
+					write(toByteArray(adapter.getItem(selectedIndex)));
 				}	
+			    
+//			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+//					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
+//				}	
+			    
 			   
 			}catch(Exception e){
 	        	e.printStackTrace();
 	        }
 		}
 	}
+	
+    private byte[] toByteArray(CharSequence charSequence) {
+        if (charSequence == null) {
+          return null;
+        }
+        byte[] bytesArray = new byte[charSequence.length()];
+        for (int i = 0; i < bytesArray.length; i++) {
+        	bytesArray[i] = (byte) charSequence.charAt(i);
+        }
+
+        return bytesArray;
+    }
+    
 	class viewQuizBtnListener implements View.OnClickListener
 	{
 		@Override
