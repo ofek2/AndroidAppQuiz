@@ -1,18 +1,22 @@
 package com.example.onlinequizchecker;
 
         import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
         import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,8 +53,10 @@ public class ClientBT {
 
 	private boolean found=false;
     private int stage=1;
+    private Context context;
 	private CharSequence studentId;
 	private String applicationPath;
+	private MainActivity mainActivity;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -61,13 +67,15 @@ public class ClientBT {
      * Constructor. Prepares a new BluetoothChat session.
      * @param context  The UI Activity Context
      * @param mHandler 
+     * @param mainActivity 
      * @param handler  A Handler to send messages back to the UI Activity
      */
-    public ClientBT(Context context,CharSequence studentId, Handler mHandler,String applicationPath) {
+    public ClientBT(CharSequence studentId, Handler mHandler,MainActivity mainActivity, String applicationPath) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
         this.studentId = studentId;
         this.mHandler = mHandler;
+        this.mainActivity = mainActivity;
         this.applicationPath = applicationPath;
         mDeviceAddresses = new ArrayList<String>();
         mConnThreads = new ArrayList<ConnectedThread>();
@@ -446,12 +454,14 @@ public class ClientBT {
 								bIndex++;
 							}
                     	}
+                    	String zipFile = quizPath+quizName+".zip";
                 	    FileOutputStream fileOuputStream = 
-                                new FileOutputStream(quizPath+quizName+".zip"); 
+                                new FileOutputStream(zipFile); 
                 	    fileOuputStream.write(readFile);
                 	    fileOuputStream.close();
+                    	unZipIt(zipFile, quizPath);
                     	
-                    	
+                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	
                     }
 
@@ -463,6 +473,57 @@ public class ClientBT {
             }
         }
 
+        public void unZipIt(String zipFile, String outputFolder){
+
+            byte[] buffer = new byte[1024];
+           	
+            try{
+           		
+           	//create output directory is not exists
+           	File folder = new File(outputFolder);
+           	if(!folder.exists()){
+           		folder.mkdir();
+           	}
+           		
+           	//get the zip file content
+           	ZipInputStream zis = 
+           		new ZipInputStream(new FileInputStream(zipFile));
+           	//get the zipped file list entry
+           	ZipEntry ze = zis.getNextEntry();
+           		
+           	while(ze!=null){
+           			
+           	   String fileName = ze.getName();
+                  File newFile = new File(outputFolder + File.separator + fileName);
+                       
+                  System.out.println("file unzip : "+ newFile.getAbsoluteFile());
+                       
+                   //create all non exists folders
+                   //else you will hit FileNotFoundException for compressed folder
+                   new File(newFile.getParent()).mkdirs();
+                     
+                   FileOutputStream fos = new FileOutputStream(newFile);             
+
+                   int len;
+                   while ((len = zis.read(buffer)) > 0) {
+              		fos.write(buffer, 0, len);
+                   }
+               		
+                   fos.close();   
+                   ze = zis.getNextEntry();
+           	}
+           	
+               zis.closeEntry();
+           	zis.close();
+           		
+           	System.out.println("Done");
+           		
+           }catch(IOException ex){
+              ex.printStackTrace(); 
+           }
+          }    
+        
+        
         /**
          * Write to the connected OutStream.
          * @param buffer  The bytes to write

@@ -11,26 +11,28 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-public class StudQuizActivity extends Activity {
+public class StudQuizActivity{
 	private MainActivity activity;
 	private WebView webView;
 	private TextView timeLeftText;
 	private final CounterClass timer;
-	public StudQuizActivity(MainActivity activity,int timePeriod) {
+	private String quizPath;
+	public StudQuizActivity(MainActivity mainActivity, int timePeriod,String quizPath) {
 		super();
-		setContentView(R.layout.stud_quizview);
-		webView = (WebView) findViewById(R.id.quizWebView);
-		timeLeftText = (TextView) findViewById(R.id.timeLeftTxt);
+		mainActivity.setContentView(R.layout.stud_quizview);
+		webView = (WebView) mainActivity.findViewById(R.id.quizWebView);
+		timeLeftText = (TextView) mainActivity.findViewById(R.id.timeLeftTxt);
 		timer = new CounterClass(timePeriod*60000, 1000);
+		this.quizPath = quizPath;
 		loadQuiz();
 	}
 
 	private void loadQuiz() {
 		// TODO Auto-generated method stub
-		File filelist = activity.getFilelist();
+//		File filelist = activity.getFilelist();
 		// File quizFileToView = new
 		// File(filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form/"+quiz+".html");
-		File quizFileToView = new File(".");
+//		File quizFileToView = new File(".");
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
 		// webView.loadUrl("file:///android_asset/1.html");
@@ -41,7 +43,7 @@ public class StudQuizActivity extends Activity {
 				   timer.start();
 			    }
 			});
-		webView.loadUrl("file://" + quizFileToView.getAbsolutePath());
+		webView.loadUrl("file://" + quizPath);
 		
 	}
 

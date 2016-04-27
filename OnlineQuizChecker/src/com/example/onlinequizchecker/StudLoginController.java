@@ -162,7 +162,7 @@ public class StudLoginController {
 				if(studentId.length()>0&&PINcode.length()>0)
 				{
 				try {
-					clientBT = new ClientBT(mainActivity,studentId,mHandler,
+					clientBT = new ClientBT(studentId,mHandler,mainActivity,
 							mainActivity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
