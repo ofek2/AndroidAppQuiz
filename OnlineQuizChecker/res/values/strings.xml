@@ -8,15 +8,13 @@
     <color name="title_color">#80D8FF</color>
     <color name="top_bar_backgroundcolor_blue">#0277BD</color>
     <color name="background_color_blue">#B3E5FC</color>
-    <string-array name="Values">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+    <string-array name="Time">
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+        <item>25 min</item>
+        <item>30 min</item>
     </string-array>
 	 <color name="primary">#B3E5FC</color>
 	 <color name="primary_dark">#0277BD</color>

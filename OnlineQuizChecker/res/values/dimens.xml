@@ -6,4 +6,5 @@
     <dimen name="button_margins">30dp</dimen>
     <dimen name="Titles_font">30sp</dimen>
     <dimen name="Titles_bar_size">50dp</dimen>
+    <string-array name="time"></string-array>
 </resources>
