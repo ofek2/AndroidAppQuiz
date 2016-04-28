@@ -56,7 +56,7 @@ public class LectStudentRegistrationController{
 			//DropBoxSimple.downloadFolder(activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker", "/");
 			String path = activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
 //			folderRecursiveDelete(new File(path));
-			new DownloadFolderDB().execute(path, "/");
+//			new DownloadFolderDB().execute(path, "/");
 			filelist = new File(path);
 			activity.setFilelist(filelist);
 			ArrayList<String> courses = new ArrayList<>();
@@ -72,16 +72,16 @@ public class LectStudentRegistrationController{
 		return null;
 	
 	}
-	private void folderRecursiveDelete(File file) {
-        if (!file.exists())
-            return;
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-            	folderRecursiveDelete(f);
-            }
-        }
-        file.delete();
-    }
+//	private void folderRecursiveDelete(File file) {
+//        if (!file.exists())
+//            return;
+//        if (file.isDirectory()) {
+//            for (File f : file.listFiles()) {
+//            	folderRecursiveDelete(f);
+//            }
+//        }
+//        file.delete();
+//    }
 
 	private void populateSpinner(ArrayList<String> courses) {
 		// TODO Auto-generated method stub

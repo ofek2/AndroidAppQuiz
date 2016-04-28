@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -78,10 +79,12 @@ public class MainActivity extends Activity {
 	                    // Required to complete auth, sets the access token on the session
 	                    DropBoxSimple.mDBApi.getSession().finishAuthentication();
 						didDropboxAuth = true;
-	                    new LectStudentRegistrationController(this);
+						String path = getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
+//						folderRecursiveDelete(new File(path));
+						new LectDownloadProgress(this);
 	                    String accessToken = DropBoxSimple.mDBApi.getSession().getOAuth2AccessToken();
 
-	                } catch (IllegalStateException e) {
+	                } catch (IllegalStateException | IOException e) {
 	                    Log.i("DbAuthLog", "Error authenticating", e);
 	                    Toast.makeText(this.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 	                }

@@ -3,9 +3,11 @@ package com.example.onlinequizchecker;
 import android.os.AsyncTask;
 
 public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
-	public DownloadFolderDB() {
+	private MainActivity activity;
+	public DownloadFolderDB(MainActivity activity) {
 		// TODO Auto-generated constructor stub
 		super();
+		this.activity = activity;
 	}
 	@Override
 	protected Long doInBackground(String... params) {
@@ -14,5 +16,8 @@ public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	 protected void onPostExecute(Long result) {
+		 new LectStudentRegistrationController(activity);
+     }
 }
