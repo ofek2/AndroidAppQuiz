@@ -438,8 +438,9 @@ public class ClientBT {
                     	String quizPeriod = splited[2];
                     	String fileSize = splited[3];
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
-                    	String quizPath = applicationPath+"/"+course+"/Quizzes/"+
-                    			quizName + "/Form/";
+                    	String quizPath = applicationPath+"/"+course;
+//                    			+"/Quizzes/"+
+//                    			quizName + "/Form/";
                     	int byteStartIndex = String.valueOf(fileSize).length()+
                         course.length()+
                         quizName.length()+
@@ -474,11 +475,13 @@ public class ClientBT {
                     	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
                     	ZipEntry entry = null;
+                    	new File(quizPath).mkdir();
                     	while ((entry = zipStream.getNextEntry()) != null) {
-
+                    		
                     	    String entryName = entry.getName();
-
-                    	    FileOutputStream out = new FileOutputStream(quizPath+entryName);
+                    	    File file = new File(quizPath+"/"+entryName);
+                    	    
+                    	    FileOutputStream out = new FileOutputStream(file);
 
                     	    byte[] byteBuff = new byte[4096];
                     	    int bytesRead = 0;
@@ -506,7 +509,7 @@ public class ClientBT {
                     	unZipIt(zipFile, quizPath);
                     	
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
-                        		-1, quizPath+quizName+".html").sendToTarget();
+                        		-1, quizPath+"/"+quizName+".html").sendToTarget();
                     	
 //                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	

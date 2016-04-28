@@ -73,7 +73,7 @@ public class LectQuizInitiationController {
 						// the start of the entry data
 						zos.putNextEntry(new ZipEntry(files[i].getName()));
 						int length;
-						while ((length = fis.read(buffer)) > 0) {
+						while ((length = fis.read(buffer)) > -1) {
 							zos.write(buffer, 0, length);
 						}
 						zos.closeEntry();
