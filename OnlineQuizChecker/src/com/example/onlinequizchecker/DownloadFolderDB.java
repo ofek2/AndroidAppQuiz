@@ -19,5 +19,6 @@ public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
 	
 	 protected void onPostExecute(Long result) {
 		 new LectStudentRegistrationController(activity);
+		 
      }
 }
