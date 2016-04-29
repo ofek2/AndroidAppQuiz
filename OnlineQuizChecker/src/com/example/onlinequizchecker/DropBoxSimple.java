@@ -119,9 +119,6 @@ public class DropBoxSimple {
 				}
 				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
 			}
-		}catch (DropboxException dbe){
-			Toast.makeText(activity.getApplicationContext(), "You are not a lecturer!", Toast.LENGTH_SHORT).show();
-			new MainController(activity);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
