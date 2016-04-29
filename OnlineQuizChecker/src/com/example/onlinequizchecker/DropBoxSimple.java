@@ -103,6 +103,7 @@ public class DropBoxSimple {
 			File file = new File(path);
 
 			Entry existingFile = mDBApi.metadata(dropPath, 0, null, true, null);
+			
 			if (existingFile.isDir) {
 				file.mkdir();
 				for (Entry entry : existingFile.contents) {
@@ -118,7 +119,11 @@ public class DropBoxSimple {
 				}
 				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
 			}
-		} catch (Exception e) {
+		}catch (DropboxException dbe){
+			Toast.makeText(activity.getApplicationContext(), "You are not a lecturer!", Toast.LENGTH_SHORT).show();
+			new MainController(activity);
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 		}

@@ -140,4 +140,8 @@ public class MainActivity extends Activity {
 	public void setFilelist(File filelist) {
 		this.filelist = filelist;
 	}
+	public void setDidDbxAuth(boolean b)
+	{
+		didDropboxAuth = b;
+	}
 }

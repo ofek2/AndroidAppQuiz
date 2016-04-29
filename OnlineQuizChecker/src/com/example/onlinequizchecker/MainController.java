@@ -15,6 +15,7 @@ public class MainController {
         this.activity=activity;
 
         this.activity.setContentView(R.layout.main_view);
+        this.activity.setDidDbxAuth(false);
         lecturerBtn = (Button) activity.findViewById(R.id.lecturerBtn);
         studentBtn = (Button) activity.findViewById(R.id.studentBtn);
         lecturerBtn.setOnClickListener(new lecturerBtnListener());
