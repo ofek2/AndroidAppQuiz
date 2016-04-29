@@ -44,8 +44,7 @@ public class LectStudentRegistrationController{
 		ArrayList<String> courses = getCoursesFromDB();
 		if (courses.size()==0) {
 			new MainController(activity);
-			Toast.makeText(activity.getApplicationContext(), "There are no courses to load,\n please create at least"
-					+ " one course with both students and quizzes",
+			Toast.makeText(activity.getApplicationContext(), "There are no appropriate courses to view",
 			Toast.LENGTH_LONG).show();
 		}
 		else
@@ -78,7 +77,7 @@ public class LectStudentRegistrationController{
 	    		String course = filelist.list()[i];
 				File quizzesFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes");
 				File studentsFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Students");
-				if(quizzesFolder.list()!=null&&studentsFolder.list()!=null)
+				if(quizzesFolder.list().length > 0 && studentsFolder.list().length > 0)
 				{
 					courses.add(course);
 				}
