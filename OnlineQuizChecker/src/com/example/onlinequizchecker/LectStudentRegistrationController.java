@@ -52,6 +52,7 @@ public class LectStudentRegistrationController{
 					+ " one course with both students and quizzes",
 			Toast.LENGTH_LONG).show();
 		}
+		else
 		populateSpinner(courses);
 	}
 
