@@ -162,7 +162,7 @@ public class LectStudentRegListController extends ListActivity {
 	        @Override
 	        public void onClick(View v) {
 	          
-	            new LectQuizSelectionController(activity,course);
+	            new LectQuizSelectionController(activity,course,0);
 	        }
 	    }
 	public static int studentPosInList(String Id)

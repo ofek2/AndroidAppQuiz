@@ -14,13 +14,15 @@ public class LectViewQuizController {
 	private Button back;
 	private File filelist;
 	private String course;
-	public LectViewQuizController(MainActivity activity,String course,String quiz)
+	private int selectedIndex;
+	public LectViewQuizController(MainActivity activity,String course,String quiz, int selectedIndex)
 	{
 		this.activity = activity;
 		this.course = course;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
 		this.back = (Button)this.activity.findViewById(R.id.backBtn);
+		this.selectedIndex = selectedIndex;
 		back.setOnClickListener(new backBtnListener());
 		loadQuiz(course,quiz);
 	}
@@ -44,7 +46,7 @@ public class LectViewQuizController {
 		@Override
 		public void onClick(View v) {
 		
-			new LectQuizSelectionController(activity, course);
+			new LectQuizSelectionController(activity, course,selectedIndex);
 		}
 		
 	}

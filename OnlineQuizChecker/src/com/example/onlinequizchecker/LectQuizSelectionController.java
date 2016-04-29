@@ -26,9 +26,9 @@ public class LectQuizSelectionController {
 	private Button viewQuizBtn;
 	private ListView listview;
 	private String course;
-	private int selectedIndex=0;
+	private int selectedIndex;
 	private ArrayAdapter<String> adapter;
-	public LectQuizSelectionController(MainActivity activity,String course)
+	public LectQuizSelectionController(MainActivity activity,String course,int selectedIndex)
 	{
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_quizselectionview);
@@ -37,6 +37,7 @@ public class LectQuizSelectionController {
 		viewQuizBtn = (Button)this.activity.findViewById(R.id.viewQuizBtn);
 		viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
 		listview = (ListView)this.activity.findViewById(R.id.quizzesListView);
+		this.selectedIndex = selectedIndex;
 		this.course = course;
 		initView();
 	}
@@ -75,7 +76,7 @@ public class LectQuizSelectionController {
 		adapter = new ArrayAdapter<String>(this.activity,
 				android.R.layout.simple_list_item_single_choice, quizzes);
 		listview.setAdapter(adapter);
-		listview.setItemChecked(0, true);
+		listview.setItemChecked(selectedIndex, true);
 		listview.setOnItemClickListener(new itemListener());
 	}
 	class itemListener implements OnItemClickListener {
@@ -102,7 +103,7 @@ public class LectQuizSelectionController {
 	{
 		@Override
 		public void onClick(View v) {
-			new LectViewQuizController(activity, course, adapter.getItem(selectedIndex));
+			new LectViewQuizController(activity, course, adapter.getItem(selectedIndex),selectedIndex);
 		}
 		
 	}
