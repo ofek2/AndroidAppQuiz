@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +46,12 @@ public class LectStudentRegistrationController{
 	private void initView() {
 		// TODO Auto-generated method stub
 		ArrayList<String> courses = getCoursesFromDB();
+		if (courses.size()==0) {
+			new MainController(activity);
+			Toast.makeText(activity.getApplicationContext(), "There are no courses to load,\n please create at least"
+					+ " one course with both students and quizzes",
+			Toast.LENGTH_LONG).show();
+		}
 		populateSpinner(courses);
 	}
 
@@ -62,7 +69,24 @@ public class LectStudentRegistrationController{
 			ArrayList<String> courses = new ArrayList<>();
 			if(filelist.list()!=null)
 			for (int i=0;i<filelist.list().length;i++)
-				courses.add(filelist.list()[i]);
+			{
+		     	try {
+	    		String course = filelist.list()[i];
+				File quizzesFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes");
+				File studentsFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Students");
+				if(quizzesFolder.list()!=null&&studentsFolder.list()!=null)
+				{
+					courses.add(course);
+				}
+				else
+				{
+					;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
 			return courses;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -95,7 +119,6 @@ public class LectStudentRegistrationController{
 	
 	 class connectionBtnListener implements View.OnClickListener
 	    {
-
 	        @Override
 	        public void onClick(View v) {
 	          
