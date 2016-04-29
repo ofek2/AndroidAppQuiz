@@ -24,10 +24,6 @@ public class LectStudentRegistrationController{
     private Button connectionBtn;
     public LectStudentRegistrationController(MainActivity activity) {
         this.activity = activity;
-        this.activity.setContentView(R.layout.lect_studentregistrationview);
-        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
-        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);
-        connectionBtn.setOnClickListener(new connectionBtnListener());
         initView();
 //        // -- Display mode of the ListView
 //        ArrayList<String> students = new ArrayList<String>();
@@ -53,7 +49,14 @@ public class LectStudentRegistrationController{
 			Toast.LENGTH_LONG).show();
 		}
 		else
-		populateSpinner(courses);
+		{
+	        this.activity.setContentView(R.layout.lect_studentregistrationview);
+	        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
+	        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);
+	        connectionBtn.setOnClickListener(new connectionBtnListener());
+	        populateSpinner(courses);
+		}
+		
 	}
 
 	private ArrayList<String> getCoursesFromDB() {
