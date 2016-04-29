@@ -75,6 +75,7 @@ public class LectQuizSelectionController {
 		adapter = new ArrayAdapter<String>(this.activity,
 				android.R.layout.simple_list_item_single_choice, quizzes);
 		listview.setAdapter(adapter);
+		listview.setItemChecked(0, true);
 		listview.setOnItemClickListener(new itemListener());
 	}
 	class itemListener implements OnItemClickListener {
