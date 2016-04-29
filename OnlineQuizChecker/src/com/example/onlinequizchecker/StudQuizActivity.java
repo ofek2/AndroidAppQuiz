@@ -1,11 +1,20 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.transform.TransformerException;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import android.app.Activity;
 import android.os.CountDownTimer;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,8 +35,8 @@ public class StudQuizActivity{
 		this.quizPath = quizPath;
 		loadQuiz();
 	}
-
-	private void loadQuiz() {
+	@JavascriptInterface
+	public void loadQuiz() {
 		// TODO Auto-generated method stub
 //		File filelist = activity.getFilelist();
 		// File quizFileToView = new
@@ -35,6 +44,7 @@ public class StudQuizActivity{
 //		File quizFileToView = new File(".");
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(new JavaScriptInterface(),"Android");
 		// webView.loadUrl("file:///android_asset/1.html");
 		webView.setWebViewClient(new WebViewClient() {
 
@@ -46,7 +56,58 @@ public class StudQuizActivity{
 		webView.loadUrl("file://" + quizPath);
 		
 	}
-
+	final class JavaScriptInterface
+	{
+		public JavaScriptInterface(){
+		}
+		public void getAnswer(Node form,String qType)
+		{
+			File studentQuizFile = new File(quizPath);
+			FileInputStream in;
+			try {
+				in = new FileInputStream(studentQuizFile);
+				HtmlParser studentQuiz = new HtmlParser(in);
+				NodeList forms = studentQuiz.document.getElementsByTagName("form");
+				for(int i=0;i<forms.getLength();i++)
+				{
+					if(((Element)forms.item(i)).getAttribute("name").equals(((Element) form).getAttribute("name")))
+					{
+						switch (qType){
+						case Constants.MULTIPLE_CHOICE:
+						case Constants.SINGEL_CHOICE:
+							NodeList itemsInCurrentFile = forms.item(i).getChildNodes();
+							NodeList itemsInUpdatedFile = form.getChildNodes();
+							for(int j=0;j<itemsInCurrentFile.getLength();j++)
+							{
+								if(!((Element)itemsInUpdatedFile.item(j)).getAttribute("checked").isEmpty())
+								((Element)itemsInCurrentFile.item(j)).setAttribute("checked", "checked");
+								else
+									((Element)itemsInCurrentFile.item(j)).removeAttribute("checked");
+							}
+							break;
+						
+						case Constants.FREE_TEXT:
+							Element textInCurrentFile = (Element) ((Element)forms.item(i)).getFirstChild();
+							Element textInUpdatedFile = (Element) ((Element)form).getFirstChild();
+							textInCurrentFile.setTextContent(textInUpdatedFile.getTextContent());
+							break;
+						case Constants.FREE_DRAW:
+							//Handle free draw question
+							
+							
+							//
+							break;
+						}
+						studentQuiz.writeHtml(quizPath);
+							
+					}
+				}
+			} catch (FileNotFoundException | TransformerException e) {e.printStackTrace();}
+		
+			
+		}
+	
+	}
 	public class CounterClass extends CountDownTimer {
 
 		public CounterClass(long millisInFuture, long countDownInterval) {

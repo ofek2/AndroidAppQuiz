@@ -35,6 +35,10 @@ public interface Constants {
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
-
- 
+    
+    // Question types for parser
+    public static final String MULTIPLE_CHOICE = "Multiple Choice";
+    public static final String SINGEL_CHOICE= "Singel Choice";
+    public static final String FREE_TEXT= "Free Text";
+    public static final String FREE_DRAW= "Free Draw";
 }
