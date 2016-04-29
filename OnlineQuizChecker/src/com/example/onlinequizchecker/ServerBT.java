@@ -469,6 +469,13 @@ public class ServerBT {
 					{
 					 mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
 					 -1, buffer).sendToTarget();
+					 ////////////////
+					 
+					 
+					 //write successful connection  to the student
+					 
+					 
+					 ////////////////
 					}
 					else
 					{
