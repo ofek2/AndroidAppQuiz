@@ -100,7 +100,7 @@ public class StudQuizActivity{
 							break;
 						}
 						studentQuiz.writeHtml(quizPath);
-							
+						webView.loadUrl("file://" + quizPath);
 					}
 				}
 			} catch (FileNotFoundException | TransformerException e) {e.printStackTrace();}
