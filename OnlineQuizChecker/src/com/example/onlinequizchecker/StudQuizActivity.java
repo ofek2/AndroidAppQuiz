@@ -60,7 +60,8 @@ public class StudQuizActivity{
 	{
 		public JavaScriptInterface(){
 		}
-		public void getAnswer(Node form,String qType)
+		@JavascriptInterface
+		public void getAnswer(String formName,String [] items,String qType)
 		{
 			File studentQuizFile = new File(quizPath);
 			FileInputStream in;
@@ -70,16 +71,16 @@ public class StudQuizActivity{
 				NodeList forms = studentQuiz.document.getElementsByTagName("form");
 				for(int i=0;i<forms.getLength();i++)
 				{
-					if(((Element)forms.item(i)).getAttribute("name").equals(((Element) form).getAttribute("name")))
+					if(((Element)forms.item(i)).getAttribute("name").equals(formName))
 					{
 						switch (qType){
 						case Constants.MULTIPLE_CHOICE:
 						case Constants.SINGLE_CHOICE:
 							NodeList itemsInCurrentFile = forms.item(i).getChildNodes();
-							NodeList itemsInUpdatedFile = form.getChildNodes();
+							
 							for(int j=0;j<itemsInCurrentFile.getLength();j++)
 							{
-								if(!((Element)itemsInUpdatedFile.item(j)).getAttribute("checked").isEmpty())
+								if(items[j].equals("checked"))
 								((Element)itemsInCurrentFile.item(j)).setAttribute("checked", "checked");
 								else
 									((Element)itemsInCurrentFile.item(j)).removeAttribute("checked");
@@ -88,8 +89,8 @@ public class StudQuizActivity{
 						
 						case Constants.FREE_TEXT:
 							Element textInCurrentFile = (Element) ((Element)forms.item(i)).getFirstChild();
-							Element textInUpdatedFile = (Element) ((Element)form).getFirstChild();
-							textInCurrentFile.setTextContent(textInUpdatedFile.getTextContent());
+						
+							textInCurrentFile.setTextContent(items[0]);
 							break;
 						case Constants.FREE_DRAW:
 							//Handle free draw question
