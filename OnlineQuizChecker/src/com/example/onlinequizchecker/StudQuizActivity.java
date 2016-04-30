@@ -76,7 +76,7 @@ public class StudQuizActivity{
 						switch (qType){
 						case Constants.MULTIPLE_CHOICE:
 						case Constants.SINGLE_CHOICE:
-							NodeList itemsInCurrentFile = forms.item(i).getChildNodes();
+							NodeList itemsInCurrentFile = ((Element)studentQuiz.document.getElementsByTagName("form").item(i)).getElementsByTagName("input");
 							
 							for(int j=0;j<itemsInCurrentFile.getLength();j++)
 							{
