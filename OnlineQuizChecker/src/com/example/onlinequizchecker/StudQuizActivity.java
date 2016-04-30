@@ -74,7 +74,7 @@ public class StudQuizActivity{
 					{
 						switch (qType){
 						case Constants.MULTIPLE_CHOICE:
-						case Constants.SINGEL_CHOICE:
+						case Constants.SINGLE_CHOICE:
 							NodeList itemsInCurrentFile = forms.item(i).getChildNodes();
 							NodeList itemsInUpdatedFile = form.getChildNodes();
 							for(int j=0;j<itemsInCurrentFile.getLength();j++)
