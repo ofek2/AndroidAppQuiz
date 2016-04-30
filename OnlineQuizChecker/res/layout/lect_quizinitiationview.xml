@@ -65,11 +65,8 @@
                     android:inputType="text"
                     android:textColor="@color/text_secondary"
                     android:textColorHint="@color/text_secondary"
-                    android:textColorLink="@color/text_primary"
-                    android:textSize="12sp" >
+                    android:textColorLink="@color/text_primary" />
 
-                    <requestFocus />
-                </EditText>
             </TableRow>
 
             <TableRow
@@ -96,13 +93,13 @@
                     android:inputType="text"
                     android:textColor="@color/text_secondary"
                     android:textColorHint="@color/text_secondary"
-                    android:textColorLink="@color/text_primary"
-                    android:textSize="12sp" />
+                    android:textColorLink="@color/text_primary" />
+
             </TableRow>
 
             <TableRow
                 android:id="@+id/tableRow3"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
@@ -110,13 +107,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="Quiz time period:"
+                    android:text="Quiz duration:"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Spinner
                     android:id="@+id/timeSpinner"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/Time" />
+                    android:entries="@array/Time"
+                    android:gravity="center_horizontal|start" />
+
             </TableRow>
         </TableLayout>
     </LinearLayout>

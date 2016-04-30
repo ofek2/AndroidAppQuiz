@@ -87,10 +87,9 @@
 
             <Button
                 android:id="@+id/quizSelectionBtn"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:background="@drawable/ripple_effect"
                 android:drawableTop="@drawable/paper1"
                 android:gravity="bottom|center"
                 android:text="Quiz Selection"

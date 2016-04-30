@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/LinearLayout"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
-    android:id="@+id/LinearLayout">
+    android:orientation="vertical"
+    android:weightSum="1" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,30 +49,35 @@
             <TableRow
                 android:id="@+id/tableRow1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:gravity="center" >
 
                 <TextView
                     android:id="@+id/chooseCourseIdLbl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
                     android:text="Choose course ID :"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <Spinner
-                    android:id="@+id/coursesSpinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
-
             </TableRow>
+
         </TableLayout>
+
+        <Spinner
+            android:id="@+id/coursesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tableLayout2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <Button
             android:id="@+id/connectionBtn"
             style="@style/buttonStyle"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tableLayout2"
+            android:layout_below="@id/coursesSpinner"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="89dp"
             android:background="@drawable/custom_button"
