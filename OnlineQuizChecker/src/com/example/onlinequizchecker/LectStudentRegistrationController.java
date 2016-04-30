@@ -49,7 +49,8 @@ public class LectStudentRegistrationController{
 		}
 		else
 		{
-	        this.activity.setContentView(R.layout.lect_studentregistrationview);
+	        activity.setContentView(R.layout.lect_studentregistrationview);
+	        activity.setUserClassification("Lecturer");
 	        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
 	        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);
 	        connectionBtn.setOnClickListener(new connectionBtnListener());

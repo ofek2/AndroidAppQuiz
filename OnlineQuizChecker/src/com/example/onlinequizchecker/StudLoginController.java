@@ -251,6 +251,7 @@ public class StudLoginController {
                     break;
                 case Constants.QUIZ_INITIATION:
                     String quizPath = (String) msg.obj;
+                    mainActivity.setUserClassification("Student");
                     new StudQuizActivity(mainActivity,msg.arg1,quizPath);
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:

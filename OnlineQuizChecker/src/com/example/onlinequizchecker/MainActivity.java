@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 	private boolean didDropboxAuth = false;
 	private BroadcastReceiver blueToothReceiver = null;
 	private File filelist;
+	private boolean DropboxAuthRequest;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
 		// setContentView(R.layout.lect_studentregistrationview);
 		new MainController(this);
 		userClassification = "";
+		DropboxAuthRequest = false;
 	}
 
 	@Override
@@ -73,9 +75,11 @@ public class MainActivity extends Activity {
 
 	protected void onResume() {
 		super.onResume();
-		if (userClassification.equals("Lecturer") && !didDropboxAuth) {
+		if(DropboxAuthRequest)
+		{
 			if (DropBoxSimple.mDBApi.getSession().authenticationSuccessful()) {
 				initiateLecturerView();
+				DropboxAuthRequest=false;
 			}
 		}
 		if (StudLoginController.loginPressed) {
@@ -143,5 +147,8 @@ public class MainActivity extends Activity {
 	public void setDidDbxAuth(boolean b)
 	{
 		didDropboxAuth = b;
+	}
+	public void setDropboxAuthRequest(boolean dropboxAuthRequest) {
+		DropboxAuthRequest = dropboxAuthRequest;
 	}
 }

@@ -13,6 +13,7 @@ public class LectDropBoxAuthController {
     {
         this.activity = activity;
         this.activity.setContentView(R.layout.lect_dropboxauthview);
+        this.activity.setDropboxAuthRequest(true);
         dbx = new DropBoxSimple(this.activity);
     }
 }
