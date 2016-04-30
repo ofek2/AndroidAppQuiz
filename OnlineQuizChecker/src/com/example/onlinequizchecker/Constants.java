@@ -38,7 +38,7 @@ public interface Constants {
     
     // Question types for parser
     public static final String MULTIPLE_CHOICE = "Multiple Choice";
-    public static final String SINGEL_CHOICE= "Singel Choice";
+    public static final String SINGLE_CHOICE= "Single Choice";
     public static final String FREE_TEXT= "Free Text";
     public static final String FREE_DRAW= "Free Draw";
 }
