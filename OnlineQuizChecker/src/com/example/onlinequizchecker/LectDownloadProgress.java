@@ -12,8 +12,9 @@ public class LectDownloadProgress {
 		
 		String path;
 		try {
-			path = activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
-			folderRecursiveDelete(new File(path));
+//			path = activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
+			path = activity.getApplicationContext().getFilesDir().getCanonicalPath();
+			folderRecursiveDelete(new File(path+"/OnlineQuizChecker"));
 			startDownload(path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
