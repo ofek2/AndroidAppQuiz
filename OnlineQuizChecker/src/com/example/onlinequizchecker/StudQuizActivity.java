@@ -44,6 +44,8 @@ public class StudQuizActivity{
 //		File quizFileToView = new File(".");
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
 		webView.addJavascriptInterface(new JavaScriptInterface(),"Android");
 		// webView.loadUrl("file:///android_asset/1.html");
 		webView.setWebViewClient(new WebViewClient() {

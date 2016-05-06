@@ -33,6 +33,8 @@ public class LectViewQuizController {
 			File quizFileToView = new File(filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form/"+quiz+".html");
 			WebSettings settings = webView.getSettings();
 			settings.setJavaScriptEnabled(true);
+			settings.setBuiltInZoomControls(true);
+			settings.setDisplayZoomControls(false);
 //			webView.loadUrl("file:///android_asset/1.html");
 
 			webView.loadUrl("file://"+quizFileToView.getAbsolutePath());
