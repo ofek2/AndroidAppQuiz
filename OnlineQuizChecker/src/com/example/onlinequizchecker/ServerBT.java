@@ -1,11 +1,16 @@
 package com.example.onlinequizchecker;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import com.dropbox.client2.SdkVersion;
 
@@ -73,6 +78,7 @@ public class ServerBT {
 	private MainActivity activity;
 	private ListView listView;
 	private int lastPosInConnectedThreadList=0;
+	private String studentsAnswersPath;
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -85,6 +91,13 @@ public class ServerBT {
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		this.activity = activity;
+		try {
+			studentsAnswersPath = activity.getFilelist().getCanonicalPath()+"/"+LectQuizInitiationController.course+"/Quizzes/"+
+					LectQuizInitiationController.quiz+ "/StudentsAnswers/";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// Toast.makeText(activity.getApplicationContext(), "shit",
 		// Toast.LENGTH_SHORT).show();
 		initializePINCode();
@@ -419,7 +432,11 @@ public class ServerBT {
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
 		private int posInConnectedThreadList;
+		private boolean studentIdentified = false;
+		private String studentId="";
 //		private int uuidPos;
+
+
 
 		public ConnectedThread(BluetoothSocket socket, int posInConnectedThreadList){
 //				, int uuidPos) {
@@ -440,7 +457,15 @@ public class ServerBT {
 			mmInStream = tmpIn;
 			mmOutStream = tmpOut;
 		}
+		
+		public String getStudentId() {
+			return studentId;
+		}
 
+		public void setStudentId(String studentId) {
+			this.studentId = studentId;
+		}
+		
 		@SuppressWarnings("deprecation")
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
@@ -453,8 +478,8 @@ public class ServerBT {
 				try {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
-					
-					String studentId = new String(buffer, 0, bytes);
+					String receivedMessage = new String(buffer, 0, bytes);
+//					String studentId = new String(buffer, 0, bytes);
 					
 					////////////////////////////////////////
 					/////check if the student is not in the list
@@ -464,11 +489,85 @@ public class ServerBT {
 //					int pos = Integer.parseInt((Character.toString((char) buffer[0])));
 //					LectStudentRegListController.receivePos(pos);
 					
-					// Send the obtained bytes to the UI Activity
-					if(LectStudentRegListController.studentPosInList(studentId)!=-1)
+					if(studentIdentified)
 					{
-					 mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
-					 -1, buffer).sendToTarget();
+                    	String[] splited= receivedMessage.split("-");
+                    	String fileSize = splited[0];
+                    	byte[] readFile = new byte[Integer.valueOf(fileSize)];
+
+
+                    	int byteStartIndex = String.valueOf(fileSize).length()+1;
+                    	int bIndex = 0;
+                    	for (int i = byteStartIndex; i < bytes; i++) {
+							readFile[bIndex] = buffer[i];
+							bIndex++;
+						}
+                    	buffer = new byte[1024];
+                    	while ((bytes = mmInStream.read(buffer)) > -1) {                   		
+                    		for (int i = 0; i < bytes; i++) {
+								readFile[bIndex] = buffer[i];
+								bIndex++;
+							}
+                    		buffer = new byte[1024];
+                    		if(bIndex==Integer.valueOf(fileSize))
+                    			break;
+                    	}
+//                    	String zipFile = quizPath+quizName+".zip";
+
+//                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    	ZipOutputStream zos = new ZipOutputStream(baos);
+//                    	ZipEntry entry = new ZipEntry(zipFile);
+//                    	entry.setSize(readFile.length);
+//                    	zos.putNextEntry(entry);
+//                    	zos.write(readFile);
+//                    	zos.closeEntry();
+//                    	zos.close();
+                    	
+                    	
+                    	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
+                    	ZipEntry entry = null;
+                    	new File(studentsAnswersPath+studentId+"/").mkdir();
+                    	while ((entry = zipStream.getNextEntry()) != null) {
+                    		
+                    	    String entryName = entry.getName();
+                    	    File file = new File(studentsAnswersPath+studentId+"/"+entryName);
+                    	    
+                    	    FileOutputStream out = new FileOutputStream(file);
+
+                    	    byte[] byteBuff = new byte[4096];
+                    	    int bytesRead = 0;
+                    	    while ((bytesRead = zipStream.read(byteBuff)) != -1)
+                    	    {
+                    	        out.write(byteBuff, 0, bytesRead);
+                    	    }
+
+                    	    out.close();
+                    	    zipStream.closeEntry();
+                    	}
+                    	zipStream.close(); 
+                    	
+                    	
+//                	    ZipOutputStream fileOuputStream = 
+//                                new ZipOutputStream(zipFile); 
+//                	    fileOuputStream.write(readFile);
+//                	    fileOuputStream.close();
+                    	
+//                    	File file = new File(zipFile);
+//                    	if(file.exists())
+//                    	{
+//                    		;
+//                    	}
+//                    	zipFileManager.unZipIt(zipFile, quizPath);
+						
+					}
+					// Send the obtained bytes to the UI Activity
+					else
+					{
+						if(LectStudentRegListController.studentPosInList(receivedMessage,posInConnectedThreadList)!=-1)
+						{
+							studentIdentified = true;
+							mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
+									posInConnectedThreadList, buffer).sendToTarget();
 					 ////////////////
 					 
 					 
@@ -476,9 +575,9 @@ public class ServerBT {
 					 
 					 
 					 ////////////////
-					}
-					else
-					{
+						}
+						else
+						{
 			            byte [] msg = toByteArray("You have not registered to this course");
 			            write(msg);
 			            
@@ -488,6 +587,7 @@ public class ServerBT {
 			            connectedThread=null;
 //			            connectedThread.destroy();
 			            
+						}
 					}
 				} catch (IOException e) {
 					Log.e(TAG, "disconnected", e);

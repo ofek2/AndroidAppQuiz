@@ -12,12 +12,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.example.onlinequizchecker.LectViewQuizController.backBtnListener;
+import com.example.onlinequizchecker.ServerBT.ConnectedThread;
+
 import android.app.Activity;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class StudQuizActivity{
@@ -26,13 +31,23 @@ public class StudQuizActivity{
 	private TextView timeLeftText;
 	private final CounterClass timer;
 	private String quizPath;
-	public StudQuizActivity(MainActivity mainActivity, int timePeriod,String quizPath) {
+	private Button submit;
+	private CharSequence studentId;
+	private String applicationPath;
+	private ClientBT clientBT;
+	public StudQuizActivity(MainActivity mainActivity, int timePeriod,
+			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
 		mainActivity.setContentView(R.layout.stud_quizview);
 		webView = (WebView) mainActivity.findViewById(R.id.quizWebView);
 		timeLeftText = (TextView) mainActivity.findViewById(R.id.timeLeftTxt);
 		timer = new CounterClass(timePeriod*60000, 1000);
 		this.quizPath = quizPath;
+		this.studentId = studentId;
+		this.applicationPath = applicationPath;
+		this.clientBT = clientBT;
+		this.submit = (Button)mainActivity.findViewById(R.id.submitBtn);
+		submit.setOnClickListener(new submitBtnListener());
 		loadQuiz();
 	}
 	@JavascriptInterface
@@ -138,5 +153,51 @@ public class StudQuizActivity{
 			// timeLeftText.setText("Completed.");
 		}
 
+	}
+	
+	class submitBtnListener implements View.OnClickListener
+	{
+		@Override
+		public void onClick(View v) {		
+			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
+			FileInputStream fileInputStream=null;
+	        
+	        File file = new File(applicationPath+"/"+studentId+".zip");
+	        int fileSize = (int) file.length();
+	        byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
+	        
+	            //convert file into array of bytes
+	        byte[] readFile = new byte[fileSize];
+            //convert file into array of bytes
+			try {
+				fileInputStream = new FileInputStream(file);
+				fileInputStream.read(readFile);
+				fileInputStream.close();
+				file.delete();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// fileInputStream.read(bFile);
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		    int bIndex=0;
+		    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
+				bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
+				bIndex++;
+			}
+		    bFile[bIndex] = (byte)'-';
+		    bIndex++;
+		    for (int l = 0; l < fileSize; l++) {
+				bFile[bIndex] = readFile[l];
+				bIndex++;
+			}
+		    
+		    clientBT.mConnectedThread.write(bFile);
+		
+		}
 	}
 }

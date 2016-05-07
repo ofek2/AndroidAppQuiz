@@ -69,9 +69,8 @@ public class LectStudentRegListController extends ListActivity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-					receivePos(studentPosInList(readMessage));
+					receivePos(studentPosInList(readMessage,msg.arg2));
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
@@ -165,10 +164,12 @@ public class LectStudentRegListController extends ListActivity {
 	            new LectQuizSelectionController(activity,course,0);
 	        }
 	    }
-	public static int studentPosInList(String Id)
+	public static int studentPosInList(String Id,int posInConnectedThreadList)
 	{
 		for (int i = 0; i < students.size(); i++) {
 			if (students.get(i).equals(Id)) {
+				if(ServerBT.mConnThreads.get(posInConnectedThreadList).getStudentId().isEmpty())
+				ServerBT.mConnThreads.get(posInConnectedThreadList).setStudentId(Id);
 				return i;
 			}
 		}

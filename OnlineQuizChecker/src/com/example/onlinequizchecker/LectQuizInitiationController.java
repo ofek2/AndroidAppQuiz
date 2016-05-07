@@ -13,8 +13,8 @@ import android.widget.Spinner;
 
 public class LectQuizInitiationController {
 	private MainActivity activity;
-	private String course;
-	private String quiz;
+	public static String course;
+	public static String quiz;
 	
 	private EditText courseIDText;
 	private EditText quizNameText;
@@ -124,7 +124,6 @@ public class LectQuizInitiationController {
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
 			    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
-			    	char shit = String.valueOf(fileSize).charAt(k);
 					bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
 					bIndex++;
 				}

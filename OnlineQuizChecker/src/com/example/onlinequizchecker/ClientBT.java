@@ -507,7 +507,7 @@ public class ClientBT {
                     	{
                     		;
                     	}
-                    	zipFileManager.unZipIt(zipFile, quizPath);
+//                    	zipFileManager.unZipIt(zipFile, quizPath);
                     	quizPathToZip = quizPath;
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
                         		-1, quizPath+"/"+quizName+".html").sendToTarget();
