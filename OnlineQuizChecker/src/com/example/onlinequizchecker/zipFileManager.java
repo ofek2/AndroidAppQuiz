@@ -132,6 +132,7 @@ public class zipFileManager {
 				 if (zipFile!=null) {
 					 zipFile.close();
 				 }
+				 srcFile.delete();
 			 }
 			 catch (IOException ioe) {
 					System.out.println("Error while closing zip file" + ioe);
