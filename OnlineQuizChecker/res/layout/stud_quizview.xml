@@ -40,6 +40,25 @@
     <WebView
         android:id="@+id/quizWebView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="427dp" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:dividerPadding="10dp"
+        android:gravity="center"
+        android:showDividers="middle" >
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect"
+            android:text="Submit"
+            android:textColor="@color/accent" />
+
+    </LinearLayout>
 
 </LinearLayout>
