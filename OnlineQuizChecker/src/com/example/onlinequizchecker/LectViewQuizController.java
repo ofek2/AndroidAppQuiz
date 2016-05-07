@@ -21,7 +21,7 @@ public class LectViewQuizController {
 		this.course = course;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
-		this.back = (Button)this.activity.findViewById(R.id.backBtn);
+		this.back = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
 		this.selectedIndex = selectedIndex;
 		back.setOnClickListener(new backBtnListener());
 		loadQuiz(course,quiz);

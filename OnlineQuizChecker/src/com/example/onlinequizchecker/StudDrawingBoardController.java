@@ -1,0 +1,72 @@
+package com.example.onlinequizchecker;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+
+public class StudDrawingBoardController {
+    private MainActivity activity;
+    private DrawingView dv;
+    private Button backBtn;
+    private Button saveBtn;
+    private Button cleanBtn;
+    
+    private StudQuizActivity previousController;
+    
+    private String questionNumber;
+    private String quizPath;
+    public StudDrawingBoardController(MainActivity activity,StudQuizActivity previousController,String questionNumber,String quizPath) {
+
+       this.activity=activity;
+       this.activity.setContentView(R.layout.stud_drawingboardview);
+       this.previousController = previousController;
+       this.questionNumber = questionNumber;
+       this.quizPath = quizPath;
+       
+       dv = (DrawingView)this.activity.findViewById(R.id.drawingView);
+       backBtn = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
+       saveBtn = (Button)this.activity.findViewById(R.id.saveBtn);
+       cleanBtn = (Button)this.activity.findViewById(R.id.cleanBtn);
+       
+       backBtn.setOnClickListener(new backBtnListener());
+       saveBtn.setOnClickListener(new saveBtnListener());
+       cleanBtn.setOnClickListener(new cleanBtnListener());
+   }
+   class backBtnListener implements View.OnClickListener
+   {
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		previousController.updateQuizAfterDrawing();
+	}
+	   
+   }
+   class saveBtnListener implements View.OnClickListener
+   {
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		dv.saveDrawing(quizPath+"/SDraw"+questionNumber);
+	}
+	   
+   }
+   class cleanBtnListener implements View.OnClickListener
+   {
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		dv.clearDrawing();
+	}
+	   
+   }
+
+}
