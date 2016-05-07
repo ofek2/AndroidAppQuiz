@@ -20,14 +20,14 @@ public class StudDrawingBoardController {
     private StudQuizActivity previousController;
     
     private String questionNumber;
-    private String quizPath;
-    public StudDrawingBoardController(MainActivity activity,StudQuizActivity previousController,String questionNumber,String quizPath) {
+    private String coursePath;
+    public StudDrawingBoardController(MainActivity activity,StudQuizActivity previousController,String questionNumber,String coursePath) {
 
        this.activity=activity;
        this.activity.setContentView(R.layout.stud_drawingboardview);
        this.previousController = previousController;
        this.questionNumber = questionNumber;
-       this.quizPath = quizPath;
+       this.coursePath = coursePath;
        
        dv = (DrawingView)this.activity.findViewById(R.id.drawingView);
        backBtn = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
@@ -44,7 +44,7 @@ public class StudDrawingBoardController {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		previousController.updateQuizAfterDrawing();
+		previousController.updateQuizAfterDrawing(questionNumber);
 	}
 	   
    }
@@ -54,7 +54,7 @@ public class StudDrawingBoardController {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		dv.saveDrawing(quizPath+"/SDraw"+questionNumber);
+		dv.saveDrawing(coursePath+"/SDraw"+questionNumber);
 	}
 	   
    }

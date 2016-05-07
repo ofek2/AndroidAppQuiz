@@ -62,7 +62,7 @@ public class StudQuizActivity{
 		settings.setJavaScriptEnabled(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
-		webView.addJavascriptInterface(new JavaScriptInterface(),"Android");
+		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
 		// webView.loadUrl("file:///android_asset/1.html");
 		webView.setWebViewClient(new WebViewClient() {
 
@@ -76,7 +76,9 @@ public class StudQuizActivity{
 	}
 	final class JavaScriptInterface
 	{
-		public JavaScriptInterface(){
+		private StudQuizActivity controller;
+		public JavaScriptInterface(StudQuizActivity controller){
+			this.controller=controller;
 		}
 		@JavascriptInterface
 		public void getAnswer(String formName,String [] items,String qType)
@@ -128,7 +130,7 @@ public class StudQuizActivity{
 		@JavascriptInterface
 		public void openDrawingBoard(String formName)
 		{
-			
+			new StudDrawingBoardController(activity,controller, formName, clientBT.quizPathToZip);
 		}
 	}
 	public class CounterClass extends CountDownTimer {
@@ -159,7 +161,7 @@ public class StudQuizActivity{
 		}
 
 	}
-	public void updateQuizAfterDrawing()
+	public void updateQuizAfterDrawing(String qNumber)
 	{
 		activity.setContentView(R.layout.stud_quizview);
 		webView = (WebView) activity.findViewById(R.id.quizWebView);
@@ -171,8 +173,18 @@ public class StudQuizActivity{
 			try {
 				in = new FileInputStream(studentQuizFile);
 				HtmlParser studentQuiz = new HtmlParser(in);
-				
-				
+				NodeList studentDrawings = studentQuiz.document.getElementsByTagName("studentdrawing"+qNumber);
+				Element studentDrawing = (Element)studentDrawings.item(0);
+				if(studentDrawing.getChildNodes().getLength()==0)
+				{
+					Element img = studentQuiz.document.createElement("img");
+					img.setAttribute("src", "SDraw"+qNumber);
+					studentDrawing.appendChild(img);
+				}
+				else
+				{
+					studentDrawing.removeChild(studentDrawing.getFirstChild());
+				}
 				
 				studentQuiz.writeHtml(quizPath);
 				webView.loadUrl("file://" + quizPath);
