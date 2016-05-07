@@ -39,6 +39,7 @@ public class ClientBT {
 //    private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     public static ConnectedThread mConnectedThread;
+    public static String quizPathToZip;
     private int mState;
 
     private ArrayList<String> mDeviceAddresses;
@@ -506,8 +507,8 @@ public class ClientBT {
                     	{
                     		;
                     	}
-                    	unZipIt(zipFile, quizPath);
-                    	
+                    	zipFileManager.unZipIt(zipFile, quizPath);
+                    	quizPathToZip = quizPath;
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
                         		-1, quizPath+"/"+quizName+".html").sendToTarget();
                     	
