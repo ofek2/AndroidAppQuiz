@@ -28,6 +28,7 @@ public class LectQuizSelectionController {
 	private String course;
 	private int selectedIndex;
 	private ArrayAdapter<String> adapter;
+	public static String studentsAnswersPath;
 	public LectQuizSelectionController(MainActivity activity,String course,int selectedIndex)
 	{
 		this.activity = activity;
@@ -95,6 +96,13 @@ public class LectQuizSelectionController {
 		
 			// Send quiz to students
 			new LectQuizInitiationController(activity,course,adapter.getItem(selectedIndex));
+			try {
+				studentsAnswersPath = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
+						adapter.getItem(selectedIndex)+ "/StudentsAnswers/";
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

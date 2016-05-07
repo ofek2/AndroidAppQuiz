@@ -79,6 +79,7 @@ public class ServerBT {
 	private ListView listView;
 	private int lastPosInConnectedThreadList=0;
 	private String studentsAnswersPath;
+	private String applicationPath;
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -92,8 +93,7 @@ public class ServerBT {
 
 		this.activity = activity;
 		try {
-			studentsAnswersPath = activity.getFilelist().getCanonicalPath()+"/"+LectQuizInitiationController.course+"/Quizzes/"+
-					LectQuizInitiationController.quiz+ "/StudentsAnswers/";
+			applicationPath = activity.getFilelist().getCanonicalPath()+"/";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -526,6 +526,8 @@ public class ServerBT {
                     	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
                     	ZipEntry entry = null;
+                    	studentsAnswersPath = LectQuizSelectionController.studentsAnswersPath;
+                    	new File(studentsAnswersPath).mkdir();
                     	new File(studentsAnswersPath+studentId+"/").mkdir();
                     	while ((entry = zipStream.getNextEntry()) != null) {
                     		
@@ -546,7 +548,8 @@ public class ServerBT {
                     	}
                     	zipStream.close(); 
                     	
-                    	
+                    	zipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath()+"/OnlineQuizChecker.zip");
+                    	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath()+"/OnlineQuizChecker.zip","/");
 //                	    ZipOutputStream fileOuputStream = 
 //                                new ZipOutputStream(zipFile); 
 //                	    fileOuputStream.write(readFile);

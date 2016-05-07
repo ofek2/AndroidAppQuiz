@@ -204,7 +204,7 @@ public class StudQuizActivity{
 	{
 		@Override
 		public void onClick(View v) {		
-			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
+			PcZipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
 			FileInputStream fileInputStream=null;
 	        
 	        File file = new File(applicationPath+"/"+studentId+".zip");
