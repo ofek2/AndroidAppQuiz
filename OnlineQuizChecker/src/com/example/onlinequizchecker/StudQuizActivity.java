@@ -184,6 +184,9 @@ public class StudQuizActivity{
 				else
 				{
 					studentDrawing.removeChild(studentDrawing.getFirstChild());
+					Element img = studentQuiz.document.createElement("img");
+					img.setAttribute("src", "SDraw"+qNumber);
+					studentDrawing.appendChild(img);
 				}
 				
 				studentQuiz.writeHtml(quizPath);
