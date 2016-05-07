@@ -40,9 +40,15 @@ public class StudLoginController {
 	private CharSequence PINcode;
 	private CharSequence studentId;
 	public static boolean loginsuccedded = false;
+	private String applicationPath;
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
-		
+		try {
+			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -161,14 +167,8 @@ public class StudLoginController {
 				
 				if(studentId.length()>0&&PINcode.length()>0)
 				{
-				try {
-					
-					clientBT = new ClientBT(studentId,mHandler,mainActivity,
-							mainActivity.getApplicationContext().getFilesDir().getCanonicalPath());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				clientBT = new ClientBT(studentId,mHandler,mainActivity,
+						applicationPath);
 				mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 				if (mBluetoothAdapter == null) {
 				    // Device does not support Bluetooth
@@ -251,8 +251,10 @@ public class StudLoginController {
                     break;
                 case Constants.QUIZ_INITIATION:
                     String quizPath = (String) msg.obj;
+//                    int quizNamelength = msg.arg2;
+                    int quizPeriod = msg.arg1;
                     mainActivity.setUserClassification("Student");
-                    new StudQuizActivity(mainActivity,msg.arg1,quizPath);
+                    new StudQuizActivity(mainActivity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
 //                    // save the connected device's name
