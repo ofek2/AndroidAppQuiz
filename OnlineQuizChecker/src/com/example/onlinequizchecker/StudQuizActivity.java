@@ -38,9 +38,10 @@ public class StudQuizActivity{
 	public StudQuizActivity(MainActivity mainActivity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
-		mainActivity.setContentView(R.layout.stud_quizview);
-		webView = (WebView) mainActivity.findViewById(R.id.quizWebView);
-		timeLeftText = (TextView) mainActivity.findViewById(R.id.timeLeftTxt);
+		this.activity = mainActivity;
+		activity.setContentView(R.layout.stud_quizview);
+		webView = (WebView) activity.findViewById(R.id.quizWebView);
+		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
 		timer = new CounterClass(timePeriod*60000, 1000);
 		this.quizPath = quizPath;
 		this.studentId = studentId;
@@ -124,7 +125,11 @@ public class StudQuizActivity{
 		
 			
 		}
-	
+		@JavascriptInterface
+		public void openDrawingBoard(String formName)
+		{
+			
+		}
 	}
 	public class CounterClass extends CountDownTimer {
 
@@ -153,6 +158,31 @@ public class StudQuizActivity{
 			// timeLeftText.setText("Completed.");
 		}
 
+	}
+	public void updateQuizAfterDrawing()
+	{
+		activity.setContentView(R.layout.stud_quizview);
+		webView = (WebView) activity.findViewById(R.id.quizWebView);
+		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
+		
+		File studentQuizFile = new File(quizPath);
+		FileInputStream in;
+
+			try {
+				in = new FileInputStream(studentQuizFile);
+				HtmlParser studentQuiz = new HtmlParser(in);
+				
+				
+				
+				studentQuiz.writeHtml(quizPath);
+				webView.loadUrl("file://" + quizPath);
+			} catch (FileNotFoundException | TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+				
+			
 	}
 	
 	class submitBtnListener implements View.OnClickListener
@@ -200,4 +230,5 @@ public class StudQuizActivity{
 		
 		}
 	}
+
 }
