@@ -17,6 +17,8 @@ import com.example.onlinequizchecker.ServerBT.ConnectedThread;
 
 import android.app.Activity;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -128,11 +130,24 @@ public class StudQuizActivity{
 			
 		}
 		@JavascriptInterface
-		public void openDrawingBoard(String formName)
+		public void openDrawingBoard(final String formName)
 		{
-			new StudDrawingBoardController(activity,controller, formName, clientBT.quizPathToZip);
+			Utils.runOnUiThread(new Runnable() {
+			     @Override
+			     public void run() {
+			    	 new StudDrawingBoardController(activity,controller, formName, clientBT.quizPathToZip);
+			     }
+			});
+			//
 		}
 	}
+	 static class Utils {
+
+		    public static void runOnUiThread(Runnable runnable){
+		        final Handler UIHandler = new Handler(Looper.getMainLooper());
+		        UIHandler .post(runnable);
+		    } 
+		}
 	public class CounterClass extends CountDownTimer {
 
 		public CounterClass(long millisInFuture, long countDownInterval) {
@@ -167,6 +182,15 @@ public class StudQuizActivity{
 		webView = (WebView) activity.findViewById(R.id.quizWebView);
 		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
 		
+		WebSettings settings = webView.getSettings();
+		settings.setJavaScriptEnabled(true);
+		settings.setBuiltInZoomControls(true);
+		settings.setDisplayZoomControls(false);
+		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
+		// webView.loadUrl("file:///android_asset/1.html");
+		this.submit = (Button)activity.findViewById(R.id.submitBtn);
+		submit.setOnClickListener(new submitBtnListener());
+		
 		File studentQuizFile = new File(quizPath);
 		FileInputStream in;
 
@@ -175,19 +199,20 @@ public class StudQuizActivity{
 				HtmlParser studentQuiz = new HtmlParser(in);
 				NodeList studentDrawings = studentQuiz.document.getElementsByTagName("studentdrawing"+qNumber);
 				Element studentDrawing = (Element)studentDrawings.item(0);
-				if(studentDrawing.getChildNodes().getLength()==0)
+				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
 				{
 					Element img = studentQuiz.document.createElement("img");
-					img.setAttribute("src", "SDraw"+qNumber);
+					img.setAttribute("src", "SDraw"+qNumber+".PNG");
 					studentDrawing.appendChild(img);
 				}
 				else
 				{
-					studentDrawing.removeChild(studentDrawing.getFirstChild());
+					studentDrawing.removeChild(studentDrawing.getLastChild());
 					Element img = studentQuiz.document.createElement("img");
-					img.setAttribute("src", "SDraw"+qNumber);
+					img.setAttribute("src", "SDraw"+qNumber+".PNG");
 					studentDrawing.appendChild(img);
 				}
+				
 				
 				studentQuiz.writeHtml(quizPath);
 				webView.loadUrl("file://" + quizPath);
