@@ -172,6 +172,8 @@ public class LectQuizInitiationController {
 			}catch(Exception e){
 	        	e.printStackTrace();
 	        }
+			
+//			new LectQuizProgressController(activity);
 		}
 		
 	}

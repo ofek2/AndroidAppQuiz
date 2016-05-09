@@ -23,6 +23,7 @@ public class LectQuizProgressController {
         this.activity=activity;
         students = LectStudentRegListController.students;
         this.activity.setContentView(R.layout.lect_quizprogressview);
+        listView = (ListView)activity.findViewById(R.id.studentsFinalListView);
         populateList(students);
         finishBtn = (Button)activity.findViewById(R.id.finishBtn);
         finishBtn.setOnClickListener(new finishBtnListener());

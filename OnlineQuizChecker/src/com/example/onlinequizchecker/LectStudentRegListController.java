@@ -69,13 +69,17 @@ public class LectStudentRegListController extends ListActivity {
                 case Constants.MESSAGE_READ:
 
 					if (msg.arg2==-1)
-						markPosInFinishList(studentPosInList(String.valueOf(msg.arg1),msg.arg2));
+						markPosInFinishList(studentPosInList((String)msg.obj));
 					else {
 						byte[] readBuf = (byte[]) msg.obj;
 						// construct a string from the valid bytes in the buffer
 						String readMessage = new String(readBuf, 0, msg.arg1);
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-						receivePos(studentPosInList(readMessage, msg.arg2));
+						if(!receivePos(studentPosInList(readMessage)))
+						{
+				            byte [] sendMsg = toByteArray("This id is already connected");
+							serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
+						}
 					}
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
@@ -97,6 +101,18 @@ public class LectStudentRegListController extends ListActivity {
         }
     };
 	
+    private byte[] toByteArray(CharSequence charSequence) {
+        if (charSequence == null) {
+          return null;
+        }
+        byte[] bytesArray = new byte[charSequence.length()];
+        for (int i = 0; i < bytesArray.length; i++) {
+        	bytesArray[i] = (byte) charSequence.charAt(i);
+        }
+
+        return bytesArray;
+    }
+    
 	private void initView() {
 		// TODO Auto-generated method stub
 		students = getStudentsListFromDB();
@@ -170,12 +186,12 @@ public class LectStudentRegListController extends ListActivity {
 	            new LectQuizSelectionController(activity,course,0);
 	        }
 	    }
-	public static int studentPosInList(String Id,int posInConnectedThreadList)
+	public static int studentPosInList(String Id)
 	{
 		for (int i = 0; i < students.size(); i++) {
 			if (students.get(i).equals(Id)) {
-				if(posInConnectedThreadList!=-1&&ServerBT.mConnThreads.get(posInConnectedThreadList).getStudentId().isEmpty())
-				ServerBT.mConnThreads.get(posInConnectedThreadList).setStudentId(Id);
+//				if(posInConnectedThreadList!=-1)
+//				ServerBT.mConnThreads.get(posInConnectedThreadList).setStudentId(Id);
 				return i;
 			}
 		}
@@ -193,14 +209,19 @@ public class LectStudentRegListController extends ListActivity {
 		
 	}
 	
-	private void receivePos(int pos)
+	private boolean receivePos(int pos)
 	{
-		listview.setItemChecked(pos, true);
+		if(!listview.isItemChecked(pos)){
+			listview.setItemChecked(pos, true);
+			return true;
+		}
+		else
+			return false;
 	}
 
 	private void markPosInFinishList(int pos)
 	{
-		LectQuizProgressController.listView.setItemChecked(pos, true);
+		LectQuizProgressController.listView.setItemChecked(pos, true);	
 	}
 	
 

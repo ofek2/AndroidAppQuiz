@@ -549,8 +549,9 @@ public class ServerBT {
                     	zipStream.close(); 
                     	
                     	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip");
-						mHandler.obtainMessage(Constants.MESSAGE_READ, Integer.getInteger(getStudentId()),
-								-1, null).sendToTarget();
+						String str = getStudentId();
+                    	mHandler.obtainMessage(Constants.MESSAGE_READ, -1,
+								-1, str).sendToTarget();
                     	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
 //                	    ZipOutputStream fileOuputStream = 
 //                                new ZipOutputStream(zipFile); 
@@ -568,9 +569,10 @@ public class ServerBT {
 					// Send the obtained bytes to the UI Activity
 					else
 					{
-						if(LectStudentRegListController.studentPosInList(receivedMessage,posInConnectedThreadList)!=-1)
+						if(LectStudentRegListController.studentPosInList(receivedMessage)!=-1)
 						{
 							studentIdentified = true;
+							setStudentId(receivedMessage);
 							mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
 									posInConnectedThreadList, buffer).sendToTarget();
 					 ////////////////
