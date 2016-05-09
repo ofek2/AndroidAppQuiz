@@ -68,10 +68,10 @@ public class ClientBT {
 
     /**
      * Constructor. Prepares a new BluetoothChat session.
-     * @param context  The UI Activity Context
+//     * @param context  The UI Activity Context
      * @param mHandler 
      * @param mainActivity 
-     * @param handler  A Handler to send messages back to the UI Activity
+//     * @param handler  A Handler to send messages back to the UI Activity
      */
     public ClientBT(CharSequence studentId, Handler mHandler,MainActivity mainActivity, String applicationPath) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -433,6 +433,7 @@ public class ClientBT {
 					}
                     else
                     {
+                        folderRecursiveDelete(new File(applicationPath+"/"));
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
                     	String course = splited[1];
@@ -522,6 +523,24 @@ public class ClientBT {
                     break;
                 }
             }
+        }
+
+        private void folderRecursiveDelete(File file) {
+            if (!file.exists())
+                return;
+            if (file.isDirectory()) {
+                for (File f : file.listFiles()) {
+                    folderRecursiveDelete(f);
+                }
+            }
+           try{
+               if(!file.getCanonicalPath().equals(applicationPath))
+                   file.delete();
+           }
+           catch (IOException e){
+               ;
+           }
+
         }
 
         public void unZipIt(String zipFile, String outputFolder){

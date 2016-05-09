@@ -25,6 +25,7 @@ public class LectStudentRegListController extends ListActivity {
 	private String course;
 	public static ArrayList<String> students;
 	private Button quizSelectionBtn;
+
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -66,11 +67,16 @@ public class LectStudentRegListController extends ListActivity {
 //                    mConversationArrayAdapter.add("Me:  " + writeMessage);
 //                    break;
                 case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
+
+					if (msg.arg2==0)
+						markPosInFinishList(studentPosInList(String.valueOf(msg.arg1),msg.arg2));
+					else {
+						byte[] readBuf = (byte[]) msg.obj;
+						// construct a string from the valid bytes in the buffer
+						String readMessage = new String(readBuf, 0, msg.arg1);
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-					receivePos(studentPosInList(readMessage,msg.arg2));
+						receivePos(studentPosInList(readMessage, msg.arg2));
+					}
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
                     break;
 //                case Constants.MESSAGE_DEVICE_NAME:
@@ -101,7 +107,7 @@ public class LectStudentRegListController extends ListActivity {
 
 	private ArrayList<String> getStudentsListFromDB() {
 		// TODO Auto-generated method stub
-		ArrayList<String> students = new ArrayList<>();
+		students = new ArrayList<>();
 		filelist = activity.getFilelist();
 		try {
 			File studentFolder = new File(filelist.getCanonicalPath()+"/"+course+"/Students");
@@ -168,7 +174,7 @@ public class LectStudentRegListController extends ListActivity {
 	{
 		for (int i = 0; i < students.size(); i++) {
 			if (students.get(i).equals(Id)) {
-				if(ServerBT.mConnThreads.get(posInConnectedThreadList).getStudentId().isEmpty())
+				if(posInConnectedThreadList!=-1&&ServerBT.mConnThreads.get(posInConnectedThreadList).getStudentId().isEmpty())
 				ServerBT.mConnThreads.get(posInConnectedThreadList).setStudentId(Id);
 				return i;
 			}
@@ -190,6 +196,11 @@ public class LectStudentRegListController extends ListActivity {
 	private void receivePos(int pos)
 	{
 		listview.setItemChecked(pos, true);
+	}
+
+	private void markPosInFinishList(int pos)
+	{
+		LectQuizProgressController.listView.setItemChecked(pos, true);
 	}
 	
 

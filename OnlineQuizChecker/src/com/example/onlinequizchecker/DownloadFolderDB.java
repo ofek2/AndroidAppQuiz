@@ -26,7 +26,7 @@ public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
 		 if(downloadedZipFile.exists())
 		 {
 			 zipFileManager.unZipIt(appFolder+"/OnlineQuizChecker.zip", appFolder+"/OnlineQuizChecker");
-			 downloadedZipFile.delete();
+//			 downloadedZipFile.delete();
 		 }
 		 else
 			 new File(appFolder+"/OnlineQuizChecker").mkdir(); //Dropbox folder is empty

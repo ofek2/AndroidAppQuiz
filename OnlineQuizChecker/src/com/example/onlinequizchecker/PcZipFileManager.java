@@ -52,6 +52,7 @@ public class PcZipFileManager {
 	        if(fileToZip.getName().equals("OnlineQuizChecker"))
 	        	zipEntryName = null;
 	        for (File file : fileToZip.listFiles()) {
+				if(!file.getName().endsWith(".zip"))
 	            addDirToZipArchive(zos, file, zipEntryName);
 	        }
 	    } else {

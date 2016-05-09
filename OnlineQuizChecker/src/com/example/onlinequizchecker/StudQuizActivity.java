@@ -110,7 +110,9 @@ public class StudQuizActivity{
 							break;
 						
 						case Constants.FREE_TEXT:
-							Element textInCurrentFile = (Element) ((Element)forms.item(i)).getFirstChild();
+							NodeList textArea = ((Element)studentQuiz.document.getElementsByTagName("form").item(i)).getElementsByTagName("textarea");
+
+							Element textInCurrentFile = (Element)textArea.item(0);
 						
 							textInCurrentFile.setTextContent(items[0]);
 							break;
@@ -122,7 +124,7 @@ public class StudQuizActivity{
 							break;
 						}
 						studentQuiz.writeHtml(quizPath);
-						webView.loadUrl("file://" + quizPath);
+//						webView.loadUrl("file://" + quizPath);
 					}
 				}
 			} catch (FileNotFoundException | TransformerException e) {e.printStackTrace();}
@@ -229,10 +231,11 @@ public class StudQuizActivity{
 	{
 		@Override
 		public void onClick(View v) {		
-			PcZipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
+			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
 			FileInputStream fileInputStream=null;
 	        
 	        File file = new File(applicationPath+"/"+studentId+".zip");
+			boolean shit = file.exists();
 	        int fileSize = (int) file.length();
 	        byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
 	        

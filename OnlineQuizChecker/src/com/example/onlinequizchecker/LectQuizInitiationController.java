@@ -53,6 +53,8 @@ public class LectQuizInitiationController {
 
 		private void startQuiz(int quizPeriod) {
 			// TODO Auto-generated method stub
+			new LectQuizProgressController(activity);
+
 			try {
 				String zipFile = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 						quiz + "/Form/" + quiz+".zip";

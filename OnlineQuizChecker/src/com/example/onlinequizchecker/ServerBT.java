@@ -234,7 +234,7 @@ public class ServerBT {
 	 *            The BluetoothSocket on which the connection was made
 	 * @param device
 	 *            The BluetoothDevice that has been connected
-	 * @param uuidPos
+//	 * @param uuidPos
 	 */
 	public synchronized void connected(BluetoothSocket socket, BluetoothDevice device){
 //			, int uuidPos) {
@@ -548,8 +548,10 @@ public class ServerBT {
                     	}
                     	zipStream.close(); 
                     	
-                    	zipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath()+"/OnlineQuizChecker.zip");
-                    	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath()+"/OnlineQuizChecker.zip","/");
+                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip");
+						mHandler.obtainMessage(Constants.MESSAGE_READ, Integer.getInteger(getStudentId()),
+								-1, null).sendToTarget();
+                    	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
 //                	    ZipOutputStream fileOuputStream = 
 //                                new ZipOutputStream(zipFile); 
 //                	    fileOuputStream.write(readFile);
