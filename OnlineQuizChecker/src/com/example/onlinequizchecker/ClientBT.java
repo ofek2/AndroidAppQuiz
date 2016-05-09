@@ -481,6 +481,9 @@ public class ClientBT {
                     	while ((entry = zipStream.getNextEntry()) != null) {
                     		
                     	    String entryName = entry.getName();
+                    	    if (entryName.endsWith(".html")) {
+								entryName = studentId+".html";
+							}
                     	    File file = new File(quizPath+"/"+entryName);
                     	    
                     	    FileOutputStream out = new FileOutputStream(file);
@@ -511,7 +514,7 @@ public class ClientBT {
 //                    	zipFileManager.unZipIt(zipFile, quizPath);
                     	quizPathToZip = quizPath;
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
-                        		-1, quizPath+"/"+quizName+".html").sendToTarget();
+                        		-1, quizPath+"/"+studentId+".html").sendToTarget();
                     	
 //                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	
