@@ -68,7 +68,7 @@ public class LectStudentRegListController extends ListActivity {
 //                    break;
                 case Constants.MESSAGE_READ:
 
-					if (msg.arg2==0)
+					if (msg.arg2==-1)
 						markPosInFinishList(studentPosInList(String.valueOf(msg.arg1),msg.arg2));
 					else {
 						byte[] readBuf = (byte[]) msg.obj;
