@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/accent"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:layout_weight="0.6">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/top_bar_backgroundcolor_blue"
+            android:orientation="vertical"
+            android:layout_weight="0.6"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center" >
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Quiz Progress"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/title_color"
+                    android:textSize="@dimen/Titles_font" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/studentsFinalListView"
+            android:layout_width="match_parent"
+            android:layout_height="411dp"
+            android:layout_weight="0.55" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:orientation="vertical"
+        android:layout_weight="0.1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:dividerPadding="10dp"
+            android:gravity="center"
+            android:showDividers="middle" >
+
+            <Button
+                android:id="@+id/finishBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_effect"
+                android:text="Finish"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/Titles_font" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
