@@ -40,7 +40,7 @@ public class LectViewQuizController {
 		this.quiz=quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
-		this.back = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
+		this.back = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
 		this.selectedIndex = selectedIndex;
 		back.setOnClickListener(new backBtnListener());
 		loadQuiz(course,quiz);
@@ -154,7 +154,7 @@ public class LectViewQuizController {
 	public void updateQuizAfterDrawing(String qNumber)
 	{
 		activity.setContentView(R.layout.lect_viewquiz);
-		back = (Button)activity.findViewById(R.id.backBtnDrawingView);
+		back = (Button)activity.findViewById(R.id.backBtnQuizInit);
 		webView = (WebView) activity.findViewById(R.id.webView);
 		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
 		WebSettings settings = webView.getSettings();

@@ -54,6 +54,8 @@ public class StudQuizActivity{
 		this.clientBT = clientBT;
 		this.submit = (Button)mainActivity.findViewById(R.id.submitBtn);
 		submit.setOnClickListener(new submitBtnListener());
+		
+		
 		ttobj=new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
 			   @Override
 			   public void onInit(int status) {
@@ -61,6 +63,8 @@ public class StudQuizActivity{
 			   }
 			}
 			);
+		ttobj.setSpeechRate(0.6f);
+		
 		loadQuiz();
 	}
 	@JavascriptInterface

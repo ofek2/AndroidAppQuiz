@@ -30,7 +30,7 @@ public class StudDrawingBoardController {
        this.coursePath = coursePath;
        
        dv = (DrawingView)this.activity.findViewById(R.id.drawingView);
-       backBtn = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
+       backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
        saveBtn = (Button)this.activity.findViewById(R.id.saveBtn);
        cleanBtn = (Button)this.activity.findViewById(R.id.cleanBtn);
        
@@ -47,7 +47,7 @@ public class StudDrawingBoardController {
         this.coursePath = coursePath;
         
         dv = (DrawingView)this.activity.findViewById(R.id.drawingView);
-        backBtn = (Button)this.activity.findViewById(R.id.backBtnDrawingView);
+        backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
         saveBtn = (Button)this.activity.findViewById(R.id.saveBtn);
         cleanBtn = (Button)this.activity.findViewById(R.id.cleanBtn);
         
