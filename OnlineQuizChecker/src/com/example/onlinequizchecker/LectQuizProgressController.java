@@ -85,6 +85,7 @@ public class LectQuizProgressController {
         				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
         			
         		}
+        		canFinish = true;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

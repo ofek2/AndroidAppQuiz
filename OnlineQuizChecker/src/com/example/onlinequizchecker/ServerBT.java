@@ -569,7 +569,7 @@ public class ServerBT {
 					// Send the obtained bytes to the UI Activity
 					else
 					{
-						if(LectStudentRegListController.studentPosInList(receivedMessage)!=-1)
+						if(LectStudentRegListController.studentPosInList(receivedMessage,LectStudentRegListController.students)!=-1)
 						{
 							studentIdentified = true;
 							setStudentId(receivedMessage);

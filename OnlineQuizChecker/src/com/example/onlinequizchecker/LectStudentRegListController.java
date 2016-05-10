@@ -69,13 +69,13 @@ public class LectStudentRegListController extends ListActivity {
                 case Constants.MESSAGE_READ:
 
 					if (msg.arg2==-1)
-						markPosInFinishList(studentPosInList((String)msg.obj));
+						markPosInFinishList(studentPosInList((String)msg.obj,LectQuizInitiationController.studentsInClass));
 					else {
 						byte[] readBuf = (byte[]) msg.obj;
 						// construct a string from the valid bytes in the buffer
 						String readMessage = new String(readBuf, 0, msg.arg1);
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-						if(!receivePos(studentPosInList(readMessage)))
+						if(!receivePos(studentPosInList(readMessage,students)))
 						{
 				            byte [] sendMsg = toByteArray("This id is already connected");
 							serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
@@ -186,10 +186,10 @@ public class LectStudentRegListController extends ListActivity {
 	            new LectQuizSelectionController(activity,course,0);
 	        }
 	    }
-	public static int studentPosInList(String Id)
+	public static int studentPosInList(String Id,ArrayList<String> studentsInClass)
 	{
-		for (int i = 0; i < students.size(); i++) {
-			if (students.get(i).equals(Id)) {
+		for (int i = 0; i < studentsInClass.size(); i++) {
+			if (studentsInClass.get(i).equals(Id)) {
 //				if(posInConnectedThreadList!=-1)
 //				ServerBT.mConnThreads.get(posInConnectedThreadList).setStudentId(Id);
 				return i;
