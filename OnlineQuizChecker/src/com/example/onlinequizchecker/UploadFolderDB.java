@@ -24,12 +24,18 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	 protected void onPostExecute(Long result) {
 		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/OnlineQuizChecker"));
 		 activity.setUserClassification("");
+		 //////////////////////////////////
+         
+//       close the connection to the students
+         
+         
+         //////////////////////////////////
 		 BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
 		 mAdapter.disable();
 		 new MainController(activity);
 		 Toast toast = Toast.makeText(activity.getApplicationContext(),  "The files were successfully saved",
                     Toast.LENGTH_SHORT);
          toast.show();
-		 
+
      }
 }

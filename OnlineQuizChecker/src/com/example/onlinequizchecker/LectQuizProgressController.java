@@ -75,7 +75,7 @@ public class LectQuizProgressController {
         			{
         				canFinish = false;
         				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Please wait for all students to finish their quiz",
-                                Toast.LENGTH_SHORT);
+                                Toast.LENGTH_LONG);
                         toast.show();
         				break;
         			}
