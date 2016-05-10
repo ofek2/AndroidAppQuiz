@@ -552,7 +552,7 @@ public class ServerBT {
 						String str = getStudentId();
                     	mHandler.obtainMessage(Constants.MESSAGE_READ, -1,
 								-1, str).sendToTarget();
-                    	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
+//  //////////////                  	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
 //                	    ZipOutputStream fileOuputStream = 
 //                                new ZipOutputStream(zipFile); 
 //                	    fileOuputStream.write(readFile);

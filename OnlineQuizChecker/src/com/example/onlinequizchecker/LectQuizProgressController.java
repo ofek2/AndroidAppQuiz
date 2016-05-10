@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -14,17 +15,17 @@ import java.util.ArrayList;
  */
 public class LectQuizProgressController {
     private MainActivity activity;
-    private ArrayList<String> students;
+    private ArrayList<String> studentsInClass;
     public static ListView listView;
     private Button finishBtn;
 
     public LectQuizProgressController(MainActivity activity)
     {
         this.activity=activity;
-        students = LectStudentRegListController.students;
+        studentsInClass = LectQuizInitiationController.studentsInClass;
         this.activity.setContentView(R.layout.lect_quizprogressview);
         listView = (ListView)activity.findViewById(R.id.studentsFinalListView);
-        populateList(students);
+        populateList(studentsInClass);
         finishBtn = (Button)activity.findViewById(R.id.finishBtn);
         finishBtn.setOnClickListener(new finishBtnListener());
     }
@@ -64,10 +65,30 @@ public class LectQuizProgressController {
     }
     class finishBtnListener implements View.OnClickListener
     {
-
+    	private boolean canFinish = true;
         @Override
         public void onClick(View v) {
             // handle quiz ending.
+        	try {
+        		for (int i = 0; i < studentsInClass.size(); i++) {
+        			if(!listView.isItemChecked(i))
+        			{
+        				canFinish = false;
+        				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Please wait for all students to finish their quiz",
+                                Toast.LENGTH_SHORT);
+                        toast.show();
+        				break;
+        			}
+				}
+        		if (canFinish) {
+        			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
+        				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
+        			
+        		}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 }

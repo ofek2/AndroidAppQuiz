@@ -3,6 +3,7 @@ package com.example.onlinequizchecker;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -20,6 +21,7 @@ public class LectQuizInitiationController {
 	private EditText quizNameText;
 	private Spinner timeSpinner;
 	private Button startQuizBtn;
+	public static ArrayList<String> studentsInClass;
 	public LectQuizInitiationController(MainActivity activity,String course,String quiz)
 	{
 		this.activity = activity;
@@ -37,7 +39,7 @@ public class LectQuizInitiationController {
 		
 		courseIDText.setText(course);
 		quizNameText.setText(quiz);
-		
+		studentsInClass = new ArrayList<>();
 		startQuizBtn.setOnClickListener(new startQuizBtnListener());
 	}
 	class startQuizBtnListener implements View.OnClickListener
@@ -48,6 +50,10 @@ public class LectQuizInitiationController {
 			// TODO Auto-generated method stub
 			String selectedTimePeriodString = timeSpinner.getSelectedItem().toString().split("\\s+")[0];
 			int selectedTimePeriodInt = Integer.valueOf(selectedTimePeriodString);
+			for (int i = 0; i < LectStudentRegListController.students.size(); i++) {
+				if(LectStudentRegListController.listview.isItemChecked(i))
+					studentsInClass.add(LectStudentRegListController.students.get(i));
+			}
 			startQuiz(selectedTimePeriodInt);
 		}
 

@@ -2,12 +2,17 @@ package com.example.onlinequizchecker;
 
 import java.io.File;
 
+import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
-	public UploadFolderDB() {
-		// TODO Auto-generated constructor stub
+	private String pathToDelete;
+	private MainActivity activity;
+	public UploadFolderDB(String pathToDelete, MainActivity activity) {
 		super();
+		this.pathToDelete = pathToDelete;
+		this.activity = activity;
 	}
 	@Override
 	protected Long doInBackground(String... params) {
@@ -16,5 +21,15 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		// TODO Auto-generated method stub
 		
 	}
-
+	 protected void onPostExecute(Long result) {
+		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/OnlineQuizChecker"));
+		 new MainController(activity);
+		 activity.setUserClassification("");
+		 BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
+		 mAdapter.disable();
+		 Toast toast = Toast.makeText(activity.getApplicationContext(),  "The files were successfully saved",
+                    Toast.LENGTH_SHORT);
+         toast.show();
+		 
+     }
 }

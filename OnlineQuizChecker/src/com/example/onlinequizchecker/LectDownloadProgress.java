@@ -26,7 +26,7 @@ public class LectDownloadProgress {
         
 	}
 	
-	private void folderRecursiveDelete(File file) {
+	public static void folderRecursiveDelete(File file) {
         if (!file.exists())
             return;
         if (file.isDirectory()) {
