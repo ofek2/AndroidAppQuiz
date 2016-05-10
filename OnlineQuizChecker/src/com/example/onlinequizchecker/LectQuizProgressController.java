@@ -69,7 +69,7 @@ public class LectQuizProgressController {
         @Override
         public void onClick(View v) {
             // handle quiz ending.
-        	try {
+//        	try {
         		for (int i = 0; i < studentsInClass.size(); i++) {
         			if(!listView.isItemChecked(i))
         			{
@@ -81,15 +81,16 @@ public class LectQuizProgressController {
         			}
 				}
         		if (canFinish) {
-        			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
-        				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
+        			new LectUploadProgress(activity);
+//        			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
+//        				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
         			
         		}
         		canFinish = true;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
         }
     }
 }
