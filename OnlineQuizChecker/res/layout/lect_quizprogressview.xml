@@ -8,7 +8,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.13"
+        android:layout_weight="0.1"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:gravity="center"
         android:orientation="vertical"
@@ -35,14 +35,14 @@
         android:id="@+id/studentsFinalListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75" >
+        android:layout_weight="0.77" >
     </ListView>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.12"
+        android:layout_weight="0.13"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:orientation="vertical"
         android:weightSum="1" >

@@ -7,14 +7,14 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.08"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="fill_parent"
             android:layout_gravity="center" >
 
             <TextView
@@ -33,25 +33,39 @@
     <ListView
         android:id="@+id/quizzesListView"
         android:layout_width="match_parent"
-        android:layout_height="411dp"
-        android:layout_weight="0.55" >
+        android:layout_height="0dp"
+        android:layout_weight="0.77" >
     </ListView>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_height="0dp"
+        android:layout_weight="0.13"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:dividerPadding="10dp"
         android:gravity="center"
         android:showDividers="middle" >
 
         <Button
-            android:id="@+id/chooseQuizBtn"
+            android:id="@+id/backBtnQuizSelect"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.3"
             android:background="@drawable/ripple_effect"
-            android:layout_width="wrap_content"
+            android:text="Back"
+            android:textColor="@color/accent" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="@color/title_color" />
+
+        <Button
+            android:id="@+id/chooseQuizBtn"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.49"
+            android:layout_weight="0.3"
+            android:background="@drawable/ripple_effect"
             android:padding="0dp"
             android:text="Choose Quiz"
             android:textColor="@color/accent" />
@@ -63,10 +77,10 @@
 
         <Button
             android:id="@+id/viewQuizBtn"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.3"
             android:background="@drawable/ripple_effect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.49"
             android:drawableTop="@drawable/view"
             android:gravity="bottom|center"
             android:text="View Quiz"

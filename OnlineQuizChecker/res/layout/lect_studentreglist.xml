@@ -8,7 +8,8 @@
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:orientation="vertical" >
 
@@ -31,13 +32,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
         android:background="#FFFFFF"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:background="#FFF176" >
 
             <TextView
@@ -67,15 +69,15 @@
     <ListView
         android:id="@+id/studentListView"
         android:layout_width="match_parent"
-        android:layout_height="411dp"
-        android:layout_weight="0.55" >
+        android:layout_height="0dp"
+        android:layout_weight="0.7" >
     </ListView>
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
+        android:layout_height="0dp"
+        android:layout_weight="0.13"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:orientation="vertical" >
 
