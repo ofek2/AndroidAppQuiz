@@ -9,19 +9,21 @@ package com.example.onlinequizchecker;
 
 public final class R {
     public static final class array {
-        public static final int Values=0x7f070000;
+        public static final int Time=0x7f050001;
+        public static final int time=0x7f050000;
     }
     public static final class attr {
     }
     public static final class color {
-        public static final int accent=0x7f060005;
-        public static final int background_color_blue=0x7f060002;
-        public static final int primary=0x7f060003;
-        public static final int primary_dark=0x7f060004;
-        public static final int text_primary=0x7f060006;
-        public static final int text_secondary=0x7f060007;
-        public static final int title_color=0x7f060000;
-        public static final int top_bar_backgroundcolor_blue=0x7f060001;
+        public static final int accent=0x7f070005;
+        public static final int background_color_blue=0x7f070002;
+        public static final int primary=0x7f070003;
+        public static final int primary_dark=0x7f070004;
+        public static final int ripple_color=0x7f070008;
+        public static final int text_primary=0x7f070006;
+        public static final int text_secondary=0x7f070007;
+        public static final int title_color=0x7f070000;
+        public static final int top_bar_backgroundcolor_blue=0x7f070001;
     }
     public static final class dimen {
         public static final int Titles_bar_size=0x7f040004;
@@ -42,58 +44,91 @@ public final class R {
         public static final int custom_button=0x7f020001;
         public static final int ic_launcher=0x7f020002;
         public static final int paper1=0x7f020003;
-        public static final int view=0x7f020004;
+        public static final int ripple_effect=0x7f020004;
+        public static final int selection=0x7f020005;
+        public static final int view=0x7f020006;
     }
     public static final class id {
-        public static final int LinearLayout=0x7f0a0005;
-        public static final int LinearLayout01=0x7f0a000e;
-        public static final int PINCodeTxt=0x7f0a000c;
-        public static final int action_settings=0x7f0a001c;
-        public static final int backBtn=0x7f0a0011;
-        public static final int chooseCourseIdLbl=0x7f0a0008;
-        public static final int chooseQuizBtn=0x7f0a0003;
-        public static final int connectionBtn=0x7f0a000a;
-        public static final int coursesSpinner=0x7f0a0009;
-        public static final int lecturerBtn=0x7f0a0014;
-        public static final int linearLayout1=0x7f0a0000;
-        public static final int loginBtn=0x7f0a001b;
-        public static final int loginLbl=0x7f0a0015;
-        public static final int onlineQuizTitle=0x7f0a0012;
-        public static final int pinCodeLbl=0x7f0a0019;
-        public static final int pinCodeTxt=0x7f0a001a;
-        public static final int quizSelectionBtn=0x7f0a000f;
-        public static final int quizzesListView=0x7f0a0002;
-        public static final int studentBtn=0x7f0a0013;
-        public static final int studentIdLbl=0x7f0a0016;
-        public static final int studentIdTxt=0x7f0a0017;
-        public static final int studentListView=0x7f0a000d;
-        public static final int subTitleLbl=0x7f0a000b;
-        public static final int tableLayout2=0x7f0a0006;
-        public static final int tableRow1=0x7f0a0007;
-        public static final int tableRow2=0x7f0a0018;
-        public static final int titleStudentReg=0x7f0a0001;
-        public static final int viewQuizBtn=0x7f0a0004;
-        public static final int webView=0x7f0a0010;
+        public static final int LinearLayout=0x7f0a001a;
+        public static final int LinearLayout01=0x7f0a0023;
+        public static final int PINCodeTxt=0x7f0a0021;
+        public static final int action_settings=0x7f0a0036;
+        public static final int backBtnQuizInit=0x7f0a000e;
+        public static final int backBtnQuizSelect=0x7f0a0018;
+        public static final int chooseCourseIdLbl=0x7f0a001d;
+        public static final int chooseQuizBtn=0x7f0a0019;
+        public static final int cleanBtn=0x7f0a002b;
+        public static final int connectionBtn=0x7f0a001f;
+        public static final int courseIDLbl=0x7f0a0005;
+        public static final int courseIDTxt=0x7f0a0006;
+        public static final int coursesSpinner=0x7f0a001e;
+        public static final int drawingView=0x7f0a0029;
+        public static final int finishBtn=0x7f0a0013;
+        public static final int lecturerBtn=0x7f0a0028;
+        public static final int linearLayout=0x7f0a000f;
+        public static final int linearLayout1=0x7f0a0002;
+        public static final int linearLayout2=0x7f0a0012;
+        public static final int loadingLbl=0x7f0a0000;
+        public static final int loginBtn=0x7f0a0031;
+        public static final int loginLbl=0x7f0a002c;
+        public static final int onlineQuizTitle=0x7f0a0026;
+        public static final int pinCodeLbl=0x7f0a002f;
+        public static final int pinCodeTxt=0x7f0a0030;
+        public static final int progressBar1=0x7f0a0001;
+        public static final int quizNameLbl=0x7f0a0008;
+        public static final int quizNameTxt=0x7f0a0009;
+        public static final int quizSelectionBtn=0x7f0a0024;
+        public static final int quizTimeLbl=0x7f0a000b;
+        public static final int quizWebView=0x7f0a0034;
+        public static final int quizzesListView=0x7f0a0017;
+        public static final int saveBtn=0x7f0a002a;
+        public static final int startQuizBtn=0x7f0a000d;
+        public static final int studentBtn=0x7f0a0027;
+        public static final int studentIdLbl=0x7f0a002d;
+        public static final int studentIdTxt=0x7f0a002e;
+        public static final int studentListView=0x7f0a0022;
+        public static final int studentsFinalListView=0x7f0a0011;
+        public static final int subTitleLbl=0x7f0a0020;
+        public static final int submitBtn=0x7f0a0035;
+        public static final int tableLayout2=0x7f0a001c;
+        public static final int tableRow1=0x7f0a0004;
+        public static final int tableRow2=0x7f0a0007;
+        public static final int tableRow3=0x7f0a000a;
+        public static final int textView=0x7f0a0010;
+        public static final int timeLeftLbl=0x7f0a0032;
+        public static final int timeLeftTxt=0x7f0a0033;
+        public static final int timeSpinner=0x7f0a000c;
+        public static final int titleQuizInit=0x7f0a0003;
+        public static final int titleQuizSelection=0x7f0a0016;
+        public static final int titleStudentReg=0x7f0a001b;
+        public static final int view1=0x7f0a0014;
+        public static final int viewQuizBtn=0x7f0a0015;
+        public static final int webView=0x7f0a0025;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int lect_dropboxauthview=0x7f030001;
-        public static final int lect_quizselectionview=0x7f030002;
-        public static final int lect_studentregistrationview=0x7f030003;
-        public static final int lect_studentreglist=0x7f030004;
-        public static final int lect_viewquiz=0x7f030005;
-        public static final int main_view=0x7f030006;
-        public static final int simple_spinner_item=0x7f030007;
-        public static final int stud_loginview=0x7f030008;
+        public static final int lect_downloadprogress=0x7f030001;
+        public static final int lect_dropboxauthview=0x7f030002;
+        public static final int lect_quizinitiationview=0x7f030003;
+        public static final int lect_quizprogressview=0x7f030004;
+        public static final int lect_quizselectionview=0x7f030005;
+        public static final int lect_studentregistrationview=0x7f030006;
+        public static final int lect_studentreglist=0x7f030007;
+        public static final int lect_viewquiz=0x7f030008;
+        public static final int main_view=0x7f030009;
+        public static final int simple_spinner_item=0x7f03000a;
+        public static final int stud_drawingboardview=0x7f03000b;
+        public static final int stud_loginview=0x7f03000c;
+        public static final int stud_quizview=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f090000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050002;
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050001;
-        public static final int title_activity_main=0x7f050003;
+        public static final int action_settings=0x7f060002;
+        public static final int app_name=0x7f060000;
+        public static final int hello_world=0x7f060001;
+        public static final int title_activity_main=0x7f060003;
     }
     public static final class style {
         /** 
