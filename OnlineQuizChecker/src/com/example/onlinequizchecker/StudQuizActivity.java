@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.transform.TransformerException;
@@ -19,6 +20,7 @@ import android.app.Activity;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -37,6 +39,7 @@ public class StudQuizActivity{
 	private CharSequence studentId;
 	private String applicationPath;
 	private ClientBT clientBT;
+	private TextToSpeech ttobj;
 	public StudQuizActivity(MainActivity mainActivity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
@@ -51,6 +54,13 @@ public class StudQuizActivity{
 		this.clientBT = clientBT;
 		this.submit = (Button)mainActivity.findViewById(R.id.submitBtn);
 		submit.setOnClickListener(new submitBtnListener());
+		ttobj=new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
+			   @Override
+			   public void onInit(int status) {
+				   ttobj.setLanguage(Locale.US);
+			   }
+			}
+			);
 		loadQuiz();
 	}
 	@JavascriptInterface
@@ -141,6 +151,12 @@ public class StudQuizActivity{
 			     }
 			});
 			//
+		}
+		@SuppressWarnings("deprecation")
+		@JavascriptInterface
+		public void listen(String toSpeak)
+		{
+			ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
 	 static class Utils {
