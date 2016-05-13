@@ -29,6 +29,9 @@ public class LectStudentRegListController extends ListActivity {
 	public static ArrayList<String> students;
 	private Button quizSelectionBtn;
 	private Button backBtn;
+	
+	private CharSequence PINCODE;
+	
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -37,7 +40,7 @@ public class LectStudentRegListController extends ListActivity {
 		listview = (ListView) activity.findViewById(R.id.studentListView);
 		initView();
 		serverBT = new ServerBT(activity,mHandler);/////////////////////////////
-		
+		PINCODE =((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
 
 
@@ -105,6 +108,7 @@ public class LectStudentRegListController extends ListActivity {
     };
 	private ArrayAdapter<String> adapter;
 	
+	
     private byte[] toByteArray(CharSequence charSequence) {
         if (charSequence == null) {
           return null;
@@ -121,6 +125,8 @@ public class LectStudentRegListController extends ListActivity {
 		// TODO Auto-generated method stub
 		students = getStudentsListFromDB();
 		populateList(students);
+	
+		
 		quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 		quizSelectionBtn.setOnClickListener(new quizSelectionBtnListener());
 		backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
@@ -241,7 +247,6 @@ public class LectStudentRegListController extends ListActivity {
 	}
 	public void retrieveView()
     {
-		String PINCODE =(String) ((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
 		
     	activity.setContentView(R.layout.lect_studentreglist);
     	

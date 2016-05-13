@@ -133,7 +133,7 @@ public class StudLoginController {
 						String macAddress = device.getAddress();
 						int j = 0;
 						for (int i = 0; i < macAddress.length(); i++) {
-
+							
 							int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
 							int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
 
