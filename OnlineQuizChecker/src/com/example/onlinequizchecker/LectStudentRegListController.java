@@ -228,8 +228,8 @@ public class LectStudentRegListController extends ListActivity {
 	}
 	public void retrieveView()
     {
-    	activity.setContentView(R.layout.lect_quizprogressview);
-    	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
+    	activity.setContentView(R.layout.lect_studentreglist);
+    	ListView tempListView = (ListView) activity.findViewById(R.id.studentListView);
     	tempListView.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);
     	tempListView.setAdapter(adapter);
