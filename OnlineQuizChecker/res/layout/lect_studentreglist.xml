@@ -19,7 +19,7 @@
             android:layout_gravity="center" >
 
             <TextView
-                android:id="@+id/titleStudentReg"
+                android:id="@+id/titleCourseSelection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -89,10 +89,24 @@
             android:showDividers="middle" >
 
             <Button
+                android:id="@+id/backBtnStudRegList"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.5"
+                android:background="@drawable/ripple_effect"
+                android:text="Back"
+                android:textColor="@color/accent" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@color/title_color" />
+
+            <Button
                 android:id="@+id/quizSelectionBtn"
-                android:layout_width="fill_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-              
+                android:layout_weight="0.5"
                 android:background="@drawable/ripple_effect"
                 android:drawableTop="@drawable/paper1"
                 android:gravity="bottom|center"

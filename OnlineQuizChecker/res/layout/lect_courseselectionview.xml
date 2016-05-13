@@ -24,11 +24,11 @@
                 android:layout_gravity="center" >
 
                 <TextView
-                    android:id="@+id/titleStudentReg"
+                    android:id="@+id/titleCourseSelection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Student Registration"
+                    android:text="Course Selection"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/title_color"
                     android:textSize="@dimen/Titles_font" />

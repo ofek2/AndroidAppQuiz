@@ -38,7 +38,7 @@
         android:background="@color/background_color_blue" >
 
         <TextView
-            android:id="@+id/titleStudentReg"
+            android:id="@+id/titleCourseSelection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -51,7 +51,7 @@
             style="@style/buttonStyle"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/titleStudentReg"
+            android:layout_below="@+id/titleCourseSelection"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="66dp"
             android:background="@drawable/custom_button"
