@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class LectStudentRegListController extends ListActivity {
@@ -27,7 +28,7 @@ public class LectStudentRegListController extends ListActivity {
 	private String course;
 	public static ArrayList<String> students;
 	private Button quizSelectionBtn;
-
+	private Button backBtn;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -122,6 +123,8 @@ public class LectStudentRegListController extends ListActivity {
 		populateList(students);
 		quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 		quizSelectionBtn.setOnClickListener(new quizSelectionBtnListener());
+		backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+		backBtn.setOnClickListener(new backBtnListener());
 	}
 
 	private ArrayList<String> getStudentsListFromDB() {
@@ -189,6 +192,16 @@ public class LectStudentRegListController extends ListActivity {
 	            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
 	        }
 	    }
+	class backBtnListener implements View.OnClickListener
+	{
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			new LectCourseSelectionController(activity);
+		}
+		
+	}
 	public static int studentPosInList(String Id,ArrayList<String> studentsInClass)
 	{
 		for (int i = 0; i < studentsInClass.size(); i++) {
@@ -228,7 +241,16 @@ public class LectStudentRegListController extends ListActivity {
 	}
 	public void retrieveView()
     {
+		String PINCODE =(String) ((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
+		
     	activity.setContentView(R.layout.lect_studentreglist);
+    	
+    	((TextView) activity.findViewById(R.id.PINCodeTxt)).setText(PINCODE);
+    	quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
+		quizSelectionBtn.setOnClickListener(new quizSelectionBtnListener());
+		backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+		backBtn.setOnClickListener(new backBtnListener());
+		
     	ListView tempListView = (ListView) activity.findViewById(R.id.studentListView);
     	tempListView.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);

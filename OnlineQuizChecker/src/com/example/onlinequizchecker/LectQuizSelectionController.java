@@ -132,6 +132,13 @@ public class LectQuizSelectionController {
 	public void retrieveView()
 	{
 		activity.setContentView(R.layout.lect_quizselectionview);
+		chooseQuizBtn = (Button)this.activity.findViewById(R.id.chooseQuizBtn);
+		chooseQuizBtn.setOnClickListener(new chooseQuizBtnListener());
+		viewQuizBtn = (Button)this.activity.findViewById(R.id.viewQuizBtn);
+		viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
+		listview = (ListView)this.activity.findViewById(R.id.quizzesListView);
+		backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizSelect);
+		backBtn.setOnClickListener(new backBtnListener());
 		populateList(quizzes);
 	}
 	

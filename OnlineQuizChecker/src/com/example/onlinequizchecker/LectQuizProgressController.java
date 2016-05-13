@@ -110,6 +110,12 @@ public class LectQuizProgressController {
     public void retrieveView()
     {
     	activity.setContentView(R.layout.lect_quizprogressview);
+    	
+        finishBtn = (Button)activity.findViewById(R.id.finishBtn);
+        finishBtn.setOnClickListener(new finishBtnListener());
+        viewQuizBtn = (Button)activity.findViewById(R.id.viewQuizBtn);
+        viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
+        
     	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
     	tempListView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);
