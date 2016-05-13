@@ -431,6 +431,13 @@ public class ClientBT {
 //                      cancel();
                       ClientBT.this.stop();
 					}
+                    else if (receivedMessage.equals("This id is already connected")) {
+                        // Send the obtained bytes to the UI Activity
+                      mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+                              .sendToTarget();
+//                      cancel();
+                      ClientBT.this.stop();
+					} 
                     else
                     {
                         folderRecursiveDelete(new File(applicationPath+"/"));

@@ -245,6 +245,9 @@ public class StudLoginController {
                     if (readMessage.equals("You have not registered to this course"))
 						Toast.makeText(mainActivity.getApplicationContext(), "You have not registered to this course",
 						Toast.LENGTH_LONG).show();
+                    else if (readMessage.equals("This id is already connected"))
+						Toast.makeText(mainActivity.getApplicationContext(), "This id is already connected",
+						Toast.LENGTH_LONG).show();
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
 //					receivePos(studentPosInList(readMessage));
 //                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
