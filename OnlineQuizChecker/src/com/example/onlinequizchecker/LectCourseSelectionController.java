@@ -18,25 +18,13 @@ import java.util.ArrayList;
 /**
  * Created by 311165906 on 10/03/2016.
  */
-public class LectStudentRegistrationController{
+public class LectCourseSelectionController{
     private MainActivity activity;
     private Spinner spinner;
     private Button connectionBtn;
-    public LectStudentRegistrationController(MainActivity activity) {
+    public LectCourseSelectionController(MainActivity activity) {
         this.activity = activity;
         initView();
-//        // -- Display mode of the ListView
-//        ArrayList<String> students = new ArrayList<String>();
-//        ListView listview= (ListView)activity.findViewById(R.id.studentListView);
-//        //	listview.setChoiceMode(listview.CHOICE_MODE_NONE);
-//        //	listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
-//        listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
-//
-//        //--	text filtering
-//        listview.setTextFilterEnabled(true);
-//
-//        listview.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, students));
-       
     }
 
 	private void initView() {
@@ -49,7 +37,7 @@ public class LectStudentRegistrationController{
 		}
 		else
 		{
-	        activity.setContentView(R.layout.lect_studentregistrationview);
+	        activity.setContentView(R.layout.lect_courseselectionview);
 	        activity.setUserClassification("Lecturer");
 	        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
 	        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);

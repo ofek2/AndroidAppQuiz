@@ -31,10 +31,12 @@ public class LectViewQuizController {
 	private String quiz;
 	private File quizFileToView;
 	private LectViewQuizController temp;
-	public LectViewQuizController(MainActivity activity,String course,String quiz, int selectedIndex)
+	private LectQuizSelectionController prevController1;
+	private LectQuizProgressController prevController2;
+	public LectViewQuizController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz, int selectedIndex)
 	{
 		temp=this;
-		
+		this.prevController1 = previousController;
 		this.activity = activity;
 		this.course = course;
 		this.quiz=quiz;
@@ -42,7 +44,20 @@ public class LectViewQuizController {
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
 		this.back = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
 		this.selectedIndex = selectedIndex;
-		back.setOnClickListener(new backBtnListener());
+		back.setOnClickListener(new backBtnQuizSelectionListener());
+		loadQuiz(course,quiz);
+	}
+	public LectViewQuizController(MainActivity activity,LectQuizProgressController previousController,String course,String quiz)
+	{
+		temp=this;
+		this.prevController2 = previousController;
+		this.activity = activity;
+		this.course = course;
+		this.quiz=quiz;
+		this.activity.setContentView(R.layout.lect_viewquiz);
+		this.webView = (WebView)this.activity.findViewById(R.id.webView);
+		this.back = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
+		back.setOnClickListener(new backBtnQuizProgressListener());
 		loadQuiz(course,quiz);
 	}
 	private void loadQuiz(String course,String quiz) {
@@ -142,12 +157,21 @@ public class LectViewQuizController {
 	    } 
 	}
 
-	class backBtnListener implements View.OnClickListener
+	class backBtnQuizSelectionListener implements View.OnClickListener
 	{
 		@Override
 		public void onClick(View v) {
 		
-			new LectQuizSelectionController(activity, course,selectedIndex);
+			prevController1.retrieveView();
+		}
+		
+	}
+	class backBtnQuizProgressListener implements View.OnClickListener
+	{
+		@Override
+		public void onClick(View v) {
+		
+			prevController2.retrieveView();
 		}
 		
 	}

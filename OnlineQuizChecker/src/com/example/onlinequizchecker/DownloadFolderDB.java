@@ -31,7 +31,7 @@ public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
 		 else
 			 new File(appFolder+"/OnlineQuizChecker").mkdir(); //Dropbox folder is empty
 		 
-		 new LectStudentRegistrationController(activity);
+		 new LectCourseSelectionController(activity);
 		 
      }
 }

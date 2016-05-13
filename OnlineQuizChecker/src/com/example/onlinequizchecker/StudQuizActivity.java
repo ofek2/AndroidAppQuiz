@@ -13,7 +13,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.example.onlinequizchecker.LectViewQuizController.backBtnListener;
 import com.example.onlinequizchecker.ServerBT.ConnectedThread;
 
 import android.app.Activity;

@@ -24,20 +24,25 @@ public class LectQuizSelectionController {
 	private ArrayList<String> quizzes;
 	private Button chooseQuizBtn;
 	private Button viewQuizBtn;
+	private Button backBtn;
 	private ListView listview;
 	private String course;
 	private int selectedIndex;
 	private ArrayAdapter<String> adapter;
 	public static String studentsAnswersPath;
-	public LectQuizSelectionController(MainActivity activity,String course,int selectedIndex)
+	private LectStudentRegListController previousController;
+	public LectQuizSelectionController(MainActivity activity,LectStudentRegListController previousController,String course,int selectedIndex)
 	{
 		this.activity = activity;
+		this.previousController = previousController;
 		this.activity.setContentView(R.layout.lect_quizselectionview);
 		chooseQuizBtn = (Button)this.activity.findViewById(R.id.chooseQuizBtn);
 		chooseQuizBtn.setOnClickListener(new chooseQuizBtnListener());
 		viewQuizBtn = (Button)this.activity.findViewById(R.id.viewQuizBtn);
 		viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
 		listview = (ListView)this.activity.findViewById(R.id.quizzesListView);
+		backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizSelect);
+		backBtn.setOnClickListener(new backBtnListener());
 		this.selectedIndex = selectedIndex;
 		this.course = course;
 		initView();
@@ -95,7 +100,7 @@ public class LectQuizSelectionController {
 		public void onClick(View v) {
 		
 			// Send quiz to students
-			new LectQuizInitiationController(activity,course,adapter.getItem(selectedIndex));
+			new LectQuizInitiationController(activity,LectQuizSelectionController.this,course,adapter.getItem(selectedIndex));
 			try {
 				studentsAnswersPath = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 						adapter.getItem(selectedIndex)+ "/StudentsAnswers/";
@@ -111,8 +116,23 @@ public class LectQuizSelectionController {
 	{
 		@Override
 		public void onClick(View v) {
-			new LectViewQuizController(activity, course, adapter.getItem(selectedIndex),selectedIndex);
+			new LectViewQuizController(activity, LectQuizSelectionController.this,course, adapter.getItem(selectedIndex),selectedIndex);
 		}
 		
 	}
+	class backBtnListener implements View.OnClickListener
+	{
+
+		@Override
+		public void onClick(View v) {
+			previousController.retrieveView();
+		}
+		
+	}
+	public void retrieveView()
+	{
+		activity.setContentView(R.layout.lect_quizselectionview);
+		populateList(quizzes);
+	}
+	
 }

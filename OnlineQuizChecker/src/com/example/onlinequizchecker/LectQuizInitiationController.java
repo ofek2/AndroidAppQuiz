@@ -14,6 +14,7 @@ import android.widget.Spinner;
 
 public class LectQuizInitiationController {
 	private MainActivity activity;
+	private LectQuizSelectionController previousController;
 	public static String course;
 	public static String quiz;
 	
@@ -21,11 +22,13 @@ public class LectQuizInitiationController {
 	private EditText quizNameText;
 	private Spinner timeSpinner;
 	private Button startQuizBtn;
+	private Button backBtn;
 	public static ArrayList<String> studentsInClass;
-	public LectQuizInitiationController(MainActivity activity,String course,String quiz)
+	public LectQuizInitiationController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz)
 	{
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_quizinitiationview);
+		this.previousController = previousController;
 		this.course = course;
 		this.quiz = quiz;
 		initComponents();
@@ -36,11 +39,23 @@ public class LectQuizInitiationController {
 		quizNameText = (EditText)activity.findViewById(R.id.quizNameTxt);
 		timeSpinner = (Spinner)activity.findViewById(R.id.timeSpinner);
 		startQuizBtn = (Button)activity.findViewById(R.id.startQuizBtn);
+		backBtn = (Button)activity.findViewById(R.id.backBtnQuizInit);
 		
 		courseIDText.setText(course);
 		quizNameText.setText(quiz);
 		studentsInClass = new ArrayList<>();
 		startQuizBtn.setOnClickListener(new startQuizBtnListener());
+		backBtn.setOnClickListener(new backBtnListener());
+	}
+	class backBtnListener implements View.OnClickListener
+	{
+
+		@Override
+		public void onClick(View v) {
+			previousController.retrieveView();
+			
+		}
+		
 	}
 	class startQuizBtnListener implements View.OnClickListener
 	{

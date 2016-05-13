@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
+
 import android.app.ListActivity;
 import android.os.Handler;
 import android.os.Message;
@@ -100,6 +102,7 @@ public class LectStudentRegListController extends ListActivity {
             }
         }
     };
+	private ArrayAdapter<String> adapter;
 	
     private byte[] toByteArray(CharSequence charSequence) {
         if (charSequence == null) {
@@ -146,7 +149,7 @@ public class LectStudentRegListController extends ListActivity {
 		// TODO Auto-generated method stub
 		listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
 		listview.setTextFilterEnabled(true);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.activity,
+		adapter = new ArrayAdapter<String>(this.activity,
 				android.R.layout.simple_list_item_multiple_choice, students);
 
 		listview.setAdapter(adapter);
@@ -183,7 +186,7 @@ public class LectStudentRegListController extends ListActivity {
 	        @Override
 	        public void onClick(View v) {
 	          
-	            new LectQuizSelectionController(activity,course,0);
+	            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
 	        }
 	    }
 	public static int studentPosInList(String Id,ArrayList<String> studentsInClass)
@@ -223,6 +226,17 @@ public class LectStudentRegListController extends ListActivity {
 	{
 		LectQuizProgressController.listView.setItemChecked(pos, true);	
 	}
-	
+	public void retrieveView()
+    {
+    	activity.setContentView(R.layout.lect_quizprogressview);
+    	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
+    	tempListView.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+    	tempListView.setTextFilterEnabled(true);
+    	tempListView.setAdapter(adapter);
+    	for(int i=0; i < adapter.getCount();i++)
+    		tempListView.setItemChecked(i, listview.isItemChecked(i));
+    	tempListView.setOnItemClickListener(new itemListener());
+    	listview = tempListView;
+    }
 
 }

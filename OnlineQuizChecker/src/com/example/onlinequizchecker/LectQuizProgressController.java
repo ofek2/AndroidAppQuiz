@@ -17,7 +17,9 @@ public class LectQuizProgressController {
     private MainActivity activity;
     private ArrayList<String> studentsInClass;
     public static ListView listView;
+    private ArrayAdapter<String> adapter;
     private Button finishBtn;
+    private Button viewQuizBtn;
 
     public LectQuizProgressController(MainActivity activity)
     {
@@ -28,19 +30,30 @@ public class LectQuizProgressController {
         populateList(studentsInClass);
         finishBtn = (Button)activity.findViewById(R.id.finishBtn);
         finishBtn.setOnClickListener(new finishBtnListener());
+        viewQuizBtn = (Button)activity.findViewById(R.id.viewQuizBtn);
+        viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
     }
     private void populateList(ArrayList<String> students) {
         // TODO Auto-generated method stub
         listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setTextFilterEnabled(true);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.activity,
+        adapter = new ArrayAdapter<String>(this.activity,
                 android.R.layout.simple_list_item_multiple_choice, students);
-
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new itemListener());
 
         //listview.setItemChecked(2,true);
 
+    }
+    class viewQuizBtnListener implements View.OnClickListener
+    {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			new LectViewQuizController(activity, LectQuizProgressController.this,LectQuizInitiationController.course, LectQuizInitiationController.quiz);
+		}
+    	
     }
     class itemListener implements AdapterView.OnItemClickListener {
 
@@ -92,5 +105,18 @@ public class LectQuizProgressController {
 //				e.printStackTrace();
 //			}
         }
+    }
+    
+    public void retrieveView()
+    {
+    	activity.setContentView(R.layout.lect_quizprogressview);
+    	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
+    	tempListView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
+    	tempListView.setTextFilterEnabled(true);
+    	tempListView.setAdapter(adapter);
+    	for(int i=0; i < adapter.getCount();i++)
+    		tempListView.setItemChecked(i, listView.isItemChecked(i));
+    	tempListView.setOnItemClickListener(new itemListener());
+    	listView = tempListView;
     }
 }
