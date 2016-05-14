@@ -12,18 +12,14 @@ public class LectDownloadProgress {
 		
 		String path;
 		try {
-//			path = activity.getApplicationContext().getFilesDir().getCanonicalPath()+"/OnlineQuizChecker";
 			path = activity.getApplicationContext().getFilesDir().getCanonicalPath();
-			folderRecursiveDelete(new File(path+"/OnlineQuizChecker"));
+			folderRecursiveDelete(new File(path+"/"+Constants.APP_NAME));
 			startDownload(path);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	
-	
-        
+ 
 	}
 	
 	public static void folderRecursiveDelete(File file) {

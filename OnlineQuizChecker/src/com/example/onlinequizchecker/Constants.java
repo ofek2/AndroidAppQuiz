@@ -24,6 +24,9 @@ package com.example.onlinequizchecker;
  */
 public interface Constants {
 
+	//Application name
+	public static final String APP_NAME = "OnlineQuizChecker";
+	
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;

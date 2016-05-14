@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
 			// Required to complete auth, sets the access token on the session
 			DropBoxSimple.mDBApi.getSession().finishAuthentication();
 			didDropboxAuth = true;
-			String path = getApplicationContext().getFilesDir().getCanonicalPath() + "/OnlineQuizChecker";
+			String path = getApplicationContext().getFilesDir().getCanonicalPath() + "/"+Constants.APP_NAME;
 			// folderRecursiveDelete(new File(path));
 			new LectDownloadProgress(this);
 			String accessToken = DropBoxSimple.mDBApi.getSession().getOAuth2AccessToken();

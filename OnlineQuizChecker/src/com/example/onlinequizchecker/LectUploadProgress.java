@@ -25,7 +25,7 @@ public class LectUploadProgress {
 
 		try {
 			new UploadFolderDB(path,activity).
-				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
+				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -22,7 +22,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		
 	}
 	 protected void onPostExecute(Long result) {
-		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/OnlineQuizChecker"));
+		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
 		 activity.setUserClassification("");
 		 //////////////////////////////////
          

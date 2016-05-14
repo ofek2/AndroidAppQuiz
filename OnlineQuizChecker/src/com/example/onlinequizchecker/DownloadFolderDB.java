@@ -22,14 +22,14 @@ public class DownloadFolderDB extends AsyncTask<String, Integer, Long>{
 	}
 	
 	 protected void onPostExecute(Long result) {
-		 File downloadedZipFile = new File(appFolder+"/OnlineQuizChecker.zip");
+		 File downloadedZipFile = new File(appFolder+"/"+Constants.APP_NAME+".zip");
 		 if(downloadedZipFile.exists())
 		 {
-			 zipFileManager.unZipIt(appFolder+"/OnlineQuizChecker.zip", appFolder+"/OnlineQuizChecker");
+			 zipFileManager.unZipIt(appFolder+"/"+Constants.APP_NAME+".zip", appFolder+"/"+Constants.APP_NAME);
 //			 downloadedZipFile.delete();
 		 }
 		 else
-			 new File(appFolder+"/OnlineQuizChecker").mkdir(); //Dropbox folder is empty
+			 new File(appFolder+"/"+Constants.APP_NAME).mkdir(); //Dropbox folder is empty
 		 
 		 new LectCourseSelectionController(activity);
 		 

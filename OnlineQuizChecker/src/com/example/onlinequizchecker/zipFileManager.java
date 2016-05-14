@@ -49,7 +49,7 @@ public class zipFileManager {
 
 	    if (fileToZip.isDirectory()) {
 	        System.out.println("+" + zipEntryName);
-	        if(fileToZip.getName().equals("OnlineQuizChecker"))
+	        if(fileToZip.getName().equals(Constants.APP_NAME))
 	        	zipEntryName = null;
 	        for (File file : fileToZip.listFiles()) {
 	            addDirToZipArchive(zos, file, zipEntryName);

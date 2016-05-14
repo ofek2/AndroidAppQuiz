@@ -41,7 +41,7 @@ public class LectQuizProgressController {
                 android.R.layout.simple_list_item_multiple_choice, students);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new itemListener());
-
+        
         //listview.setItemChecked(2,true);
 
     }

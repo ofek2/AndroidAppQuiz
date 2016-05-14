@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
 
 import android.app.ListActivity;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -185,19 +186,19 @@ public class LectStudentRegListController extends ListActivity {
 						Toast.LENGTH_SHORT);
 				toast.show();
 			}
-
+			
 		}
 
 	}
 	class quizSelectionBtnListener implements View.OnClickListener
-	    {
+    {
 
-	        @Override
-	        public void onClick(View v) {
-	          
-	            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
-	        }
-	    }
+        @Override
+        public void onClick(View v) {
+          
+            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
+        }
+    }
 	class backBtnListener implements View.OnClickListener
 	{
 

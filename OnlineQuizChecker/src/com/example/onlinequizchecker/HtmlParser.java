@@ -24,7 +24,6 @@ public class HtmlParser {
 	public HtmlParser(InputStream xmlFile) {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			//dbFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar",false);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			document = dBuilder.parse(xmlFile);
 			
@@ -33,11 +32,6 @@ public class HtmlParser {
 		}
 	}
 
-
-	/*public NodeList getTagChildren(String tag){
-		nList = document.getElementsByTagName(tag);
-		return nList;
-	}*/
 	public void writeHtml(String path) throws TransformerException{
 		// write the content into HTML file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -49,13 +43,9 @@ public class HtmlParser {
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		DOMSource source = new DOMSource(document);
 		StreamResult result = new StreamResult(new File(path));
-	
-		// Output to console for testing
-		// StreamResult result = new StreamResult(System.out);
 
 		transformer.transform(source, result);
 
-		//System.out.println("File saved!");
 	}
 	
 	

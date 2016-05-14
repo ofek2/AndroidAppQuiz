@@ -397,12 +397,6 @@ public class HtmlBuilder {
 				Element textArea = (Element)textAreas.item(i);
 				textArea.setAttribute("disabled","disabled");
 			}
-			//add someshit about the canvas here ----------
-			//-------//
-			
-
-			
-
 			prepared.writeHtml(studentQuizPath);
 			
 		} catch (FileNotFoundException | TransformerException e) {

@@ -548,7 +548,7 @@ public class ServerBT {
                     	}
                     	zipStream.close(); 
                     	
-                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip");
+                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
 						String str = getStudentId();
                     	mHandler.obtainMessage(Constants.MESSAGE_READ, -1,
 								-1, str).sendToTarget();
