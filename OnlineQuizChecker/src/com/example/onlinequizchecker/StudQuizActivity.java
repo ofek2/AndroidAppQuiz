@@ -62,7 +62,7 @@ public class StudQuizActivity{
 			   }
 			}
 			);
-		ttobj.setSpeechRate(0.6f);
+		ttobj.setSpeechRate(0.9f);
 		
 		loadQuiz();
 	}
