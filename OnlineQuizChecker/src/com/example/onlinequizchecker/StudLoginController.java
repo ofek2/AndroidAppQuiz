@@ -89,7 +89,14 @@ public class StudLoginController {
 							{
 //								mBluetoothAdapter.cancelDiscovery();
 //								maxDiscoveryIteration=0;
-								loginPressed=false;
+								loginPressed=false;///////////////////////////////////////
+								////////////////////////////////////////////////////////////
+								////////////////
+								//
+								//
+								//
+								//
+								///
 								clientBT.connect(device);
 							}
 								
