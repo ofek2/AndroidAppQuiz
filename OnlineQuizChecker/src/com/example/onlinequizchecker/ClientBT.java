@@ -292,7 +292,7 @@ public class ClientBT {
      * succeeds or fails.
      */
     private class ConnectThread extends Thread {
-        private final BluetoothSocket mmSocket;
+        private BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
         private UUID tempUuid;
 
@@ -305,10 +305,13 @@ public class ClientBT {
             // given BluetoothDevice
             try {
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
+                mAdapter.cancelDiscovery();//
+                StudLoginController.maxDiscoveryIteration=0;
+                mmSocket = tmp;//
             } catch (IOException e) {
                 Log.e(TAG, "create() failed", e);
             }
-            mmSocket = tmp;
+//            mmSocket = tmp;
         }
 
         public void run() {
@@ -334,7 +337,7 @@ public class ClientBT {
                     Log.e(TAG, "unable to close() socket during connection failure", e2);
                 }
                 // Start the service over to restart listening mode
-                ClientBT.this.start();
+//                ClientBT.this.start();
                 return;
             }
 

@@ -26,7 +26,7 @@ import java.util.UUID;
 public class StudLoginController {
 	private MainActivity mainActivity;
 	private int maxUuid=1;
-	private int maxDiscoveryIteration = 10;
+	public static int maxDiscoveryIteration = 10;
 	public static boolean loginPressed = false;
 	BluetoothAdapter mBluetoothAdapter;
 	
@@ -87,9 +87,9 @@ public class StudLoginController {
 							String name = device.getName();
 							if(deviceIsServer(device))
 							{
-								mBluetoothAdapter.cancelDiscovery();
-								maxDiscoveryIteration=0;
-								loginPressed=false;
+//								mBluetoothAdapter.cancelDiscovery();
+//								maxDiscoveryIteration=0;
+								loginPressed=false;////////////////////////////////////////////////////////////////
 								clientBT.connect(device);
 							}
 								
