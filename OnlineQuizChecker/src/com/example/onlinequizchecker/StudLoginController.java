@@ -87,8 +87,8 @@ public class StudLoginController {
 							String name = device.getName();
 							if(deviceIsServer(device))
 							{
-								mBluetoothAdapter.cancelDiscovery();
-								maxDiscoveryIteration=0;
+//								mBluetoothAdapter.cancelDiscovery();
+//								maxDiscoveryIteration=0;
 								loginPressed=false;
 								clientBT.connect(device);
 							}
