@@ -139,8 +139,10 @@ public class ServerBT {
 	}
 
 	private void initializePINCode() {
-		String macAddress = mAdapter.getAddress();
-		Toast.makeText(activity.getApplicationContext(), mAdapter.getAddress(), Toast.LENGTH_SHORT).show();
+//		String macAddress = mAdapter.getAddress();
+		String macAddress = android.provider.Settings.Secure.getString(activity.getApplicationContext().getContentResolver(), "bluetooth_address");
+		
+		Toast.makeText(activity.getApplicationContext(), macAddress, Toast.LENGTH_SHORT).show();
 		int j = 0;
 		for (int i = 0; i < macAddress.length(); i++) {
 
