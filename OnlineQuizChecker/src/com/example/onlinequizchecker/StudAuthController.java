@@ -19,7 +19,7 @@ import java.io.IOException;
 public class StudAuthController {
     private MainActivity activity;
     private int maxUuid=1;
-    public static int maxDiscoveryIteration = 2;
+    public static int maxDiscoveryIteration = 3;
     //public static boolean loginPressed = false;
     BluetoothAdapter mBluetoothAdapter;
 
@@ -98,9 +98,9 @@ public class StudAuthController {
 
 
                     }
-//                    else
-//                    {
-//                    }
+                    else
+                    {
+                    }
 
                 }
             }
