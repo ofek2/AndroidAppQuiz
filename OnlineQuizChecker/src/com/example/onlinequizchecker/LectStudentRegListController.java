@@ -205,6 +205,17 @@ public class LectStudentRegListController extends ListActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			boolean studentsAlreadyLoggedIn=false;
+			for(int i=0;i<listview.getChildCount();i++)
+				if(listview.getChildAt(i).isSelected())
+					studentsAlreadyLoggedIn=true;
+			if(studentsAlreadyLoggedIn)
+			{
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "Can't go back, students have already connected"
+						,Toast.LENGTH_SHORT);
+				toast.show();
+			}
+			else
 			new LectCourseSelectionController(activity);
 		}
 		
