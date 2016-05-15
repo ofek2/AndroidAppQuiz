@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -39,19 +40,21 @@ public class StudQuizActivity{
 	private String applicationPath;
 	private ClientBT clientBT;
 	private TextToSpeech ttobj;
-	public StudQuizActivity(MainActivity mainActivity, int timePeriod,
+	public StudQuizActivity(MainActivity activity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
-		this.activity = mainActivity;
-		activity.setContentView(R.layout.stud_quizview);
-		webView = (WebView) activity.findViewById(R.id.quizWebView);
-		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
-		timer = new CounterClass(timePeriod*60000, 1000);
+		this.activity = activity;
+		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
+		this.activity.setContentView(R.layout.stud_quizview);
 		this.quizPath = quizPath;
 		this.studentId = studentId;
 		this.applicationPath = applicationPath;
 		this.clientBT = clientBT;
-		this.submit = (Button)mainActivity.findViewById(R.id.submitBtn);
+		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
+		
+		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
+		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
+		timer = new CounterClass(timePeriod*60000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		
