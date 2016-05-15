@@ -36,7 +36,7 @@ public class StudLoginController {
 	public static boolean loginsuccedded = false;
 	private String applicationPath;
 	public StudLoginController(MainActivity activity) {
-		this.mainActivity = activity;
+		mainActivity = activity;
 		try {
 			mainActivity.setContentView(R.layout.stud_loginview);
 			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
@@ -44,7 +44,7 @@ public class StudLoginController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		((Button)activity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
+		((Button)mainActivity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				loginPressed=true;
