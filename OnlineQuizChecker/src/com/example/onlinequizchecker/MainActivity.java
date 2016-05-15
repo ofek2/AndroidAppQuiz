@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.lect_studentregistrationview);
-		 if(new DeviceUtils().isDeviceRooted(getApplicationContext())){
+		 if(new DeviceUtils().isDeviceRooted()){
 		        showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
 		    }
 		new MainController(this);
