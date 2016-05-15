@@ -78,9 +78,10 @@ public class LectStudentRegListController extends ListActivity {
 					if (msg.arg2==-1)
 						markPosInFinishList(studentPosInList((String)msg.obj,LectQuizInitiationController.studentsInClass));
 					else {
-						byte[] readBuf = (byte[]) msg.obj;
-						// construct a string from the valid bytes in the buffer
-						String readMessage = new String(readBuf, 0, msg.arg1);
+//						byte[] readBuf = (byte[]) msg.obj;
+//						// construct a string from the valid bytes in the buffer
+//						String readMessage = new String(readBuf, 0, msg.arg1);
+						String readMessage = (String)msg.obj;
 //                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
 						if(!receivePos(studentPosInList(readMessage,students)))
 						{
