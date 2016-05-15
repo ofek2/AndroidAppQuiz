@@ -339,10 +339,10 @@ public class ClientBT {
 //            	mAdapter.cancelDiscovery();
 //            	temp = StudAuthController.maxDiscoveryIteration;
 //                StudAuthController.maxDiscoveryIteration=0;
-                mAdapter.cancelDiscovery();
+//                mAdapter.cancelDiscovery();
                 mmSocket.connect();
                 StudAuthController.maxDiscoveryIteration=0;
-//                mAdapter.cancelDiscovery();
+                mAdapter.cancelDiscovery();
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                .sendToTarget();
             } catch (IOException e) {
