@@ -1,40 +1,41 @@
 package com.example.onlinequizchecker;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 
-import android.content.Context;
 
 public class DeviceUtils {
 
-    public Boolean isDeviceRooted(Context context){
-        boolean isRooted = isrooted1() || isrooted2();
-        return isRooted;
-    }
+	  public static boolean isDeviceRooted() {
+	        return checkRootMethod1() || checkRootMethod2() || checkRootMethod3();
+	    }
 
-    private boolean isrooted1() {
+	    private static boolean checkRootMethod1() {
+	        String buildTags = android.os.Build.TAGS;
+	        return buildTags != null && buildTags.contains("test-keys");
+	    }
 
-        File file = new File("/system/app/Superuser.apk");
-        if (file.exists()) {
-            return true;
-        }
-        return false;
-    }
+	    private static boolean checkRootMethod2() {
+	        String[] paths = { "/system/app/Superuser.apk", "/sbin/su", "/system/bin/su", "/system/xbin/su", "/data/local/xbin/su", "/data/local/bin/su", "/system/sd/xbin/su",
+	                "/system/bin/failsafe/su", "/data/local/su" };
+	        for (String path : paths) {
+	            if (new File(path).exists()) return true;
+	        }
+	        return false;
+	    }
 
-    // try executing commands
-    private boolean isrooted2() {
-        return canExecuteCommand("/system/xbin/which su")
-                || canExecuteCommand("/system/bin/which su")
-                || canExecuteCommand("which su");
-    }
-    private static boolean canExecuteCommand(String command) {
-        boolean executedSuccesfully;
-        try {
-          Runtime.getRuntime().exec(command);
-          executedSuccesfully = true;
-        } catch (Exception e) {
-          executedSuccesfully = false;
-        }
-
-        return executedSuccesfully;
-      }
+	    private static boolean checkRootMethod3() {
+	        Process process = null;
+	        try {
+	            process = Runtime.getRuntime().exec(new String[] { "/system/xbin/which", "su" });
+	            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	            if (in.readLine() != null) return true;
+	            return false;
+	        } catch (Throwable t) {
+	            return false;
+	        } finally {
+	            if (process != null) process.destroy();
+	        }
+	    }
 }
