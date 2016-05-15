@@ -14,8 +14,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.example.onlinequizchecker.ServerBT.ConnectedThread;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.TriggerEvent;
+import android.hardware.TriggerEventListener;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
@@ -40,6 +48,11 @@ public class StudQuizActivity{
 	private String applicationPath;
 	private ClientBT clientBT;
 	private TextToSpeech ttobj;
+	
+	private SensorManager mSensorManager;
+	private Sensor mSensor;
+	private TriggerEventListener mTriggerEventListener;
+	
 	public StudQuizActivity(MainActivity activity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
@@ -57,6 +70,14 @@ public class StudQuizActivity{
 		timer = new CounterClass(timePeriod*60000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
+		initTextToSpeech();
+		initMotionSensor();
+		
+		
+		loadQuiz();
+	}
+	
+	private void initTextToSpeech() {
 		
 		ttobj=new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
 			   @Override
@@ -66,8 +87,55 @@ public class StudQuizActivity{
 			}
 			);
 		ttobj.setSpeechRate(0.9f);
+	}
+	@SuppressLint("NewApi")
+	private void initMotionSensor() {
 		
-		loadQuiz();
+		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+
+		mTriggerEventListener = new TriggerEventListener() {
+		    @Override
+		    public void onTrigger(TriggerEvent event) {
+		        // Do work
+		    	String message = "Moving-"+studentId;
+		    	byte[] buffer = toByteArray(message);
+		    	showAlertDialog("Please return to your sit!");
+		    	clientBT.mConnectedThread.write(buffer);
+		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+		    }
+		};
+
+		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+	}
+	  private byte[] toByteArray(CharSequence charSequence) {
+          if (charSequence == null) {
+            return null;
+          }
+          byte[] bytesArray = new byte[charSequence.length()];
+          for (int i = 0; i < bytesArray.length; i++) {
+          	bytesArray[i] = (byte) charSequence.charAt(i);
+          }
+
+          return bytesArray;
+      }
+	public void showAlertDialog(String message) {
+
+	    AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+	    alertDialog.setTitle("Alert");
+	    alertDialog.setMessage(message);
+	    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+	            new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) {
+	                    dialog.dismiss();
+	                    Intent intent = new Intent(Intent.ACTION_MAIN);
+	                    intent.addCategory(Intent.CATEGORY_HOME);
+	                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	                    activity.startActivity(intent);
+	                }
+	            });
+
+	    alertDialog.show();
 	}
 	@JavascriptInterface
 	public void loadQuiz() {
