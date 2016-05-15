@@ -80,6 +80,7 @@ public class ServerBT {
 	private int lastPosInConnectedThreadList=0;
 	private String studentsAnswersPath;
 	private String applicationPath;
+	private String stringPinCode;
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -143,25 +144,34 @@ public class ServerBT {
 		String macAddress = android.provider.Settings.Secure.getString(activity.getApplicationContext().getContentResolver(), "bluetooth_address");
 		
 		Toast.makeText(activity.getApplicationContext(), macAddress, Toast.LENGTH_SHORT).show();
-		int j = 0;
-		for (int i = 0; i < macAddress.length(); i++) {
-
-			int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
-			int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
-
-			if (firstPos >= secondPos) {
-				decimalPosInPinCode = firstPos - secondPos;
-			} else
-				decimalPosInPinCode = 16 - (secondPos - firstPos);
-			pinCode[j] = macCharacters[decimalPosInPinCode];
-			j++;
-			i += 2;
-		}
+//		int j = 0;
+//		for (int i = 0; i < macAddress.length(); i++) {
+//
+//			int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
+//			int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
+//
+//			if (firstPos >= secondPos) {
+//				decimalPosInPinCode = firstPos - secondPos;
+//			} else
+//				decimalPosInPinCode = 16 - (secondPos - firstPos);
+//			pinCode[j] = macCharacters[decimalPosInPinCode];
+//			j++;
+//			i += 2;
+//		}
+//		Random random = new Random();
+//		int randomNumber = random.nextInt(16);
+//		pinCode[j] = macCharacters[randomNumber];
+//		pinCode[j + 1] = randomOrderedMacCharacters[randomNumber];
+//		String stringPinCode = String.valueOf(pinCode);
 		Random random = new Random();
-		int randomNumber = random.nextInt(16);
-		pinCode[j] = macCharacters[randomNumber];
-		pinCode[j + 1] = randomOrderedMacCharacters[randomNumber];
-		String stringPinCode = String.valueOf(pinCode);
+		int randomNumber = random.nextInt(10);
+		stringPinCode = String.valueOf(randomNumber);
+		randomNumber = random.nextInt(10);
+		stringPinCode = stringPinCode+String.valueOf(randomNumber);
+		randomNumber = random.nextInt(10);
+		stringPinCode = stringPinCode+String.valueOf(randomNumber);
+		randomNumber = random.nextInt(10);
+		stringPinCode = stringPinCode+String.valueOf(randomNumber);
 		((TextView) activity.findViewById(R.id.PINCodeTxt)).setText(stringPinCode);
 	}
 
@@ -571,31 +581,46 @@ public class ServerBT {
 					// Send the obtained bytes to the UI Activity
 					else
 					{
-						if(LectStudentRegListController.studentPosInList(receivedMessage,LectStudentRegListController.students)!=-1)
+						String[] splited= receivedMessage.split("-");
+						String StudentId= splited[0];
+						if(splited[1].equals(stringPinCode))
 						{
-							studentIdentified = true;
-							setStudentId(receivedMessage);
-							mHandler.obtainMessage(Constants.MESSAGE_READ, bytes,
-									posInConnectedThreadList, buffer).sendToTarget();
-					 ////////////////
-					 
-					 
-					 //write successful connection  to the student
-					 
-					 
-					 ////////////////
+							if (LectStudentRegListController.studentPosInList(StudentId,LectStudentRegListController.students) != -1)
+							{
+								studentIdentified = true;
+								byte[] msg = toByteArray("You have autorized");
+								write(msg);
+								setStudentId(StudentId);
+								mHandler.obtainMessage(Constants.MESSAGE_READ,
+										bytes, posInConnectedThreadList, StudentId)
+										.sendToTarget();
+								// //////////////
+
+								// write successful connection to the student
+
+								// //////////////
+							} 
+							else {
+								byte[] msg = toByteArray("You have not registered to this course");
+								write(msg);
+
+//								cancel();////
+								mConnThreads.remove(posInConnectedThreadList);
+								lastPosInConnectedThreadList--;
+								connectedThread = null;
+								// connectedThread.destroy();
+
+							}
 						}
 						else
 						{
-			            byte [] msg = toByteArray("You have not registered to this course");
-			            write(msg);
-			            
-//			            cancel();
-			            mConnThreads.remove(posInConnectedThreadList);
-			            lastPosInConnectedThreadList--;
-			            connectedThread=null;
-//			            connectedThread.destroy();
-			            
+							byte[] msg = toByteArray("The PIN code is not correct");
+							write(msg);
+
+//							 cancel();/////
+							mConnThreads.remove(posInConnectedThreadList);
+							lastPosInConnectedThreadList--;
+							connectedThread = null;
 						}
 					}
 				} catch (IOException e) {

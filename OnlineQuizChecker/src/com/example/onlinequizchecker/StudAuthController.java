@@ -30,7 +30,7 @@ public class StudAuthController {
 
     private int decimalPosInPinCode;
     private ClientBT clientBT=null;
-    private CharSequence PINcode;
+    public static CharSequence PINcode;
     private CharSequence studentId;
     public static boolean loginsuccedded = false;
     private String applicationPath;
@@ -67,13 +67,13 @@ public class StudAuthController {
                     Toast.makeText(activity.getApplicationContext(), device.getName(),
                             Toast.LENGTH_SHORT).show();
                     String name = device.getName();
-                    if(deviceIsServer(device))
-                    {
+//                    if(deviceIsServer(device))
+//                    {
 //								mBluetoothAdapter.cancelDiscovery();
 //								maxDiscoveryIteration=0;
                       //  loginPressed=false;////////////////////////////////////////////////////////////////
                         clientBT.connect(device);
-                    }
+//                    }
                 }
                 if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
                 {
@@ -82,7 +82,9 @@ public class StudAuthController {
                         mBluetoothAdapter.cancelDiscovery();
                         maxDiscoveryIteration=0;
                         new StudLoginController(activity);
-                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
+//                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
+//                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity.getApplicationContext(), "The lecturer was not found",
                                 Toast.LENGTH_LONG).show();
                     }
                     else if(maxDiscoveryIteration>0) {
@@ -203,6 +205,13 @@ public class StudAuthController {
                     	new StudLoginController(activity);
                     	/////////////////////close the connection
                         Toast.makeText(activity.getApplicationContext(), "This id is already connected",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else if (readMessage.equals("The PIN code is not correct"))
+                    {
+                    	new StudLoginController(activity);
+                    	/////////////////////close the connection
+                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
                                 Toast.LENGTH_LONG).show();
                     }
                     break;

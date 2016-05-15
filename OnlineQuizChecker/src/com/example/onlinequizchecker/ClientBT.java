@@ -335,8 +335,8 @@ public class ClientBT {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
                 mmSocket.connect();
-                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
-                .sendToTarget();
+//                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+//                .sendToTarget();
             } catch (IOException e) {
 //                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
 //                    connectionFailed();
@@ -395,7 +395,7 @@ public class ClientBT {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
-            byte [] msg = toByteArray(studentId);
+            byte [] msg = toByteArray(studentId+"-"+StudAuthController.PINcode);
             write(msg);
         }
         
@@ -439,6 +439,18 @@ public class ClientBT {
                     
                     
                     if (receivedMessage.equals("You have not registered to this course")) {
+                        // Send the obtained bytes to the UI Activity
+                      mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
+                              .sendToTarget();
+//                      cancel();
+                      ClientBT.this.stop();
+					}
+                    else if (receivedMessage.equals("You have autorized")) {
+                        // Send the obtained bytes to the UI Activity
+                      mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+                      .sendToTarget();
+					}
+                    else if (receivedMessage.equals("The PIN code is not correct")) {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                               .sendToTarget();
