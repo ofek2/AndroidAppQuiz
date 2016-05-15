@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -26,6 +28,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.lect_studentregistrationview);
+		 if(new DeviceUtils().isDeviceRooted(getApplicationContext())){
+		        showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
+		    }
 		new MainController(this);
 		userClassification = "";
 		DropboxAuthRequest = false;
@@ -124,7 +129,26 @@ public class MainActivity extends Activity {
 			mBluetoothAdapter.startDiscovery();
 		}
 	}
+	
+	public void showAlertDialogAndExitApp(String message) {
 
+	    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+	    alertDialog.setTitle("Alert");
+	    alertDialog.setMessage(message);
+	    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+	            new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) {
+	                    dialog.dismiss();
+	                    Intent intent = new Intent(Intent.ACTION_MAIN);
+	                    intent.addCategory(Intent.CATEGORY_HOME);
+	                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	                    startActivity(intent);
+	                    finish();
+	                }
+	            });
+
+	    alertDialog.show();
+	}
 	public String getUserClassification() {
 		return userClassification;
 	}
