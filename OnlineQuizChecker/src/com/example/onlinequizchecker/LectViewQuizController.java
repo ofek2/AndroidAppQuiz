@@ -136,17 +136,17 @@ public class LectViewQuizController {
 		@JavascriptInterface
 		public void openDrawingBoard(final String formName)
 		{
-			Utils.runOnUiThread(new Runnable() {
-			     @Override
-			     public void run() {
-			    	 try {
-							new StudDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			     }
-			});
+//			Utils.runOnUiThread(new Runnable() {
+//			     @Override
+//			     public void run() {
+//			    	 try {
+//							new StudDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//			     }
+//			});
 			
 		}
 		

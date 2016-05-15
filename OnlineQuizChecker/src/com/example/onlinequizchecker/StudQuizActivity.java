@@ -225,19 +225,11 @@ public class StudQuizActivity{
 				Element studentDrawing = (Element)studentDrawings.item(0);
 				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
 				{
+					studentDrawing.removeChild(studentDrawing.getFirstChild());
 					Element img = studentQuiz.document.createElement("img");
 					img.setAttribute("src", "SDraw"+qNumber+".PNG");
 					studentDrawing.appendChild(img);
 				}
-				else
-				{
-					studentDrawing.removeChild(studentDrawing.getLastChild());
-					Element img = studentQuiz.document.createElement("img");
-					img.setAttribute("src", "SDraw"+qNumber+".PNG");
-					studentDrawing.appendChild(img);
-				}
-				
-				
 				studentQuiz.writeHtml(quizPath);
 				webView.loadUrl("file://" + quizPath);
 			} catch (FileNotFoundException | TransformerException e) {
