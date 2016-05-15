@@ -38,7 +38,7 @@ public class StudLoginController {
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		try {
-			activity.setContentView(R.layout.stud_loginview);
+			mainActivity.setContentView(R.layout.stud_loginview);
 			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block

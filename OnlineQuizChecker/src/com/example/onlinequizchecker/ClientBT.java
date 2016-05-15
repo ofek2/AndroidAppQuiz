@@ -395,7 +395,8 @@ public class ClientBT {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
-            byte [] msg = toByteArray(studentId+"-"+StudAuthController.PINcode);
+            String s = studentId.toString(); 	
+            byte [] msg = toByteArray(s+"-"+StudAuthController.PINcode);
             write(msg);
         }
         

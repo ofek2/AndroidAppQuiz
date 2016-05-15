@@ -196,21 +196,18 @@ public class StudAuthController {
                     if (readMessage.equals("You have not registered to this course"))
                     {
                     	new StudLoginController(activity);
-                    	/////////////////////close the connection
                         Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
                                 Toast.LENGTH_LONG).show();
                     }
                     else if (readMessage.equals("This id is already connected"))
                     {
                     	new StudLoginController(activity);
-                    	/////////////////////close the connection
                         Toast.makeText(activity.getApplicationContext(), "This id is already connected",
                                 Toast.LENGTH_LONG).show();
                     }
                     else if (readMessage.equals("The PIN code is not correct"))
                     {
                     	new StudLoginController(activity);
-                    	/////////////////////close the connection
                         Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
                                 Toast.LENGTH_LONG).show();
                     }
