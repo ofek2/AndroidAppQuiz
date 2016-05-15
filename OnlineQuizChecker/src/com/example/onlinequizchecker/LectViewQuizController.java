@@ -39,7 +39,7 @@ public class LectViewQuizController {
 		temp=this;
 		this.prevController1 = previousController;
 		this.activity = activity;
-		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
+		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); 
 		this.course = course;
 		this.quiz=quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);

@@ -44,7 +44,7 @@ public class StudQuizActivity{
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
 		this.activity = activity;
-		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
+		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);  
 		this.activity.setContentView(R.layout.stud_quizview);
 		this.quizPath = quizPath;
 		this.studentId = studentId;
