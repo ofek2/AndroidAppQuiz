@@ -314,8 +314,8 @@ public class ClientBT {
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
                 mAdapter.cancelDiscovery();//
                 StudAuthController.maxDiscoveryIteration=0;
-                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
-                        .sendToTarget();
+//                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+//                        .sendToTarget();
                 mmSocket = tmp;//
             } catch (IOException e) {
                 Log.e(TAG, "create() failed", e);
@@ -335,6 +335,8 @@ public class ClientBT {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
                 mmSocket.connect();
+                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+                .sendToTarget();
             } catch (IOException e) {
 //                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
 //                    connectionFailed();
