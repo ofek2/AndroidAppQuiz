@@ -313,8 +313,8 @@ public class ClientBT {
             // given BluetoothDevice
             try {
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
-                mAdapter.cancelDiscovery();//
-                StudAuthController.maxDiscoveryIteration=0;
+//                mAdapter.cancelDiscovery();//
+//                StudAuthController.maxDiscoveryIteration=0;
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                        .sendToTarget();
                 mmSocket = tmp;//
@@ -332,13 +332,21 @@ public class ClientBT {
 //            mAdapter.cancelDiscovery();
 
             // Make a connection to the BluetoothSocket
+//            int temp = 0;
             try {
                 // This is a blocking call and will only return on a
                 // successful connection or an exception
+//            	mAdapter.cancelDiscovery();
+//            	temp = StudAuthController.maxDiscoveryIteration;
+//                StudAuthController.maxDiscoveryIteration=0;
+                mAdapter.cancelDiscovery();
                 mmSocket.connect();
+                StudAuthController.maxDiscoveryIteration=0;
+//                mAdapter.cancelDiscovery();
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                .sendToTarget();
             } catch (IOException e) {
+//            	StudAuthController.maxDiscoveryIteration = temp;
 //                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
 //                    connectionFailed();
 //                }
