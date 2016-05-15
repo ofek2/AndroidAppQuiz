@@ -25,18 +25,12 @@ import java.util.UUID;
  */
 public class StudLoginController {
 	private MainActivity mainActivity;
-	private int maxUuid=1;
-	public static int maxDiscoveryIteration = 10;
 	public static boolean loginPressed = false;
 	BluetoothAdapter mBluetoothAdapter;
 	
 	BluetoothDevice bluetoothDevice;
 	
-    private char [] randomOrderedMacCharacters = {'0','A','6','7','C','D','8','9','E','4','1','5','F','3','2','B'};
-    private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     
-    private int decimalPosInPinCode;
-    private ClientBT clientBT=null;
 	private CharSequence PINcode;
 	private CharSequence studentId;
 	public static boolean loginsuccedded = false;
@@ -44,6 +38,7 @@ public class StudLoginController {
 	public StudLoginController(MainActivity activity) {
 		this.mainActivity = activity;
 		try {
+			activity.setContentView(R.layout.stud_loginview);
 			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block

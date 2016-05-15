@@ -39,7 +39,6 @@ public class MainController {
         @Override
         public void onClick(View v) {
 //            activity.setUserClassification("Student");
-            activity.setContentView(R.layout.stud_loginview);
             new StudLoginController(activity);
         }
     }

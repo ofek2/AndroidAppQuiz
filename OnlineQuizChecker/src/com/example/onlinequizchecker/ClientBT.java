@@ -165,6 +165,13 @@ public class ClientBT {
 //			j=7;
 			j=1;
 		}
+        ///////////////////////////////////////////////////
+        /////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////
+        
+        
+        
+        ////////////////////////////////////////////////////////
         else if (stage==2) {
 			i=7;
 			j=14;
@@ -306,7 +313,7 @@ public class ClientBT {
             try {
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
                 mAdapter.cancelDiscovery();//
-                StudLoginController.maxDiscoveryIteration=0;
+                StudAuthController.maxDiscoveryIteration=0;
                 mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
                         .sendToTarget();
                 mmSocket = tmp;//
