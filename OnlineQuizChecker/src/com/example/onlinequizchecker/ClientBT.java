@@ -307,6 +307,8 @@ public class ClientBT {
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
                 mAdapter.cancelDiscovery();//
                 StudLoginController.maxDiscoveryIteration=0;
+                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+                        .sendToTarget();
                 mmSocket = tmp;//
             } catch (IOException e) {
                 Log.e(TAG, "create() failed", e);
