@@ -15,6 +15,7 @@ import com.example.onlinequizchecker.StudQuizActivity.JavaScriptInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -38,6 +39,7 @@ public class LectViewQuizController {
 		temp=this;
 		this.prevController1 = previousController;
 		this.activity = activity;
+		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
 		this.course = course;
 		this.quiz=quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
@@ -161,7 +163,7 @@ public class LectViewQuizController {
 	{
 		@Override
 		public void onClick(View v) {
-		
+			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING); 
 			prevController1.retrieveView();
 		}
 		
@@ -170,7 +172,7 @@ public class LectViewQuizController {
 	{
 		@Override
 		public void onClick(View v) {
-		
+			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 			prevController2.retrieveView();
 		}
 		
