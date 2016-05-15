@@ -69,6 +69,7 @@ public class ClientBT {
     /**
      * Constructor. Prepares a new BluetoothChat session.
 //     * @param context  The UI Activity Context
+     * @param studentId 
      * @param mHandler 
      * @param mainActivity 
 //     * @param handler  A Handler to send messages back to the UI Activity
@@ -85,7 +86,7 @@ public class ClientBT {
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
         // 7 randomly-generated UUIDs. These must match on both server and client.
-        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
+        mUuids.add(UUID.fromString("b7746a40-c758-4868-aa80-7ac6b3475dfc"));
 //        mUuids.add(UUID.fromString("0000"+pincode+"-c758-4868-aa19-7ac6b3475dfc"));
 //        mUuids.add(UUID.fromString("0000"+pincode+"-5a2c-4511-a074-77f199fd0834"));
 //        mUuids.add(UUID.fromString("0000"+pincode+"-51f3-4a7b-91cb-f638491d1412"));
@@ -342,11 +343,11 @@ public class ClientBT {
 //                    connectionFailed();
 //                }
                 // Close the socket
-                try {
-                    mmSocket.close();
-                } catch (IOException e2) {
-                    Log.e(TAG, "unable to close() socket during connection failure", e2);
-                }
+//                try {
+//                    mmSocket.close();
+//                } catch (IOException e2) {
+//                    Log.e(TAG, "unable to close() socket during connection failure", e2);
+//                }
                 // Start the service over to restart listening mode
 //                ClientBT.this.start();
                 return;
@@ -395,7 +396,7 @@ public class ClientBT {
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
-            String s = studentId.toString(); 	
+            String s = studentId.toString();
             byte [] msg = toByteArray(s+"-"+StudAuthController.PINcode);
             write(msg);
         }

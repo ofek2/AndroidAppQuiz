@@ -160,7 +160,9 @@ public class MainActivity extends Activity {
 	public void setBlueToothReceiver(BroadcastReceiver blueToothReceiver) {
 		this.blueToothReceiver = blueToothReceiver;
 	}
-
+	public BroadcastReceiver getBlueToothReceiver() {
+		return blueToothReceiver;
+	}
 	public File getFilelist() {
 		return filelist;
 	}
