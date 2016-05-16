@@ -340,12 +340,16 @@ public class ClientBT {
 //            	temp = StudAuthController.maxDiscoveryIteration;
 //                StudAuthController.maxDiscoveryIteration=0;
 //                mAdapter.cancelDiscovery();
+              mHandler.obtainMessage(Constants.UNREGISTER_RECEIVER, 0, 0, null)
+              .sendToTarget();
                 mmSocket.connect();
                 StudAuthController.maxDiscoveryIteration=0;
                 mAdapter.cancelDiscovery();
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                .sendToTarget();
             } catch (IOException e) {
+                mHandler.obtainMessage(Constants.REGISTER_RECEIVER, 0, 0, null)
+                .sendToTarget();
 //            	StudAuthController.maxDiscoveryIteration = temp;
 //                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
 //                    connectionFailed();

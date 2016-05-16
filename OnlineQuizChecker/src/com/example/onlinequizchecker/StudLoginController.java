@@ -33,10 +33,11 @@ public class StudLoginController {
     
 	private CharSequence PINcode;
 	private CharSequence studentId;
-	public static boolean loginsuccedded = false;
+	public static boolean loginsuccedded;
 	private String applicationPath;
 	public StudLoginController(MainActivity activity) {
 		mainActivity = activity;
+		loginsuccedded = false;
 		try {
 			mainActivity.setContentView(R.layout.stud_loginview);
 			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();

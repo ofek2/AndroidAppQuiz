@@ -35,6 +35,7 @@ public class StudAuthController {
     public static boolean loginsuccedded;
     private String applicationPath;
     private TextView label;
+    private BroadcastReceiver mReceiver;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.setContentView(R.layout.stud_authorizationview);
@@ -54,7 +55,7 @@ public class StudAuthController {
     }
     public void startAuth()
     {
-        final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
 
                 String action = intent.getAction();
@@ -97,10 +98,10 @@ public class StudAuthController {
 //								bluetoothDevice.fetchUuidsWithSdp();
 
                     }
-//                    else
-//                    {
-//                    	maxDiscoveryIteration = 3;
-//                    }
+                    else
+                    {
+//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+                    }
 
                 }
             }
@@ -197,9 +198,9 @@ public class StudAuthController {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     if (readMessage.equals("You have not registered to this course"))
                     {
-                    	maxDiscoveryIteration=0;
-                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+//                    	maxDiscoveryIteration=0;
+//                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
@@ -207,9 +208,9 @@ public class StudAuthController {
                     }
                     else if (readMessage.equals("This id is already connected"))
                     {
-                    	maxDiscoveryIteration=0;
-                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+//                    	maxDiscoveryIteration=0;
+//                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "This id is already connected",
@@ -217,9 +218,9 @@ public class StudAuthController {
                     }
                     else if (readMessage.equals("The PIN code is not correct"))
                     {
-                    	maxDiscoveryIteration=0;
-                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+//                    	maxDiscoveryIteration=0;
+//                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
@@ -235,6 +236,17 @@ public class StudAuthController {
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
+                    break;
+                case Constants.UNREGISTER_RECEIVER:
+                	activity.unregisterReceiver(mReceiver);
+                    break;
+                case Constants.REGISTER_RECEIVER:
+                    IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                    IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+                    IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
+                    activity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+                    activity.registerReceiver(mReceiver, actionUuid);
+                    activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
                     break;
             }
         }

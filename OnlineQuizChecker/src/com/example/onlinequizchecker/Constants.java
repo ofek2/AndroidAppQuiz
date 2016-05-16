@@ -49,5 +49,9 @@ public interface Constants {
     
     //Motion sensor command
     public static final String MOVING= "Moving";
+
+	public static final int UNREGISTER_RECEIVER = 10;
+
+	public static final int REGISTER_RECEIVER = 11;
     
 }
