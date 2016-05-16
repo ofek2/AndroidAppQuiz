@@ -19,7 +19,7 @@ import java.io.IOException;
 public class StudAuthController {
     private MainActivity activity;
     private int maxUuid=1;
-    public static int maxDiscoveryIteration = 3;
+    public static int maxDiscoveryIteration;
     //public static boolean loginPressed = false;
     BluetoothAdapter mBluetoothAdapter;
 
@@ -32,7 +32,7 @@ public class StudAuthController {
     private ClientBT clientBT=null;
     public static CharSequence PINcode;
     public CharSequence studentId;
-    public static boolean loginsuccedded = false;
+    public static boolean loginsuccedded;
     private String applicationPath;
     private TextView label;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
@@ -40,6 +40,8 @@ public class StudAuthController {
         this.activity.setContentView(R.layout.stud_authorizationview);
         this.PINcode = PINcode;
         this.studentId = studentId;
+        maxDiscoveryIteration = 3;
+        loginsuccedded = false;
         label = (TextView)activity.findViewById(R.id.waitingLbl);
         try {
             applicationPath = activity.getApplicationContext().getFilesDir().getCanonicalPath();
@@ -79,10 +81,10 @@ public class StudAuthController {
                 {
                     if(maxDiscoveryIteration == 1)
                     {
+                    	maxDiscoveryIteration=0;
                         mBluetoothAdapter.cancelDiscovery();
-                        maxDiscoveryIteration=0;
                     	activity.unregisterReceiver(activity.getBlueToothReceiver());
-                    	loginsuccedded = false;
+//                    	loginsuccedded = false;
                         new StudLoginController(activity);
 //                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
 //                                Toast.LENGTH_LONG).show();
@@ -94,13 +96,11 @@ public class StudAuthController {
                         maxDiscoveryIteration--;
 //								bluetoothDevice.fetchUuidsWithSdp();
 
-
-
-
                     }
-                    else
-                    {
-                    }
+//                    else
+//                    {
+//                    	maxDiscoveryIteration = 3;
+//                    }
 
                 }
             }
@@ -197,24 +197,30 @@ public class StudAuthController {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     if (readMessage.equals("You have not registered to this course"))
                     {
+                    	maxDiscoveryIteration=0;
+                        mBluetoothAdapter.cancelDiscovery();
                     	activity.unregisterReceiver(activity.getBlueToothReceiver());
-                    	loginsuccedded = false;
+//                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
                                 Toast.LENGTH_LONG).show();
                     }
                     else if (readMessage.equals("This id is already connected"))
                     {
+                    	maxDiscoveryIteration=0;
+                        mBluetoothAdapter.cancelDiscovery();
                     	activity.unregisterReceiver(activity.getBlueToothReceiver());
-                    	loginsuccedded = false;
+//                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "This id is already connected",
                                 Toast.LENGTH_LONG).show();
                     }
                     else if (readMessage.equals("The PIN code is not correct"))
                     {
+                    	maxDiscoveryIteration=0;
+                        mBluetoothAdapter.cancelDiscovery();
                     	activity.unregisterReceiver(activity.getBlueToothReceiver());
-                    	loginsuccedded = false;
+//                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
                                 Toast.LENGTH_LONG).show();
