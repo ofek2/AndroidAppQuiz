@@ -38,76 +38,14 @@ public class LectStudentRegListController extends ListActivity {
 		this.course = course;
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_studentreglist);
-		listview = (ListView) activity.findViewById(R.id.studentListView);
+		listview = (ListView) this.activity.findViewById(R.id.studentListView);
 		initView();
-		serverBT = new ServerBT(activity,new LectMessageHandler());/////////////////////////////
-		PINCODE =((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
+		serverBT = new ServerBT(this.activity,new LectMessageHandler());/////////////////////////////
+		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
 
 
 	}
-
-	private final Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-//            FragmentActivity activity = getActivity();
-            switch (msg.what) {
-//                case Constants.MESSAGE_STATE_CHANGE:
-//                    switch (msg.arg1) {
-//                        case BluetoothChatService.STATE_CONNECTED:
-//                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-//                            mConversationArrayAdapter.clear();
-//                            break;
-//                        case BluetoothChatService.STATE_CONNECTING:
-//                            setStatus(R.string.title_connecting);
-//                            break;
-//                        case BluetoothChatService.STATE_LISTEN:
-//                        case BluetoothChatService.STATE_NONE:
-//                            setStatus(R.string.title_not_connected);
-//                            break;
-//                    }
-//                    break;
-//                case Constants.MESSAGE_WRITE:
-//                    byte[] writeBuf = (byte[]) msg.obj;
-//                    // construct a string from the buffer
-//                    String writeMessage = new String(writeBuf);
-//                    mConversationArrayAdapter.add("Me:  " + writeMessage);
-//                    break;
-                case Constants.MESSAGE_READ:
-
-					if (msg.arg2==-1)
-						markPosInFinishList(studentPosInList((String)msg.obj,LectQuizInitiationController.studentsInClass));
-					else {
-//						byte[] readBuf = (byte[]) msg.obj;
-//						// construct a string from the valid bytes in the buffer
-//						String readMessage = new String(readBuf, 0, msg.arg1);
-						String readMessage = (String)msg.obj;
-//                    int pos = Integer.parseInt((Character.toString((char) readBuf[0])));
-						if(!receivePos(studentPosInList(readMessage,students)))
-						{
-				            byte [] sendMsg = toByteArray("This id is already connected");
-							serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
-						}
-					}
-//                    mConversationArrayAdapter.add(mConnectedDeviceName + ":  " + readMessage);
-                    break;
-//                case Constants.MESSAGE_DEVICE_NAME:
-//                    // save the connected device's name
-//                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-//                    if (null != activity) {
-//                        Toast.makeText(activity, "Connected to "
-//                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-//                    }
-//                    break;
-//                case Constants.MESSAGE_TOAST:
-//                    if (null != activity) {
-//                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                    break;
-            }
-        }
-    };
 
 	
 	
