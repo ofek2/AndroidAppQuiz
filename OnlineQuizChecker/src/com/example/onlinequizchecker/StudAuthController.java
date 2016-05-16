@@ -97,6 +97,7 @@ public class StudAuthController {
                                 Toast.LENGTH_LONG).show();
                     }
                     else if(maxDiscoveryIteration>0) {
+                    	mBluetoothAdapter.cancelDiscovery();
                     	for (int i = 0; i < scanDevices.size(); i++) {
                     		if (maxDiscoveryIteration!=0) {
                     			clientBT.connect(scanDevices.get(i));
@@ -107,16 +108,20 @@ public class StudAuthController {
                     	if(maxDiscoveryIteration!=0)
                     	{
                     		scanDevices = new ArrayList<BluetoothDevice>();
-                    		mBluetoothAdapter.startDiscovery();
+                    		if (!mBluetoothAdapter.isDiscovering()) {
+                    			mBluetoothAdapter.startDiscovery();
+							}                   		
                     		maxDiscoveryIteration--;
                     	}
+//                    	else
+//                    		mBluetoothAdapter.cancelDiscovery();
 //								bluetoothDevice.fetchUuidsWithSdp();
 
                     }
-                    else
-                    {
+//                    else
+//                    {
 //                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
-                    }
+//                    }
 
                 }
             }
