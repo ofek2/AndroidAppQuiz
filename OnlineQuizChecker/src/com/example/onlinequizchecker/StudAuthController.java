@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by 311573943 on 15/05/2016.
  */
-public class StudAuthController {
+public class StudAuthController{
     private MainActivity activity;
     private int maxUuid=1;
     public static int maxDiscoveryIteration;

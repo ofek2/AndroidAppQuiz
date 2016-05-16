@@ -71,7 +71,7 @@ public class StudQuizActivity{
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
-		initMotionSensor();
+//		initMotionSensor();
 		
 		
 		loadQuiz();
@@ -88,7 +88,7 @@ public class StudQuizActivity{
 			);
 		ttobj.setSpeechRate(0.9f);
 	}
-	@SuppressLint("NewApi")
+//	@SuppressLint("NewApi")
 	private void initMotionSensor() {
 		
 		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
