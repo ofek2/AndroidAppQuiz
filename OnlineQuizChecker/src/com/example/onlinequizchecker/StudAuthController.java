@@ -97,7 +97,9 @@ public class StudAuthController {
                                 Toast.LENGTH_LONG).show();
                     }
                     else if(maxDiscoveryIteration>0) {
-                    	mBluetoothAdapter.cancelDiscovery();
+                    	if (mBluetoothAdapter.isDiscovering()) {
+                    		mBluetoothAdapter.cancelDiscovery();
+						}              	
                     	for (int i = 0; i < scanDevices.size(); i++) {
                     		if (maxDiscoveryIteration!=0) {
                     			clientBT.connect(scanDevices.get(i));
