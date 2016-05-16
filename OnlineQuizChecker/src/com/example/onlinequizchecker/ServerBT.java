@@ -504,6 +504,12 @@ public class ServerBT {
 					if(studentIdentified)
 					{
                     	String[] splited= receivedMessage.split("-");
+                    	
+                    	if(splited[0].equals(Constants.MOVING)) //If in quiz time, a student is trying to get out of class with his phone
+                    	{
+                    		mHandler.obtainMessage(Constants.MOTION_SENSOR_TRIGGERED, 0,
+    								0, splited[1]).sendToTarget();
+                    	}
                     	String fileSize = splited[0];
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
 
@@ -524,16 +530,6 @@ public class ServerBT {
                     		if(bIndex==Integer.valueOf(fileSize))
                     			break;
                     	}
-//                    	String zipFile = quizPath+quizName+".zip";
-
-//                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    	ZipOutputStream zos = new ZipOutputStream(baos);
-//                    	ZipEntry entry = new ZipEntry(zipFile);
-//                    	entry.setSize(readFile.length);
-//                    	zos.putNextEntry(entry);
-//                    	zos.write(readFile);
-//                    	zos.closeEntry();
-//                    	zos.close();
                     	
                     	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));

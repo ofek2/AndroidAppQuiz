@@ -30,7 +30,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static ArrayList<String> students;
 	private Button quizSelectionBtn;
 	private Button backBtn;
-	
+	private ArrayAdapter<String> adapter;
 	private CharSequence PINCODE;
 	
 	public LectStudentRegListController(MainActivity activity,String course) {
@@ -40,7 +40,7 @@ public class LectStudentRegListController extends ListActivity {
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) activity.findViewById(R.id.studentListView);
 		initView();
-		serverBT = new ServerBT(activity,mHandler);/////////////////////////////
+		serverBT = new ServerBT(activity,new LectMessageHandler(serverBT));/////////////////////////////
 		PINCODE =((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
 
@@ -108,7 +108,7 @@ public class LectStudentRegListController extends ListActivity {
             }
         }
     };
-	private ArrayAdapter<String> adapter;
+
 	
 	
     private byte[] toByteArray(CharSequence charSequence) {
@@ -244,7 +244,7 @@ public class LectStudentRegListController extends ListActivity {
 		
 	}
 	
-	private boolean receivePos(int pos)
+	public static boolean receivePos(int pos)
 	{
 		if(!listview.isItemChecked(pos)){
 			listview.setItemChecked(pos, true);

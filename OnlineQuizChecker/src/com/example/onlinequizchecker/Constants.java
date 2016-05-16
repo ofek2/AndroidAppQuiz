@@ -34,7 +34,8 @@ public interface Constants {
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
     public static final int QUIZ_INITIATION = 6;
-    public static final int STUDENT_AUTHORIZED= 7;
+    public static final int STUDENT_AUTHORIZED = 7;
+    public static final int MOTION_SENSOR_TRIGGERED = 8;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -45,4 +46,8 @@ public interface Constants {
     public static final String SINGLE_CHOICE= "Single Choice";
     public static final String FREE_TEXT= "Free Text";
     public static final String FREE_DRAW= "Free Draw";
+    
+    //Motion sensor command
+    public static final String MOVING= "Moving";
+    
 }

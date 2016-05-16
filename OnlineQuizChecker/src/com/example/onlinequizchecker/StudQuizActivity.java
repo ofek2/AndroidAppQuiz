@@ -98,7 +98,7 @@ public class StudQuizActivity{
 		    @Override
 		    public void onTrigger(TriggerEvent event) {
 		        // Do work
-		    	String message = "Moving-"+studentId;
+		    	String message = Constants.MOVING+"-"+studentId;
 		    	byte[] buffer = toByteArray(message);
 		    	showAlertDialog("Please return to your sit!");
 		    	clientBT.mConnectedThread.write(buffer);
