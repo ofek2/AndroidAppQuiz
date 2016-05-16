@@ -103,6 +103,12 @@ public class StudAuthController {
                     	for (int i = 0; i < scanDevices.size(); i++) {
                     		if (maxDiscoveryIteration!=0) {
                     			clientBT.connect(scanDevices.get(i));
+                    			try {
+									clientBT.mConnectThread.join();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
                     		else
                     			break;

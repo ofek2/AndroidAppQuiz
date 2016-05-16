@@ -37,7 +37,7 @@ public class ClientBT {
     private final BluetoothAdapter mAdapter;
     private final Handler mHandler;
 //    private AcceptThread mAcceptThread;
-    private ConnectThread mConnectThread;
+    public ConnectThread mConnectThread;
     public static ConnectedThread mConnectedThread;
     public static String quizPathToZip;
     private int mState;
@@ -159,13 +159,13 @@ public class ClientBT {
         if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
 
         // Create a new thread and attempt to connect to each UUID one-by-one.
-        int i;
-        int j = 0;
-        if (stage==1) {
-			i=0;
-//			j=7;
-			j=1;
-		}
+//        int i;
+//        int j = 0;
+//        if (stage==1) {
+//			i=0;
+////			j=7;
+//			j=1;
+//		}
         ///////////////////////////////////////////////////
         /////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////
@@ -173,23 +173,23 @@ public class ClientBT {
         
         
         ////////////////////////////////////////////////////////
-        else if (stage==2) {
-			i=7;
-			j=14;
-		}
-        for (i = 0; i < j; i++) {
+//        else if (stage==2) {
+//			i=7;
+//			j=14;
+//		}
+//        for (i = 0; i < j; i++) {
             try {
-            	if(found==false)
-            	{
-					mConnectThread = new ConnectThread(device, mUuids.get(i));
+//            	if(found==false)
+//            	{
+					mConnectThread = new ConnectThread(device, mUuids.get(0));
 					mConnectThread.start();
 					setState(STATE_CONNECTING);
-				}
-            	else
-            		break;
+//				}
+//            	else
+//            		break;
             } catch (Exception e) {
             }
-        }
+//        }
         
 //        if(stage==1&&found==true)
 //        {
@@ -299,7 +299,7 @@ public class ClientBT {
      * with a device. It runs straight through; the connection either
      * succeeds or fails.
      */
-    private class ConnectThread extends Thread {
+    class ConnectThread extends Thread {
         private BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
         private UUID tempUuid;
@@ -342,12 +342,15 @@ public class ClientBT {
 //                mAdapter.cancelDiscovery();
                 mmSocket.connect();
                 StudAuthController.maxDiscoveryIteration=0;
+//                notify();
+                
 //                mAdapter.cancelDiscovery();
 //              mHandler.obtainMessage(Constants.UNREGISTER_RECEIVER, 0, 0, null)
 //              .sendToTarget();
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                .sendToTarget();
             } catch (IOException e) {
+//            	notify();
 //            	StudAuthController.maxDiscoveryIteration = temp;
 //                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
 //                    connectionFailed();
