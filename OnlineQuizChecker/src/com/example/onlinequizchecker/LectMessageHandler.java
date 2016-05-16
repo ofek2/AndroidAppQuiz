@@ -9,11 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 
 public class LectMessageHandler extends Handler{
-	private ServerBT serverBT;
-	public LectMessageHandler(ServerBT serverBT)
+	public LectMessageHandler()
 	{
 		super();
-		this.serverBT = serverBT;
 	}
 	@Override
     public void handleMessage(Message msg) {
@@ -31,7 +29,7 @@ public class LectMessageHandler extends Handler{
 					if(!LectStudentRegListController.receivePos(studentPosInList(readMessage,LectStudentRegListController.students)))
 					{
 			            byte [] sendMsg = toByteArray("This id is already connected");
-						serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
+						LectStudentRegListController.serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
 					}
 				}
 

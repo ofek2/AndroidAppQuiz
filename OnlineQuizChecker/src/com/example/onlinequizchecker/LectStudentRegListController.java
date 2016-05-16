@@ -40,7 +40,7 @@ public class LectStudentRegListController extends ListActivity {
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) activity.findViewById(R.id.studentListView);
 		initView();
-		serverBT = new ServerBT(activity,new LectMessageHandler(serverBT));/////////////////////////////
+		serverBT = new ServerBT(activity,new LectMessageHandler());/////////////////////////////
 		PINCODE =((TextView) activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
 
