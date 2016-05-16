@@ -491,16 +491,7 @@ public class ServerBT {
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
 					String receivedMessage = new String(buffer, 0, bytes);
-//					String studentId = new String(buffer, 0, bytes);
-					
-					////////////////////////////////////////
-					/////check if the student is not in the list
-					////////////////////////////////////////
-					
-					
-//					int pos = Integer.parseInt((Character.toString((char) buffer[0])));
-//					LectStudentRegListController.receivePos(pos);
-					
+
 					if(studentIdentified)
 					{
                     	String[] splited= receivedMessage.split("-");
@@ -510,26 +501,28 @@ public class ServerBT {
                     		mHandler.obtainMessage(Constants.MOTION_SENSOR_TRIGGERED, 0,
     								0, splited[1]).sendToTarget();
                     	}
-                    	String fileSize = splited[0];
-                    	byte[] readFile = new byte[Integer.valueOf(fileSize)];
+                    	else
+                    	{
+                    		String fileSize = splited[0];
+                    		byte[] readFile = new byte[Integer.valueOf(fileSize)];
 
 
-                    	int byteStartIndex = String.valueOf(fileSize).length()+1;
-                    	int bIndex = 0;
-                    	for (int i = byteStartIndex; i < bytes; i++) {
-							readFile[bIndex] = buffer[i];
-							bIndex++;
-						}
-                    	buffer = new byte[1024];
-                    	while ((bytes = mmInStream.read(buffer)) > -1) {                   		
-                    		for (int i = 0; i < bytes; i++) {
-								readFile[bIndex] = buffer[i];
-								bIndex++;
-							}
+                    		int byteStartIndex = String.valueOf(fileSize).length()+1;
+                    		int bIndex = 0;
+                    		for (int i = byteStartIndex; i < bytes; i++) {
+                    			readFile[bIndex] = buffer[i];
+                    			bIndex++;
+                    		}
                     		buffer = new byte[1024];
-                    		if(bIndex==Integer.valueOf(fileSize))
-                    			break;
-                    	}
+                    		while ((bytes = mmInStream.read(buffer)) > -1) {                   		
+                    			for (int i = 0; i < bytes; i++) {
+                    				readFile[bIndex] = buffer[i];
+                    				bIndex++;
+                    			}
+                    			buffer = new byte[1024];
+                    			if(bIndex==Integer.valueOf(fileSize))
+                    				break;
+                    		}	
                     	
                     	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
@@ -560,19 +553,7 @@ public class ServerBT {
 						String str = getStudentId();
                     	mHandler.obtainMessage(Constants.MESSAGE_READ, -1,
 								-1, str).sendToTarget();
-//  //////////////                  	new UploadFolderDB().execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
-//                	    ZipOutputStream fileOuputStream = 
-//                                new ZipOutputStream(zipFile); 
-//                	    fileOuputStream.write(readFile);
-//                	    fileOuputStream.close();
-                    	
-//                    	File file = new File(zipFile);
-//                    	if(file.exists())
-//                    	{
-//                    		;
-//                    	}
-//                    	zipFileManager.unZipIt(zipFile, quizPath);
-						
+                    	}
 					}
 					// Send the obtained bytes to the UI Activity
 					else
