@@ -53,5 +53,7 @@ public interface Constants {
 	public static final int UNREGISTER_RECEIVER = 10;
 
 	public static final int REGISTER_RECEIVER = 11;
+
+	public static final int SHIT = 12;
     
 }

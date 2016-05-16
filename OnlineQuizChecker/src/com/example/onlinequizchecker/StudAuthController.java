@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by 311573943 on 15/05/2016.
@@ -36,11 +37,13 @@ public class StudAuthController {
     private String applicationPath;
     private TextView label;
     private BroadcastReceiver mReceiver;
+    private ArrayList<BluetoothDevice> scanDevices;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.setContentView(R.layout.stud_authorizationview);
         this.PINcode = PINcode;
         this.studentId = studentId;
+        this.scanDevices = new ArrayList<BluetoothDevice>();
         maxDiscoveryIteration = 3;
         loginsuccedded = false;
         label = (TextView)activity.findViewById(R.id.waitingLbl);
@@ -75,7 +78,8 @@ public class StudAuthController {
 //								mBluetoothAdapter.cancelDiscovery();
 //								maxDiscoveryIteration=0;
                         StudLoginController.loginPressed=false;////////////////////////////////////////////////////////////////
-                        clientBT.connect(device);
+                        scanDevices.add(device);
+//                        clientBT.connect(device);
 //                    }
                 }
                 if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
@@ -93,8 +97,19 @@ public class StudAuthController {
                                 Toast.LENGTH_LONG).show();
                     }
                     else if(maxDiscoveryIteration>0) {
-                        mBluetoothAdapter.startDiscovery();
-                        maxDiscoveryIteration--;
+                    	for (int i = 0; i < scanDevices.size(); i++) {
+                    		if (maxDiscoveryIteration!=0) {
+                    			clientBT.connect(scanDevices.get(i));
+							}
+                    		else
+                    			break;
+						}
+                    	if(maxDiscoveryIteration!=0)
+                    	{
+                    		scanDevices = new ArrayList<BluetoothDevice>();
+                    		mBluetoothAdapter.startDiscovery();
+                    		maxDiscoveryIteration--;
+                    	}
 //								bluetoothDevice.fetchUuidsWithSdp();
 
                     }
@@ -200,7 +215,7 @@ public class StudAuthController {
                     {
 //                    	maxDiscoveryIteration=0;
 //                        mBluetoothAdapter.cancelDiscovery();
-//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+                    	activity.unregisterReceiver(mReceiver);
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
@@ -210,7 +225,7 @@ public class StudAuthController {
                     {
 //                    	maxDiscoveryIteration=0;
 //                        mBluetoothAdapter.cancelDiscovery();
-//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+                    	activity.unregisterReceiver(mReceiver);
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "This id is already connected",
@@ -220,7 +235,7 @@ public class StudAuthController {
                     {
 //                    	maxDiscoveryIteration=0;
 //                        mBluetoothAdapter.cancelDiscovery();
-//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+                    	activity.unregisterReceiver(mReceiver);
 //                    	loginsuccedded = false;
                     	new StudLoginController(activity);
                         Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
@@ -237,17 +252,17 @@ public class StudAuthController {
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
                     break;
-                case Constants.UNREGISTER_RECEIVER:
-                	activity.unregisterReceiver(mReceiver);
-                    break;
-                case Constants.REGISTER_RECEIVER:
-                    IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                    IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-                    IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
-                    activity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
-                    activity.registerReceiver(mReceiver, actionUuid);
-                    activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
-                    break;
+//                case Constants.UNREGISTER_RECEIVER:
+//                	activity.unregisterReceiver(mReceiver);
+//                    break;
+//                case Constants.REGISTER_RECEIVER:
+//                    IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//                    IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+//                    IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
+//                    activity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+//                    activity.registerReceiver(mReceiver, actionUuid);
+//                    activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
+//                    break;
             }
         }
     };
