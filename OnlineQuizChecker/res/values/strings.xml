@@ -22,4 +22,6 @@
 	 <color name="text_primary">#0D47A1</color>
 	 <color name="text_secondary">#263238</color>
 	 <color name="ripple_color">#29B6F6</color>
+	 <color name="student_moving">#EF5350</color> 
+	 
 </resources>
