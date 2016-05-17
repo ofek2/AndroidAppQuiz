@@ -342,6 +342,7 @@ public class ClientBT {
 //                mAdapter.cancelDiscovery();
                 mmSocket.connect();
                 StudAuthController.maxDiscoveryIteration=0;
+                mAdapter.cancelDiscovery();
 //                notify();
                 
 //                mAdapter.cancelDiscovery();

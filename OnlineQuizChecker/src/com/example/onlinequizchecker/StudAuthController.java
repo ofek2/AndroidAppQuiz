@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by 311573943 on 15/05/2016.
  */
-public class StudAuthController{
+public class StudAuthController extends Thread{
     private MainActivity activity;
     private int maxUuid=1;
     public static int maxDiscoveryIteration;
@@ -40,7 +40,7 @@ public class StudAuthController{
     private ArrayList<BluetoothDevice> scanDevices;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
-        this.activity.setContentView(R.layout.stud_authorizationview);
+//        this.activity.setContentView(R.layout.stud_authorizationview);
         this.PINcode = PINcode;
         this.studentId = studentId;
         this.scanDevices = new ArrayList<BluetoothDevice>();
@@ -54,9 +54,9 @@ public class StudAuthController{
             e1.printStackTrace();
         }
 
-        startAuth();
+//        startAuth();
     }
-    public void startAuth()
+    public void run()
     {
         mReceiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
@@ -78,8 +78,15 @@ public class StudAuthController{
 //								mBluetoothAdapter.cancelDiscovery();
 //								maxDiscoveryIteration=0;
                         StudLoginController.loginPressed=false;////////////////////////////////////////////////////////////////
-                        scanDevices.add(device);
-//                        clientBT.connect(device);
+//                        scanDevices.add(device);
+                        
+                        clientBT.connect(device);
+                        try {
+							clientBT.mConnectThread.join();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 //                    }
                 }
                 if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
@@ -97,30 +104,30 @@ public class StudAuthController{
                                 Toast.LENGTH_LONG).show();
                     }
                     else if(maxDiscoveryIteration>0) {
-                    	if (mBluetoothAdapter.isDiscovering()) {
-                    		mBluetoothAdapter.cancelDiscovery();
-						}              	
-                    	for (int i = 0; i < scanDevices.size(); i++) {
-                    		if (maxDiscoveryIteration!=0) {
-                    			clientBT.connect(scanDevices.get(i));
-                    			try {
-									clientBT.mConnectThread.join();
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-                    		else
-                    			break;
-						}
-                    	if(maxDiscoveryIteration!=0)
-                    	{
-                    		scanDevices = new ArrayList<BluetoothDevice>();
+//                    	if (mBluetoothAdapter.isDiscovering()) {
+//                    		mBluetoothAdapter.cancelDiscovery();
+//						}              	
+//                    	for (int i = 0; i < scanDevices.size(); i++) {
+//                    		if (maxDiscoveryIteration!=0) {
+//                    			clientBT.connect(scanDevices.get(i));
+//                    			try {
+//									clientBT.mConnectThread.join();
+//								} catch (InterruptedException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//							}
+//                    		else
+//                    			break;
+//						}
+//                    	if(maxDiscoveryIteration!=0)
+//                    	{
+//                    		scanDevices = new ArrayList<BluetoothDevice>();
                     		if (!mBluetoothAdapter.isDiscovering()) {
                     			mBluetoothAdapter.startDiscovery();
 							}                   		
                     		maxDiscoveryIteration--;
-                    	}
+//                    	}
 //                    	else
 //                    		mBluetoothAdapter.cancelDiscovery();
 //								bluetoothDevice.fetchUuidsWithSdp();
