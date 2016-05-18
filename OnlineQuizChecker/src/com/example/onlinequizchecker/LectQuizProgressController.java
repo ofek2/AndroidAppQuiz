@@ -68,9 +68,18 @@ public class LectQuizProgressController {
                 toast.show();
             } else {
                 listView.setItemChecked(position, false);
-                Toast toast = Toast.makeText(activity.getApplicationContext(), (String) parent.getItemAtPosition(position)  + " hasn't finished yet",
+                if(listView.getChildAt(position).getDrawingCacheBackgroundColor()== Constants.STUDENT_IS_MOVING_COLOR)
+                {
+                	// Do something to enable the moving student's quiz.
+                	listView.getChildAt(position).setBackgroundColor(0);
+                	listView.getChildAt(position).setDrawingCacheBackgroundColor(0);
+                }
+                else
+                {
+                	Toast toast = Toast.makeText(activity.getApplicationContext(), (String) parent.getItemAtPosition(position)  + " hasn't finished yet",
                         Toast.LENGTH_SHORT);
-                toast.show();
+                	toast.show();
+                }
             }
 
         }

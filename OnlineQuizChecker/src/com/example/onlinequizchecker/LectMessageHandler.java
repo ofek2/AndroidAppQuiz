@@ -68,8 +68,8 @@ public class LectMessageHandler extends Handler{
 	}
     private void markMovingStudentInFinishList(int pos)
     {
-    	LectQuizProgressController.listView.getChildAt(pos).setBackgroundColor(Color.argb(180, 220, 0, 0));
-    	LectQuizProgressController.listView.getChildAt(pos).setDrawingCacheBackgroundColor(Color.argb(208, 220, 0, 0));
+    	LectQuizProgressController.listView.getChildAt(pos).setBackgroundColor(Constants.STUDENT_IS_MOVING_COLOR);
+    	LectQuizProgressController.listView.getChildAt(pos).setDrawingCacheBackgroundColor(Constants.STUDENT_IS_MOVING_COLOR);
     	
     }
     
