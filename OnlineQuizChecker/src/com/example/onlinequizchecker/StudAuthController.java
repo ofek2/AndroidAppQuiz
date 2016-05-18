@@ -37,14 +37,18 @@ public class StudAuthController extends Thread{
     private String applicationPath;
     private TextView label;
     private BroadcastReceiver mReceiver;
-    private ArrayList<BluetoothDevice> scanDevices;
+    public static ArrayList<BluetoothDevice> scanDevices;
+    public static boolean lecturerFound;
+    public static boolean currentlyCheckingDevice;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
 //        this.activity.setContentView(R.layout.stud_authorizationview);
         this.PINcode = PINcode;
         this.studentId = studentId;
         this.scanDevices = new ArrayList<BluetoothDevice>();
-        maxDiscoveryIteration = 3;
+        lecturerFound = false;
+        currentlyCheckingDevice = false;
+//        maxDiscoveryIteration = 3;
         loginsuccedded = false;
         label = (TextView)activity.findViewById(R.id.waitingLbl);
         try {
@@ -77,33 +81,42 @@ public class StudAuthController extends Thread{
 //                    {
 //								mBluetoothAdapter.cancelDiscovery();
 //								maxDiscoveryIteration=0;
-                        StudLoginController.loginPressed=false;////////////////////////////////////////////////////////////////
+                    StudLoginController.loginPressed = false;////////////////////////////////////////////////////////////////
 //                        scanDevices.add(device);
-                        
+                    if (!isFound(device))
                         clientBT.connect(device);
-                        try {
-							clientBT.mConnectThread.join();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//                        try {
+//							clientBT.mConnectThread.join();
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 //                    }
                 }
-                if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
-                {
-                    if(maxDiscoveryIteration == 1)
-                    {
-                    	maxDiscoveryIteration=0;
-                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
+                if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+//                    if(maxDiscoveryIteration == 1)
+//                    {
+//                    	maxDiscoveryIteration=0;
+//                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
 //                    	loginsuccedded = false;
+                    if(currentlyCheckingDevice&&!lecturerFound) {
+                        mBluetoothAdapter.startDiscovery();
+                        currentlyCheckingDevice = false;
+                    }
+                   else if(!lecturerFound) {
+                        if (mBluetoothAdapter.isDiscovering()) {
+                            mBluetoothAdapter.cancelDiscovery();
+                        }
+                        activity.unregisterReceiver(activity.getBlueToothReceiver());
                         new StudLoginController(activity);
 //                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
 //                                Toast.LENGTH_LONG).show();
                         Toast.makeText(activity.getApplicationContext(), "The lecturer was not found",
                                 Toast.LENGTH_LONG).show();
                     }
-                    else if(maxDiscoveryIteration>0) {
+//                    }
+//                    else if(maxDiscoveryIteration>0) {
 //                    	if (mBluetoothAdapter.isDiscovering()) {
 //                    		mBluetoothAdapter.cancelDiscovery();
 //						}              	
@@ -123,57 +136,57 @@ public class StudAuthController extends Thread{
 //                    	if(maxDiscoveryIteration!=0)
 //                    	{
 //                    		scanDevices = new ArrayList<BluetoothDevice>();
-                    		if (!mBluetoothAdapter.isDiscovering()) {
-                    			mBluetoothAdapter.startDiscovery();
-							}                   		
-                    		maxDiscoveryIteration--;
+//                    		if (!mBluetoothAdapter.isDiscovering()) {
+//                    			mBluetoothAdapter.startDiscovery();
+//							}
+//                    		maxDiscoveryIteration--;
 //                    	}
 //                    	else
 //                    		mBluetoothAdapter.cancelDiscovery();
 //								bluetoothDevice.fetchUuidsWithSdp();
 
-                    }
+//                    }
 //                    else
 //                    {
 //                    	activity.unregisterReceiver(activity.getBlueToothReceiver());
 //                    }
-
+//
+//                }
                 }
             }
 
 
-
-            private boolean deviceIsServer(BluetoothDevice device)
-            {
-                char [] pinCode = new char[8];
-                String macAddress = device.getAddress();
-                int j = 0;
-                if(PINcode.length()==8) {
-                    for (int i = 0; i < macAddress.length(); i++) {
-
-                        int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
-                        int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
-
-                        if (firstPos >= secondPos) {
-                            decimalPosInPinCode = firstPos - secondPos;
-                        } else
-                            decimalPosInPinCode = 16 - (secondPos - firstPos);
-                        pinCode[j] = macCharacters[decimalPosInPinCode];
-                        j++;
-                        i += 2;
-                    }
-                    pinCode[j] = macCharacters[findInArray(PINcode.charAt(7), randomOrderedMacCharacters)];
-                    pinCode[j + 1] = PINcode.charAt(7);
-                    for (int i = 0; i < pinCode.length; i++) {
-                        if (pinCode[i] != PINcode.charAt(i)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-                else
-                return false;
-            }
+//            private boolean deviceIsServer(BluetoothDevice device)
+//            {
+//                char [] pinCode = new char[8];
+//                String macAddress = device.getAddress();
+//                int j = 0;
+//                if(PINcode.length()==8) {
+//                    for (int i = 0; i < macAddress.length(); i++) {
+//
+//                        int firstPos = findInArray(macAddress.charAt(i), randomOrderedMacCharacters);
+//                        int secondPos = findInArray(macAddress.charAt(i + 1), randomOrderedMacCharacters);
+//
+//                        if (firstPos >= secondPos) {
+//                            decimalPosInPinCode = firstPos - secondPos;
+//                        } else
+//                            decimalPosInPinCode = 16 - (secondPos - firstPos);
+//                        pinCode[j] = macCharacters[decimalPosInPinCode];
+//                        j++;
+//                        i += 2;
+//                    }
+//                    pinCode[j] = macCharacters[findInArray(PINcode.charAt(7), randomOrderedMacCharacters)];
+//                    pinCode[j + 1] = PINcode.charAt(7);
+//                    for (int i = 0; i < pinCode.length; i++) {
+//                        if (pinCode[i] != PINcode.charAt(i)) {
+//                            return false;
+//                        }
+//                    }
+//                    return true;
+//                }
+//                else
+//                return false;
+//            }
             private int findInArray(char ch,char [] array)
             {
                 for (int i = 0; i < array.length; i++) {
@@ -286,4 +299,11 @@ public class StudAuthController extends Thread{
             }
         }
     };
+    private boolean isFound(BluetoothDevice bluetoothDevice)
+    {
+        for (int i=0;i<scanDevices.size();i++)
+            if(scanDevices.get(i).getAddress().equals(bluetoothDevice.getAddress()))
+                return true;
+        return  false;
+    }
 }

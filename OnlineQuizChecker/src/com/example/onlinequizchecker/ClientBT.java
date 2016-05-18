@@ -38,7 +38,7 @@ public class ClientBT {
     private final Handler mHandler;
 //    private AcceptThread mAcceptThread;
     public ConnectThread mConnectThread;
-    public static ConnectedThread mConnectedThread;
+    public ConnectedThread mConnectedThread;
     public static String quizPathToZip;
     private int mState;
 
@@ -182,7 +182,7 @@ public class ClientBT {
 //            	if(found==false)
 //            	{
 					mConnectThread = new ConnectThread(device, mUuids.get(0));
-					mConnectThread.start();
+//					mConnectThread.start();
 					setState(STATE_CONNECTING);
 //				}
 //            	else
@@ -299,7 +299,8 @@ public class ClientBT {
      * with a device. It runs straight through; the connection either
      * succeeds or fails.
      */
-    class ConnectThread extends Thread {
+    class ConnectThread {
+//            extends Thread {
         private BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
         private UUID tempUuid;
@@ -312,69 +313,82 @@ public class ClientBT {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
+
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
 //                mAdapter.cancelDiscovery();//
 //                StudAuthController.maxDiscoveryIteration=0;
 //                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
 //                        .sendToTarget();
-                mmSocket = tmp;//
+
+                    mmSocket = tmp;//
+                StudAuthController.currentlyCheckingDevice = true;
+                mAdapter.cancelDiscovery();
+                mmSocket.connect();
+                StudAuthController.lecturerFound=true;
+//                mAdapter.cancelDiscovery();
+                    connected(mmSocket, mmDevice);
+
             } catch (IOException e) {
-                Log.e(TAG, "create() failed", e);
+                StudAuthController.scanDevices.add(mmDevice);
+//                StudAuthController.currentlyCheckingDevice = false;
+//                mAdapter.startDiscovery();
+//                Log.e(TAG, "create() failed", e);
             }
 //            mmSocket = tmp;
         }
-
-        public void run() {
-            Log.i(TAG, "BEGIN mConnectThread");
-            setName("ConnectThread");
-
-            // Always cancel discovery because it will slow down a connection
-//            mAdapter.cancelDiscovery();
-
-            // Make a connection to the BluetoothSocket
-//            int temp = 0;
-            try {
-                // This is a blocking call and will only return on a
-                // successful connection or an exception
-//            	mAdapter.cancelDiscovery();
-//            	temp = StudAuthController.maxDiscoveryIteration;
+//
+//        public void run() {
+//            Log.i(TAG, "BEGIN mConnectThread");
+//            setName("ConnectThread");
+//
+//            // Always cancel discovery because it will slow down a connection
+////            mAdapter.cancelDiscovery();
+//
+//            // Make a connection to the BluetoothSocket
+////            int temp = 0;
+//            try {
+//                // This is a blocking call and will only return on a
+//                // successful connection or an exception
+////            	mAdapter.cancelDiscovery();
+////            	temp = StudAuthController.maxDiscoveryIteration;
+////                StudAuthController.maxDiscoveryIteration=0;
+////                mAdapter.cancelDiscovery();
+//                synchronized (this){
+//                mmSocket.connect();}
 //                StudAuthController.maxDiscoveryIteration=0;
 //                mAdapter.cancelDiscovery();
-                mmSocket.connect();
-                StudAuthController.maxDiscoveryIteration=0;
-                mAdapter.cancelDiscovery();
-//                notify();
-                
-//                mAdapter.cancelDiscovery();
-//              mHandler.obtainMessage(Constants.UNREGISTER_RECEIVER, 0, 0, null)
-//              .sendToTarget();
-//                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
-//                .sendToTarget();
-            } catch (IOException e) {
-//            	notify();
-//            	StudAuthController.maxDiscoveryIteration = temp;
-//                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
-//                    connectionFailed();
-//                }
-                // Close the socket
-//                try {
-//                    mmSocket.close();
-//                } catch (IOException e2) {
-//                    Log.e(TAG, "unable to close() socket during connection failure", e2);
-//                }
-                // Start the service over to restart listening mode
-//                ClientBT.this.start();
-                return;
-            }
-
-            // Reset the ConnectThread because we're done
-//            synchronized (BluetoothChatService.this) {
-//                mConnectThread = null;
+////                notify();
+//
+////                mAdapter.cancelDiscovery();
+////              mHandler.obtainMessage(Constants.UNREGISTER_RECEIVER, 0, 0, null)
+////              .sendToTarget();
+////                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+////                .sendToTarget();
+//            } catch (IOException e) {
+////            	notify();
+////            	StudAuthController.maxDiscoveryIteration = temp;
+////                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
+////                    connectionFailed();
+////                }
+//                // Close the socket
+////                try {
+////                    mmSocket.close();
+////                } catch (IOException e2) {
+////                    Log.e(TAG, "unable to close() socket during connection failure", e2);
+////                }
+//                // Start the service over to restart listening mode
+////                ClientBT.this.start();
+//                return;
 //            }
-
-            // Start the connected thread
-            connected(mmSocket, mmDevice);
-        }
+//
+//            // Reset the ConnectThread because we're done
+////            synchronized (BluetoothChatService.this) {
+////                mConnectThread = null;
+////            }
+//
+//            // Start the connected thread
+//            connected(mmSocket, mmDevice);
+//        }
 
         public void cancel() {
             try {

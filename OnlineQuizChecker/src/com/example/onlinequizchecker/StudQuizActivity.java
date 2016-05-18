@@ -72,7 +72,7 @@ public class StudQuizActivity{
 		
 		initTextToSpeech();
 //		initMotionSensor();
-		
+		new SensorMotion(this.activity,clientBT,studentId);
 		
 		loadQuiz();
 	}
@@ -88,25 +88,25 @@ public class StudQuizActivity{
 			);
 		ttobj.setSpeechRate(0.9f);
 	}
-//	@SuppressLint("NewApi")
+	@SuppressLint("NewApi")
 	private void initMotionSensor() {
 		
 		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION);
+		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
-		mTriggerEventListener = new TriggerEventListener() {
-		    @Override
-		    public void onTrigger(TriggerEvent event) {
-		        // Do work
-		    	String message = Constants.MOVING+"-"+studentId;
-		    	byte[] buffer = toByteArray(message);
-		    	showAlertDialog("Please return to your sit!");
-		    	clientBT.mConnectedThread.write(buffer);
-		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
-		    }
-		};
-
-		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+//		mTriggerEventListener = new TriggerEventListener() {
+//		    @Override
+//		    public void onTrigger(TriggerEvent event) {
+//		        // Do work
+//		    	String message = Constants.MOVING+"-"+studentId;
+//		    	byte[] buffer = toByteArray(message);
+//		    	showAlertDialog("Please return to your sit!");
+//		    	clientBT.mConnectedThread.write(buffer);
+//		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+//		    }
+//		};
+//
+//		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
 	}
 	  private byte[] toByteArray(CharSequence charSequence) {
           if (charSequence == null) {
