@@ -51,6 +51,8 @@ public class SensorMotion implements SensorEventListener {
         // The light sensor returns a single value.
         // Many sensors return 3 values, one for each axis.
         stepCount++;
+        Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
+                Toast.LENGTH_SHORT).show();
 //        Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
 //                Toast.LENGTH_LONG).show();
         // Do something with this sensor value.
@@ -66,7 +68,23 @@ public class SensorMotion implements SensorEventListener {
         @Override
         public void onTick(long millisUntilFinished) {
             // TODO Auto-generated method stub
-            if (stepCount>2)
+//            if (stepCount>2)
+//            {
+//                String message = Constants.MOVING+"-"+studentId;
+//		    	byte[] buffer = toByteArray(message);
+////		    	showAlertDialog("Please return to your sit!");
+//		    	clientBT.mConnectedThread.write(buffer);
+//                stepCount = 0;
+//            }
+        }
+
+        @Override
+        public void onFinish() {
+            // TODO Auto-generated method stub
+            // timeLeftText.setText("Completed.");
+        	Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
+                    Toast.LENGTH_SHORT).show();
+            if (stepCount>7)
             {
                 String message = Constants.MOVING+"-"+studentId;
 		    	byte[] buffer = toByteArray(message);
@@ -74,15 +92,9 @@ public class SensorMotion implements SensorEventListener {
 		    	clientBT.mConnectedThread.write(buffer);
                 stepCount = 0;
             }
-        }
-
-        @Override
-        public void onFinish() {
-            // TODO Auto-generated method stub
-            // timeLeftText.setText("Completed.");
-            Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
-                    Toast.LENGTH_SHORT).show();
-            stepCount = 0;
+//            Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
+//                    Toast.LENGTH_SHORT).show();
+//            stepCount = 0;
             timer.start();
 
         }
