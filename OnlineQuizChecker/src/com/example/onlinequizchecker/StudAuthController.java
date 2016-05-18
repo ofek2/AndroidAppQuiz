@@ -42,7 +42,7 @@ public class StudAuthController extends Thread{
     public static boolean currentlyCheckingDevice;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
-        
+        this.activity.hideKeyboard();
 //        this.activity.setContentView(R.layout.stud_authorizationview);
         this.PINcode = PINcode;
         this.studentId = studentId;

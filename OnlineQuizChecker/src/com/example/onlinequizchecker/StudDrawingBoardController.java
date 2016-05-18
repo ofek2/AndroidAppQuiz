@@ -24,6 +24,7 @@ public class StudDrawingBoardController {
 
        this.activity=activity;
        this.activity.setContentView(R.layout.stud_drawingboardview);
+       this.activity.hideKeyboard();
        this.previousController = previousController;
        this.questionNumber = questionNumber;
        this.coursePath = coursePath;

@@ -36,6 +36,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StudQuizActivity{
 	private MainActivity activity;
@@ -48,10 +49,10 @@ public class StudQuizActivity{
 	private String applicationPath;
 	private ClientBT clientBT;
 	private TextToSpeech ttobj;
-	
-	private SensorManager mSensorManager;
-	private Sensor mSensor;
-	private TriggerEventListener mTriggerEventListener;
+	private SensorMotion sensorMotion;
+//	private SensorManager mSensorManager;
+//	private Sensor mSensor;
+//	private TriggerEventListener mTriggerEventListener;
 	
 	public StudQuizActivity(MainActivity activity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
@@ -72,7 +73,7 @@ public class StudQuizActivity{
 		
 		initTextToSpeech();
 //		initMotionSensor();
-		new SensorMotion(this.activity,clientBT,studentId);
+		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
 		
 		loadQuiz();
 	}
@@ -88,26 +89,26 @@ public class StudQuizActivity{
 			);
 		ttobj.setSpeechRate(0.9f);
 	}
-	@SuppressLint("NewApi")
-	private void initMotionSensor() {
-		
-		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-
-//		mTriggerEventListener = new TriggerEventListener() {
-//		    @Override
-//		    public void onTrigger(TriggerEvent event) {
-//		        // Do work
-//		    	String message = Constants.MOVING+"-"+studentId;
-//		    	byte[] buffer = toByteArray(message);
-//		    	showAlertDialog("Please return to your sit!");
-//		    	clientBT.mConnectedThread.write(buffer);
-//		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
-//		    }
-//		};
+//	@SuppressLint("NewApi")
+//	private void initMotionSensor() {
+//		
+//		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
+//		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 //
-//		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
-	}
+////		mTriggerEventListener = new TriggerEventListener() {
+////		    @Override
+////		    public void onTrigger(TriggerEvent event) {
+////		        // Do work
+////		    	String message = Constants.MOVING+"-"+studentId;
+////		    	byte[] buffer = toByteArray(message);
+////		    	showAlertDialog("Please return to your sit!");
+////		    	clientBT.mConnectedThread.write(buffer);
+////		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+////		    }
+////		};
+////
+////		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+//	}
 	  private byte[] toByteArray(CharSequence charSequence) {
           if (charSequence == null) {
             return null;
@@ -264,7 +265,8 @@ public class StudQuizActivity{
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
-			// timeLeftText.setText("Completed.");
+
+			submitQuizAndExit();
 		}
 
 	}
@@ -312,48 +314,58 @@ public class StudQuizActivity{
 	class submitBtnListener implements View.OnClickListener
 	{
 		@Override
-		public void onClick(View v) {		
-			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
-			FileInputStream fileInputStream=null;
-	        
-	        File file = new File(applicationPath+"/"+studentId+".zip");
-			boolean shit = file.exists();
-	        int fileSize = (int) file.length();
-	        byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
-	        
-	            //convert file into array of bytes
-	        byte[] readFile = new byte[fileSize];
-            //convert file into array of bytes
-			try {
-				fileInputStream = new FileInputStream(file);
-				fileInputStream.read(readFile);
-				fileInputStream.close();
-				file.delete();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// fileInputStream.read(bFile);
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		public void onClick(View v) {
+			//////////////////
+			//Show some dialog here /////******************************//////////
+			//////////////////
 			
-		    int bIndex=0;
-		    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
-				bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
-				bIndex++;
-			}
-		    bFile[bIndex] = (byte)'-';
-		    bIndex++;
-		    for (int l = 0; l < fileSize; l++) {
-				bFile[bIndex] = readFile[l];
-				bIndex++;
-			}
-		    
-		    clientBT.mConnectedThread.write(bFile);
-		
+			submitQuizAndExit();
 		}
+	}
+	private void submitQuizAndExit()
+	{
+		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
+		FileInputStream fileInputStream=null;
+        
+        File file = new File(applicationPath+"/"+studentId+".zip");
+        int fileSize = (int) file.length();
+        byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
+        
+            //convert file into array of bytes
+        byte[] readFile = new byte[fileSize];
+        //convert file into array of bytes
+		try {
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(readFile);
+			fileInputStream.close();
+			file.delete();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// fileInputStream.read(bFile);
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	    int bIndex=0;
+	    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
+			bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
+			bIndex++;
+		}
+	    bFile[bIndex] = (byte)'-';
+	    bIndex++;
+	    for (int l = 0; l < fileSize; l++) {
+			bFile[bIndex] = readFile[l];
+			bIndex++;
+		}
+	    
+	    clientBT.mConnectedThread.write(bFile);
+	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+                Toast.LENGTH_LONG).show();
+	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
+	    new MainController(activity);
 	}
 
 }

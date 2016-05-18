@@ -36,6 +36,7 @@ public class LectQuizSelectionController {
 		this.activity = activity;
 		this.previousController = previousController;
 		this.activity.setContentView(R.layout.lect_quizselectionview);
+		this.activity.hideKeyboard();
 		chooseQuizBtn = (Button)this.activity.findViewById(R.id.chooseQuizBtn);
 		chooseQuizBtn.setOnClickListener(new chooseQuizBtnListener());
 		viewQuizBtn = (Button)this.activity.findViewById(R.id.viewQuizBtn);

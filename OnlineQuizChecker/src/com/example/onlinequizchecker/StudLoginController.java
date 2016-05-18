@@ -39,6 +39,7 @@ public class StudLoginController {
 	private Button backBtn;
 	public StudLoginController(MainActivity activity) {
 		mainActivity = activity;
+		mainActivity.hideKeyboard();
 		loginsuccedded = false;
 		try {
 			mainActivity.setContentView(R.layout.stud_loginview);

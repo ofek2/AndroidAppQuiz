@@ -108,7 +108,10 @@ public class SensorMotion implements SensorEventListener {
 
         alertDialog.show();
     }
-
+    public SensorManager getSensorManager()
+    {
+    	return mSensorManager;
+    }
 //        mSensorManager.unregisterListener(this);
 
 }
