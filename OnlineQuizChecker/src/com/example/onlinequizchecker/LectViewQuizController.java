@@ -44,7 +44,7 @@ public class LectViewQuizController {
 		this.quiz=quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
-		this.back = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
+		this.back = (Button)this.activity.findViewById(R.id.backBtnLectViewQuiz);
 		this.selectedIndex = selectedIndex;
 		back.setOnClickListener(new backBtnQuizSelectionListener());
 		loadQuiz(course,quiz);
@@ -58,7 +58,7 @@ public class LectViewQuizController {
 		this.quiz=quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
-		this.back = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
+		this.back = (Button)this.activity.findViewById(R.id.backBtnLectViewQuiz);
 		back.setOnClickListener(new backBtnQuizProgressListener());
 		loadQuiz(course,quiz);
 	}
@@ -180,7 +180,7 @@ public class LectViewQuizController {
 	public void updateQuizAfterDrawing(String qNumber)
 	{
 		activity.setContentView(R.layout.lect_viewquiz);
-		back = (Button)activity.findViewById(R.id.backBtnQuizInit);
+		back = (Button)activity.findViewById(R.id.backBtnLectViewQuiz);
 		webView = (WebView) activity.findViewById(R.id.webView);
 		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
 		WebSettings settings = webView.getSettings();

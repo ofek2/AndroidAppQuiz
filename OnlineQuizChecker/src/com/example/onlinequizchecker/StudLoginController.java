@@ -12,6 +12,7 @@ import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class StudLoginController {
 	private CharSequence studentId;
 	public static boolean loginsuccedded;
 	private String applicationPath;
+	private Button backBtn;
 	public StudLoginController(MainActivity activity) {
 		mainActivity = activity;
 		loginsuccedded = false;
@@ -45,6 +47,8 @@ public class StudLoginController {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		backBtn =(Button) mainActivity.findViewById(R.id.backBtnStudLogin);
+		backBtn.setOnClickListener(new backBtnListener());
 		((Button)mainActivity.findViewById(R.id.loginBtn)).setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -67,6 +71,16 @@ public class StudLoginController {
 
 			}
 		});
+	}
+	
+	class backBtnListener implements View.OnClickListener
+	{
+
+		@Override
+		public void onClick(View v) {
+			new MainController(mainActivity);
+		}
+		
 	}
 
 }

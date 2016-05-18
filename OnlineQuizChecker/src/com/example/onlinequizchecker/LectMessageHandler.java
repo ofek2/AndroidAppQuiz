@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.example.onlinequizchecker.R.color;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 
@@ -67,7 +68,9 @@ public class LectMessageHandler extends Handler{
 	}
     private void markMovingStudentInFinishList(int pos)
     {
-    	LectQuizProgressController.listView.getChildAt(pos).setBackgroundColor(color.student_moving);
+    	LectQuizProgressController.listView.getChildAt(pos).setBackgroundColor(Color.argb(180, 220, 0, 0));
+    	LectQuizProgressController.listView.getChildAt(pos).setDrawingCacheBackgroundColor(Color.argb(208, 220, 0, 0));
+    	
     }
     
 	

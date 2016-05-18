@@ -13,7 +13,7 @@ public class MainController {
     private MainActivity activity;
     public MainController(MainActivity activity){
         this.activity=activity;
-
+        this.activity.setUserClassification("");
         this.activity.setContentView(R.layout.main_view);
         this.activity.setDidDbxAuth(false);
         lecturerBtn = (Button) activity.findViewById(R.id.lecturerBtn);

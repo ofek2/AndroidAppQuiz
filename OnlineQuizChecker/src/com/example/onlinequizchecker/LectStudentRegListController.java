@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
+import com.example.onlinequizchecker.R.color;
 
 import android.app.ListActivity;
 import android.graphics.Color;
