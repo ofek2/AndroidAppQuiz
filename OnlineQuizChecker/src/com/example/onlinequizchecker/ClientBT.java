@@ -60,6 +60,8 @@ public class ClientBT {
 	private CharSequence studentId;
 	private String applicationPath;
 	private MainActivity mainActivity;
+	private BluetoothDevice lecturerDevice;
+	private UUID lecturerDeviceUuid;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -286,7 +288,11 @@ public class ClientBT {
                 0, null).sendToTarget();
         if (mConnectedThread != null)
         {
-            mConnectedThread = null;
+        	mConnectedThread = null;
+        	if(StudQuizActivity.submited==false)
+        		while(mConnectedThread==null)
+        			mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
+//            mConnectedThread = null;
         }
         // Send a failure message back to the Activity
 //        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
@@ -330,9 +336,12 @@ public class ClientBT {
                 mmSocket.connect();
                 StudAuthController.lecturerFound=true;
 //                mAdapter.cancelDiscovery();
+                lecturerDevice = mmDevice;
+                lecturerDeviceUuid = uuidToTry;
                     connected(mmSocket, mmDevice);
 
             } catch (IOException e) {
+            	if(!StudAuthController.lecturerFound)
                 StudAuthController.scanDevices.add(mmDevice);
 //                StudAuthController.currentlyCheckingDevice = false;
 //                mAdapter.startDiscovery();

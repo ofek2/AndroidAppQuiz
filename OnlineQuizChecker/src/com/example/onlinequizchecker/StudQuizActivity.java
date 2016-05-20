@@ -328,6 +328,8 @@ public class StudQuizActivity{
 	}
 	private void submitQuizAndExit()
 	{
+		if(clientBT.mConnectedThread!=null)
+		{
 		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
 		FileInputStream fileInputStream=null;
         
@@ -374,6 +376,9 @@ public class StudQuizActivity{
 //		bluetoothAdapter.disable();
 //
 //	    new MainController(activity);
+		}
+		else
+			zipProtectedFile.createZipFile(activity.zipFilesPassword, applicationPath+"/"+studentId+".zip", ClientBT.quizPathToZip);
 	}
 
 }

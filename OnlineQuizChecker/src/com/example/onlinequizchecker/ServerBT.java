@@ -264,7 +264,7 @@ public class ServerBT {
 		// Add each connected thread to an array
 //		if (mConnThreads.get(uuidPos) == null)
 //			mConnThreads.add(uuidPos, mConnectedThread);
-		mConnThreads.add(lastPosInConnectedThreadList,mConnectedThread);
+		mConnThreads.add(mConnectedThread);
 		lastPosInConnectedThreadList++;
 //		else {
 //			mConnThreads.remove(uuidPos);
@@ -599,7 +599,7 @@ public class ServerBT {
 //					Log.e(TAG, "disconnected", e);
 //					connectionLost();
 					if (connectedThread != null)
-					{mConnThreads.remove(connectedThread); connectedThread = null;}
+					{mConnThreads.remove(connectedThread); connectedThread = null;ServerBT.this.lastPosInConnectedThreadList--;}
 					mHandler.obtainMessage(Constants.CANCEL_MARK,
 							0, 0, getStudentId())
 							.sendToTarget();
