@@ -296,7 +296,7 @@ public class StudAuthController extends Thread{
                             Toast.LENGTH_LONG).show();
 
 //                    clientBT.stop();
-                    BluetoothAdapter.getDefaultAdapter().disable();
+//                    BluetoothAdapter.getDefaultAdapter().disable();
 
                     new MainController(activity);
                     break;
