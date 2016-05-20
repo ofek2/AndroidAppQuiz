@@ -365,7 +365,8 @@ public class StudQuizActivity{
 			bIndex++;
 		}
 	    submited = true;
-	    clientBT.mConnectedThread.write(bFile);
+	    if(clientBT.mConnectedThread!=null)
+	    	clientBT.mConnectedThread.write(bFile);
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
 	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
