@@ -284,8 +284,8 @@ public class ClientBT {
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-        mHandler.obtainMessage(Constants.CONNECTION_LOST, 0,
-                0, null).sendToTarget();
+//        mHandler.obtainMessage(Constants.CONNECTION_LOST, 0,
+//                0, null).sendToTarget();
         if (mConnectedThread != null)
         {
         	mConnectedThread = null;
