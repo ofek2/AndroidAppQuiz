@@ -25,7 +25,8 @@ public class MainActivity extends Activity {
 	private BroadcastReceiver blueToothReceiver = null;
 	private File filelist;
 	private boolean DropboxAuthRequest;
-
+	
+	public static String zipFilesPassword;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

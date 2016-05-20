@@ -77,40 +77,42 @@ public class LectQuizInitiationController {
 			new LectQuizProgressController(activity);
 
 			try {
-				String zipFile = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
+				String destinationZipFilePath = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 						quiz + "/Form/" + quiz+".zip";
-		        String srcDir = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
+		        String directoryToBeZipped = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 		        		quiz + "/Form";     
-				byte[] buffer = new byte[1024];
-				FileOutputStream fos = new FileOutputStream(zipFile);
-				ZipOutputStream zos = new ZipOutputStream(fos);
-				File dir = new File(srcDir);
-				File[] files = dir.listFiles();
-				for (int i = 0; i < files.length; i++) {
-					if (files[i].getName().equals(quiz+".html")||
-							files[i].getName().startsWith("Question"))
-						{
-						System.out.println("Adding file: " + files[i].getName());
-						FileInputStream fis = new FileInputStream(files[i]);
-						// begin writing a new ZIP entry, positions the stream to
-						// the start of the entry data
-						zos.putNextEntry(new ZipEntry(files[i].getName()));
-						int length;
-						while ((length = fis.read(buffer)) > -1) {
-							zos.write(buffer, 0, length);
-						}
-						zos.closeEntry();
-						// close the InputStream
-						fis.close();
-						}
-
-				}
-				// close the ZipOutputStream
-				zos.close();
+//				byte[] buffer = new byte[1024];
+//				FileOutputStream fos = new FileOutputStream(zipFile);
+//				ZipOutputStream zos = new ZipOutputStream(fos);
+//				File dir = new File(srcDir);
+//				File[] files = dir.listFiles();
+//				for (int i = 0; i < files.length; i++) {
+//					if (files[i].getName().equals(quiz+".html")||
+//							files[i].getName().startsWith("Question"))
+//						{
+//						System.out.println("Adding file: " + files[i].getName());
+//						FileInputStream fis = new FileInputStream(files[i]);
+//						// begin writing a new ZIP entry, positions the stream to
+//						// the start of the entry data
+//						zos.putNextEntry(new ZipEntry(files[i].getName()));
+//						int length;
+//						while ((length = fis.read(buffer)) > -1) {
+//							zos.write(buffer, 0, length);
+//						}
+//						zos.closeEntry();
+//						// close the InputStream
+//						fis.close();
+//						}
+//
+//				}
+//				// close the ZipOutputStream
+//				zos.close();
 				
+		        zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, quiz, destinationZipFilePath, directoryToBeZipped);
+		        
 		    	FileInputStream fileInputStream=null;
 		    	String time = String.valueOf(quizPeriod);
-		        File file = new File(zipFile);
+		        File file = new File(destinationZipFilePath);
 		        int fileSize = (int) file.length();		       
 		        byte[] bFile = new byte[fileSize+
 		                                String.valueOf(fileSize).length()+
