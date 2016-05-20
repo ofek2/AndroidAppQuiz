@@ -42,7 +42,7 @@ public class ServerBT {
 	// Member fields
 	private final BluetoothAdapter mAdapter;
 	 private final Handler mHandler;
-	private ArrayList<AcceptThread> mAcceptThreads;
+	private AcceptThread mAcceptThread = null;
 	// private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
 	private int mState;
@@ -58,7 +58,7 @@ public class ServerBT {
 	 * incoming connections server listens for all 7 UUIDs. When trying to form
 	 * an outgoing connection, the client tries each UUID one at a time.
 	 */
-	private ArrayList<UUID> mUuids;
+	private UUID mUuid;
 
 	// Constants that indicate the current connection state
 	public static final int STATE_NONE = 0; // we're doing nothing
@@ -121,16 +121,10 @@ public class ServerBT {
 		mState = STATE_NONE;
 		 this.mHandler = mHandler;
 		mDeviceAddresses = new ArrayList<String>();
-		mConnThreads = new ArrayList<ConnectedThread>(maxUuid);
-		mAcceptThreads = new ArrayList<AcceptThread>(maxUuid);
-		for (int i = 0; i < maxUuid; i++) {
-			mAcceptThreads.add(null);
-		}
+		mConnThreads = new ArrayList<ConnectedThread>();
 		mSockets = new ArrayList<BluetoothSocket>();
-		mUuids = new ArrayList<UUID>();
-		// 7 randomly-generated UUIDs. These must match on both server and
-		// client.
-		mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
+
+		mUuid = UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc");
 		// mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
 		// mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
 		// mUuids.add(UUID.fromString("a81d6504-4536-49ee-a475-7d96d09439e4"));
@@ -143,7 +137,7 @@ public class ServerBT {
 //		String macAddress = mAdapter.getAddress();
 		String macAddress = android.provider.Settings.Secure.getString(activity.getApplicationContext().getContentResolver(), "bluetooth_address");
 		
-		Toast.makeText(activity.getApplicationContext(), macAddress, Toast.LENGTH_SHORT).show();
+//		Toast.makeText(activity.getApplicationContext(), macAddress, Toast.LENGTH_SHORT).show();
 //		int j = 0;
 //		for (int i = 0; i < macAddress.length(); i++) {
 //
@@ -222,19 +216,17 @@ public class ServerBT {
 		// = null;}
 
 		// Cancel any thread currently running a connection
-		if (mConnectedThread != null) {
-			mConnectedThread.cancel();
-			mConnectedThread = null;
-		}
-
-		// Start the thread to listen on a BluetoothServerSocket
-		for (int i = 0; i < maxUuid; i++) {
-			if (mAcceptThreads.get(i) == null) {
-				mAcceptThreads.remove(i);
-				mAcceptThreads.add(i, new AcceptThread(i));
-				mAcceptThreads.get(i).start();
+		for (int i=0;i<mConnThreads.size();i++) {
+			if (mConnThreads.get(i) != null) {
+				mConnThreads.get(i).cancel();
+				mConnThreads.remove(i);
 			}
 		}
+		// Start the thread to listen on a BluetoothServerSocket
+			if (mAcceptThread == null) {
+				mAcceptThread = new AcceptThread();
+				mAcceptThread.start();
+			}
 
 		setState(STATE_LISTEN);
 	}
@@ -300,18 +292,20 @@ public class ServerBT {
 			Log.d(TAG, "stop");
 		// if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread
 		// = null;}
-		if (mConnectedThread != null) {
-			mConnectedThread.cancel();
-			mConnectedThread = null;
-		}
-		/////////////////////// if (mAcceptThread != null)
-		/////////////////////// {mAcceptThread.cancel(); mAcceptThread = null;}
-		for (int i = 0; i < maxUuid; i++) {
-			if (mAcceptThreads.get(i) != null) {
-				mAcceptThreads.get(i).cancel();
-				mAcceptThreads.remove(i);
+		for (int i=0;i<mConnThreads.size();i++) {
+			if (mConnThreads.get(i) != null) {
+				mConnThreads.get(i).cancel();
+				mConnThreads.remove(i);
 			}
+			else
+				mConnThreads.remove(i);
 		}
+
+		 if (mAcceptThread != null)
+		 {mAcceptThread.cancel(); mAcceptThread = null;}
+
+
+
 		setState(STATE_NONE);
 	}
 
@@ -385,7 +379,7 @@ public class ServerBT {
 		BluetoothServerSocket serverSocket = null;
 		private int uuidPos;
 
-		public AcceptThread(int uuidPos) {
+		public AcceptThread() {
 			this.uuidPos = uuidPos;
 		}
 
@@ -400,11 +394,11 @@ public class ServerBT {
 				// Toast.makeText(activity.getApplicationContext(), "shit1",
 				// Toast.LENGTH_SHORT).show();
 				// listView.setItemChecked(1,true);
-				serverSocket = mAdapter.listenUsingInsecureRfcommWithServiceRecord(NAME, mUuids.get(uuidPos));
+				serverSocket = mAdapter.listenUsingInsecureRfcommWithServiceRecord(NAME, mUuid);
 //				 listView.setItemChecked(1,true);
 				// Toast.makeText(activity.getApplicationContext(), "shit2",
 				// Toast.LENGTH_SHORT).show();
-				while(true){
+				while(true&&serverSocket!=null){
 				socket = serverSocket.accept();
 				if (socket != null) {
 					String address = socket.getRemoteDevice().getAddress();
@@ -417,7 +411,7 @@ public class ServerBT {
 				// }
 			} catch (IOException e) {
 				// listView.setItemChecked(3,true);
-				Log.e(TAG, "accept() failed", e);
+//				Log.e(TAG, "accept() failed", e);
 			}
 			if (D)
 				Log.i(TAG, "END mAcceptThread");
@@ -446,6 +440,7 @@ public class ServerBT {
 		private int posInConnectedThreadList;
 		private boolean studentIdentified = false;
 		private String studentId="";
+		private ConnectedThread connectedThread;
 //		private int uuidPos;
 
 
@@ -485,7 +480,7 @@ public class ServerBT {
 			int bytes;
 
 			// Keep listening to the InputStream while connected
-			ConnectedThread connectedThread = mConnThreads.get(posInConnectedThreadList);
+			connectedThread = mConnThreads.get(posInConnectedThreadList);
 			while (true&&connectedThread!=null) {
 				try {
 					// Read from the InputStream
@@ -551,7 +546,7 @@ public class ServerBT {
                     	
                     	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
 						String str = getStudentId();
-                    	mHandler.obtainMessage(Constants.MESSAGE_READ, -1,
+                    	mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,
 								-1, str).sendToTarget();
                     	}
 					}
@@ -601,8 +596,14 @@ public class ServerBT {
 						}
 					}
 				} catch (IOException e) {
-					Log.e(TAG, "disconnected", e);
+//					Log.e(TAG, "disconnected", e);
 //					connectionLost();
+					if (connectedThread != null)
+					{mConnThreads.remove(connectedThread); connectedThread = null;}
+					mHandler.obtainMessage(Constants.CANCEL_MARK,
+							0, 0, getStudentId())
+							.sendToTarget();
+
 					cancel();
 					////////////////////
 //					mAcceptThreads.remove(uuidPos);
@@ -657,6 +658,7 @@ public class ServerBT {
 		public void cancel() {
 			try {
 				mmSocket.close();
+				mConnThreads.set(posInConnectedThreadList,null);
 			} catch (IOException e) {
 				Log.e(TAG, "close() of connect socket failed", e);
 			}

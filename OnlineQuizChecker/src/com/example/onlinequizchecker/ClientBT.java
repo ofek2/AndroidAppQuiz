@@ -282,8 +282,12 @@ public class ClientBT {
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-        setState(STATE_LISTEN);
-
+        mHandler.obtainMessage(Constants.CONNECTION_LOST, 0,
+                0, null).sendToTarget();
+        if (mConnectedThread != null)
+        {
+            mConnectedThread = null;
+        }
         // Send a failure message back to the Activity
 //        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
 //        Bundle bundle = new Bundle();
@@ -584,7 +588,7 @@ public class ClientBT {
                     }
 
                 } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
+//                    Log.e(TAG, "disconnected", e);
                     connectionLost();
                     break;
                 }
@@ -667,6 +671,13 @@ public class ClientBT {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
+
+                if(StudQuizActivity.submited){
+                    mHandler.obtainMessage(Constants.STUDENT_SUBMITED, 0, 0, null)
+                            .sendToTarget();
+                    StudQuizActivity.submited = false;
+                }
+
 
                 // Share the sent message back to the UI Activity
 //                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)

@@ -27,8 +27,8 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 //////////////////////////////////
          
 //       close the connection to the students
-         
-         
+         LectStudentRegListController.serverBT.stop();
+
          //////////////////////////////////
 		 BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
 		 mAdapter.disable();

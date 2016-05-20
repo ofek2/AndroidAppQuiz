@@ -51,8 +51,8 @@ public class SensorMotion implements SensorEventListener {
         // The light sensor returns a single value.
         // Many sensors return 3 values, one for each axis.
         stepCount++;
-        Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
+//                Toast.LENGTH_SHORT).show();
 //        Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
 //                Toast.LENGTH_LONG).show();
         // Do something with this sensor value.
@@ -82,13 +82,13 @@ public class SensorMotion implements SensorEventListener {
         public void onFinish() {
             // TODO Auto-generated method stub
             // timeLeftText.setText("Completed.");
-        	Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
-                    Toast.LENGTH_SHORT).show();
+//        	Toast.makeText(activity.getApplicationContext(), String.valueOf(stepCount),
+//                    Toast.LENGTH_SHORT).show();
             if (stepCount>7)
             {
                 String message = Constants.MOVING+"-"+studentId;
 		    	byte[] buffer = toByteArray(message);
-//		    	showAlertDialog("Please return to your sit!");
+		    	showAlertDialog("Please return to your sit!");
 		    	clientBT.mConnectedThread.write(buffer);
                 stepCount = 0;
             }
@@ -111,10 +111,10 @@ public class SensorMotion implements SensorEventListener {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        activity.startActivity(intent);
+//                        Intent intent = new Intent(Intent.ACTION_MAIN);
+//                        intent.addCategory(Intent.CATEGORY_HOME);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        activity.startActivity(intent);
                     }
                 });
 

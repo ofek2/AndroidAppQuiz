@@ -23,6 +23,7 @@ public class LectMessageHandler extends Handler{
 				{
 					String receivedStudentId = (String)msg.obj;
 					markPosInFinishList(studentPosInList(receivedStudentId,LectQuizInitiationController.studentsInClass));
+					ServerBT.mConnThreads.get(msg.arg1).cancel();
 				}
 					
 				else {
@@ -39,6 +40,12 @@ public class LectMessageHandler extends Handler{
             	String receivedStudentId = (String)msg.obj;
             	int studentPos = studentPosInList(receivedStudentId, LectQuizInitiationController.studentsInClass);
             	markMovingStudentInFinishList(studentPos);
+				break;
+			case Constants.CANCEL_MARK:
+				receivedStudentId = (String)msg.obj;
+				studentPos = studentPosInList(receivedStudentId, LectStudentRegListController.students);
+				cancelMark(studentPos);
+				break;
         }
     }
 
@@ -65,6 +72,10 @@ public class LectMessageHandler extends Handler{
     private void markPosInFinishList(int pos)
 	{
 		LectQuizProgressController.listView.setItemChecked(pos, true);	
+	}
+	private void cancelMark(int pos)
+	{
+		LectStudentRegListController.listview.setItemChecked(pos, false);
 	}
     private void markMovingStudentInFinishList(int pos)
     {

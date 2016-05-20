@@ -17,6 +17,7 @@ import com.example.onlinequizchecker.ServerBT.ConnectedThread;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,8 @@ public class StudQuizActivity{
 	private ClientBT clientBT;
 	private TextToSpeech ttobj;
 	private SensorMotion sensorMotion;
+//	private BluetoothAdapter bluetoothAdapter;
+	public static boolean submited;
 //	private SensorManager mSensorManager;
 //	private Sensor mSensor;
 //	private TriggerEventListener mTriggerEventListener;
@@ -65,7 +68,8 @@ public class StudQuizActivity{
 		this.applicationPath = applicationPath;
 		this.clientBT = clientBT;
 		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
-		
+		submited = false;
+//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
 		timer = new CounterClass(timePeriod*60000, 1000);
@@ -360,12 +364,15 @@ public class StudQuizActivity{
 			bFile[bIndex] = readFile[l];
 			bIndex++;
 		}
-	    
+	    submited = true;
 	    clientBT.mConnectedThread.write(bFile);
-	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
-                Toast.LENGTH_LONG).show();
+//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+//				Toast.LENGTH_LONG).show();
 	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
-	    new MainController(activity);
+//		clientBT.stop();
+//		bluetoothAdapter.disable();
+//
+//	    new MainController(activity);
 	}
 
 }

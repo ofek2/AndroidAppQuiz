@@ -286,6 +286,20 @@ public class StudAuthController extends Thread{
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
                     break;
+                case Constants.CONNECTION_LOST:
+                    new StudLoginController(activity);
+                    Toast.makeText(activity.getApplicationContext(), "The connection with the lecturer was lost",
+                            Toast.LENGTH_LONG).show();
+                    break;
+                case Constants.STUDENT_SUBMITED:
+                    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+                            Toast.LENGTH_LONG).show();
+
+//                    clientBT.stop();
+                    BluetoothAdapter.getDefaultAdapter().disable();
+
+                    new MainController(activity);
+                    break;
 //                case Constants.UNREGISTER_RECEIVER:
 //                	activity.unregisterReceiver(mReceiver);
 //                    break;

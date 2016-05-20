@@ -35,8 +35,9 @@ public interface Constants {
     public static final String MOVING = "Moving";
     public static final int STUDENT_IS_MOVING_COLOR = Color.argb(180, 220, 0, 0); 
 
-	public static final int UNREGISTER_RECEIVER = 10;
 
-	public static final int REGISTER_RECEIVER = 11;
+    public static final int CANCEL_MARK = 9;
+    public static final int CONNECTION_LOST=10;
+    public static final int STUDENT_SUBMITED=11;
     
 }
