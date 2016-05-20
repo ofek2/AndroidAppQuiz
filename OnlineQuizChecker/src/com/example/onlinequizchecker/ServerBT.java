@@ -410,6 +410,7 @@ public class ServerBT {
 				}
 				// }
 			} catch (IOException e) {
+				///////////////////////////start accept thread
 				// listView.setItemChecked(3,true);
 //				Log.e(TAG, "accept() failed", e);
 			}
@@ -599,12 +600,17 @@ public class ServerBT {
 //					Log.e(TAG, "disconnected", e);
 //					connectionLost();
 					if (connectedThread != null)
-					{mConnThreads.remove(connectedThread); connectedThread = null;ServerBT.this.lastPosInConnectedThreadList--;}
-					mHandler.obtainMessage(Constants.CANCEL_MARK,
-							0, 0, getStudentId())
-							.sendToTarget();
+					{
+//					mConnThreads.remove(connectedThread);
+					mConnThreads.set(posInConnectedThreadList,null);
+					connectedThread = null;
+//					ServerBT.this.lastPosInConnectedThreadList--;
+					}
+//					mHandler.obtainMessage(Constants.CANCEL_MARK,//////////////////////////////
+//							0, 0, getStudentId())//////////////////////
+//							.sendToTarget();/////////////////////////////
 
-					cancel();
+					cancel();////////////////////////////////////////////////////////////
 					////////////////////
 //					mAcceptThreads.remove(uuidPos);
 //					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
@@ -658,7 +664,7 @@ public class ServerBT {
 		public void cancel() {
 			try {
 				mmSocket.close();
-				mConnThreads.set(posInConnectedThreadList,null);
+//				mConnThreads.set(posInConnectedThreadList,null);
 			} catch (IOException e) {
 				Log.e(TAG, "close() of connect socket failed", e);
 			}
