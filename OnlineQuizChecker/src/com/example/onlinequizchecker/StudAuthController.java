@@ -280,7 +280,7 @@ public class StudAuthController extends Thread{
                     String quizPath = (String) msg.obj;
 
                     int quizPeriod = msg.arg1;
-                    activity.setUserClassification("Student");
+                    activity.setUserClassification(Constants.STUDENT);
                     new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
                     break;
                 case Constants.STUDENT_AUTHORIZED:

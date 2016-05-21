@@ -20,7 +20,10 @@ public interface Constants {
     public static final int QUIZ_INITIATION = 6;
     public static final int STUDENT_AUTHORIZED = 7;
     public static final int MOTION_SENSOR_TRIGGERED = 8;
-
+    public static final int CANCEL_MARK = 9;
+    public static final int CONNECTION_LOST=10;
+    public static final int STUDENT_SUBMITED=11;
+    
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
@@ -34,9 +37,10 @@ public interface Constants {
     //Motion sensor command
     public static final String MOVING = "Moving";
     public static final int STUDENT_IS_MOVING_COLOR = Color.argb(180, 220, 0, 0); 
-
-    public static final int CANCEL_MARK = 9;
-    public static final int CONNECTION_LOST=10;
-    public static final int STUDENT_SUBMITED=11;
+    
+    //User Classification
+    public static final String LECTURER = "Lecturer";
+    public static final String STUDENT = "Student";
+  
     
 }

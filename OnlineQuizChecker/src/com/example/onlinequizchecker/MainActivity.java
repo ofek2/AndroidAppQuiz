@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -31,9 +33,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.lect_studentregistrationview);
-		 if(new DeviceUtils().isDeviceRooted()){
-		        showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
-		    }
+//		 if(new DeviceUtils().isDeviceRooted()){
+//		        showAlertDialogAndExitApp("This device is rooted. You can't use this app.");
+//		    }
 		new MainController(this);
 		userClassification = "";
 		DropboxAuthRequest = false;
@@ -45,7 +47,10 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	@Override 
+	public void onBackPressed(){  
+	  Toast.makeText(getApplicationContext(),"You Are Not Allowed to Exit the App", Toast.LENGTH_SHORT).show();
+	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -75,7 +80,7 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (userClassification.equals("Lecturer")) {
+		if (userClassification.equals(Constants.LECTURER)) {
 			// LectStudentRegListController.listview.setItemChecked(0,true);
 			LectStudentRegListController.serverBT.start(LectStudentRegListController.listview);
 		}
