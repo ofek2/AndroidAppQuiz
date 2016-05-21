@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by 311573943 on 15/05/2016.
  */
-public class StudAuthController extends Thread{
+public class StudAuthController{
     private MainActivity activity;
     private int maxUuid=1;
     public static int maxDiscoveryIteration;
@@ -30,7 +30,7 @@ public class StudAuthController extends Thread{
     private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
     private int decimalPosInPinCode;
-    private ClientBT clientBT=null;
+    private ClientBT clientBT;
     public static CharSequence PINcode;
     public CharSequence studentId;
     public static boolean loginsuccedded;
@@ -40,6 +40,7 @@ public class StudAuthController extends Thread{
     public static ArrayList<BluetoothDevice> scanDevices;
     public static boolean lecturerFound;
     public static boolean currentlyCheckingDevice;
+    public static boolean studentAuthorized;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
@@ -51,7 +52,9 @@ public class StudAuthController extends Thread{
         currentlyCheckingDevice = false;
 //        maxDiscoveryIteration = 3;
         loginsuccedded = false;
-        label = (TextView)activity.findViewById(R.id.waitingLbl);
+        clientBT=null;
+        studentAuthorized = false;
+        label = (TextView)this.activity.findViewById(R.id.waitingLbl);
         try {
             applicationPath = activity.getApplicationContext().getFilesDir().getCanonicalPath();
         } catch (IOException e1) {
@@ -59,9 +62,9 @@ public class StudAuthController extends Thread{
             e1.printStackTrace();
         }
 
-//        startAuth();
+        startAuth();
     }
-    public void run()
+    public void startAuth()
     {
         mReceiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
@@ -237,7 +240,7 @@ public class StudAuthController extends Thread{
 //				mBluetoothAdapter.startDiscovery();
 //				/*****/////*****//////******/////****////
     }
-    private final Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -285,6 +288,7 @@ public class StudAuthController extends Thread{
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
+//                	activity.setContentView(R.layout.stud_loginview);
                     break;
                 case Constants.CONNECTION_LOST:
                     new StudLoginController(activity);

@@ -68,7 +68,7 @@ public class StudLoginController {
 						mainActivity.setContentView(R.layout.stud_authorizationview);
 					}
 				});
-				new StudAuthController(mainActivity,PINcode,studentId).start();
+				new StudAuthController(mainActivity,PINcode,studentId);
 				//.start();
 
 			}

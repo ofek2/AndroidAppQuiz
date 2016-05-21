@@ -81,6 +81,7 @@ public class ServerBT {
 	private String studentsAnswersPath;
 	private String applicationPath;
 	private String stringPinCode;
+	private boolean stoped;
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -124,6 +125,7 @@ public class ServerBT {
 		mConnThreads = new ArrayList<ConnectedThread>();
 		mSockets = new ArrayList<BluetoothSocket>();
 		lastPosInConnectedThreadList=0;
+		stoped = false;
 		mUuid = UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc");
 		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 		activity.startActivityForResult(discoverableIntent,1);
@@ -262,12 +264,14 @@ public class ServerBT {
 		// Start the thread to manage the connection and perform transmissions
 		mConnectedThread = new ConnectedThread(socket,lastPosInConnectedThreadList);
 //				, uuidPos);
+		mConnThreads.add(mConnectedThread);
+		lastPosInConnectedThreadList++;
 		mConnectedThread.start();
 		// Add each connected thread to an array
 //		if (mConnThreads.get(uuidPos) == null)
 //			mConnThreads.add(uuidPos, mConnectedThread);
-		mConnThreads.add(mConnectedThread);
-		lastPosInConnectedThreadList++;
+//		mConnThreads.add(mConnectedThread);
+//		lastPosInConnectedThreadList++;
 //		else {
 //			mConnThreads.remove(uuidPos);
 //			mConnThreads.add(uuidPos, mConnectedThread);
@@ -294,6 +298,7 @@ public class ServerBT {
 			Log.d(TAG, "stop");
 		// if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread
 		// = null;}
+		stoped = true;
 		for (int i=0;i<mConnThreads.size();i++) {
 			if (mConnThreads.get(i) != null) {
 				mConnThreads.get(i).cancel();
@@ -303,7 +308,7 @@ public class ServerBT {
 			else
 				mConnThreads.remove(i);
 		}
-
+		
 		 if (mAcceptThread != null)
 		 {mAcceptThread.cancel(); mAcceptThread = null;}
 
@@ -414,8 +419,11 @@ public class ServerBT {
 				// }
 			} catch (IOException e) {
 				///////////////////////////start accept thread
+				if(!stoped)
+				{
 				mAcceptThread = new AcceptThread();
 				mAcceptThread.start();
+				}
 				// listView.setItemChecked(3,true);
 //				Log.e(TAG, "accept() failed", e);
 			}

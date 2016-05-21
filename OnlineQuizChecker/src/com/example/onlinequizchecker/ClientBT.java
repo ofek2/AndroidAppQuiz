@@ -42,7 +42,7 @@ public class ClientBT {
     private ArrayList<String> mDeviceAddresses;
     private ArrayList<ConnectedThread> mConnThreads;
     private ArrayList<BluetoothSocket> mSockets;
-    private boolean studentAuthorized = false;
+//    private boolean studentAuthorized;
     /**
      * A bluetooth piconet can support up to 7 connections. This array holds 7 unique UUIDs.
      * When attempting to make a connection, the UUID on the client must match one that the server
@@ -85,6 +85,7 @@ public class ClientBT {
         mConnThreads = new ArrayList<ConnectedThread>();
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
+//      studentAuthorized = false;
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
 
@@ -427,7 +428,7 @@ public class ClientBT {
             mmOutStream = tmpOut;
             String s = studentId.toString();
             byte [] msg;
-            if(!studentAuthorized)
+            if(!StudAuthController.studentAuthorized)
             	msg = toByteArray(s+"-"+StudAuthController.PINcode);
             else
             	msg = toByteArray(s+"-"+StudAuthController.PINcode+"-"+Constants.RECONNECT);
@@ -482,7 +483,7 @@ public class ClientBT {
 					}
                     else if (receivedMessage.equals("You have authorized")) {
                         // Send the obtained bytes to the UI Activity
-                      studentAuthorized = true;
+                      StudAuthController.studentAuthorized = true;
                       mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
                       .sendToTarget();
 					}
