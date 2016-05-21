@@ -27,11 +27,8 @@ import android.util.Log;
 
 public class ClientBT {
     // Debugging
-    private static final String TAG = "BluetoothChatService";
+    private static final String TAG = "ClientBT";
     private static final boolean D = true;
-
-    // Name for the SDP record when creating server socket
-    private static final String NAME = "BluetoothChatMulti";
 
     // Member fields
     private final BluetoothAdapter mAdapter;
@@ -89,22 +86,7 @@ public class ClientBT {
         mUuids = new ArrayList<UUID>();
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-c758-4868-aa19-7ac6b3475dfc"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-5a2c-4511-a074-77f199fd0834"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-51f3-4a7b-91cb-f638491d1412"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-4536-49ee-a475-7d96d09439e4"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-d8ad-448e-abdb-95ebba4a9b55"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-d0a4-4f40-ac38-917e0a9dee97"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-9c8a-4db7-81e4-c937564c86e0"));
-//        
-//    
-//        mUuids.add(UUID.fromString("0000"+pincode+"-1d84-48fc-bb18-c1c7c014af68"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-6854-4964-8fd7-0a1b7b71e807"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-0cd9-4005-a818-b39504ea2a68"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-8fcb-4c1d-a295-e53efdfce330"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-9004-4792-a4ab-1b87a8e182c7"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-ace9-4489-aa11-68220bcf23b0"));
-//        mUuids.add(UUID.fromString("0000"+pincode+"-33c1-41e8-a0d8-371c70e67a93"));
+
     }
 
     /**
@@ -488,7 +470,7 @@ public class ClientBT {
 //                      cancel();
                       ClientBT.this.stop();
 					}
-                    else if (receivedMessage.equals("You have autorized")) {
+                    else if (receivedMessage.equals("You have authorized")) {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
                       .sendToTarget();
@@ -622,55 +604,55 @@ public class ClientBT {
 
         }
 
-        public void unZipIt(String zipFile, String outputFolder){
-
-            byte[] buffer = new byte[1024];
-           	
-            try{
-           		
-           	//create output directory is not exists
-           	File folder = new File(outputFolder);
-           	if(!folder.exists()){
-           		folder.mkdir();
-           	}
-           		
-           	//get the zip file content
-           	ZipInputStream zis = 
-           		new ZipInputStream(new FileInputStream(zipFile));
-           	//get the zipped file list entry
-           	ZipEntry ze = zis.getNextEntry();
-           		
-           	while(ze!=null){
-           			
-           	   String fileName = ze.getName();
-                  File newFile = new File(outputFolder + File.separator + fileName);
-                       
-                  System.out.println("file unzip : "+ newFile.getAbsoluteFile());
-                       
-                   //create all non exists folders
-                   //else you will hit FileNotFoundException for compressed folder
-                   new File(newFile.getParent()).mkdirs();
-                     
-                   FileOutputStream fos = new FileOutputStream(newFile);             
-
-                   int len;
-                   while ((len = zis.read(buffer)) > 0) {
-              		fos.write(buffer, 0, len);
-                   }
-               		
-                   fos.close();   
-                   ze = zis.getNextEntry();
-           	}
-           	
-               zis.closeEntry();
-           	zis.close();
-           		
-           	System.out.println("Done");
-           		
-           }catch(IOException ex){
-              ex.printStackTrace(); 
-           }
-          }    
+//        public void unZipIt(String zipFile, String outputFolder){
+//
+//            byte[] buffer = new byte[1024];
+//           	
+//            try{
+//           		
+//           	//create output directory is not exists
+//           	File folder = new File(outputFolder);
+//           	if(!folder.exists()){
+//           		folder.mkdir();
+//           	}
+//           		
+//           	//get the zip file content
+//           	ZipInputStream zis = 
+//           		new ZipInputStream(new FileInputStream(zipFile));
+//           	//get the zipped file list entry
+//           	ZipEntry ze = zis.getNextEntry();
+//           		
+//           	while(ze!=null){
+//           			
+//           	   String fileName = ze.getName();
+//                  File newFile = new File(outputFolder + File.separator + fileName);
+//                       
+//                  System.out.println("file unzip : "+ newFile.getAbsoluteFile());
+//                       
+//                   //create all non exists folders
+//                   //else you will hit FileNotFoundException for compressed folder
+//                   new File(newFile.getParent()).mkdirs();
+//                     
+//                   FileOutputStream fos = new FileOutputStream(newFile);             
+//
+//                   int len;
+//                   while ((len = zis.read(buffer)) > 0) {
+//              		fos.write(buffer, 0, len);
+//                   }
+//               		
+//                   fos.close();   
+//                   ze = zis.getNextEntry();
+//           	}
+//           	
+//               zis.closeEntry();
+//           	zis.close();
+//           		
+//           	System.out.println("Done");
+//           		
+//           }catch(IOException ex){
+//              ex.printStackTrace(); 
+//           }
+//          }    
         
         
         /**

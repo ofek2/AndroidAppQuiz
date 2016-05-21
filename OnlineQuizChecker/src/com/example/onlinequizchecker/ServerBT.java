@@ -33,11 +33,11 @@ import android.widget.Toast;
 public class ServerBT {
 
 	// Debugging
-	private static final String TAG = "BluetoothChatService";
+	private static final String TAG = "ServerBT";
 	private static final boolean D = true;
 
 	// Name for the SDP record when creating server socket
-	private static final String NAME = "BluetoothChatMulti";
+	private static final String NAME = "Lecturer";
 
 	// Member fields
 	private final BluetoothAdapter mAdapter;
@@ -492,7 +492,8 @@ public class ServerBT {
 					{
                     	String[] splited= receivedMessage.split("-");
                     	
-                    	if(splited[0].equals(Constants.MOVING)) //If in quiz time, a student is trying to get out of class with his phone
+                    	//If in quiz time, a student is trying to get out of class with his phone
+                    	if(splited[0].equals(Constants.MOVING)) 
                     	{
                     		mHandler.obtainMessage(Constants.MOTION_SENSOR_TRIGGERED, 0,
     								0, splited[1]).sendToTarget();
@@ -502,7 +503,7 @@ public class ServerBT {
                     		String fileSize = splited[0];
                     		byte[] readFile = new byte[Integer.valueOf(fileSize)];
 
-
+                    		//Read zip file received from student
                     		int byteStartIndex = String.valueOf(fileSize).length()+1;
                     		int bIndex = 0;
                     		for (int i = byteStartIndex; i < bytes; i++) {
@@ -520,35 +521,35 @@ public class ServerBT {
                     				break;
                     		}	
                     	
-                    	
-                    	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
-                    	ZipEntry entry = null;
-                    	studentsAnswersPath = LectQuizSelectionController.studentsAnswersPath;
-                    	new File(studentsAnswersPath).mkdir();
-                    	new File(studentsAnswersPath+studentId+"/").mkdir();
-                    	while ((entry = zipStream.getNextEntry()) != null) {
-                    		
-                    	    String entryName = entry.getName();
-                    	    File file = new File(studentsAnswersPath+studentId+"/"+entryName);
-                    	    
-                    	    FileOutputStream out = new FileOutputStream(file);
-
-                    	    byte[] byteBuff = new byte[4096];
-                    	    int bytesRead = 0;
-                    	    while ((bytesRead = zipStream.read(byteBuff)) != -1)
-                    	    {
-                    	        out.write(byteBuff, 0, bytesRead);
-                    	    }
-
-                    	    out.close();
-                    	    zipStream.closeEntry();
-                    	}
-                    	zipStream.close(); 
-                    	
-                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
-						String str = getStudentId();
-                    	mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,
-								-1, str).sendToTarget();
+                    	//Extract zip in lecturer phone
+	                    	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
+	                    	ZipEntry entry = null;
+	                    	studentsAnswersPath = LectQuizSelectionController.studentsAnswersPath;
+	                    	new File(studentsAnswersPath).mkdir();
+	                    	new File(studentsAnswersPath+studentId+"/").mkdir();
+	                    	while ((entry = zipStream.getNextEntry()) != null) {
+	                    		
+	                    	    String entryName = entry.getName();
+	                    	    File file = new File(studentsAnswersPath+studentId+"/"+entryName);
+	                    	    
+	                    	    FileOutputStream out = new FileOutputStream(file);
+	
+	                    	    byte[] byteBuff = new byte[4096];
+	                    	    int bytesRead = 0;
+	                    	    while ((bytesRead = zipStream.read(byteBuff)) != -1)
+	                    	    {
+	                    	        out.write(byteBuff, 0, bytesRead);
+	                    	    }
+	
+	                    	    out.close();
+	                    	    zipStream.closeEntry();
+	                    	}
+	                    	zipStream.close(); 
+	                    	
+	                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
+							String str = getStudentId();
+	                    	mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,
+									-1, str).sendToTarget();
                     	}
 					}
 					// Send the obtained bytes to the UI Activity
@@ -561,7 +562,7 @@ public class ServerBT {
 							if (LectStudentRegListController.studentPosInList(StudentId,LectStudentRegListController.students) != -1)
 							{
 								studentIdentified = true;
-								byte[] msg = toByteArray("You have autorized");
+								byte[] msg = toByteArray("You have authorized");
 								write(msg);
 								setStudentId(StudentId);
 								mHandler.obtainMessage(Constants.MESSAGE_READ,
