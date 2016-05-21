@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
 import com.example.onlinequizchecker.R.color;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -132,11 +134,34 @@ public class LectStudentRegListController extends ListActivity {
 	}
 	class quizSelectionBtnListener implements View.OnClickListener
     {
-
+		AlertDialog.Builder builder;
         @Override
         public void onClick(View v) {
-          
-            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
+        	builder = new AlertDialog.Builder(activity);
+
+		    builder.setTitle("Confirm");
+		    builder.setMessage("Are you sure?");
+
+		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+		            // Do nothing but close the dialog
+		        	
+		            dialog.dismiss();
+		            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
+		        }
+		    });
+
+		    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+		        @Override
+		        public void onClick(DialogInterface dialog, int which) {
+
+		            // Do nothing
+		            dialog.dismiss();
+		        }
+		    });
+         
         }
     }
 	class backBtnListener implements View.OnClickListener

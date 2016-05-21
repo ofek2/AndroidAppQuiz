@@ -457,7 +457,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		    builder.setMessage("Are you sure you want to submit your quiz?");
 
 		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
+		    	@Override
 		        public void onClick(DialogInterface dialog, int which) {
 		            // Do nothing but close the dialog
 		        	

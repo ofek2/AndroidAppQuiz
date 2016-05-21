@@ -48,9 +48,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	@Override 
-	public void onBackPressed(){  
-	  Toast.makeText(getApplicationContext(),"You Are Not Allowed to Exit the App", Toast.LENGTH_SHORT).show();
+	public void onBackPressed(){ 
+		if(userClassification.equals(Constants.STUDENT))
+			Toast.makeText(getApplicationContext(),"You Are Not Allowed to Exit the App", Toast.LENGTH_SHORT).show();
+		else
+			super.onBackPressed();
 	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
