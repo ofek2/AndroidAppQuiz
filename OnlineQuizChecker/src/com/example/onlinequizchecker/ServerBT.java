@@ -77,7 +77,7 @@ public class ServerBT {
 	private int decimalPosInPinCode;
 	private MainActivity activity;
 	private ListView listView;
-	private int lastPosInConnectedThreadList=0;
+	private int lastPosInConnectedThreadList;
 	private String studentsAnswersPath;
 	private String applicationPath;
 	private String stringPinCode;
@@ -115,16 +115,18 @@ public class ServerBT {
 		// discoverableIntent.putExtra(BluetoothDevice.EXTRA_PAIRING_KEY,14242314);
 		// discoverableIntent.putExtra(BluetoothAdapter.EXTRA_STATE,"634697");
 		// discoverableIntent.putExtra(BluetoothDevice.EXTRA_NAME,"15");
-		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-		activity.startActivityForResult(discoverableIntent,1);
+//		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+//		activity.startActivityForResult(discoverableIntent,1);
 
 		mState = STATE_NONE;
 		 this.mHandler = mHandler;
 		mDeviceAddresses = new ArrayList<String>();
 		mConnThreads = new ArrayList<ConnectedThread>();
 		mSockets = new ArrayList<BluetoothSocket>();
-
+		lastPosInConnectedThreadList=0;
 		mUuid = UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc");
+		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+		activity.startActivityForResult(discoverableIntent,1);
 		// mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
 		// mUuids.add(UUID.fromString("e442e09a-51f3-4a7b-91cb-f638491d1412"));
 		// mUuids.add(UUID.fromString("a81d6504-4536-49ee-a475-7d96d09439e4"));
@@ -295,6 +297,7 @@ public class ServerBT {
 		for (int i=0;i<mConnThreads.size();i++) {
 			if (mConnThreads.get(i) != null) {
 				mConnThreads.get(i).cancel();
+				mConnThreads.set(i,null);
 				mConnThreads.remove(i);
 			}
 			else

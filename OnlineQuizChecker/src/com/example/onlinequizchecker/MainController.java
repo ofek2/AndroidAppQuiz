@@ -26,7 +26,11 @@ public class MainController {
         studentBtn = (Button) activity.findViewById(R.id.studentBtn);
         lecturerBtn.setOnClickListener(new lecturerBtnListener());
         studentBtn.setOnClickListener(new studentBtnListener());
-
+        if(LectStudentRegListController.serverBT != null)
+        {
+        	LectStudentRegListController.serverBT.stop();
+        	LectStudentRegListController.serverBT = null;
+        }
        
     }
     class lecturerBtnListener implements View.OnClickListener
