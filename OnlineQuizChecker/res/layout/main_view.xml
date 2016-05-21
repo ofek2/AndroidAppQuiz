@@ -31,43 +31,123 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="0.9"
-        android:background="@color/background_color_blue" >
+        android:background="@color/background_color_blue"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/titleCourseSelection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:text="Choose the correct option in order to login" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/studentBtn"
-            style="@style/buttonStyle"
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/titleCourseSelection"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="66dp"
-            android:background="@drawable/custom_button"
-            android:text="Student Login" />
+            <TextView
+                android:id="@+id/titleCourseSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose the correct option in order to login" />
 
-        <Button
-            android:id="@+id/lecturerBtn"
-            style="@style/buttonStyle"
-            android:layout_width="245dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/studentBtn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="68dp"
-            android:background="@drawable/custom_button"
-            android:text="Lecturer Login" />
+        </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.15" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="center" >
+
+                    <Button
+                        android:id="@+id/studentBtn"
+                        style="@style/buttonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_button"
+                        android:drawableTop="@drawable/user"
+                        android:gravity="bottom|center_horizontal"
+                        android:padding="5dp"
+                        android:text="Student Login" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.15" >
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.15" >
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="center" >
+
+                    <Button
+                        android:id="@+id/lecturerBtn"
+                        style="@style/buttonStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/custom_button"
+                        android:drawableTop="@drawable/admin"
+                        android:gravity="bottom|center_horizontal"
+                        android:padding="5dp"
+                        android:text="Lecturer Login" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="0.15" >
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
