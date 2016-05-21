@@ -39,25 +39,63 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StudQuizActivity.
+ */
 public class StudQuizActivity{
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The web view. */
 	private WebView webView;
+	
+	/** The time left text. */
 	private TextView timeLeftText;
+	
+	/** The timer. */
 	private final CounterClass timer;
+	
+	/** The quiz path. */
 	private String quizPath;
+	
+	/** The submit. */
 	private Button submit;
+	
+	/** The student id. */
 	private CharSequence studentId;
+	
+	/** The application path. */
 	private String applicationPath;
+	
+	/** The client bt. */
 	private ClientBT clientBT;
+	
+	/** The ttobj. */
 	private TextToSpeech ttobj;
+	
+	/** The sensor motion. */
 	private SensorMotion sensorMotion;
+
+/** The submited. */
 //	private BluetoothAdapter bluetoothAdapter;
 	public static boolean submited;
 //	private SensorManager mSensorManager;
 //	private Sensor mSensor;
 //	private TriggerEventListener mTriggerEventListener;
 	
-	public StudQuizActivity(MainActivity activity, int timePeriod,
+	/**
+ * Instantiates a new stud quiz activity.
+ *
+ * @param activity the activity
+ * @param timePeriod the time period
+ * @param studentId the student id
+ * @param quizPath the quiz path
+ * @param applicationPath the application path
+ * @param clientBT the client bt
+ */
+public StudQuizActivity(MainActivity activity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
 		this.activity = activity;
@@ -82,6 +120,9 @@ public class StudQuizActivity{
 		loadQuiz();
 	}
 	
+	/**
+	 * Inits the text to speech.
+	 */
 	private void initTextToSpeech() {
 		
 		ttobj=new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
@@ -112,6 +153,12 @@ public class StudQuizActivity{
 ////		};
 ////
 ////		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
+/**
+ * To byte array.
+ *
+ * @param charSequence the char sequence
+ * @return the byte[]
+ */
 //	}
 	  private byte[] toByteArray(CharSequence charSequence) {
           if (charSequence == null) {
@@ -124,6 +171,12 @@ public class StudQuizActivity{
 
           return bytesArray;
       }
+	
+	/**
+	 * Show alert dialog.
+	 *
+	 * @param message the message
+	 */
 	public void showAlertDialog(String message) {
 
 	    AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
@@ -142,6 +195,10 @@ public class StudQuizActivity{
 
 	    alertDialog.show();
 	}
+	
+	/**
+	 * Load quiz.
+	 */
 	@JavascriptInterface
 	public void loadQuiz() {
 		// TODO Auto-generated method stub
@@ -165,12 +222,33 @@ public class StudQuizActivity{
 		webView.loadUrl("file://" + quizPath);
 		
 	}
+	
+	/**
+	 * The Class JavaScriptInterface.
+	 */
 	final class JavaScriptInterface
 	{
+		
+		/** The controller. */
 		private StudQuizActivity controller;
+		
+		/**
+		 * Instantiates a new java script interface.
+		 *
+		 * @param controller the controller
+		 */
 		public JavaScriptInterface(StudQuizActivity controller){
 			this.controller=controller;
 		}
+		
+		/**
+		 * Gets the answer.
+		 *
+		 * @param formName the form name
+		 * @param items the items
+		 * @param qType the q type
+		 * @return the answer
+		 */
 		@JavascriptInterface
 		public void getAnswer(String formName,String [] items,String qType)
 		{
@@ -220,6 +298,12 @@ public class StudQuizActivity{
 		
 			
 		}
+		
+		/**
+		 * Open drawing board.
+		 *
+		 * @param formName the form name
+		 */
 		@JavascriptInterface
 		public void openDrawingBoard(final String formName)
 		{
@@ -231,6 +315,12 @@ public class StudQuizActivity{
 			});
 			//
 		}
+		
+		/**
+		 * Listen.
+		 *
+		 * @param toSpeak the text to speak
+		 */
 		@SuppressWarnings("deprecation")
 		@JavascriptInterface
 		public void listen(String toSpeak)
@@ -238,20 +328,42 @@ public class StudQuizActivity{
 			ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
-	 static class Utils {
+	 
+ 	/**
+ 	 * The Class Utils.
+ 	 */
+ 	static class Utils {
 
-		    public static void runOnUiThread(Runnable runnable){
+		    /**
+    		 * Run on ui thread.
+    		 *
+    		 * @param runnable the runnable
+    		 */
+    		public static void runOnUiThread(Runnable runnable){
 		        final Handler UIHandler = new Handler(Looper.getMainLooper());
 		        UIHandler .post(runnable);
 		    } 
 		}
+	
+	/**
+	 * The Class CounterClass.
+	 */
 	public class CounterClass extends CountDownTimer {
 
+		/**
+		 * Instantiates a new counter class.
+		 *
+		 * @param millisInFuture the millis in future
+		 * @param countDownInterval the count down interval
+		 */
 		public CounterClass(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
 			// TODO Auto-generated constructor stub
 		}
 
+		/* (non-Javadoc)
+		 * @see android.os.CountDownTimer#onTick(long)
+		 */
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
@@ -266,6 +378,9 @@ public class StudQuizActivity{
 			timeLeftText.setText(ms);
 		}
 
+		/* (non-Javadoc)
+		 * @see android.os.CountDownTimer#onFinish()
+		 */
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
@@ -274,6 +389,12 @@ public class StudQuizActivity{
 		}
 
 	}
+	
+	/**
+	 * Update quiz after drawing.
+	 *
+	 * @param qNumber the q number
+	 */
 	public void updateQuizAfterDrawing(String qNumber)
 	{
 		activity.setContentView(R.layout.stud_quizview);
@@ -315,17 +436,62 @@ public class StudQuizActivity{
 			
 	}
 	
+	/**
+	 * The listener interface for receiving submitBtn events.
+	 * The class that is interested in processing a submitBtn
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addsubmitBtnListener<code> method. When
+	 * the submitBtn event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see submitBtnEvent
+	 */
 	class submitBtnListener implements View.OnClickListener
 	{
+		private AlertDialog.Builder builder;
+		public submitBtnListener() {
+			builder = new AlertDialog.Builder(activity);
+
+		    builder.setTitle("Confirm");
+		    builder.setMessage("Are you sure you want to submit your quiz?");
+
+		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+		        public void onClick(DialogInterface dialog, int which) {
+		            // Do nothing but close the dialog
+		        	
+		            dialog.dismiss();
+		            submitQuizAndExit();
+		        }
+		    });
+
+		    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+		        @Override
+		        public void onClick(DialogInterface dialog, int which) {
+
+		            // Do nothing
+		            dialog.dismiss();
+		        }
+		    });
+			
+		}
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
-			//////////////////
-			//Show some dialog here /////******************************//////////
-			//////////////////
+
+		    AlertDialog alert = builder.create();
+		    alert.show();
 			
-			submitQuizAndExit();
 		}
 	}
+	
+	/**
+	 * Submit quiz and exit.
+	 */
 	private void submitQuizAndExit()
 	{
 		if(clientBT.mConnectedThread!=null)

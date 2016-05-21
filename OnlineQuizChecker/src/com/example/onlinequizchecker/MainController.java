@@ -9,6 +9,7 @@ import android.app.usage.NetworkStats.Bucket;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class MainController {
@@ -19,6 +20,7 @@ public class MainController {
         this.activity=activity;
         this.activity.setUserClassification("");
         this.activity.setContentView(R.layout.main_view);
+        this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); 
         this.activity.setDidDbxAuth(false);
         lecturerBtn = (Button) activity.findViewById(R.id.lecturerBtn);
         studentBtn = (Button) activity.findViewById(R.id.studentBtn);

@@ -43,6 +43,7 @@ public class StudLoginController {
 		loginsuccedded = false;
 		try {
 			mainActivity.setContentView(R.layout.stud_loginview);
+		     mainActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
 			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
