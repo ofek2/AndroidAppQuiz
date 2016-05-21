@@ -161,7 +161,8 @@ public class LectStudentRegListController extends ListActivity {
 		            dialog.dismiss();
 		        }
 		    });
-         
+		    AlertDialog alert = builder.create();
+		    alert.show();
         }
     }
 	class backBtnListener implements View.OnClickListener
