@@ -411,7 +411,8 @@ public class ServerBT {
 				// }
 			} catch (IOException e) {
 				///////////////////////////start accept thread
-				
+				mAcceptThread = new AcceptThread();
+				mAcceptThread.start();
 				// listView.setItemChecked(3,true);
 //				Log.e(TAG, "accept() failed", e);
 			}
@@ -563,12 +564,16 @@ public class ServerBT {
 							if (LectStudentRegListController.studentPosInList(StudentId,LectStudentRegListController.students) != -1)
 							{
 								studentIdentified = true;
+								setStudentId(StudentId);
+								if(splited.length==2)
+								{
 								byte[] msg = toByteArray("You have authorized");
 								write(msg);
-								setStudentId(StudentId);
+//								setStudentId(StudentId);
 								mHandler.obtainMessage(Constants.MESSAGE_READ,
 										bytes, posInConnectedThreadList, StudentId)
 										.sendToTarget();
+								}
 								// //////////////
 
 								// write successful connection to the student

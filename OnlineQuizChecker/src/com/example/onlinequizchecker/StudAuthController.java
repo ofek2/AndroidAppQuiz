@@ -75,8 +75,8 @@ public class StudAuthController extends Thread{
                     // Get the BluetoothDevice object from the Intent
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     bluetoothDevice = device;
-                    Toast.makeText(activity.getApplicationContext(), device.getName(),
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity.getApplicationContext(), device.getName(),
+//                            Toast.LENGTH_SHORT).show();
                     String name = device.getName();
 //                    if(deviceIsServer(device))
 //                    {

@@ -41,6 +41,7 @@ public interface Constants {
     //User Classification
     public static final String LECTURER = "Lecturer";
     public static final String STUDENT = "Student";
+    public static final String RECONNECT = "Reconnect";
   
     
 }

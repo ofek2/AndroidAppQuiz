@@ -42,6 +42,7 @@ public class ClientBT {
     private ArrayList<String> mDeviceAddresses;
     private ArrayList<ConnectedThread> mConnThreads;
     private ArrayList<BluetoothSocket> mSockets;
+    private boolean studentAuthorized = false;
     /**
      * A bluetooth piconet can support up to 7 connections. This array holds 7 unique UUIDs.
      * When attempting to make a connection, the UUID on the client must match one that the server
@@ -274,6 +275,11 @@ public class ClientBT {
         	if(StudQuizActivity.submited==false)
         		while(mConnectedThread==null)
         			mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
+        	else
+        	{
+        		mAdapter.disable();
+        		StudQuizActivity.submited = false;
+        	}
 //            mConnectedThread = null;
         }
         // Send a failure message back to the Activity
@@ -420,7 +426,11 @@ public class ClientBT {
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
             String s = studentId.toString();
-            byte [] msg = toByteArray(s+"-"+StudAuthController.PINcode);
+            byte [] msg;
+            if(!studentAuthorized)
+            	msg = toByteArray(s+"-"+StudAuthController.PINcode);
+            else
+            	msg = toByteArray(s+"-"+StudAuthController.PINcode+"-"+Constants.RECONNECT);
             write(msg);
         }
         
@@ -472,6 +482,7 @@ public class ClientBT {
 					}
                     else if (receivedMessage.equals("You have authorized")) {
                         // Send the obtained bytes to the UI Activity
+                      studentAuthorized = true;
                       mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
                       .sendToTarget();
 					}
@@ -666,7 +677,7 @@ public class ClientBT {
                 if(StudQuizActivity.submited){
                     mHandler.obtainMessage(Constants.STUDENT_SUBMITED, 0, 0, null)
                             .sendToTarget();
-                    StudQuizActivity.submited = false;
+//                    StudQuizActivity.submited = false;
                 }
 
 
