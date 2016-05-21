@@ -411,6 +411,7 @@ public class ServerBT {
 				// }
 			} catch (IOException e) {
 				///////////////////////////start accept thread
+				
 				// listView.setItemChecked(3,true);
 //				Log.e(TAG, "accept() failed", e);
 			}

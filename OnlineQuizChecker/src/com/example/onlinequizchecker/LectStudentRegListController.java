@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class LectStudentRegListController extends ListActivity {
 	private MainActivity activity;
 	public static ListView listview;
-	public static ServerBT serverBT;
+	public static ServerBT serverBT = null;
 	private File filelist;
 	private String course;
 	public static ArrayList<String> students;
@@ -182,7 +182,11 @@ public class LectStudentRegListController extends ListActivity {
 				toast.show();
 			}
 			else
-			new LectCourseSelectionController(activity);
+			{
+				if(serverBT != null)
+					serverBT.stop();
+				new LectCourseSelectionController(activity);
+			}
 		}
 		
 	}
