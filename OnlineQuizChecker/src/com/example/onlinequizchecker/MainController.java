@@ -22,8 +22,8 @@ public class MainController {
         this.activity.setContentView(R.layout.main_view);
         this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); 
         this.activity.setDidDbxAuth(false);
-        lecturerBtn = (Button) activity.findViewById(R.id.lecturerBtn);
-        studentBtn = (Button) activity.findViewById(R.id.studentBtn);
+        lecturerBtn = (Button) this.activity.findViewById(R.id.lecturerBtn);
+        studentBtn = (Button) this.activity.findViewById(R.id.studentBtn);
         lecturerBtn.setOnClickListener(new lecturerBtnListener());
         studentBtn.setOnClickListener(new studentBtnListener());
         if(LectStudentRegListController.serverBT != null)
