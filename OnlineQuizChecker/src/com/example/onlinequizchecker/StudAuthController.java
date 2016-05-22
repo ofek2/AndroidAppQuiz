@@ -300,14 +300,16 @@ public class StudAuthController{
                     	File[] quizzes = new File(applicationPath+"/"+course+"/Quizzes").listFiles();
                     	String recoveryPath;
                     	String recoveryZipPath;
+                    	String pathToSend;
 //                    	for (int i = 0; i < quizzes.length; i++) {
                     	recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
                     		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
                         	zipProtectedFile.unzipFile(activity.zipFilesPassword,
                         			recoveryZipPath, recoveryPath);
                         	new File(recoveryZipPath).delete();
                         	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-                        	StudQuizActivity.zipToByteArray(studentId,recoveryPath);
+                        	clientBT.mConnectedThread.write(StudQuizActivity.zipToByteArray(recoveryPath,pathToSend));
 //						}
                     }
 //                    Toast.makeText(activity.getApplicationContext(), studentId,

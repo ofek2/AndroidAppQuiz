@@ -503,7 +503,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
         
 			    submited = true;
 	    if(clientBT.mConnectedThread!=null)
-	    	clientBT.mConnectedThread.write(zipToByteArray(studentId,quizPath));
+	    	clientBT.mConnectedThread.write(zipToByteArray(quizPath+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
 	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
@@ -517,12 +517,12 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 	}
 
-	public static byte[] zipToByteArray(CharSequence studentId,String quizPath) {
+	public static byte[] zipToByteArray(String quizPath,String pathToSend) {
 		// TODO Auto-generated method stub
 		FileInputStream fileInputStream=null;
-        File file = new File(quizPath+"/"+studentId+".zip");
+        File file = new File(quizPath);
         int fileSize = (int) file.length();
-        byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
+        byte[] bFile = new byte[ pathToSend.length()+String.valueOf(fileSize).length()+fileSize+2];
         
             //convert file into array of bytes
         byte[] readFile = new byte[fileSize];
@@ -545,6 +545,12 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	    int bIndex=0;
 	    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
 			bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
+			bIndex++;
+		}
+	    bFile[bIndex] = (byte)'-';
+	    bIndex++;
+	    for (int j = 0; j < pathToSend.length(); j++) {
+			bFile[bIndex] = (byte)pathToSend.charAt(j);
 			bIndex++;
 		}
 	    bFile[bIndex] = (byte)'-';

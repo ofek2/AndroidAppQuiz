@@ -60,6 +60,7 @@ public class ClientBT {
 	private MainActivity mainActivity;
 	private BluetoothDevice lecturerDevice;
 	private UUID lecturerDeviceUuid;
+	public static String pathToSend;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -86,6 +87,7 @@ public class ClientBT {
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
         lecturerDevice = null;
+        pathToSend = "";
 //      studentAuthorized = false;
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
@@ -516,6 +518,7 @@ public class ClientBT {
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
 //                    	String quizPath = applicationPath+"/"+course;
                     	String quizPath = applicationPath+"/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers";
+                    	pathToSend = "/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers/";
                     	int byteStartIndex = String.valueOf(fileSize).length()+
                         course.length()+
                         quizName.length()+

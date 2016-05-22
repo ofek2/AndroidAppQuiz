@@ -515,10 +515,11 @@ public class ServerBT {
                     	else
                     	{
                     		String fileSize = splited[0];
+                    		studentsAnswersPath = activity.getFilelist().getCanonicalPath()+splited[1];
                     		byte[] readFile = new byte[Integer.valueOf(fileSize)];
 
                     		//Read zip file received from student
-                    		int byteStartIndex = String.valueOf(fileSize).length()+1;
+                    		int byteStartIndex = splited[1].length()+String.valueOf(fileSize).length()+2;
                     		int bIndex = 0;
                     		for (int i = byteStartIndex; i < bytes; i++) {
                     			readFile[bIndex] = buffer[i];
@@ -538,7 +539,8 @@ public class ServerBT {
                     	//Extract zip in lecturer phone
 	                    	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
 	                    	ZipEntry entry = null;
-	                    	studentsAnswersPath = LectQuizSelectionController.studentsAnswersPath;
+//	                    	studentsAnswersPath = LectQuizSelectionController.studentsAnswersPath;
+	                    	
 	                    	new File(studentsAnswersPath).mkdir();
 	                    	new File(studentsAnswersPath+studentId+"/").mkdir();
 	                    	while ((entry = zipStream.getNextEntry()) != null) {

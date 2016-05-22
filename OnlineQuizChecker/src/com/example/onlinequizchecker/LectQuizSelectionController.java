@@ -46,6 +46,7 @@ public class LectQuizSelectionController {
 		backBtn.setOnClickListener(new backBtnListener());
 		this.selectedIndex = selectedIndex;
 		this.course = course;
+		studentsAnswersPath = "";
 		initView();
 	}
 	private void initView() {
