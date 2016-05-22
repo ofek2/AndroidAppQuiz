@@ -410,7 +410,8 @@ public class ClientBT {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
-
+		private String course;
+		
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "create ConnectedThread");
             mmSocket = socket;
@@ -482,10 +483,11 @@ public class ClientBT {
 //                      cancel();
                       ClientBT.this.stop();
 					}
-                    else if (receivedMessage.equals("You have authorized")) {
+                    else if (receivedMessage.startsWith("You have authorized")) {
                         // Send the obtained bytes to the UI Activity
+                      String[] splited= receivedMessage.split("-");
                       StudAuthController.studentAuthorized = true;
-                      mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
+                      mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, splited[1])
                       .sendToTarget();
 					}
                     else if (receivedMessage.equals("The PIN code is not correct")) {
@@ -504,12 +506,13 @@ public class ClientBT {
 					} 
                     else
                     {
-                        folderRecursiveDelete(new File(applicationPath+"/"));
+//                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
-                    	String course = splited[1];
+                    	course = splited[1];
                     	String quizPeriod = splited[2];
                     	String fileSize = splited[3];
+                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
                     	String quizPath = applicationPath+"/"+course;
 //                    			+"/Quizzes/"+
@@ -599,23 +602,23 @@ public class ClientBT {
             }
         }
 
-        private void folderRecursiveDelete(File file) {
-            if (!file.exists())
-                return;
-            if (file.isDirectory()) {
-                for (File f : file.listFiles()) {
-                    folderRecursiveDelete(f);
-                }
-            }
-           try{
-               if(!file.getCanonicalPath().equals(applicationPath))
-                   file.delete();
-           }
-           catch (IOException e){
-               ;
-           }
-
-        }
+//        private void folderRecursiveDelete(File file) {
+//            if (!file.exists())
+//                return;
+//            if (file.isDirectory()) {
+//                for (File f : file.listFiles()) {
+//                    folderRecursiveDelete(f);
+//                }
+//            }
+//           try{
+//               if(!file.getCanonicalPath().equals(applicationPath))
+//                   file.delete();
+//           }
+//           catch (IOException e){
+//               ;
+//           }
+//
+//        }
 
 //        public void unZipIt(String zipFile, String outputFolder){
 //
@@ -677,6 +680,7 @@ public class ClientBT {
                 mmOutStream.write(buffer);
 
                 if(StudQuizActivity.submited){
+                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     mHandler.obtainMessage(Constants.STUDENT_SUBMITED, 0, 0, null)
                             .sendToTarget();
 //                    StudQuizActivity.submited = false;

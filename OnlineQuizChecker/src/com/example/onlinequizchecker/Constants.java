@@ -42,6 +42,6 @@ public interface Constants {
     public static final String LECTURER = "Lecturer";
     public static final String STUDENT = "Student";
     public static final String RECONNECT = "Reconnect";
-  
+    public static final String RECOVERY = "Recovery";
     
 }

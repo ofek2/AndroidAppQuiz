@@ -59,7 +59,7 @@ public class ServerBT {
 	 * an outgoing connection, the client tries each UUID one at a time.
 	 */
 	private UUID mUuid;
-
+	private String course;
 	// Constants that indicate the current connection state
 	public static final int STATE_NONE = 0; // we're doing nothing
 	public static final int STATE_LISTEN = 1; // now listening for incoming
@@ -89,10 +89,10 @@ public class ServerBT {
 	 * @param mHandler 
 	 */
 	@SuppressLint("NewApi")
-	public ServerBT(MainActivity activity, Handler mHandler) {
+	public ServerBT(MainActivity activity, Handler mHandler,String course) {
 		// , Handler handler) {
 		mAdapter = BluetoothAdapter.getDefaultAdapter();
-
+		this.course = course;
 		this.activity = activity;
 		try {
 			applicationPath = activity.getFilelist().getCanonicalPath()+"/";
@@ -579,7 +579,7 @@ public class ServerBT {
 								setStudentId(StudentId);
 								if(splited.length==2)
 								{
-								byte[] msg = toByteArray("You have authorized");
+								byte[] msg = toByteArray("You have authorized-"+course);
 								write(msg);
 //								setStudentId(StudentId);
 								mHandler.obtainMessage(Constants.MESSAGE_READ,

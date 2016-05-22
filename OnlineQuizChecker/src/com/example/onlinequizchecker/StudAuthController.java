@@ -11,6 +11,7 @@ import android.os.Message;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class StudAuthController{
     public static CharSequence PINcode;
     public CharSequence studentId;
     public static boolean loginsuccedded;
-    private String applicationPath;
+    public static String applicationPath;
     private TextView label;
     private BroadcastReceiver mReceiver;
     public static ArrayList<BluetoothDevice> scanDevices;
@@ -293,6 +294,7 @@ public class StudAuthController{
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
+                    String course = (String)msg.obj;
 //                    Toast.makeText(activity.getApplicationContext(), studentId,
 //                            Toast.LENGTH_LONG).show();
 //                	activity.setContentView(R.layout.stud_loginview);
@@ -303,9 +305,11 @@ public class StudAuthController{
                             Toast.LENGTH_LONG).show();
                     break;
                 case Constants.STUDENT_SUBMITED:
+                {
+//                	folderRecursiveDelete(new File(applicationPath+"/"));
                     Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
                             Toast.LENGTH_LONG).show();
-
+                }
 //                    clientBT.stop();
 //                    BluetoothAdapter.getDefaultAdapter().disable();
 
@@ -331,5 +335,23 @@ public class StudAuthController{
             if(scanDevices.get(i).getAddress().equals(bluetoothDevice.getAddress()))
                 return true;
         return  false;
+    }
+    
+    public static void folderRecursiveDelete(File file) {
+        if (!file.exists())
+            return;
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                folderRecursiveDelete(f);
+            }
+        }
+       try{
+           if(!file.getCanonicalPath().equals(applicationPath))
+               file.delete();
+       }
+       catch (IOException e){
+           ;
+       }
+
     }
 }
