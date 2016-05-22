@@ -514,9 +514,8 @@ public class ClientBT {
                     	String fileSize = splited[3];
                     	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
-                    	String quizPath = applicationPath+"/"+course;
-//                    			+"/Quizzes/"+
-//                    			quizName + "/Form/";
+//                    	String quizPath = applicationPath+"/"+course;
+                    	String quizPath = applicationPath+"/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers";
                     	int byteStartIndex = String.valueOf(fileSize).length()+
                         course.length()+
                         quizName.length()+

@@ -52,7 +52,8 @@ public class zipFileManager {
 	        if(fileToZip.getName().equals(Constants.APP_NAME))
 	        	zipEntryName = null;
 	        for (File file : fileToZip.listFiles()) {
-	            addDirToZipArchive(zos, file, zipEntryName);
+	        	if(!file.getName().endsWith(".zip"))
+	        		addDirToZipArchive(zos, file, zipEntryName);
 	        }
 	    } else {
 	        System.out.println("   " + zipEntryName);

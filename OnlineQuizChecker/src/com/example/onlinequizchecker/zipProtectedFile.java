@@ -45,7 +45,12 @@ public class zipProtectedFile {
              // pass (Directory to be Zipped) and ZIP parameters
              //for Zip file to be created
              zipFile.addFolder(directoryToBeZipped, zipParameters);
-
+             File[] files = new File(directoryToBeZipped).listFiles();
+             for (int i = 0; i < files.length; i++) {
+				if(!files[i].getName().endsWith(".zip"))
+					files[i].delete();
+			}
+             
              System.out.println("Password protected Zip file of Directory "
                     +directoryToBeZipped+" have been created at "+ destinationZipFilePath);
 
@@ -121,7 +126,7 @@ public class zipProtectedFile {
 
              //Now Extract ZIP file
              zipFile.extractAll(extractedZipFilePath);
-
+             
              System.out.println(sourceZipFilePath + " have been extracted at "
                           + extractedZipFilePath);
 

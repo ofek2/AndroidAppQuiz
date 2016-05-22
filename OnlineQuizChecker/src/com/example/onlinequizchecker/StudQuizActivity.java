@@ -498,10 +498,29 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		timer.cancel();
 		if(clientBT.mConnectedThread!=null)
 		{
-		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
-		FileInputStream fileInputStream=null;
+//		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
+			zipFileManager.createZipFile(new File(quizPath), quizPath+"/"+studentId+".zip");
         
-        File file = new File(applicationPath+"/"+studentId+".zip");
+			    submited = true;
+	    if(clientBT.mConnectedThread!=null)
+	    	clientBT.mConnectedThread.write(zipToByteArray(studentId,quizPath));
+//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+//				Toast.LENGTH_LONG).show();
+	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
+//		clientBT.stop();
+//		bluetoothAdapter.disable();
+//
+//	    new MainController(activity);
+		}
+		else
+			zipProtectedFile.createZipFile(activity.zipFilesPassword, quizPath+"/"+studentId+".zip", quizPath);
+//			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
+	}
+
+	public static byte[] zipToByteArray(CharSequence studentId,String quizPath) {
+		// TODO Auto-generated method stub
+		FileInputStream fileInputStream=null;
+        File file = new File(quizPath+"/"+studentId+".zip");
         int fileSize = (int) file.length();
         byte[] bFile = new byte[ String.valueOf(fileSize).length()+fileSize+1];
         
@@ -534,19 +553,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 			bFile[bIndex] = readFile[l];
 			bIndex++;
 		}
-	    submited = true;
-	    if(clientBT.mConnectedThread!=null)
-	    	clientBT.mConnectedThread.write(bFile);
-//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
-//				Toast.LENGTH_LONG).show();
-	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
-//		clientBT.stop();
-//		bluetoothAdapter.disable();
-//
-//	    new MainController(activity);
-		}
-		else
-			zipProtectedFile.createZipFile(activity.zipFilesPassword, applicationPath+"/"+studentId+".zip", ClientBT.quizPathToZip);
+	    return bFile;
 	}
 
 }

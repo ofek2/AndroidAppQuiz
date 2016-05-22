@@ -295,6 +295,19 @@ public class StudAuthController{
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
                     String course = (String)msg.obj;
+                    if(new File(applicationPath+"/"+course).exists())
+                    {
+                    	File[] quizzes = new File(applicationPath+"/"+course+"/Quizzes").listFiles();
+                    	String recovreyPath;
+//                    	for (int i = 0; i < quizzes.length; i++) {
+                    		recovreyPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
+                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+                        			ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
+                        	new File(ClientBT.quizPathToZip+"/"+studentId+".zip").delete();
+                        	zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
+                        	StudQuizActivity.zipToByteArray(studentId,recovreyPath);
+//						}
+                    }
 //                    Toast.makeText(activity.getApplicationContext(), studentId,
 //                            Toast.LENGTH_LONG).show();
 //                	activity.setContentView(R.layout.stud_loginview);
