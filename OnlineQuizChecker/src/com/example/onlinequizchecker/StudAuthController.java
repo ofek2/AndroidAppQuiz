@@ -30,7 +30,7 @@ public class StudAuthController{
     private char [] macCharacters = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
     private int decimalPosInPinCode;
-    private ClientBT clientBT;
+    public static ClientBT clientBT;
     public static CharSequence PINcode;
     public CharSequence studentId;
     public static boolean loginsuccedded;
@@ -52,7 +52,12 @@ public class StudAuthController{
         currentlyCheckingDevice = false;
 //        maxDiscoveryIteration = 3;
         loginsuccedded = false;
-        clientBT=null;
+        if(StudAuthController.clientBT != null)
+        {
+        	StudAuthController.clientBT.stop();
+        	StudAuthController.clientBT = null;
+        }
+//        clientBT=null;
         studentAuthorized = false;
         label = (TextView)this.activity.findViewById(R.id.waitingLbl);
         try {
@@ -87,7 +92,7 @@ public class StudAuthController{
 //								maxDiscoveryIteration=0;
                     StudLoginController.loginPressed = false;////////////////////////////////////////////////////////////////
 //                        scanDevices.add(device);
-                    if (!isFound(device))
+                    if (!isFound(device)&&lecturerFound==false)
                         clientBT.connect(device);
 //                        try {
 //							clientBT.mConnectThread.join();
@@ -288,6 +293,8 @@ public class StudAuthController{
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
+//                    Toast.makeText(activity.getApplicationContext(), studentId,
+//                            Toast.LENGTH_LONG).show();
 //                	activity.setContentView(R.layout.stud_loginview);
                     break;
                 case Constants.CONNECTION_LOST:

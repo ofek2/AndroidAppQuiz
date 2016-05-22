@@ -85,6 +85,7 @@ public class ClientBT {
         mConnThreads = new ArrayList<ConnectedThread>();
         mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
+        lecturerDevice = null;
 //      studentAuthorized = false;
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));

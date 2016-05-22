@@ -301,7 +301,8 @@ public class ServerBT {
 		stoped = true;
 		for (int i=0;i<mConnThreads.size();i++) {
 			if (mConnThreads.get(i) != null) {
-				mConnThreads.get(i).cancel();
+				mConnThreads.get(i).connectedThread = null;
+				mConnThreads.get(i).cancel();				
 				mConnThreads.set(i,null);
 				mConnThreads.remove(i);
 			}
