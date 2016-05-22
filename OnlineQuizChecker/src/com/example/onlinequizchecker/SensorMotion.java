@@ -88,7 +88,11 @@ public class SensorMotion implements SensorEventListener {
             {
                 String message = Constants.MOVING+"-"+studentId;
 		    	byte[] buffer = toByteArray(message);
-		    	showAlertDialog("Please return to your sit!");
+//		    	showAlertDialog("Please return to your sit!");
+		    	
+		    	// -- Disable a student's quiz --
+		    	activity.setContentView(R.layout.stud_quizdisableview);
+		    	
 		    	clientBT.mConnectedThread.write(buffer);
                 stepCount = 0;
             }

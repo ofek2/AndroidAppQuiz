@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import static com.example.onlinequizchecker.LectMessageHandler.toByteArray;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -71,6 +73,16 @@ public class LectQuizProgressController {
                 if(listView.getChildAt(position).getDrawingCacheBackgroundColor()== Constants.STUDENT_IS_MOVING_COLOR)
                 {
                 	// Do something to enable the moving student's quiz.
+                	for(int i = 0;i<LectStudentRegListController.serverBT.mConnThreads.size();i++)
+                	{
+                		String studentId = (String) parent.getItemAtPosition(position);
+                		if(studentId.equals(LectStudentRegListController.serverBT.mConnThreads.get(i).getStudentId()))
+                		{
+                			String message = Constants.ENABLE_QUIZ+"-"+studentId;
+                			byte[] buffer = toByteArray(message);
+                			LectStudentRegListController.serverBT.mConnThreads.get(i).write(buffer);
+                		}
+                	}
                 	listView.getChildAt(position).setBackgroundColor(0);
                 	listView.getChildAt(position).setDrawingCacheBackgroundColor(0);
                 }

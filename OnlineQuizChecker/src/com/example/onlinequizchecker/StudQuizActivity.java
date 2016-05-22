@@ -56,7 +56,9 @@ public class StudQuizActivity{
 	private TextView timeLeftText;
 	
 	/** The timer. */
-	private final CounterClass timer;
+	private CounterClass timer;
+	
+	private int timePeriod;
 	
 	/** The quiz path. */
 	private String quizPath;
@@ -110,15 +112,16 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		submited = false;
 //		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
+		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
-		timer = new CounterClass(timePeriod*60000, 1000);
+		timer = new CounterClass(this.timePeriod *60000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
 //		initMotionSensor();
 		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
 		
-		loadQuiz();
+		loadQuiz(true);
 	}
 	
 	/**
@@ -201,7 +204,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	 * Load quiz.
 	 */
 	@JavascriptInterface
-	public void loadQuiz() {
+	public void loadQuiz(boolean initializeTimer) {
 		// TODO Auto-generated method stub
 //		File filelist = activity.getFilelist();
 		// File quizFileToView = new
@@ -213,10 +216,12 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		settings.setDisplayZoomControls(false);
 		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
 		// webView.loadUrl("file:///android_asset/1.html");
+		if(initializeTimer)
 		webView.setWebViewClient(new WebViewClient() {
 
 			   public void onPageFinished(WebView view, String url) {
 			        // do your stuff here
+				   
 				   timer.start();
 			    }
 			});
@@ -561,5 +566,20 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		}
 	    return bFile;
 	}
-
+	public void enableQuiz()
+	{
+		activity.setContentView(R.layout.stud_quizview);
+		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
+		submited = false;
+//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
+		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
+		submit.setOnClickListener(new submitBtnListener());
+		
+		initTextToSpeech();
+//		initMotionSensor();
+		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
+		
+		loadQuiz(false);
+	}
 }

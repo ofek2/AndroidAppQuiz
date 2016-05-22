@@ -23,7 +23,7 @@ public interface Constants {
     public static final int CANCEL_MARK = 9;
     public static final int CONNECTION_LOST=10;
     public static final int STUDENT_SUBMITED=11;
-    public static final int BLINK_RECOVERY=11;
+    public static final int BLINK_RECOVERY=12;
     
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
@@ -38,7 +38,7 @@ public interface Constants {
     //Motion sensor command
     public static final String MOVING = "Moving";
     public static final int STUDENT_IS_MOVING_COLOR = Color.argb(180, 220, 0, 0); 
-    
+    public static final int ENABLE_QUIZ = 13;
     //User Classification
     public static final String LECTURER = "Lecturer";
     public static final String STUDENT = "Student";
