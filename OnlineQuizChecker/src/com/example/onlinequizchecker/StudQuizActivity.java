@@ -504,11 +504,11 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		if(clientBT.mConnectedThread!=null)
 		{
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
-			zipFileManager.createZipFile(new File(quizPath), quizPath+"/"+studentId+".zip");
+			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
         
 			    submited = true;
-	    if(clientBT.mConnectedThread!=null)
-	    	clientBT.mConnectedThread.write(zipToByteArray(quizPath+"/"+studentId+".zip",ClientBT.pathToSend));
+//	    if(clientBT.mConnectedThread!=null)
+	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
 	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
@@ -518,7 +518,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //	    new MainController(activity);
 		}
 		else
-			zipProtectedFile.createZipFile(activity.zipFilesPassword, quizPath+"/"+studentId+".zip", quizPath);
+			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 	}
 
