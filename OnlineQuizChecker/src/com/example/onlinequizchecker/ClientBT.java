@@ -550,7 +550,7 @@ public class ClientBT {
                     	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
                     	ZipEntry entry = null;
-                    	new File(quizPath).mkdir();
+                    	new File(quizPath).mkdirs();
                     	while ((entry = zipStream.getNextEntry()) != null) {
                     		
                     	    String entryName = entry.getName();
