@@ -579,11 +579,11 @@ public class ClientBT {
 //                	    fileOuputStream.write(readFile);
 //                	    fileOuputStream.close();
                     	
-                    	File file = new File(zipFile);
-                    	if(file.exists())
-                    	{
-                    		;
-                    	}
+//                    	File file = new File(zipFile);
+//                    	if(file.exists())
+//                    	{
+//                    		;
+//                    	}
 //                    	zipFileManager.unZipIt(zipFile, quizPath);
                     	quizPathToZip = quizPath;
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
