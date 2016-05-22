@@ -29,6 +29,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
+import android.util.TimingLogger;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
@@ -494,6 +495,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	 */
 	private void submitQuizAndExit()
 	{
+		timer.cancel();
 		if(clientBT.mConnectedThread!=null)
 		{
 		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), applicationPath+"/"+studentId+".zip");
