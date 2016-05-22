@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_secondary"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="You are trying to leave the classroom!"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/student_moving"
+        android:textSize="@dimen/Titles_font" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Return to your sit and wait for the lecturer to enable your quiz"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/Buttons_font" />
+
+</LinearLayout>
