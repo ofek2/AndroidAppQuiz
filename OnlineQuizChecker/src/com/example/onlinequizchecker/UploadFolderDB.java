@@ -9,10 +9,12 @@ import android.widget.Toast;
 public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	private String pathToDelete;
 	private MainActivity activity;
-	public UploadFolderDB(String pathToDelete, MainActivity activity) {
+	private boolean executeOnPost;
+	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost) {
 		super();
 		this.pathToDelete = pathToDelete;
 		this.activity = activity;
+		this.executeOnPost = executeOnPost;
 	}
 	@Override
 	protected Long doInBackground(String... params) {
@@ -22,6 +24,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		
 	}
 	 protected void onPostExecute(Long result) {
+		 if(executeOnPost){
 		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
 		 activity.setUserClassification("");
 		 //////////////////////////////////
@@ -36,6 +39,6 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 Toast toast = Toast.makeText(activity.getApplicationContext(),  "The files were successfully saved",
                     Toast.LENGTH_SHORT);
          toast.show();
-
+		 }
      }
 }

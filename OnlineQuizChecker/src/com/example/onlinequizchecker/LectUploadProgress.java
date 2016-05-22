@@ -24,7 +24,7 @@ public class LectUploadProgress {
 		// TODO Auto-generated method stub
 
 		try {
-			new UploadFolderDB(path,activity).
+			new UploadFolderDB(path,activity,true).
 				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

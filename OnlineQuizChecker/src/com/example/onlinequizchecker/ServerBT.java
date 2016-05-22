@@ -564,8 +564,13 @@ public class ServerBT {
 	                    	
 	                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
 							String str = getStudentId();
-	                    	mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,
-									-1, str).sendToTarget();
+							if(!LectQuizSelectionController.studentsAnswersPath.isEmpty())
+								mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,
+										-1, str).sendToTarget();
+							else
+								mHandler.obtainMessage(Constants.BLINK_RECOVERY, posInConnectedThreadList,
+										-1, str).sendToTarget();
+	                    	
                     	}
 					}
 					// Send the obtained bytes to the UI Activity

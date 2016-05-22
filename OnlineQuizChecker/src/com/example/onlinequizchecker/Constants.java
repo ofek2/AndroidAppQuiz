@@ -23,6 +23,7 @@ public interface Constants {
     public static final int CANCEL_MARK = 9;
     public static final int CONNECTION_LOST=10;
     public static final int STUDENT_SUBMITED=11;
+    public static final int BLINK_RECOVERY=11;
     
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";
