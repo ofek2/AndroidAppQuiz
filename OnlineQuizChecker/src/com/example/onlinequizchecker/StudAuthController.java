@@ -42,6 +42,7 @@ public class StudAuthController{
     public static boolean lecturerFound;
     public static boolean currentlyCheckingDevice;
     public static boolean studentAuthorized;
+    private StudQuizActivity studtentQuizActivity;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
@@ -290,7 +291,7 @@ public class StudAuthController{
 
                     int quizPeriod = msg.arg1;
                     activity.setUserClassification(Constants.STUDENT);
-                    new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
+                    studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     label.setText("Waiting for quiz initiation.");
@@ -322,16 +323,22 @@ public class StudAuthController{
                             Toast.LENGTH_LONG).show();
                     break;
                 case Constants.STUDENT_SUBMITED:
-                {
+                
 //                	folderRecursiveDelete(new File(applicationPath+"/"));
                     Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
                             Toast.LENGTH_LONG).show();
-                }
+                
 //                    clientBT.stop();
 //                    BluetoothAdapter.getDefaultAdapter().disable();
 
                     new MainController(activity);
                     break;
+                case Constants.ENABLE_QUIZ:
+                	if(studtentQuizActivity!=null)
+                	studtentQuizActivity.enableQuiz();
+                	break;
+
+                   
 //                case Constants.UNREGISTER_RECEIVER:
 //                	activity.unregisterReceiver(mReceiver);
 //                    break;
