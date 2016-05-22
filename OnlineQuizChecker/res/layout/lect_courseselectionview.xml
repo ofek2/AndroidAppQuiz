@@ -6,83 +6,112 @@
     android:orientation="vertical"
     android:weightSum="1" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        android:background="@color/top_bar_backgroundcolor_blue"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/titleCourseSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Course Selection"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/title_color"
+            android:textSize="@dimen/Titles_font" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:background="@color/background_color_blue"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/chooseCourseIdLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose course ID :"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
         android:background="@color/background_color_blue" >
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/top_bar_backgroundcolor_blue"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.1"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center" >
-
-                <TextView
-                    android:id="@+id/titleCourseSelection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Course Selection"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/title_color"
-                    android:textSize="@dimen/Titles_font" />
-            </LinearLayout>
         </LinearLayout>
 
-        <TableLayout
-            android:id="@+id/tableLayout2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="70dp"
-            android:stretchColumns="1" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.8"
+            android:orientation="vertical" >
 
-            <TableRow
-                android:id="@+id/tableRow1"
-                android:layout_width="fill_parent"
+            <Spinner
+                android:id="@+id/coursesSpinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:gravity="center" >
+                android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/chooseCourseIdLbl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Choose course ID :"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
 
-            </TableRow>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.1"
+            android:orientation="vertical" >
+        </LinearLayout>
 
-        </TableLayout>
+    </LinearLayout>
 
-        <Spinner
-            android:id="@+id/coursesSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tableLayout2"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:background="@color/background_color_blue"
+        android:gravity="center"
+        android:orientation="vertical" >
 
         <Button
             android:id="@+id/connectionBtn"
             style="@style/buttonStyle"
             android:layout_width="245dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/coursesSpinner"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="89dp"
             android:background="@drawable/custom_button"
             android:text="Open Connection" />
-        
-    </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:background="@color/primary_dark"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/logoutBtn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/ripple_effect"
+            android:text="Logout"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/Buttons_font" />
+
+    </LinearLayout>
 
 </LinearLayout>

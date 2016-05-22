@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Student Registration"
+                android:text="Students Connection"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/Titles_font" />
@@ -92,10 +92,26 @@
                 android:id="@+id/backBtnStudRegList"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.33"
                 android:background="@drawable/ripple_effect"
                 android:text="Back"
-                android:textColor="@color/accent" />
+                android:textColor="@color/accent"
+                android:textSize="@dimen/Buttons_font" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@color/title_color" />
+
+            <Button
+                android:id="@+id/RecoveryBtn"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.33"
+                android:background="@drawable/ripple_effect"
+                android:text="Recover Quizzes"
+                android:textColor="@color/accent"
+                android:textSize="@dimen/Buttons_font" />
 
             <View
                 android:layout_width="1dp"
@@ -105,13 +121,13 @@
             <Button
                 android:id="@+id/quizSelectionBtn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.33"
                 android:background="@drawable/ripple_effect"
-                android:drawableTop="@drawable/paper1"
-                android:gravity="bottom|center"
+                android:gravity="center"
                 android:text="Quiz Selection"
-                android:textColor="@color/accent" />
+                android:textColor="@color/accent"
+                android:textSize="@dimen/Buttons_font" />
 
         </LinearLayout>
     </LinearLayout>

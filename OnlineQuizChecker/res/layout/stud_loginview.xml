@@ -125,7 +125,9 @@
             android:layout_height="fill_parent"
             android:background="@drawable/ripple_effect"
             android:text="Back"
-            android:textColor="@color/accent" />
+            android:textColor="@color/accent"
+            android:textSize="@dimen/Buttons_font" />
+
     </LinearLayout>
 
 </LinearLayout>

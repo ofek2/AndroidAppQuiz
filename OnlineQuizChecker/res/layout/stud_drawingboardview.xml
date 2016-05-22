@@ -25,7 +25,8 @@
             android:layout_weight="0.3"
             android:background="@drawable/ripple_effect"
             android:text="Back"
-            android:textColor="@color/accent" />
+            android:textColor="@color/accent"
+            android:textSize="@dimen/Buttons_font" />
 
         <View
             android:layout_width="1dp"
@@ -39,7 +40,8 @@
             android:layout_weight="0.3"
             android:background="@drawable/ripple_effect"
             android:text="Save"
-            android:textColor="@color/accent" />
+            android:textColor="@color/accent"
+            android:textSize="@dimen/Buttons_font" />
 
         <View
             android:layout_width="1dp"
@@ -53,7 +55,8 @@
             android:layout_weight="0.3"
             android:background="@drawable/ripple_effect"
             android:text="Clean"
-            android:textColor="@color/accent" />
+            android:textColor="@color/accent"
+            android:textSize="@dimen/Buttons_font" />
 
     </LinearLayout>
 

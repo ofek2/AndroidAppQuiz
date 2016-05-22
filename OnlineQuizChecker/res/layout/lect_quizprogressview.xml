@@ -63,7 +63,7 @@
                 android:background="@drawable/ripple_effect"
                 android:text="Finish"
                 android:textColor="@color/accent"
-                android:textSize="@dimen/Titles_font" />
+                android:textSize="@dimen/Buttons_font" />
 
             <View
                 android:id="@+id/view1"
@@ -80,7 +80,8 @@
                 android:drawableTop="@drawable/view"
                 android:gravity="bottom|center"
                 android:text="View Quiz"
-                android:textColor="@color/accent" />
+                android:textColor="@color/accent"
+                android:textSize="@dimen/Buttons_font" />
 
         </LinearLayout>
     </LinearLayout>
