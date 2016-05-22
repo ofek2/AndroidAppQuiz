@@ -40,5 +40,11 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
                     Toast.LENGTH_SHORT);
          toast.show();
 		 }
+		 else
+		 {
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
+						,Toast.LENGTH_SHORT);
+				toast.show();
+		 }
      }
 }
