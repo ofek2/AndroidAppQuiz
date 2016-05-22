@@ -51,8 +51,8 @@ public class MainActivity extends Activity {
 	public void onBackPressed(){ 
 		if(userClassification.equals(Constants.STUDENT))
 			Toast.makeText(getApplicationContext(),"You Are Not Allowed to Exit the App", Toast.LENGTH_SHORT).show();
-		else
-			super.onBackPressed();
+		
+		
 	}
 	
 	@Override
@@ -77,7 +77,6 @@ public class MainActivity extends Activity {
 			unregisterReceiver(blueToothReceiver);
 			StudLoginController.loginsuccedded = false;
 		}
-
 	}
 
 	@Override
