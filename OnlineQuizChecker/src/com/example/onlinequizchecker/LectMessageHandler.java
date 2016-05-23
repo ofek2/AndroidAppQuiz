@@ -20,11 +20,13 @@ import android.widget.Toast;
 public class LectMessageHandler extends Handler{
 	private MainActivity activity;
 	private LectStudentRegListController lectStudentRegListController;
+	public static int inRecoveryMode;
 	public LectMessageHandler(MainActivity activity, LectStudentRegListController lectStudentRegListController)
 	{
 		super();
 		this.activity = activity;
 		this.lectStudentRegListController = lectStudentRegListController;
+		inRecoveryMode = 0;
 	}
 	@Override
     public void handleMessage(Message msg) {
@@ -60,6 +62,7 @@ public class LectMessageHandler extends Handler{
 				break;
 			case Constants.BLINK_RECOVERY:
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
+				inRecoveryMode++;
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 				quizSelectionBtn.setOnClickListener(new OnClickListener() {
 					

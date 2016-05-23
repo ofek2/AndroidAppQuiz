@@ -38,7 +38,7 @@ public class LectStudentRegListController extends ListActivity {
 	private Button recoveryBtn;
 	private ArrayAdapter<String> adapter;
 	private CharSequence PINCODE;
-	
+	private UploadFolderDB uploadFolderDB;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -49,6 +49,13 @@ public class LectStudentRegListController extends ListActivity {
 		LectQuizSelectionController.studentsAnswersPath = "";
 		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity,this),course);/////////////////////////////
 		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();
+		try {
+			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
+					LectStudentRegListController.this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		serverBT.start(listview);///////////////////////////////////
 
 
@@ -212,14 +219,18 @@ public class LectStudentRegListController extends ListActivity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			try {
-				boolean executeOnPost = false;
+//				boolean executeOnPost = false;
 				///
 				Toast toast = Toast.makeText(activity.getApplicationContext(), "Files are being uploaded to the database"
 						,Toast.LENGTH_SHORT);
 				toast.show();
-				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
-						LectStudentRegListController.this).
-				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
+//				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
+//						LectStudentRegListController.this).
+//				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
+				uploadFolderDB.execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
+				if (LectMessageHandler.inRecoveryMode<2) {
+					v.clearAnimation();
+				}
 //				v.clearAnimation();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
