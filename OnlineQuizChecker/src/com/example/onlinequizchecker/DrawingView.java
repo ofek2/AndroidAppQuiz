@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,11 +26,21 @@ public class DrawingView extends View {
     private Paint circlePaint;
     private Path circlePath;
 	private Paint mPaint;
-
+	private String picPath;
     public DrawingView(Context c,AttributeSet a) {
         super(c,a);
         context=c;
-        setDrawingCacheEnabled(true);
+        initView();
+    }
+    public DrawingView(Context c,AttributeSet a,String exitedPicturePath) {
+        super(c,a);
+        context=c;
+        picPath = exitedPicturePath;
+        initView();
+    }
+    private void initView()
+    {
+    	setDrawingCacheEnabled(true);
         mPath = new Path();
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         circlePaint = new Paint();
@@ -48,13 +59,15 @@ public class DrawingView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
     }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;      
         height = h;
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        if(picPath!=null)
+        	mBitmap = BitmapFactory.decodeFile(picPath);
+        else
+        	mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
         
     }
