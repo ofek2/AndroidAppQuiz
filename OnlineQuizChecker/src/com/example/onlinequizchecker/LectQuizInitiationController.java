@@ -74,7 +74,7 @@ public class LectQuizInitiationController {
 
 		private void startQuiz(int quizPeriod) {
 			// TODO Auto-generated method stub
-			new LectQuizProgressController(activity);
+			new LectQuizProgressController(activity,quizPeriod);
 
 			try {
 				String destinationZipFilePath = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
