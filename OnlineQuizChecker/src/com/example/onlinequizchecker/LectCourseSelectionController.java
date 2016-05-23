@@ -22,6 +22,7 @@ public class LectCourseSelectionController{
     private MainActivity activity;
     private Spinner spinner;
     private Button connectionBtn;
+    private Button logoutBtn;
     public LectCourseSelectionController(MainActivity activity) {
         this.activity = activity;
         initView();
@@ -42,6 +43,8 @@ public class LectCourseSelectionController{
 	        spinner = (Spinner)activity.findViewById(R.id.coursesSpinner);
 	        connectionBtn = (Button)activity.findViewById(R.id.connectionBtn);
 	        connectionBtn.setOnClickListener(new connectionBtnListener());
+	        logoutBtn = (Button)activity.findViewById(R.id.logoutBtn);
+	        logoutBtn.setOnClickListener(new logoutBtnListener());
 	        populateSpinner(courses);
 		}
 		
@@ -97,11 +100,21 @@ public class LectCourseSelectionController{
 	}
 	
 	 class connectionBtnListener implements View.OnClickListener
-	    {
-	        @Override
-	        public void onClick(View v) {
-	          
-	            new LectStudentRegListController(activity,spinner.getSelectedItem().toString());
-	        }
-	    }
+     {
+        @Override
+        public void onClick(View v) {
+          
+            new LectStudentRegListController(activity,spinner.getSelectedItem().toString());
+        }
+     }
+	 class logoutBtnListener implements View.OnClickListener
+	 {
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			new MainController(activity);
+		}
+		 
+	 }
 }
