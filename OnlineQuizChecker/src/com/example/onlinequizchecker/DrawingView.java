@@ -27,15 +27,11 @@ public class DrawingView extends View {
     private Path circlePath;
 	private Paint mPaint;
 	private String picPath;
+	private boolean cleaning; 
     public DrawingView(Context c,AttributeSet a) {
         super(c,a);
         context=c;
-        initView();
-    }
-    public DrawingView(Context c,AttributeSet a,String exitedPicturePath) {
-        super(c,a);
-        context=c;
-        picPath = exitedPicturePath;
+        cleaning = false;
         initView();
     }
     private void initView()
@@ -64,18 +60,42 @@ public class DrawingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;      
         height = h;
-        if(picPath!=null)
-        	mBitmap = BitmapFactory.decodeFile(picPath);
-        else
+//        if(picPath!=null){
+//        	
+//        	mBitmap = BitmapFactory.decodeFile(picPath);
+//        	mCanvas = new Canvas();
+//        	picPath = null;
+//        }
+//        else
+//        {
+        if(cleaning)
+        {
         	mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
-        
+    		mCanvas = new Canvas(mBitmap);
+    	
+        }
+    		else
+    		{
+		        if(picPath!= null)
+		        {
+			        mBitmap = BitmapFactory.decodeFile(picPath);
+			    	mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+			    	mCanvas = new Canvas(mBitmap);
+			    	mCanvas.drawBitmap(mBitmap, 0,0, mPaint);
+		        }
+		        else
+		        {
+		        	mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		        	mCanvas = new Canvas(mBitmap);
+		        }
+    		}
+//        
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        
         canvas.drawBitmap( mBitmap, 0, 0, mBitmapPaint);
         canvas.drawPath( mPath,  mPaint);
         canvas.drawPath( circlePath,  circlePaint);
@@ -138,7 +158,9 @@ public class DrawingView extends View {
     {
 
     setDrawingCacheEnabled(false);
+    cleaning = true;
     onSizeChanged(width, height, width, height);
+    cleaning=false;
     invalidate();
     setDrawingCacheEnabled(true);
     }
@@ -161,5 +183,11 @@ public class DrawingView extends View {
     	        e.printStackTrace();
     	    }
     	}
+    }
+    public void setPicture(String picturePath)
+    {
+    	picPath = picturePath;
+    	onSizeChanged(width, height, width, height);
+    	
     }
 }

@@ -34,6 +34,7 @@ public class LectViewQuizController {
 	private LectViewQuizController temp;
 	private LectQuizSelectionController prevController1;
 	private LectQuizProgressController prevController2;
+	private View.OnClickListener prevListener;
 	public LectViewQuizController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz, int selectedIndex)
 	{
 		temp=this;
@@ -47,7 +48,8 @@ public class LectViewQuizController {
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
 		this.back = (Button)this.activity.findViewById(R.id.backBtnLectViewQuiz);
 		this.selectedIndex = selectedIndex;
-		back.setOnClickListener(new backBtnQuizSelectionListener());
+		prevListener = new backBtnQuizSelectionListener();
+		back.setOnClickListener(prevListener);
 		loadQuiz(course,quiz);
 	}
 	public LectViewQuizController(MainActivity activity,LectQuizProgressController previousController,String course,String quiz)
@@ -60,7 +62,8 @@ public class LectViewQuizController {
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView)this.activity.findViewById(R.id.webView);
 		this.back = (Button)this.activity.findViewById(R.id.backBtnLectViewQuiz);
-		back.setOnClickListener(new backBtnQuizProgressListener());
+		prevListener = new backBtnQuizProgressListener();
+		back.setOnClickListener(prevListener);
 		loadQuiz(course,quiz);
 	}
 	private void loadQuiz(String course,String quiz) {
@@ -73,6 +76,7 @@ public class LectViewQuizController {
 			settings.setBuiltInZoomControls(true);
 			settings.setDisplayZoomControls(false);
 //			webView.loadUrl("file:///android_asset/1.html");
+			webView.clearCache(true);
 			webView.addJavascriptInterface(new JavaScriptInterface(quizFileToView.getCanonicalPath()),"Android");
 			
 			webView.loadUrl("file://"+quizFileToView.getAbsolutePath());
@@ -137,18 +141,18 @@ public class LectViewQuizController {
 		@JavascriptInterface
 		public void openDrawingBoard(final String formName)
 		{
-//			Utils.runOnUiThread(new Runnable() {
-//			     @Override
-//			     public void run() {
-//			    	 try {
-//							new StudDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//			     }
-//			});
-			
+			Utils.runOnUiThread(new Runnable() {
+			     @Override
+			     public void run() {
+			    	 try {
+							new LectDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			     }
+			});
+//			
 		}
 		
 	}
@@ -182,10 +186,12 @@ public class LectViewQuizController {
 	{
 		activity.setContentView(R.layout.lect_viewquiz);
 		back = (Button)activity.findViewById(R.id.backBtnLectViewQuiz);
+		back.setOnClickListener(prevListener);
 		webView = (WebView) activity.findViewById(R.id.webView);
 		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
+		webView.clearCache(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
 //		webView.loadUrl("file:///android_asset/1.html");
@@ -206,19 +212,13 @@ public class LectViewQuizController {
 				Element studentDrawing = (Element)studentDrawings.item(0);
 				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
 				{
+					studentDrawing.removeChild(studentDrawing.getFirstChild());
 					Element img = studentQuiz.document.createElement("img");
 					img.setAttribute("src", "SDraw"+qNumber+".PNG");
 					studentDrawing.appendChild(img);
 				}
-				else
-				{
-					studentDrawing.removeChild(studentDrawing.getLastChild());
-					Element img = studentQuiz.document.createElement("img");
-					img.setAttribute("src", "SDraw"+qNumber+".PNG");
-					studentDrawing.appendChild(img);
-				}
-				
 				studentQuiz.writeHtml(studentQuizFile.getCanonicalPath());
+				
 				webView.loadUrl("file://" + studentQuizFile.getAbsolutePath());
 			} catch (TransformerException | IOException e) {
 				// TODO Auto-generated catch block

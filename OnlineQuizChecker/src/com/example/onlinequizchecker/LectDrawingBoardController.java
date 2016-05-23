@@ -13,17 +13,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class StudDrawingBoardController {
+public class LectDrawingBoardController {
     private MainActivity activity;
     private DrawingView dv;
     private Button backBtn;
     private Button saveBtn;
     private Button cleanBtn;
     
-    private StudQuizActivity previousController;
+    private LectViewQuizController previousController;
     private String questionNumber;
     private String coursePath;
-    public StudDrawingBoardController(MainActivity activity,StudQuizActivity previousController,String questionNumber,String coursePath) {
+    public LectDrawingBoardController(MainActivity activity,LectViewQuizController previousController,String questionNumber,String coursePath) {
 
        this.activity=activity;
        this.activity.setContentView(R.layout.stud_drawingboardview);
@@ -33,9 +33,9 @@ public class StudDrawingBoardController {
        this.coursePath = coursePath;
        
        dv = (DrawingView)this.activity.findViewById(R.id.drawingView);
+       
        if(new File(coursePath+"/SDraw"+questionNumber+".PNG").exists())
     	   dv.setPicture(this.coursePath+"/SDraw"+this.questionNumber+".PNG");
-       
        backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
        saveBtn = (Button)this.activity.findViewById(R.id.saveBtn);
        cleanBtn = (Button)this.activity.findViewById(R.id.cleanBtn);

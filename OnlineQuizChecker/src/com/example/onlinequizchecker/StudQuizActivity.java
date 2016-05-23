@@ -408,7 +408,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		activity.setContentView(R.layout.stud_quizview);
 		webView = (WebView) activity.findViewById(R.id.quizWebView);
 		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
-		
+		webView.clearCache(true);
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setBuiltInZoomControls(true);
@@ -584,6 +584,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		submited = false;
 //		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
+		webView.clearCache(true);
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
 		submit.setOnClickListener(new submitBtnListener());
 		
