@@ -61,6 +61,7 @@ public class ClientBT {
 	private BluetoothDevice lecturerDevice;
 	private UUID lecturerDeviceUuid;
 	public static String pathToSend;
+	private boolean receivedQuiz;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -88,6 +89,7 @@ public class ClientBT {
         mUuids = new ArrayList<UUID>();
         lecturerDevice = null;
         pathToSend = "";
+        receivedQuiz = false;
 //      studentAuthorized = false;
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
@@ -276,7 +278,7 @@ public class ClientBT {
         if (mConnectedThread != null)
         {
         	mConnectedThread = null;
-        	if(StudQuizActivity.submited==false)
+        	if(StudQuizActivity.submited==false&&receivedQuiz)
         		while(mConnectedThread==null&&StudQuizActivity.submited==false)
         			mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
         	else
@@ -514,6 +516,7 @@ public class ClientBT {
                     else
                     {
 //                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));
+                    	receivedQuiz = true;
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
                     	course = splited[1];
