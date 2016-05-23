@@ -53,7 +53,7 @@
                     android:textColor="@color/accent" />
 
                 <TextView
-                    android:id="@+id/timeLeftTxt"
+                    android:id="@+id/timeLeftTxtLect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
