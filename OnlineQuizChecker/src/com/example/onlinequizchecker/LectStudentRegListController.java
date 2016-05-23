@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -46,7 +47,7 @@ public class LectStudentRegListController extends ListActivity {
 		listview = (ListView) this.activity.findViewById(R.id.studentListView);
 		initView();
 		LectQuizSelectionController.studentsAnswersPath = "";
-		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity),course);/////////////////////////////
+		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity,this),course);/////////////////////////////
 		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
 
@@ -78,7 +79,16 @@ public class LectStudentRegListController extends ListActivity {
 		backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
 		backBtn.setOnClickListener(new backBtnListener());
 		recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
-		recoveryBtn.setOnClickListener(new recoveryBtnListener());
+		recoveryBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		});
 	}
 
 	private ArrayList<String> getStudentsListFromDB() {
@@ -203,8 +213,14 @@ public class LectStudentRegListController extends ListActivity {
 			// TODO Auto-generated method stub
 			try {
 				boolean executeOnPost = false;
-				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost).
+				///
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "Files are being uploaded to the database"
+						,Toast.LENGTH_SHORT);
+				toast.show();
+				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
+						LectStudentRegListController.this).
 				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
+//				v.clearAnimation();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

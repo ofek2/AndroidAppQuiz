@@ -304,17 +304,51 @@ public class StudAuthController{
                     	String recoveryPath;
                     	String recoveryZipPath;
                     	String pathToSend;
-//                    	for (int i = 0; i < quizzes.length; i++) {
-                    	recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
-                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
-                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
-                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
-                        			recoveryZipPath, recoveryPath);
-                        	new File(recoveryZipPath).delete();
-                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-                        	recovered = true;
-                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
-                        	clientBT.mConnectedThread.write(byteArrayToSend);
+                    	outerloop:
+                    	for (int i = 0; i < quizzes.length; i++) {
+                    		recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers"; 
+                        	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers").
+                        			listFiles();
+                        	for (int j = 0; j < answersFiles.length; j++) {
+                        		if(answersFiles[j].getName().equals(studentId+".zip"))
+    							{
+                        		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+                        		pathToSend = "/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers/";
+                            	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+                            			recoveryZipPath, recoveryPath);
+                            	new File(recoveryZipPath).delete();
+                            	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+                            	recovered = true;
+                            	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+                            	clientBT.mConnectedThread.write(byteArrayToSend);	
+                            	break outerloop;
+    							}
+							}
+    						
+                    	}
+//  //                 	recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
+//                    	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers").listFiles();
+//						if(answersFiles[0].getName().equals(studentId+".zip"))
+//							{
+//                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+//                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
+//                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+//                        			recoveryZipPath, recoveryPath);
+//                        	new File(recoveryZipPath).delete();
+//                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+//                        	recovered = true;
+//                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+//                        	clientBT.mConnectedThread.write(byteArrayToSend);	
+//							}////
+//                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+//                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
+//                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+//                        			recoveryZipPath, recoveryPath);
+//                        	new File(recoveryZipPath).delete();
+//                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+//                        	recovered = true;
+//                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+//                        	clientBT.mConnectedThread.write(byteArrayToSend);
 //						}
                     }
 //                    Toast.makeText(activity.getApplicationContext(), studentId,

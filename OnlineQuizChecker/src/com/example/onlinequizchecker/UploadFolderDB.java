@@ -2,19 +2,27 @@ package com.example.onlinequizchecker;
 
 import java.io.File;
 
+import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
+
 import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	private String pathToDelete;
 	private MainActivity activity;
 	private boolean executeOnPost;
-	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost) {
+	private LectStudentRegListController lectStudentRegListController;
+	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost,
+			LectStudentRegListController lectStudentRegListController) {
 		super();
 		this.pathToDelete = pathToDelete;
 		this.activity = activity;
 		this.executeOnPost = executeOnPost;
+		this.lectStudentRegListController = lectStudentRegListController;
 	}
 	@Override
 	protected Long doInBackground(String... params) {
@@ -42,6 +50,19 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 }
 		 else
 		 {
+				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
+				recoveryBtn.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
+								Toast.LENGTH_SHORT);
+						toast.show();
+					}
+				});
+			 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
+				quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
 				Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
 						,Toast.LENGTH_SHORT);
 				toast.show();
