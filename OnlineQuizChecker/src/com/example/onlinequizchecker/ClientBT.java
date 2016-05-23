@@ -277,7 +277,7 @@ public class ClientBT {
         {
         	mConnectedThread = null;
         	if(StudQuizActivity.submited==false)
-        		while(mConnectedThread==null)
+        		while(mConnectedThread==null&&StudQuizActivity.submited==false)
         			mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
         	else
         	{
@@ -520,7 +520,7 @@ public class ClientBT {
                     	String quizPeriod = splited[2];
                     	String fileSize = splited[3];
                     	///////////////////////////
-                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
+//                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     	
                     	///////////////////////////////////
                     	
@@ -693,13 +693,13 @@ public class ClientBT {
                 mmOutStream.write(buffer);
 
                 if(StudQuizActivity.submited){
-                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
+//                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     mHandler.obtainMessage(Constants.STUDENT_SUBMITED, 0, 0, null)
                             .sendToTarget();
 //                    StudQuizActivity.submited = false;
                 }
-                if(StudAuthController.recovered)
-                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
+//                if(StudAuthController.recovered)
+//                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
 
                 // Share the sent message back to the UI Activity
 //                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)

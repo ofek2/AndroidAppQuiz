@@ -503,12 +503,13 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	private void submitQuizAndExit()
 	{
 		timer.cancel();
+		submited = true;
 		if(clientBT.mConnectedThread!=null)
 		{
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
         
-			    submited = true;
+//			    submited = true;
 //	    if(clientBT.mConnectedThread!=null)
 	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
@@ -525,7 +526,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
             Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
                     Toast.LENGTH_LONG).show();
-        
 //            clientBT.stop();
 //            BluetoothAdapter.getDefaultAdapter().disable();
 

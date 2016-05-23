@@ -43,7 +43,7 @@ public class StudAuthController{
     public static boolean currentlyCheckingDevice;
     public static boolean studentAuthorized;
     private StudQuizActivity studtentQuizActivity;
-    public static boolean recovered;
+//    public static boolean recovered;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
@@ -51,11 +51,12 @@ public class StudAuthController{
         this.PINcode = PINcode;
         this.studentId = studentId;
         this.scanDevices = new ArrayList<BluetoothDevice>();
+        StudQuizActivity.submited = false;
         lecturerFound = false;
         currentlyCheckingDevice = false;
 //        maxDiscoveryIteration = 3;
         loginsuccedded = false;
-        recovered = false;
+//        recovered = false;
         if(StudAuthController.clientBT != null)
         {
         	StudAuthController.clientBT.stop();
@@ -318,7 +319,7 @@ public class StudAuthController{
                             			recoveryZipPath, recoveryPath);
                             	new File(recoveryZipPath).delete();
                             	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-                            	recovered = true;
+//                            	recovered = true;
                             	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
                             	clientBT.mConnectedThread.write(byteArrayToSend);	
                             	break outerloop;
