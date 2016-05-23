@@ -286,7 +286,17 @@ public class LectStudentRegListController extends ListActivity {
 		quizSelectionBtn.setOnClickListener(new quizSelectionBtnListener());
 		backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
 		backBtn.setOnClickListener(new backBtnListener());
-		
+		recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
+		recoveryBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
+						Toast.LENGTH_SHORT);
+				toast.show();
+			}
+		});
     	ListView tempListView = (ListView) activity.findViewById(R.id.studentListView);
     	tempListView.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);
