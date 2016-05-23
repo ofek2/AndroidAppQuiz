@@ -24,6 +24,11 @@ public class zipFileManager {
 			fos = new FileOutputStream(zipFilePath);
 			ZipOutputStream zos = new ZipOutputStream(fos);
 			addDirToZipArchive(zos,fileToZip,null);
+            File[] files = fileToZip.listFiles();
+            for (int i = 0; i < files.length; i++) {
+				if(!files[i].getName().endsWith(".zip"))
+					files[i].delete();
+			}
 			zos.flush();
 			fos.flush();
 			zos.close();

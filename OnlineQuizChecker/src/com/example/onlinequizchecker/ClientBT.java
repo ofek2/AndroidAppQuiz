@@ -692,7 +692,8 @@ public class ClientBT {
                             .sendToTarget();
 //                    StudQuizActivity.submited = false;
                 }
-
+                if(StudAuthController.recovered)
+                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
 
                 // Share the sent message back to the UI Activity
 //                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)

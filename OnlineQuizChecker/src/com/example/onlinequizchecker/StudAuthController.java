@@ -43,6 +43,7 @@ public class StudAuthController{
     public static boolean currentlyCheckingDevice;
     public static boolean studentAuthorized;
     private StudQuizActivity studtentQuizActivity;
+    public static boolean recovered;
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
@@ -54,6 +55,7 @@ public class StudAuthController{
         currentlyCheckingDevice = false;
 //        maxDiscoveryIteration = 3;
         loginsuccedded = false;
+        recovered = false;
         if(StudAuthController.clientBT != null)
         {
         	StudAuthController.clientBT.stop();
@@ -310,6 +312,7 @@ public class StudAuthController{
                         			recoveryZipPath, recoveryPath);
                         	new File(recoveryZipPath).delete();
                         	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+                        	recovered = true;
                         	clientBT.mConnectedThread.write(StudQuizActivity.zipToByteArray(recoveryPath,pathToSend));
 //						}
                     }

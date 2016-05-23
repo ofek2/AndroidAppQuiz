@@ -14,6 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.example.onlinequizchecker.ServerBT.ConnectedThread;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -114,7 +115,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
-		timer = new CounterClass(this.timePeriod *60000, 1000);
+//		timer = new CounterClass(this.timePeriod *60000, 1000);
+		timer = new CounterClass(10000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
@@ -518,8 +520,17 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //	    new MainController(activity);
 		}
 		else
+		{
 			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
+            Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
+                    Toast.LENGTH_LONG).show();
+        
+//            clientBT.stop();
+//            BluetoothAdapter.getDefaultAdapter().disable();
+
+            new MainController(activity);
+		}
 	}
 
 	public static byte[] zipToByteArray(String quizPath,String pathToSend) {

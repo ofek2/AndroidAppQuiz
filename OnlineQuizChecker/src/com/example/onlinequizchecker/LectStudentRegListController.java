@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
+import com.example.onlinequizchecker.MainController.lecturerBtnListener;
 import com.example.onlinequizchecker.R.color;
 
 import android.app.AlertDialog;
@@ -44,6 +45,7 @@ public class LectStudentRegListController extends ListActivity {
 		this.activity.setContentView(R.layout.lect_studentreglist);
 		listview = (ListView) this.activity.findViewById(R.id.studentListView);
 		initView();
+		LectQuizSelectionController.studentsAnswersPath = "";
 		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity),course);/////////////////////////////
 		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();
 //		serverBT.start(listview);///////////////////////////////////
