@@ -505,7 +505,12 @@ public class ClientBT {
                               .sendToTarget();
 //                      cancel();
                       ClientBT.this.stop();
-					} 
+					}   
+                    else if(receivedMessage.equals("Enable Quiz"))
+                    {
+                    	mHandler.obtainMessage(Constants.ENABLE_QUIZ, 0, 0, buffer)
+                        .sendToTarget();
+                    }
                     else
                     {
 //                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));

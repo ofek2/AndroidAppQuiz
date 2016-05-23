@@ -78,7 +78,7 @@ public class LectQuizProgressController {
                 		String studentId = (String) parent.getItemAtPosition(position);
                 		if(studentId.equals(LectStudentRegListController.serverBT.mConnThreads.get(i).getStudentId()))
                 		{
-                			String message = Constants.ENABLE_QUIZ+"-"+studentId;
+                			String message = "Enable Quiz";
                 			byte[] buffer = toByteArray(message);
                 			LectStudentRegListController.serverBT.mConnThreads.get(i).write(buffer);
                 		}
