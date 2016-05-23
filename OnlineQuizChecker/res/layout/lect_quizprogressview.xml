@@ -8,7 +8,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="0.12"
         android:background="@color/top_bar_backgroundcolor_blue"
         android:gravity="center"
         android:orientation="vertical"
@@ -16,8 +16,8 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center" >
+            android:layout_height="0dp"
+            android:layout_weight="0.5" >
 
             <TextView
                 android:id="@+id/textView"
@@ -29,13 +29,46 @@
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/Titles_font" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center" >
+
+                <TextView
+                    android:id="@+id/timeLeftLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Time Left: "
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/accent" />
+
+                <TextView
+                    android:id="@+id/timeLeftTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="00:00"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/accent" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <ListView
         android:id="@+id/studentsFinalListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.77" >
+        android:layout_weight="0.75" >
     </ListView>
 
     <LinearLayout
@@ -80,8 +113,7 @@
                 android:drawableTop="@drawable/view"
                 android:gravity="bottom|center"
                 android:text="View Quiz"
-                android:textColor="@color/accent"
-                android:textSize="@dimen/Buttons_font" />
+                android:textColor="@color/accent" />
 
         </LinearLayout>
     </LinearLayout>
