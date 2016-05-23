@@ -519,7 +519,13 @@ public class ClientBT {
                     	course = splited[1];
                     	String quizPeriod = splited[2];
                     	String fileSize = splited[3];
+                    	///////////////////////////
                     	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
+                    	
+                    	///////////////////////////////////
+                    	
+                    	
+                    	/////////////////////////////////
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
 //                    	String quizPath = applicationPath+"/"+course;
                     	String quizPath = applicationPath+"/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers";

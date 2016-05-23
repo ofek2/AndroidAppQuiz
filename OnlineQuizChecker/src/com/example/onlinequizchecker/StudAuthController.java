@@ -313,7 +313,8 @@ public class StudAuthController{
                         	new File(recoveryZipPath).delete();
                         	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
                         	recovered = true;
-                        	clientBT.mConnectedThread.write(StudQuizActivity.zipToByteArray(recoveryPath,pathToSend));
+                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+                        	clientBT.mConnectedThread.write(byteArrayToSend);
 //						}
                     }
 //                    Toast.makeText(activity.getApplicationContext(), studentId,
