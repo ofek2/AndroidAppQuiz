@@ -31,9 +31,21 @@ public class MainController {
         	LectStudentRegListController.serverBT.stop();
         	LectStudentRegListController.serverBT = null;
         }
-       
+        requestPermmissions();
     }
-    class lecturerBtnListener implements View.OnClickListener
+    @SuppressLint("NewApi")
+    private void requestPermmissions() {
+		// TODO Auto-generated method stub
+    	if(Build.VERSION.SDK_INT==Build.VERSION_CODES.M){
+            int permissionCheck = activity.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
+            permissionCheck += activity.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
+            if (permissionCheck != 0) {
+
+            	activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
+            	}
+        	}
+	}
+	class lecturerBtnListener implements View.OnClickListener
     {
 
         @Override
@@ -46,18 +58,10 @@ public class MainController {
     class studentBtnListener implements View.OnClickListener
     {
 
-        @SuppressLint("NewApi")
+     
 		@Override
         public void onClick(View v) {
-//            activity.setUserClassification("Student");
-        	if(Build.VERSION.SDK_INT==Build.VERSION_CODES.M){
-            int permissionCheck = activity.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
-            permissionCheck += activity.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
-            if (permissionCheck != 0) {
 
-            	activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
-            	}
-        	}
             new StudLoginController(activity);
         }
     }

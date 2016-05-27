@@ -463,7 +463,7 @@ public class ClientBT {
         
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int bytes;
 
             // Keep listening to the InputStream while connected
@@ -521,7 +521,13 @@ public class ClientBT {
                     	String quizName = splited[0];
                     	course = splited[1];
                     	String quizPeriod = splited[2];
-                    	String fileSize = splited[3];
+                    	
+                    	 // ---------------Added for time sync----------------	
+                    	//Get milliseconds to wait for the quiz initiation
+                    	String mSecondsToWait = splited[3];
+                    	 // --------------------------------------------------	
+                    	
+                    	String fileSize = splited[4];
                     	///////////////////////////
 //                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     	
@@ -537,19 +543,21 @@ public class ClientBT {
                         course.length()+
                         quizName.length()+
                         quizPeriod.length()+
-                        +4;
+                        mSecondsToWait.length()+
+                        +5;
+                    	
                     	int bIndex = 0;
                     	for (int i = byteStartIndex; i < bytes; i++) {
 							readFile[bIndex] = buffer[i];
 							bIndex++;
 						}
-                    	buffer = new byte[1024];
+                    	buffer = new byte[4096];
                     	while ((bytes = mmInStream.read(buffer)) > -1) {                   		
                     		for (int i = 0; i < bytes; i++) {
 								readFile[bIndex] = buffer[i];
 								bIndex++;
 							}
-                    		buffer = new byte[1024];
+                    		buffer = new byte[4096];
                     		if(bIndex==Integer.valueOf(fileSize))
                     			break;
                     	}
@@ -604,7 +612,7 @@ public class ClientBT {
 //                    	zipFileManager.unZipIt(zipFile, quizPath);
                     	quizPathToZip = quizPath;
                         mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
-                        		-1, quizPath+"/"+studentId+".html").sendToTarget();
+                        		Integer.valueOf(mSecondsToWait), quizPath+"/"+studentId+".html").sendToTarget();
                     	
 //                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	

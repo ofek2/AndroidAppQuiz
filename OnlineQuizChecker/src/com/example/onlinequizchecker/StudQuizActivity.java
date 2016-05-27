@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.example.onlinequizchecker.LectQuizProgressController.CounterClass;
 import com.example.onlinequizchecker.ServerBT.ConnectedThread;
 
 import android.annotation.SuppressLint;
@@ -56,6 +57,7 @@ public class StudQuizActivity{
 	/** The time left text. */
 	private TextView timeLeftText;
 	
+	private TextView timetext;
 	/** The timer. */
 	private CounterClass timer;
 	
@@ -99,7 +101,7 @@ public class StudQuizActivity{
  * @param applicationPath the application path
  * @param clientBT the client bt
  */
-public StudQuizActivity(MainActivity activity, int timePeriod,
+public StudQuizActivity(MainActivity activity, int timePeriod,int timeToWait,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
 		this.activity = activity;
@@ -111,21 +113,56 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		this.clientBT = clientBT;
 		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
 		submited = false;
-//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
-//		timer = new CounterClass(this.timePeriod *60000, 1000);
-		timer = new CounterClass(20000, 1000);
+		timetext = (TextView) this.activity.findViewById(R.id.timeLeftLbl);
+//		timer = new CounterClass(20000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
-//		initMotionSensor();
 		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
 		
-		loadQuiz(true);
+		// ---------------Added for time sync----------------	
+		syncTime(timeToWait);
+		// --------------------------------------------------
 	}
 	
+	 private void syncTime(long timeToWait) {
+		// TODO Auto-generated method stub
+		timetext.setText("Quiz begins in:");
+		new CountDownTimer(timeToWait,1) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				String ms = String.format("%02d:%02d",
+						TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
+								- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+						TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+								- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+				timeLeftText.setText(ms);
+			}
+			
+			@Override
+			public void onFinish() {
+				// TODO Auto-generated method stub
+				timeLeftText.setText("00:00");
+				timetext.setText("Time Left:");
+				startQuizClock();
+			}
+		}.start();
+		
+	}
+    private void startQuizClock()
+    {
+    	
+    	timer = new CounterClass(timePeriod *60000, 1);
+		//timer = new CounterClass(20000, 1000);
+    	timer.start();
+    	loadQuiz(true);
+    }
+
 	/**
 	 * Inits the text to speech.
 	 */
@@ -219,14 +256,14 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
 		// webView.loadUrl("file:///android_asset/1.html");
 		if(initializeTimer)
-		webView.setWebViewClient(new WebViewClient() {
-
-			   public void onPageFinished(WebView view, String url) {
-			        // do your stuff here
-				   
-				   timer.start();
-			    }
-			});
+//		webView.setWebViewClient(new WebViewClient() {
+//
+//			   public void onPageFinished(WebView view, String url) {
+//			        // do your stuff here
+//				   
+//				   timer.start();
+//			    }
+//			});
 		webView.loadUrl("file://" + quizPath);
 		
 	}

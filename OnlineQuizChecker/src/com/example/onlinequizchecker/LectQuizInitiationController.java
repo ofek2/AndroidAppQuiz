@@ -74,14 +74,16 @@ public class LectQuizInitiationController {
 
 		private void startQuiz(int quizPeriod) {
 			// TODO Auto-generated method stub
-			new LectQuizProgressController(activity,quizPeriod);
+			long timeToStartTheQuiz =System.currentTimeMillis()+10000; //Ten seconds
+			
+			
 
 			try {
 				String destinationZipFilePath = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 						quiz + "/Form/" + quiz+".zip";
 		        String directoryToBeZipped = activity.getFilelist().getCanonicalPath()+"/"+course+"/Quizzes/"+
 		        		quiz + "/Form";     
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[4096];
 				FileOutputStream fos = new FileOutputStream(destinationZipFilePath);
 				ZipOutputStream zos = new ZipOutputStream(fos);
 				File dir = new File(directoryToBeZipped);
@@ -113,13 +115,20 @@ public class LectQuizInitiationController {
 		    	FileInputStream fileInputStream=null;
 		    	String time = String.valueOf(quizPeriod);
 		        File file = new File(destinationZipFilePath);
-		        int fileSize = (int) file.length();		       
+		        int fileSize = (int) file.length();		 
+		        
+		        // ---------------Added for time sync----------------	
+		        long currentTime = System.currentTimeMillis();
+			    String mSecondesToWait = String.valueOf(timeToStartTheQuiz-currentTime);
+			    // --------------------------------------------------	
+			    
 		        byte[] bFile = new byte[fileSize+
 		                                String.valueOf(fileSize).length()+
 		                                course.length()+
 		                                quiz.length()+
 		                                time.length()+
-		                                4];
+		                                mSecondesToWait.length()+
+		                                5];
 		        
 		        byte[] readFile = new byte[fileSize];
 		            //convert file into array of bytes
@@ -129,25 +138,38 @@ public class LectQuizInitiationController {
 			    fileInputStream.close();
 			    file.delete();
 			    int bIndex;
+			    //Store quiz name
 			    for (bIndex = 0; bIndex < quiz.length(); bIndex++) {
 					bFile[bIndex] = (byte)quiz.charAt(bIndex);
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
-			    
+			    //Store course name
 			    for (int m = 0; m < course.length(); m++) {
 					bFile[bIndex] = (byte)course.charAt(m);
 					bIndex++;
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
-			    
+			    //Store quiz time period
 			    for (int j = 0; j < time.length(); j++) {
 					bFile[bIndex] = (byte)time.charAt(j);
 					bIndex++;
 				}
 			    bFile[bIndex] = (byte)'-';
 			    bIndex++;
+			    
+			 // ---------------Added for time sync----------------	
+			    //Store time to wait for the quiz initiation
+			  
+			    for (int j = 0; j < mSecondesToWait.length(); j++) {
+					bFile[bIndex] = (byte)mSecondesToWait.charAt(j);
+					bIndex++;
+				}
+			    bFile[bIndex] = (byte)'-';
+			    bIndex++;
+				// --------------------------------------------------
+			    //Store quiz file size
 			    for (int k = 0; k < String.valueOf(fileSize).length(); k++) {
 					bFile[bIndex] = (byte)String.valueOf(fileSize).charAt(k);
 					bIndex++;
@@ -158,40 +180,12 @@ public class LectQuizInitiationController {
 					bFile[bIndex] = readFile[l];
 					bIndex++;
 				}
-//			    int sendedBytes = 0;
-//			    while(bFile.length>sendedBytes)
-//			    {
-					for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-//						byte[] bytesToSend = new byte[1024];					
-//						if (bFile.length - sendedBytes > 1024) 
-//						{
-//							for (int j = 0; j < 1024; j++) {
-//								bytesToSend[j] = bFile[sendedBytes];
-//								sendedBytes++;
-//							}
-//						} 
-//						else
-//						{
-//							for (int j = 0; j < bFile.length - sendedBytes; j++) {
-//								bytesToSend[j] = bFile[sendedBytes];
-//								sendedBytes++;
-//							}
-//						}
-						 ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
-//						ServerBT.mConnThreads.get(i).getMmOutStream().write(bytesToSend);
-					}
-//			    }
-			    
-//			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-//					ServerBT.mConnThreads.get(i).getMmOutStream().
-//					write(toByteArray(adapter.getItem(selectedIndex)));
-//				}	
-			    
-//			    for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
-//					ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
-//				}	
-			    
-			   
+				for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+					 ServerBT.mConnThreads.get(i).getMmOutStream().write(bFile);
+				}
+				// ---------------Added for time sync----------------	
+				new LectQuizProgressController(activity,quizPeriod,10000);
+				// --------------------------------------------------
 			}catch(Exception e){
 	        	e.printStackTrace();
 	        }

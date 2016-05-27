@@ -293,8 +293,11 @@ public class StudAuthController{
                     String quizPath = (String) msg.obj;
 
                     int quizPeriod = msg.arg1;
+            		// ---------------Added for time sync----------------	
+                    int timeToWait = msg.arg2;
+                    // --------------------------------------------------
                     activity.setUserClassification(Constants.STUDENT);
-                    studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
+                    studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,timeToWait,studentId,quizPath,applicationPath,clientBT);
                     break;
                 case Constants.STUDENT_AUTHORIZED:
                     activity.unregisterReceiver(mReceiver);

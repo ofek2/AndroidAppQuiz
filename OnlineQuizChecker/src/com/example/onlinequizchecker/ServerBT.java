@@ -491,7 +491,7 @@ public class ServerBT {
 		@SuppressWarnings("deprecation")
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[4096];
 			int bytes;
 
 			// Keep listening to the InputStream while connected
@@ -525,13 +525,13 @@ public class ServerBT {
                     			readFile[bIndex] = buffer[i];
                     			bIndex++;
                     		}
-                    		buffer = new byte[1024];
+                    		buffer = new byte[4096];
                     		while ((bytes = mmInStream.read(buffer)) > -1) {                   		
                     			for (int i = 0; i < bytes; i++) {
                     				readFile[bIndex] = buffer[i];
                     				bIndex++;
                     			}
-                    			buffer = new byte[1024];
+                    			buffer = new byte[4096];
                     			if(bIndex==Integer.valueOf(fileSize))
                     				break;
                     		}	

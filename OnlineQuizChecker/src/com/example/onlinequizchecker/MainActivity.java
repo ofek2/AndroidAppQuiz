@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 	}
 	@Override 
 	public void onBackPressed(){ 
-		if(userClassification.equals(Constants.STUDENT))
+	
 			Toast.makeText(getApplicationContext(),"You Are Not Allowed to Exit the App", Toast.LENGTH_SHORT).show();
 		
 		
