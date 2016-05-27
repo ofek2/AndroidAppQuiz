@@ -21,13 +21,15 @@ public class zipFileManager {
 	{
 		 FileOutputStream fos;
 		try {
+			boolean check;
 			fos = new FileOutputStream(zipFilePath);
+			File[] files = fileToZip.listFiles();
 			ZipOutputStream zos = new ZipOutputStream(fos);
 			addDirToZipArchive(zos,fileToZip,null);
-            File[] files = fileToZip.listFiles();
+            files = fileToZip.listFiles();
             for (int i = 0; i < files.length; i++) {
 				if(!files[i].getName().endsWith(".zip"))
-					files[i].delete();
+					check = files[i].delete();
 			}
 			zos.flush();
 			fos.flush();

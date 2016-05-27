@@ -503,9 +503,10 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	private void submitQuizAndExit()
 	{
 		timer.cancel();
-		submited = true;
+//		submited = true;
 		if(clientBT.mConnectedThread!=null)
 		{
+			submited = true;
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
         
@@ -522,14 +523,53 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		}
 		else
 		{
-			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
+			new CountDownTimer(30000, 1000) {
+
+				public void onTick(long millisUntilFinished) {
+					if(clientBT.mConnectedThread!=null)
+					{
+						cancel();
+						submited = true;
+//		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
+						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
+
+//			    submited = true;
+//	    if(clientBT.mConnectedThread!=null)
+						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
+//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+//				Toast.LENGTH_LONG).show();
+						sensorMotion.getSensorManager().unregisterListener(sensorMotion);
+
+//		clientBT.stop();
+//		bluetoothAdapter.disable();
+//
+//	    new MainController(activity);
+					}
+				}
+
+				public void onFinish() {
+					if(!submited) {
+						submited = true;
+						zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
-            Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
-                    Toast.LENGTH_LONG).show();
+						Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
+								Toast.LENGTH_LONG).show();
 //            clientBT.stop();
 //            BluetoothAdapter.getDefaultAdapter().disable();
 
-            new MainController(activity);
+						new MainController(activity);
+					}
+				}
+			}.start();
+
+//			zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
+////			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
+//            Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
+//                    Toast.LENGTH_LONG).show();
+////            clientBT.stop();
+////            BluetoothAdapter.getDefaultAdapter().disable();
+//
+//            new MainController(activity);
 		}
 	}
 

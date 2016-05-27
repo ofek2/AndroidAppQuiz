@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class LectDrawingBoardController {
     private MainActivity activity;
     private DrawingView dv;
-    private Button backBtn;
+//    private Button backBtn;
     private Button saveBtn;
     private Button cleanBtn;
     
@@ -36,24 +36,15 @@ public class LectDrawingBoardController {
        
        if(new File(coursePath+"/SDraw"+questionNumber+".PNG").exists())
     	   dv.setPicture(this.coursePath+"/SDraw"+this.questionNumber+".PNG");
-       backBtn = (Button)this.activity.findViewById(R.id.backBtnQuizInit);
+
        saveBtn = (Button)this.activity.findViewById(R.id.saveBtn);
        cleanBtn = (Button)this.activity.findViewById(R.id.cleanBtn);
-       
-       backBtn.setOnClickListener(new backBtnListener());
+
        saveBtn.setOnClickListener(new saveBtnListener());
        cleanBtn.setOnClickListener(new cleanBtnListener());
    }
     
-   class backBtnListener implements View.OnClickListener
-   {
-
-	@Override
-	public void onClick(View v) {
-		previousController.updateQuizAfterDrawing(questionNumber);
-	}
-	   
-   }
+  
    class saveBtnListener implements View.OnClickListener
    {
 
@@ -61,8 +52,10 @@ public class LectDrawingBoardController {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		dv.saveDrawing(coursePath+"/SDraw"+questionNumber+".PNG");
-		 Toast.makeText(activity.getApplicationContext(), "Your drawing was successfully saved",
+		previousController.updateQuizAfterDrawing(questionNumber);
+		Toast.makeText(activity.getApplicationContext(), "Your drawing was successfully saved",
                  Toast.LENGTH_SHORT).show();
+		
 	}
 	   
    }

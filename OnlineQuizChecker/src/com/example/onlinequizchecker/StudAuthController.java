@@ -297,6 +297,7 @@ public class StudAuthController{
                     studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
                     break;
                 case Constants.STUDENT_AUTHORIZED:
+                    activity.unregisterReceiver(mReceiver);
                     label.setText("Waiting for quiz initiation.");
                     String course = (String)msg.obj;
                     if(new File(applicationPath+"/"+course).exists())
@@ -315,9 +316,11 @@ public class StudAuthController{
     							{
                         		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
                         		pathToSend = "/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers/";
+                                File[] files = new File(recoveryPath).listFiles();
                             	zipProtectedFile.unzipFile(activity.zipFilesPassword,
                             			recoveryZipPath, recoveryPath);
                             	new File(recoveryZipPath).delete();
+                                files = new File(recoveryPath).listFiles();
                             	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
 //                            	recovered = true;
                             	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);

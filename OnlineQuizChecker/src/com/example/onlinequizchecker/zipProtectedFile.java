@@ -58,7 +58,7 @@ public class zipProtectedFile {
              e.printStackTrace();
       }
 	}
-	public static void createZipFileFromSpecificFiles(String password,String quiz,String destinationZipFilePath,String directoryToBeZipped){
+	public static void createZipFileFromSpecificFiles(String password,CharSequence studentId,String destinationZipFilePath,String directoryToBeZipped){
 		 try {
 			 
              // --------Encryption zipParameters (for password protection)--------
@@ -93,7 +93,7 @@ public class zipProtectedFile {
 			 //Add SPECIFIC  files to list
 		         
              for (int i = 0; i < files.length; i++) {
-					if (files[i].getName().equals(quiz+".html")|| files[i].getName().startsWith("Question"))
+					if (files[i].getName().equals(studentId+".html")|| files[i].getName().startsWith("Question"))
 					{
 						System.out.println("Adding file: " + files[i].getName());
 					    list.add(files[i]);
@@ -104,7 +104,10 @@ public class zipProtectedFile {
              // pass (list of files to be added to ZIP file) and ZIP parameters
              //for Zip file to be created
              zipFile.addFiles(list, zipParameters);
-
+             for (int i = 0; i < files.length; i++) {
+                 if(!files[i].getName().endsWith(".zip"))
+                     files[i].delete();
+             }
              System.out.println("Password protected Zip file of specific files "
                           + "have been created at "  + destinationZipFilePath);
 
