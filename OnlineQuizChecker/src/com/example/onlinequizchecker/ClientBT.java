@@ -62,6 +62,7 @@ public class ClientBT {
 	private UUID lecturerDeviceUuid;
 	public static String pathToSend;
 	private boolean receivedQuiz;
+	private  String quizPeriod;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
@@ -463,7 +464,7 @@ public class ClientBT {
         
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[4096];
+            byte[] buffer = new byte[1024];
             int bytes;
 
             // Keep listening to the InputStream while connected
@@ -513,6 +514,11 @@ public class ClientBT {
                     	mHandler.obtainMessage(Constants.ENABLE_QUIZ, 0, 0, buffer)
                         .sendToTarget();
                     }
+                    else if(receivedMessage.equals("Start Quiz"))
+                    {
+                        mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
+                        		-1, quizPathToZip+"/"+studentId+".html").sendToTarget();
+                    }
                     else
                     {
 //                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));
@@ -520,14 +526,8 @@ public class ClientBT {
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
                     	course = splited[1];
-                    	String quizPeriod = splited[2];
-                    	
-                    	 // ---------------Added for time sync----------------	
-                    	//Get milliseconds to wait for the quiz initiation
-                    	String mSecondsToWait = splited[3];
-                    	 // --------------------------------------------------	
-                    	
-                    	String fileSize = splited[4];
+                    	quizPeriod = splited[2];
+                    	String fileSize = splited[3];
                     	///////////////////////////
 //                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     	
@@ -543,24 +543,25 @@ public class ClientBT {
                         course.length()+
                         quizName.length()+
                         quizPeriod.length()+
-                        mSecondsToWait.length()+
-                        +5;
-                    	
+                        +4;
                     	int bIndex = 0;
                     	for (int i = byteStartIndex; i < bytes; i++) {
 							readFile[bIndex] = buffer[i];
 							bIndex++;
 						}
-                    	buffer = new byte[4096];
+                    	buffer = new byte[1024];
                     	while ((bytes = mmInStream.read(buffer)) > -1) {                   		
                     		for (int i = 0; i < bytes; i++) {
 								readFile[bIndex] = buffer[i];
 								bIndex++;
 							}
-                    		buffer = new byte[4096];
+                    		buffer = new byte[1024];
                     		if(bIndex==Integer.valueOf(fileSize))
                     			break;
                     	}
+                    	byte [] msg = toByteArray("Received Quiz");
+                        write(msg);
+                    	
                     	String zipFile = quizPath+quizName+".zip";
 
 //                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -611,8 +612,8 @@ public class ClientBT {
 //                    	}
 //                    	zipFileManager.unZipIt(zipFile, quizPath);
                     	quizPathToZip = quizPath;
-                        mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
-                        		Integer.valueOf(mSecondsToWait), quizPath+"/"+studentId+".html").sendToTarget();
+//      //                  mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
+//      //                  		-1, quizPath+"/"+studentId+".html").sendToTarget();
                     	
 //                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
                     	

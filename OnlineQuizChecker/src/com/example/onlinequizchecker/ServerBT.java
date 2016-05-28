@@ -82,6 +82,7 @@ public class ServerBT {
 	private String applicationPath;
 	private String stringPinCode;
 	private boolean stoped;
+	public int aorqbs;//Amount of received quizzes by students
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
@@ -127,6 +128,7 @@ public class ServerBT {
 		lastPosInConnectedThreadList=0;
 		stoped = false;
 		mUuid = UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc");
+		aorqbs = 0;
 		discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 		activity.startActivityForResult(discoverableIntent,1);
 		// mUuids.add(UUID.fromString("2d64189d-5a2c-4511-a074-77f199fd0834"));
@@ -491,7 +493,7 @@ public class ServerBT {
 		@SuppressWarnings("deprecation")
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
-			byte[] buffer = new byte[4096];
+			byte[] buffer = new byte[1024];
 			int bytes;
 
 			// Keep listening to the InputStream while connected
@@ -512,6 +514,17 @@ public class ServerBT {
                     		mHandler.obtainMessage(Constants.MOTION_SENSOR_TRIGGERED, 0,
     								0, splited[1]).sendToTarget();
                     	}
+                    	else if(receivedMessage.equals("Received Quiz"))
+                    	{
+                    		aorqbs++;
+							if (aorqbs == ServerBT.mConnThreads.size()) {
+								for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
+									ServerBT.mConnThreads.get(i).getMmOutStream().write(toByteArray("Start Quiz"));
+								}								
+	                    		mHandler.obtainMessage(Constants.QUIZ_INITIATION, 0,
+	    								0, null).sendToTarget();								
+							}
+                    	}
                     	else
                     	{
                     		String fileSize = splited[0];
@@ -525,13 +538,13 @@ public class ServerBT {
                     			readFile[bIndex] = buffer[i];
                     			bIndex++;
                     		}
-                    		buffer = new byte[4096];
+                    		buffer = new byte[1024];
                     		while ((bytes = mmInStream.read(buffer)) > -1) {                   		
                     			for (int i = 0; i < bytes; i++) {
                     				readFile[bIndex] = buffer[i];
                     				bIndex++;
                     			}
-                    			buffer = new byte[4096];
+                    			buffer = new byte[1024];
                     			if(bIndex==Integer.valueOf(fileSize))
                     				break;
                     		}	

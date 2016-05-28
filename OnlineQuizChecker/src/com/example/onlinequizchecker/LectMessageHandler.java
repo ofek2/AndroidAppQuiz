@@ -60,6 +60,9 @@ public class LectMessageHandler extends Handler{
 				studentPos = studentPosInList(receivedStudentId, LectStudentRegListController.students);
 				cancelMark(studentPos);
 				break;
+			case Constants.QUIZ_INITIATION:
+				new LectQuizProgressController(activity,LectQuizInitiationController.selectedTimePeriodInt);
+				break;
 			case Constants.BLINK_RECOVERY:
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				inRecoveryMode++;

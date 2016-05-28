@@ -35,9 +35,7 @@ public class LectQuizProgressController {
 	private int timePeriod;
 	
 	private TextView timeLeftText;
-	
-	private TextView timetext;
-    public LectQuizProgressController(MainActivity activity,int timePeriod,long timeToWait)
+    public LectQuizProgressController(MainActivity activity,int timePeriod)
     {
         this.activity=activity;
         studentsInClass = LectQuizInitiationController.studentsInClass;
@@ -48,45 +46,14 @@ public class LectQuizProgressController {
         finishBtn.setOnClickListener(new finishBtnListener());
         viewQuizBtn = (Button)activity.findViewById(R.id.viewQuizBtn);
         viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
-        this.timePeriod = timePeriod;
-    	timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
-    	timetext = (TextView) this.activity.findViewById(R.id.timeLeftLblLect);
-        syncTime(timeToWait);
         
-    }
-    private void syncTime(long timeToWait) {
-		// TODO Auto-generated method stub
-		timetext.setText("Quiz begins in:");
-		new CountDownTimer(timeToWait,1) {
-			
-			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-				String ms = String.format("%02d:%02d",
-						TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)
-								- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
-						TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
-								- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-				timeLeftText.setText(ms);
-			}
-			
-			@Override
-			public void onFinish() {
-				// TODO Auto-generated method stub
-				timeLeftText.setText("00:00");
-				timetext.setText("Time Left:");
-				startQuizClock();
-			}
-		}.start();
-		
-	}
-    private void startQuizClock()
-    {
-    	timer = new CounterClass(timePeriod *60000, 1);
-		//timer = new CounterClass(20000, 1000);
+    	this.timePeriod = timePeriod;
+		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
+		timer = new CounterClass(this.timePeriod *60000, 1000);
+//		timer = new CounterClass(20000, 1000);
 		timer.start();
     }
-	private void populateList(ArrayList<String> students) {
+    private void populateList(ArrayList<String> students) {
         // TODO Auto-generated method stub
         listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
         listView.setTextFilterEnabled(true);
@@ -166,9 +133,7 @@ public class LectQuizProgressController {
         			}
 				}
         		if (canFinish) {
-        			timer.cancel();
         			new LectUploadProgress(activity);
-        			
 //        			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
 //        				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
         			
