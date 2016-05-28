@@ -61,7 +61,7 @@ public class ClientBT {
 	private BluetoothDevice lecturerDevice;
 	private UUID lecturerDeviceUuid;
 	public static String pathToSend;
-	private boolean receivedQuiz;
+	public static boolean quizWasInitiated;
 	private  String quizPeriod;
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
@@ -90,7 +90,7 @@ public class ClientBT {
         mUuids = new ArrayList<UUID>();
         lecturerDevice = null;
         pathToSend = "";
-        receivedQuiz = false;
+        quizWasInitiated = false;
 //      studentAuthorized = false;
         // 7 randomly-generated UUIDs. These must match on both server and client.
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
@@ -279,9 +279,14 @@ public class ClientBT {
         if (mConnectedThread != null)
         {
         	mConnectedThread = null;
-        	if(StudQuizActivity.submited==false&&receivedQuiz)
-        		while(mConnectedThread==null&&StudQuizActivity.submited==false)
-        			mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
+        	if(StudQuizActivity.submited==false){
+        		if(quizWasInitiated)
+        			while(mConnectedThread==null&&StudQuizActivity.submited==false)
+        				mConnectThread = new ConnectThread(lecturerDevice, lecturerDeviceUuid);
+        		else
+                    mHandler.obtainMessage(Constants.CONNECTION_LOST, 0, 0, null)
+                    .sendToTarget();
+        	}
         	else
         	{
         		mAdapter.disable();
@@ -522,7 +527,7 @@ public class ClientBT {
                     else
                     {
 //                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));
-                    	receivedQuiz = true;
+//                    	receivedQuiz = true;
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
                     	course = splited[1];
@@ -559,6 +564,7 @@ public class ClientBT {
                     		if(bIndex==Integer.valueOf(fileSize))
                     			break;
                     	}
+//                    	receivedQuiz = true;
                     	byte [] msg = toByteArray("Received Quiz");
                         write(msg);
                     	

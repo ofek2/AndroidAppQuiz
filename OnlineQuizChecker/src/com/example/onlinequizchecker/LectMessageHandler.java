@@ -60,6 +60,9 @@ public class LectMessageHandler extends Handler{
 				studentPos = studentPosInList(receivedStudentId, LectStudentRegListController.students);
 				cancelMark(studentPos);
 				break;
+			case Constants.CONNECTION_LOST:
+				new MainController(activity);
+				break;
 			case Constants.QUIZ_INITIATION:
 				new LectQuizProgressController(activity,LectQuizInitiationController.selectedTimePeriodInt);
 				break;

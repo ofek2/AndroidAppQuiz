@@ -230,7 +230,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //			    }
 //			});
 		webView.loadUrl("file://" + quizPath);
-		
+		ClientBT.quizWasInitiated = true;
 	}
 	
 	/**

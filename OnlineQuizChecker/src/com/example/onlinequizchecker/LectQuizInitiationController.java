@@ -24,7 +24,7 @@ public class LectQuizInitiationController {
 	private Button startQuizBtn;
 	private Button backBtn;
 	public static ArrayList<String> studentsInClass;
-	public static int selectedTimePeriodInt;
+	public static int selectedTimePeriodInt = 0;
 	public LectQuizInitiationController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz)
 	{
 		this.activity = activity;

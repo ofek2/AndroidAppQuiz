@@ -47,8 +47,9 @@ public class LectStudentRegListController extends ListActivity {
 		listview = (ListView) this.activity.findViewById(R.id.studentListView);
 		initView();
 		LectQuizSelectionController.studentsAnswersPath = "";
+		LectQuizInitiationController.selectedTimePeriodInt=0;
 		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity,this),course);/////////////////////////////
-		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();
+		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();		
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);

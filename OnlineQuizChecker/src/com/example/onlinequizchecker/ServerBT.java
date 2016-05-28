@@ -214,7 +214,13 @@ public class ServerBT {
 	 * @param listview
 	 */
 	public synchronized void start(ListView listview) {
+		///////////////////////////////////////////////////////////////
 		this.listView = listview;
+		///////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////
 		// if (D) Log.d(TAG, "start");
 
 		// Cancel any thread attempting to make a connection
@@ -424,8 +430,15 @@ public class ServerBT {
 				///////////////////////////start accept thread
 				if(!stoped)
 				{
-				mAcceptThread = new AcceptThread();
-				mAcceptThread.start();
+					if (LectQuizInitiationController.selectedTimePeriodInt==0) {//The quiz was not started yet
+                		mHandler.obtainMessage(Constants.CONNECTION_LOST, 0,
+								0, null).sendToTarget();
+					}
+					else if(LectQuizInitiationController.selectedTimePeriodInt>0)
+					{
+						mAcceptThread = new AcceptThread();
+						mAcceptThread.start();
+					}
 				}
 				// listView.setItemChecked(3,true);
 //				Log.e(TAG, "accept() failed", e);
@@ -641,6 +654,9 @@ public class ServerBT {
 					if (connectedThread != null)
 					{
 //					mConnThreads.remove(connectedThread);
+					mHandler.obtainMessage(Constants.CANCEL_MARK,
+							0, 0, studentId)
+							.sendToTarget();
 					mConnThreads.set(posInConnectedThreadList,null);
 					connectedThread = null;
 //					ServerBT.this.lastPosInConnectedThreadList--;
@@ -650,6 +666,7 @@ public class ServerBT {
 //							.sendToTarget();/////////////////////////////
 
 					cancel();////////////////////////////////////////////////////////////
+
 					////////////////////
 //					mAcceptThreads.remove(uuidPos);
 //					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
