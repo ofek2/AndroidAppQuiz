@@ -82,6 +82,7 @@ public class StudQuizActivity{
 	/** The sensor motion. */
 	private SensorMotion sensorMotion;
 
+
 /** The submited. */
 //	private BluetoothAdapter bluetoothAdapter;
 	public static boolean submited;
@@ -525,7 +526,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		}
 		else
 		{
-			new CountDownTimer(30000, 1000) {
+			activity.setContentView(R.layout.stud_reconnection);
+			new CountDownTimer(15000, 1000) {
 
 				public void onTick(long millisUntilFinished) {
 					if(clientBT.mConnectedThread!=null)
