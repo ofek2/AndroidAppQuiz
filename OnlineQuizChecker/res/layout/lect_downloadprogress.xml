@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color_blue"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:tools="http://schemas.android.com/tools" tools:ignore="HardcodedText">
 
     <TextView
         android:id="@+id/loadingLbl"

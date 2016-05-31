@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1" >
+    android:weightSum="1"
+    tools:ignore="HardcodedText,DisableBaselineAlignment" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -15,7 +17,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            tools:ignore="UselessParent" >
 
             <TextView
                 android:id="@+id/onlineQuizTitle"
@@ -26,9 +29,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/Titles_font" />
-
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +46,8 @@
             android:layout_gravity="center"
             android:layout_weight="0.1"
             android:gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            tools:ignore="NestedWeights" >
 
             <TextView
                 android:id="@+id/titleCourseSelection"
@@ -53,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:text="Choose the correct option in order to login"
                 android:textSize="15sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -65,12 +66,15 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                tools:ignore="DisableBaselineAlignment,UselessParent" >
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.15" >
+                    android:layout_weight="0.15"
+                    tools:ignore="UselessLeaf" >
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -89,16 +93,16 @@
                         android:gravity="bottom|center_horizontal"
                         android:padding="5dp"
                         android:text="Student Login" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.15" >
+                    android:layout_weight="0.15"
+                    tools:ignore="UselessLeaf" >
+
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -110,12 +114,14 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="fill_parent"
+                tools:ignore="UselessParent" >
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.15" >
+                    android:layout_weight="0.15"
+                    tools:ignore="UselessLeaf" >
 
                 </LinearLayout>
 
@@ -136,19 +142,17 @@
                         android:gravity="bottom|center_horizontal"
                         android:padding="5dp"
                         android:text="Lecturer Login" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="0.15" >
+                    android:layout_weight="0.15"
+                    tools:ignore="UselessLeaf" >
+
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>
