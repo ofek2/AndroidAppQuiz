@@ -82,6 +82,7 @@ public class StudQuizActivity{
 	/** The sensor motion. */
 	private SensorMotion sensorMotion;
 
+	public static AlertDialog alert = null;
 
 /** The submited. */
 //	private BluetoothAdapter bluetoothAdapter;
@@ -112,12 +113,13 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		this.clientBT = clientBT;
 		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
 		submited = false;
+		alert = null;
 //		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
 //		timer = new CounterClass(this.timePeriod *60000, 1000);
-		timer = new CounterClass(20000, 1000);
+		timer = new CounterClass(30000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
@@ -494,7 +496,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		@Override
 		public void onClick(View v) {
 
-		    AlertDialog alert = builder.create();
+		    alert = builder.create();
 		    alert.show();
 			
 		}
@@ -515,6 +517,9 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
         
 //			    submited = true;
 //	    if(clientBT.mConnectedThread!=null)
+			submit.setOnClickListener(null);
+			if(alert!=null)
+				alert.dismiss();
 	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
@@ -526,6 +531,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		}
 		else
 		{
+			if(alert!=null)
+				alert.dismiss();
 			activity.setContentView(R.layout.stud_reconnection);
 			new CountDownTimer(15000, 1000) {
 

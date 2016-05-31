@@ -27,7 +27,7 @@ public class LectQuizProgressController {
     private ArrayList<String> studentsInClass;
     public static ListView listView;
     private ArrayAdapter<String> adapter;
-    private Button finishBtn;
+    public static Button finishBtn = null;
     private Button viewQuizBtn;
 	
 	private CounterClass timer;
@@ -39,6 +39,8 @@ public class LectQuizProgressController {
 	public static Object lock;
 	private boolean canFinish;
 	private boolean startUploading;
+	public static AlertDialog finishButtonAlert = null;
+	public static AlertDialog reconnectionDialog = null;
     public LectQuizProgressController(MainActivity activity,int timePeriod)
     {
         this.activity=activity;
@@ -57,7 +59,9 @@ public class LectQuizProgressController {
 		lock = new Object();
 		canFinish = false;
 		startUploading = false;
-		timer = new CounterClass(20000, 1000);
+		finishButtonAlert = null;
+		reconnectionDialog = null;
+		timer = new CounterClass(30000, 1000);
 		timer.start();
     }
     private void populateList(ArrayList<String> students) {
@@ -180,7 +184,7 @@ public class LectQuizProgressController {
 
 	    builder.setTitle("Confirm");
 	    builder.setMessage("Are you want to continue?");
-
+	    
 	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	    	@Override
 	        public void onClick(DialogInterface dialog, int which) {
@@ -203,8 +207,8 @@ public class LectQuizProgressController {
 	            dialog.dismiss();
 	        }
 	    });
-	    AlertDialog alert = builder.create();
-	    alert.show();
+	    finishButtonAlert = builder.create();
+	    finishButtonAlert.show();
     }
 
     private boolean isAllChecked()
@@ -293,6 +297,7 @@ public class LectQuizProgressController {
 						if(isAllChecked())
 						{
 //							canFinish = true;
+//							alert.cancel();
 							startUploading = true;
 							cancel();
 							new LectUploadProgress(activity);
@@ -323,11 +328,15 @@ public class LectQuizProgressController {
 
 	}
 	public void showAlertDialog(String message) {
-
-        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+		if(reconnectionDialog!=null)
+		{
+			reconnectionDialog.dismiss();
+			reconnectionDialog = null;
+		}
+        reconnectionDialog = new AlertDialog.Builder(activity).create();
+        reconnectionDialog.setTitle("Alert");
+        reconnectionDialog.setMessage(message);
+        reconnectionDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -338,7 +347,7 @@ public class LectQuizProgressController {
                     }
                 });
 
-        alertDialog.show();
+        reconnectionDialog.show();
     }
 }
 }

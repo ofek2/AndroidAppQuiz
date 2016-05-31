@@ -7,8 +7,24 @@ public class LectUploadProgress {
 	public LectUploadProgress(MainActivity activity)
 	{
 		this.activity=activity;
-		this.activity.setContentView(R.layout.lect_uploadprogress);
+		if(LectQuizProgressController.finishBtn!=null)
+		{
+			LectQuizProgressController.finishBtn.setOnClickListener(null);
+			LectQuizProgressController.finishBtn = null;
+		}
+		if(LectQuizProgressController.reconnectionDialog!=null)
+		{
+			LectQuizProgressController.reconnectionDialog.dismiss();
+			LectQuizProgressController.reconnectionDialog = null;
+		}
+		if(LectQuizProgressController.finishButtonAlert!=null)
+		{
+			LectQuizProgressController.finishButtonAlert.dismiss();
+			LectQuizProgressController.finishButtonAlert = null;
+		}
 		
+		this.activity.setContentView(R.layout.lect_uploadprogress);
+
 		String path;
 		try {
 			path = activity.getApplicationContext().getFilesDir().getCanonicalPath();
