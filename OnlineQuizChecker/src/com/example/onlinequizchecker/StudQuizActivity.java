@@ -116,8 +116,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
-		timer = new CounterClass(this.timePeriod *60000, 1000);
-//		timer = new CounterClass(20000, 1000);
+//		timer = new CounterClass(this.timePeriod *60000, 1000);
+		timer = new CounterClass(20000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();

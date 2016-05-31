@@ -36,7 +36,7 @@ public class LectQuizProgressController {
 	
 	private TextView timeLeftText;
 	private boolean timeIsUp = false;
-	private Object lock;
+	public static Object lock;
 	private boolean canFinish;
 	private boolean startUploading;
     public LectQuizProgressController(MainActivity activity,int timePeriod)
@@ -53,11 +53,11 @@ public class LectQuizProgressController {
         
     	this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
-		timer = new CounterClass(this.timePeriod *60000, 1000);
+//		timer = new CounterClass(this.timePeriod *60000, 1000);
 		lock = new Object();
 		canFinish = false;
 		startUploading = false;
-//		timer = new CounterClass(20000, 1000);
+		timer = new CounterClass(20000, 1000);
 		timer.start();
     }
     private void populateList(ArrayList<String> students) {
@@ -152,7 +152,7 @@ public class LectQuizProgressController {
             	{
         			if(!startUploading)
         			{
-            		if(!isAllChecked())
+            		if(!isAllChecked()&&!canFinish)
         			{
         				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Reconnecting to the students",
                                 Toast.LENGTH_SHORT);

@@ -36,7 +36,10 @@ public class LectMessageHandler extends Handler{
 				if (msg.arg2==-1)
 				{
 					String receivedStudentId = (String)msg.obj;
-					markPosInFinishList(studentPosInList(receivedStudentId,LectQuizInitiationController.studentsInClass));
+					synchronized (LectQuizProgressController.lock) {
+						markPosInFinishList(studentPosInList(receivedStudentId,LectQuizInitiationController.studentsInClass));
+					}
+//					markPosInFinishList(studentPosInList(receivedStudentId,LectQuizInitiationController.studentsInClass));
 					ServerBT.mConnThreads.get(msg.arg1).cancel();
 				}
 					
