@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import static com.example.onlinequizchecker.LectMessageHandler.toByteArray;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +35,10 @@ public class LectQuizProgressController {
 	private int timePeriod;
 	
 	private TextView timeLeftText;
+	private boolean timeIsUp = false;
+	private Object lock;
+	private boolean canFinish;
+	private boolean startUploading;
     public LectQuizProgressController(MainActivity activity,int timePeriod)
     {
         this.activity=activity;
@@ -50,6 +54,9 @@ public class LectQuizProgressController {
     	this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
 		timer = new CounterClass(this.timePeriod *60000, 1000);
+		lock = new Object();
+		canFinish = false;
+		startUploading = false;
 //		timer = new CounterClass(20000, 1000);
 		timer.start();
     }
@@ -117,33 +124,98 @@ public class LectQuizProgressController {
     }
     class finishBtnListener implements View.OnClickListener
     {
-    	private boolean canFinish = true;
+//    	private boolean canFinish = false;
         @Override
         public void onClick(View v) {
             // handle quiz ending.
 //        	try {
-        		for (int i = 0; i < studentsInClass.size(); i++) {
-        			if(!listView.isItemChecked(i))
+        	synchronized (lock) {
+            	if(!timeIsUp)
+            	{
+            			if(!isAllChecked())
+            			{      				
+//            				canFinish = false;
+//            				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Please wait for all students to finish their quiz",
+//                                    Toast.LENGTH_LONG);
+//                            toast.show();
+                            toFinish();
+            			}
+            			else
+            			{
+//            				canFinish = true;  
+            				new LectUploadProgress(activity);
+            			}          				
+//            			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
+//            				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
+            	}
+            	else
+            	{
+        			if(!startUploading)
         			{
-        				canFinish = false;
-        				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Please wait for all students to finish their quiz",
-                                Toast.LENGTH_LONG);
+            		if(!isAllChecked())
+        			{
+        				Toast toast = Toast.makeText(activity.getApplicationContext(),  "Reconnecting to the students",
+                                Toast.LENGTH_SHORT);
                         toast.show();
-        				break;
         			}
-				}
-        		if (canFinish) {
-        			new LectUploadProgress(activity);
-//        			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
-//        				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
-        			
-        		}
-        		canFinish = true;
+        			else if (canFinish) {
+        				toFinish();
+						}       				
+        			}
+//        			else
+//        				toFinish();
+            	}
+			}
+
 //			} catch (IOException e) {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
         }
+    }
+    private void toFinish()
+    {
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(activity);
+
+	    builder.setTitle("Confirm");
+	    builder.setMessage("Are you want to continue?");
+
+	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	    	@Override
+	        public void onClick(DialogInterface dialog, int which) {
+	            // Do nothing but close the dialog
+	        	
+	            dialog.dismiss();
+//	            canFinish = true;  
+	            timer.cancel();
+	            startUploading = true;
+				new LectUploadProgress(activity);
+	        }
+	    });
+
+	    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+	        @Override
+	        public void onClick(DialogInterface dialog, int which) {
+
+	            // Do nothing
+	            dialog.dismiss();
+	        }
+	    });
+	    AlertDialog alert = builder.create();
+	    alert.show();
+    }
+
+    private boolean isAllChecked()
+    {
+		for (int i = 0; i < studentsInClass.size(); i++) {
+			if(!listView.isItemChecked(i))
+			{
+				return false;
+			}
+		}
+		return true;
     }
     
     public void retrieveView()
@@ -203,9 +275,51 @@ public class LectQuizProgressController {
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
-			showAlertDialog("Time is up! press the finish button to end the quiz.");
-			
-		}
+			synchronized (lock) {
+				timeIsUp = true;
+			}
+//			timeIsUp = true;
+//			showAlertDialog("Trying to reconnect to the students that\n have lost the connection");
+			if(!canFinish)
+			{
+			if(!isAllChecked())
+			{
+				/////////////////////////////////////
+//				activity.setContentView(R.layout.stud_reconnection);
+				showAlertDialog("Trying to reconnect to the students that\n have lost the connection");
+				new CountDownTimer(15000, 1000) {
+//					boolean canFinish = false;
+					public void onTick(long millisUntilFinished) {
+						if(isAllChecked())
+						{
+//							canFinish = true;
+							startUploading = true;
+							cancel();
+							new LectUploadProgress(activity);
+						}
+						else if(startUploading)
+							cancel();
+					}
+
+					public void onFinish() {
+						if(!startUploading) {
+							showAlertDialog("Not all of the students have managed to submit their answers"
+									+ ",\n please press finish to upload the existing answers");
+							canFinish = true;
+						}
+					}
+				}.start();
+				//////////////////////////////////////////////////
+				
+			}
+			else
+			{
+//				canFinish = true;
+				startUploading = true;
+				new LectUploadProgress(activity);
+			}
+			}
+		
 
 	}
 	public void showAlertDialog(String message) {
@@ -226,4 +340,5 @@ public class LectQuizProgressController {
 
         alertDialog.show();
     }
+}
 }

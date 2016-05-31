@@ -532,8 +532,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 				public void onTick(long millisUntilFinished) {
 					if(clientBT.mConnectedThread!=null)
 					{
-						cancel();
 						submited = true;
+						cancel();
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
 
