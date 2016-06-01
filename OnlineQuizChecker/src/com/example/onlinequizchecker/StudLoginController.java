@@ -60,15 +60,23 @@ public class StudLoginController {
 						.getText();
 				studentId = ((TextView) mainActivity.findViewById(R.id.studentIdTxt))
 						.getText();
-				mainActivity.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						mainActivity.setContentView(R.layout.stud_authorizationview);
-					}
-				});
-				new StudAuthController(mainActivity,PINcode,studentId);
+
+				if(PINcode.length()== 0||studentId.length()==0)
+				{
+					Toast.makeText(mainActivity.getApplicationContext(), "Please fill all the fields",
+							Toast.LENGTH_SHORT).show();
+				}
+				else {
+					mainActivity.runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							mainActivity.setContentView(R.layout.stud_authorizationview);
+						}
+					});
+					new StudAuthController(mainActivity, PINcode, studentId);
+				}
 				//.start();
 
 			}

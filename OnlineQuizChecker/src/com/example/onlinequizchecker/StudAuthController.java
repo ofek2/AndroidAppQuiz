@@ -240,9 +240,9 @@ public class StudAuthController{
             }
             mBluetoothAdapter.startDiscovery();
         }
-        else
-            Toast.makeText(activity.getApplicationContext(), "Please fill all fields",
-                    Toast.LENGTH_LONG).show();
+//        else
+//            Toast.makeText(activity.getApplicationContext(), "Please fill all fields",
+//                    Toast.LENGTH_LONG).show();
         // Create a BroadcastReceiver for ACTION_FOUND
 
         activity.setBlueToothReceiver(mReceiver);

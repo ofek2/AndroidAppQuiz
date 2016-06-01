@@ -1,12 +1,18 @@
 package com.example.onlinequizchecker;
 
+import android.os.CountDownTimer;
+
 import java.io.IOException;
 
 public class LectUploadProgress {
 	private MainActivity activity;
-	public LectUploadProgress(MainActivity activity)
+	public LectUploadProgress(MainActivity activity,CountDownTimer timer)
 	{
 		this.activity=activity;
+		if(timer != null) {
+			timer.cancel();
+			timer = null;
+		}
 		if(LectQuizProgressController.finishBtn!=null)
 		{
 			LectQuizProgressController.finishBtn.setOnClickListener(null);

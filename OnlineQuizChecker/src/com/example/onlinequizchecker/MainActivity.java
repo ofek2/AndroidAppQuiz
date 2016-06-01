@@ -77,6 +77,12 @@ public class MainActivity extends Activity {
 			unregisterReceiver(blueToothReceiver);
 			StudLoginController.loginsuccedded = false;
 		}
+
+
+		//-------Check this!!!! ---------
+		BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
+		mAdapter.disable();
+		//-------------------------------
 	}
 
 	@Override

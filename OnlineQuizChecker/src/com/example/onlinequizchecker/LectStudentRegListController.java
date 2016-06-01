@@ -196,7 +196,7 @@ public class LectStudentRegListController extends ListActivity {
 			// TODO Auto-generated method stub
 			boolean studentsAlreadyLoggedIn=false;
 			for(int i=0;i<listview.getChildCount();i++)
-				if(listview.getChildAt(i).isSelected())
+				if(listview.isItemChecked(i))
 					studentsAlreadyLoggedIn=true;
 			if(studentsAlreadyLoggedIn)
 			{

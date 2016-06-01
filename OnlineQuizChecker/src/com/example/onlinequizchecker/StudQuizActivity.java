@@ -80,7 +80,7 @@ public class StudQuizActivity{
 	private TextToSpeech ttobj;
 	
 	/** The sensor motion. */
-	private SensorMotion sensorMotion;
+	private MotionSensor motionSensor;
 
 	public static AlertDialog alert = null;
 
@@ -124,7 +124,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		
 		initTextToSpeech();
 //		initMotionSensor();
-		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
+		motionSensor = new MotionSensor(this.activity,clientBT,studentId);
 		
 		loadQuiz(true);
 	}
@@ -507,7 +507,10 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	 */
 	private void submitQuizAndExit()
 	{
-		timer.cancel();
+		if(timer!=null) {
+			timer.cancel();
+			timer = null;
+		}
 //		submited = true;
 		if(clientBT.mConnectedThread!=null)
 		{
@@ -523,7 +526,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
-	    sensorMotion.getSensorManager().unregisterListener(sensorMotion);
+			motionSensor.getSensorManager().unregisterListener(motionSensor);
 //		clientBT.stop();
 //		bluetoothAdapter.disable();
 //
@@ -549,7 +552,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
-						sensorMotion.getSensorManager().unregisterListener(sensorMotion);
+						motionSensor.getSensorManager().unregisterListener(motionSensor);
 
 //		clientBT.stop();
 //		bluetoothAdapter.disable();
@@ -641,7 +644,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		
 		initTextToSpeech();
 //		initMotionSensor();
-		sensorMotion = new SensorMotion(this.activity,clientBT,studentId);
+		motionSensor = new MotionSensor(this.activity,clientBT,studentId);
 		
 		loadQuiz(false);
 	}

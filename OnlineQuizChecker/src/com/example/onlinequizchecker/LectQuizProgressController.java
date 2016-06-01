@@ -19,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.example.onlinequizchecker.StudQuizActivity.CounterClass;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by 311165906 on 08/05/2016.
  */
@@ -35,6 +37,7 @@ public class LectQuizProgressController {
 	private int timePeriod;
 	
 	private TextView timeLeftText;
+	private TextView timeLeftLbl;
 	private boolean timeIsUp = false;
 	public static Object lock;
 	private boolean canFinish;
@@ -55,6 +58,7 @@ public class LectQuizProgressController {
         
     	this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
+		timeLeftLbl = (TextView) this.activity.findViewById(R.id.timeLeftLblLect);
 //		timer = new CounterClass(this.timePeriod *60000, 1000);
 		lock = new Object();
 		canFinish = false;
@@ -109,7 +113,14 @@ public class LectQuizProgressController {
                 		{
                 			String message = "Enable Quiz";
                 			byte[] buffer = toByteArray(message);
-                			LectStudentRegListController.serverBT.mConnThreads.get(i).write(buffer);
+							if (LectStudentRegListController.serverBT.mConnThreads.get(i)!=null)
+                				LectStudentRegListController.serverBT.mConnThreads.get(i).write(buffer);
+							else
+							{
+								Toast toast = Toast.makeText(activity.getApplicationContext(), (String) parent.getItemAtPosition(position) + " has disconnected",
+										Toast.LENGTH_SHORT);
+								toast.show();
+							}
                 		}
                 	}
                 	listView.getChildAt(position).setBackgroundColor(0);
@@ -147,7 +158,7 @@ public class LectQuizProgressController {
             			else
             			{
 //            				canFinish = true;  
-            				new LectUploadProgress(activity);
+            				new LectUploadProgress(activity,timer);
             			}          				
 //            			new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity).
 //            				execute(activity.getFilelist().getCanonicalPath() + "/OnlineQuizChecker.zip", "/");
@@ -183,7 +194,7 @@ public class LectQuizProgressController {
         builder = new AlertDialog.Builder(activity);
 
 	    builder.setTitle("Confirm");
-	    builder.setMessage("Are you want to continue?");
+	    builder.setMessage("Do you want to continue?");
 	    
 	    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	    	@Override
@@ -192,9 +203,9 @@ public class LectQuizProgressController {
 	        	
 	            dialog.dismiss();
 //	            canFinish = true;  
-	            timer.cancel();
+
 	            startUploading = true;
-				new LectUploadProgress(activity);
+				new LectUploadProgress(activity,timer);
 	        }
 	    });
 
@@ -230,7 +241,7 @@ public class LectQuizProgressController {
         finishBtn.setOnClickListener(new finishBtnListener());
         viewQuizBtn = (Button)activity.findViewById(R.id.viewQuizBtn);
         viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
-        
+		timeLeftLbl = (TextView) this.activity.findViewById(R.id.timeLeftLblLect);
     	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
     	tempListView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);
@@ -291,22 +302,32 @@ public class LectQuizProgressController {
 				/////////////////////////////////////
 //				activity.setContentView(R.layout.stud_reconnection);
 				showAlertDialog("Trying to reconnect to the students that\n have lost the connection");
+				timeLeftLbl.setText("Reconnection ends in:");
 				new CountDownTimer(15000, 1000) {
 //					boolean canFinish = false;
 					public void onTick(long millisUntilFinished) {
+						long millis = millisUntilFinished;
+						String ms = String.format("%02d:%02d",
+								TimeUnit.MILLISECONDS.toMinutes(millis)
+										- TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+								TimeUnit.MILLISECONDS.toSeconds(millis)
+										- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+						System.out.println(ms);
+						timeLeftText.setText(ms);
 						if(isAllChecked())
 						{
 //							canFinish = true;
 //							alert.cancel();
 							startUploading = true;
 							cancel();
-							new LectUploadProgress(activity);
+							new LectUploadProgress(activity,null);
 						}
 						else if(startUploading)
 							cancel();
 					}
 
 					public void onFinish() {
+						timeLeftText.setText("00:00");
 						if(!startUploading) {
 							showAlertDialog("Not all of the students have managed to submit their answers"
 									+ ",\n please press finish to upload the existing answers");
@@ -321,7 +342,7 @@ public class LectQuizProgressController {
 			{
 //				canFinish = true;
 				startUploading = true;
-				new LectUploadProgress(activity);
+				new LectUploadProgress(activity,null);
 			}
 			}
 		
