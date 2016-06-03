@@ -68,7 +68,7 @@ public class StudQuizActivity{
 	private Button submit;
 	
 	/** The student id. */
-	private CharSequence studentId;
+	public static CharSequence studentId;
 	
 	/** The application path. */
 	private String applicationPath;
@@ -127,6 +127,11 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		motionSensor = new MotionSensor(this.activity,clientBT,studentId);
 		
 		loadQuiz(true);
+	Intent intent = new Intent(activity,ClosingService.class);
+//	intent.putExtra("Password",activity.zipFilesPassword);
+//	intent.putExtra("StudentId", activity.zipFilesPassword);
+//	intent.putExtra("",activity.zipFilesPassword);
+	activity.startService(intent);
 	}
 	
 	/**
@@ -542,11 +547,11 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 				public void onTick(long millisUntilFinished) {
 					if(clientBT.mConnectedThread!=null)
 					{
-						submited = true;
+//						submited = true;
 						cancel();
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
-
+						submited = true;
 //			    submited = true;
 //	    if(clientBT.mConnectedThread!=null)
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
@@ -563,8 +568,9 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 
 				public void onFinish() {
 					if(!submited) {
-						submited = true;
+//						submited = true;
 						zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
+						submited = true;
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 						Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
 								Toast.LENGTH_LONG).show();
