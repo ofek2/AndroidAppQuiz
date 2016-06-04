@@ -199,26 +199,44 @@ public class LectStudentRegListController extends ListActivity {
     }
 	class backBtnListener implements View.OnClickListener
 	{
-
+		AlertDialog.Builder builder;
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			boolean studentsAlreadyLoggedIn=false;
-			for(int i=0;i<listview.getChildCount();i++)
-				if(listview.isItemChecked(i))
-					studentsAlreadyLoggedIn=true;
-			if(studentsAlreadyLoggedIn)
+			builder = new AlertDialog.Builder(activity);
+			if (isChecked()) {
+				builder.setTitle("Confirm");
+				builder.setMessage("Some students have already connected,\nare you sure you want to go back?");
+			} 
+			else 
 			{
-				Toast toast = Toast.makeText(activity.getApplicationContext(), "Can't go back, students have already connected"
-						,Toast.LENGTH_SHORT);
-				toast.show();
+				builder.setTitle("Confirm");
+				builder.setMessage("Are you sure?");
 			}
-			else
-			{
-				if(serverBT != null)
-					serverBT.stop();
-				new LectCourseSelectionController(activity);
-			}
+		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		    	@Override
+		        public void onClick(DialogInterface dialog, int which) {
+		            // Do nothing but close the dialog
+		        	
+		            dialog.dismiss();
+					if(serverBT != null)
+						serverBT.stop();
+					new LectCourseSelectionController(activity);
+		        }
+		    });
+
+		    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+		        @Override
+		        public void onClick(DialogInterface dialog, int which) {
+
+		            // Do nothing
+		            dialog.dismiss();
+		        }
+		    });
+		    AlertDialog alert = builder.create();
+		    alert.show();
+			
 		}
 		
 	}

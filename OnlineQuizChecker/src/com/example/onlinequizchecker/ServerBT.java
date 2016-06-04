@@ -631,8 +631,10 @@ public class ServerBT {
 
 //								cancel();////
 								mConnThreads.remove(posInConnectedThreadList);
+								updatePoistions(posInConnectedThreadList);////
 								lastPosInConnectedThreadList--;
 								connectedThread = null;
+								
 								// connectedThread.destroy();
 
 							}
@@ -644,6 +646,7 @@ public class ServerBT {
 
 //							 cancel();/////
 							mConnThreads.remove(posInConnectedThreadList);
+							updatePoistions(posInConnectedThreadList);////
 							lastPosInConnectedThreadList--;
 							connectedThread = null;
 						}
@@ -657,7 +660,10 @@ public class ServerBT {
 					mHandler.obtainMessage(Constants.CANCEL_MARK,
 							0, 0, studentId)
 							.sendToTarget();
-					mConnThreads.set(posInConnectedThreadList,null);
+//					mConnThreads.set(posInConnectedThreadList,null);
+					mConnThreads.remove(posInConnectedThreadList);///
+					updatePoistions(posInConnectedThreadList);////
+					lastPosInConnectedThreadList--;///
 					connectedThread = null;
 //					ServerBT.this.lastPosInConnectedThreadList--;
 					}
@@ -678,6 +684,12 @@ public class ServerBT {
 			}
 		}
 		
+		private void updatePoistions(int startFrom)
+		{
+			for (int i = startFrom; i<mConnThreads.size();i++) {
+				mConnThreads.get(i).posInConnectedThreadList--; 
+			}
+		}
         public InputStream getMmInStream() {
 			return mmInStream;
 		}

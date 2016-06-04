@@ -73,16 +73,9 @@ public class LectMessageHandler extends Handler{
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				inRecoveryMode++;
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
-				quizSelectionBtn.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Toast toast = Toast.makeText(activity.getApplicationContext(), "Please recover the data first",
-								Toast.LENGTH_SHORT);
-						toast.show();
-					}
-				});
+				quizSelectionBtn.setOnClickListener(new whileRecoveryBtnListener());
+				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+				backBtn.setOnClickListener(new whileRecoveryBtnListener());
 				 final Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
 				    animation.setDuration(500); // duration - half a second
 				    animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
@@ -95,6 +88,19 @@ public class LectMessageHandler extends Handler{
         }
     }
 
+	class whileRecoveryBtnListener implements View.OnClickListener
+	{
+
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			Toast toast = Toast.makeText(activity.getApplicationContext(), "Please recover the data first",
+					Toast.LENGTH_SHORT);
+			toast.show();
+		}
+		
+	}
+	
     public static byte[] toByteArray(CharSequence charSequence) {
         if (charSequence == null) {
           return null;

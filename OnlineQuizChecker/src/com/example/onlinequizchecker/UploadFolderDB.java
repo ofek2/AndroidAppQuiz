@@ -65,6 +65,8 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 				});
 			 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 				quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
+				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+				backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
 			 }
 			 LectMessageHandler.inRecoveryMode--;
 			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
