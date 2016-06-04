@@ -160,6 +160,8 @@ public class LectStudentRegListController extends ListActivity {
 		AlertDialog.Builder builder;
         @Override
         public void onClick(View v) {
+        	if(isChecked())
+        	{
         	builder = new AlertDialog.Builder(activity);
 
 		    builder.setTitle("Confirm");
@@ -186,6 +188,13 @@ public class LectStudentRegListController extends ListActivity {
 		    });
 		    AlertDialog alert = builder.create();
 		    alert.show();
+        	}
+        	else
+        	{
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "There must be at least one connected student to continue"
+						,Toast.LENGTH_SHORT);
+				toast.show();
+        	}
         }
     }
 	class backBtnListener implements View.OnClickListener
@@ -273,6 +282,17 @@ public class LectStudentRegListController extends ListActivity {
 		
 	}
 	
+    private boolean isChecked()
+    {
+		for (int i = 0; i < listview.getChildCount(); i++) {
+			if(listview.isItemChecked(i))
+			{
+				return true;
+			}
+		}
+		return false;
+    }
+    
 	public static boolean receivePos(int pos)
 	{
 		if(!listview.isItemChecked(pos)){

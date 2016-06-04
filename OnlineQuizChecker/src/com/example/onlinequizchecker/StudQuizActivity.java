@@ -553,6 +553,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
 						submited = true;
+						ClientBT.quizWasInitiated = false;
 //			    submited = true;
 //	    if(clientBT.mConnectedThread!=null)
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
@@ -572,6 +573,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //						submited = true;
 						zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
 						submited = true;
+						ClientBT.quizWasInitiated = false;
 //			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 						Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
 								Toast.LENGTH_LONG).show();
