@@ -222,9 +222,6 @@ public class LectStudentRegListController extends ListActivity {
 			try {
 //				boolean executeOnPost = false;
 				///
-				Toast toast = Toast.makeText(activity.getApplicationContext(), "Files are being uploaded to the database"
-						,Toast.LENGTH_SHORT);
-				toast.show();
 				recoveryBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -235,6 +232,9 @@ public class LectStudentRegListController extends ListActivity {
 						toast.show();
 					}
 				});
+				Toast toast = Toast.makeText(activity.getApplicationContext(), "Files are being uploaded to the database"
+						,Toast.LENGTH_SHORT);
+				toast.show();
 //				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
 //						LectStudentRegListController.this).
 //				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
