@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class ClosingService extends Service {
     private boolean finished = false;
+    public static Thread thread = null;
 
 
 
@@ -21,18 +22,18 @@ public class ClosingService extends Service {
 
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
-        Thread thread = new Thread(new Runnable() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(StudQuizActivity.timePeriod*60000+15000);
                 } catch (InterruptedException e) {
+                	stopSelf();
                     e.printStackTrace();
                 }
             }
         });
         thread.start();
-
 
         // If we get killed, after returning from here, restart
         return START_STICKY;

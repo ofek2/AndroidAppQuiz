@@ -132,6 +132,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 //	intent.putExtra("StudentId", activity.zipFilesPassword);
 //	intent.putExtra("",activity.zipFilesPassword);
 	activity.startService(intent);
+	
 	}
 	
 	/**
@@ -500,7 +501,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		 */
 		@Override
 		public void onClick(View v) {
-
 		    alert = builder.create();
 		    alert.show();
 			
@@ -532,6 +532,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
+	    	ClosingService.thread.interrupt();
 			motionSensor.getSensorManager().unregisterListener(motionSensor);
 //		clientBT.stop();
 //		bluetoothAdapter.disable();
@@ -559,6 +560,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
 //	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
 //				Toast.LENGTH_LONG).show();
+						ClosingService.thread.interrupt();
 						motionSensor.getSensorManager().unregisterListener(motionSensor);
 
 //		clientBT.stop();
@@ -579,6 +581,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 								Toast.LENGTH_LONG).show();
 //            clientBT.stop();
 //            BluetoothAdapter.getDefaultAdapter().disable();
+						ClosingService.thread.interrupt();
 						motionSensor.getSensorManager().unregisterListener(motionSensor);//////////////////////////////////
 						
 						new MainController(activity);
