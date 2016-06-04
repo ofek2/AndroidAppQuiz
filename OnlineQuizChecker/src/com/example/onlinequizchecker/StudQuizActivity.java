@@ -579,7 +579,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 								Toast.LENGTH_LONG).show();
 //            clientBT.stop();
 //            BluetoothAdapter.getDefaultAdapter().disable();
-
+						motionSensor.getSensorManager().unregisterListener(motionSensor);//////////////////////////////////
+						
 						new MainController(activity);
 					}
 				}
