@@ -26,6 +26,7 @@ public class MainController {
         studentBtn = (Button) this.activity.findViewById(R.id.studentBtn);
         lecturerBtn.setOnClickListener(new lecturerBtnListener());
         studentBtn.setOnClickListener(new studentBtnListener());
+//        ClientBT.quizWasInitiated = false;
         if(LectStudentRegListController.serverBT != null)
         {
         	LectStudentRegListController.serverBT.stop();

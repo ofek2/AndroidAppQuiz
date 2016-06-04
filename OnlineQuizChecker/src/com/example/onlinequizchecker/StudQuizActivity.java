@@ -59,7 +59,7 @@ public class StudQuizActivity{
 	/** The timer. */
 	private CounterClass timer;
 	
-	private int timePeriod;
+	public static int timePeriod;
 	
 	/** The quiz path. */
 	private String quizPath;
@@ -520,6 +520,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		if(clientBT.mConnectedThread!=null)
 		{
 			submited = true;
+			ClientBT.quizWasInitiated = false;
 //		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
         

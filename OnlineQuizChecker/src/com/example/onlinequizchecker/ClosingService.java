@@ -25,7 +25,7 @@ public class ClosingService extends Service {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(30000);
+                    Thread.sleep(StudQuizActivity.timePeriod*60000+15000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -61,7 +61,11 @@ public class ClosingService extends Service {
                     Toast.LENGTH_LONG).show();
             //-------------------------------
         }
-
+        //-------lecturer!!!! ---------
+        
+        
+        
+        //-------------------------------
         BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
         mAdapter.disable();
     }
