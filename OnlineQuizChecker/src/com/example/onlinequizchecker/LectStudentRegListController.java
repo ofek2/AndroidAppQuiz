@@ -302,7 +302,7 @@ public class LectStudentRegListController extends ListActivity {
 	
     private boolean isChecked()
     {
-		for (int i = 0; i < listview.getChildCount(); i++) {
+		for (int i = 0; i < students.size(); i++) {
 			if(listview.isItemChecked(i))
 			{
 				return true;
