@@ -652,36 +652,66 @@ public class ServerBT {
 						}
 					}
 				} catch (IOException e) {
-//					Log.e(TAG, "disconnected", e);
-//					connectionLost();
-					if (connectedThread != null)
-					{
-//					mConnThreads.remove(connectedThread);
-					mHandler.obtainMessage(Constants.CANCEL_MARK,
-							0, 0, studentId)
-							.sendToTarget();
-//					mConnThreads.set(posInConnectedThreadList,null);
-					mConnThreads.remove(posInConnectedThreadList);///
-					updatePoistions(posInConnectedThreadList);////
-					lastPosInConnectedThreadList--;///
-					connectedThread = null;
-//					ServerBT.this.lastPosInConnectedThreadList--;
-					}
-//					mHandler.obtainMessage(Constants.CANCEL_MARK,//////////////////////////////
-//							0, 0, getStudentId())//////////////////////
-//							.sendToTarget();/////////////////////////////
-
-					cancel();////////////////////////////////////////////////////////////
-
-					////////////////////
-//					mAcceptThreads.remove(uuidPos);
-//					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
-//					mAcceptThreads.get(uuidPos).start();
-					////////////////////
-					break;
+					connectionLost();
+////					Log.e(TAG, "disconnected", e);
+////					connectionLost();
+//					if (connectedThread != null)
+//					{
+////					mConnThreads.remove(connectedThread);
+//					mHandler.obtainMessage(Constants.CANCEL_MARK,
+//							0, 0, studentId)
+//							.sendToTarget();
+////					mConnThreads.set(posInConnectedThreadList,null);
+//					mConnThreads.remove(posInConnectedThreadList);///
+//					updatePoistions(posInConnectedThreadList);////
+//					lastPosInConnectedThreadList--;///
+//					connectedThread = null;
+////					ServerBT.this.lastPosInConnectedThreadList--;
+//					}
+////					mHandler.obtainMessage(Constants.CANCEL_MARK,//////////////////////////////
+////							0, 0, getStudentId())//////////////////////
+////							.sendToTarget();/////////////////////////////
+//
+//					cancel();////////////////////////////////////////////////////////////
+//
+//					////////////////////
+////					mAcceptThreads.remove(uuidPos);
+////					mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
+////					mAcceptThreads.get(uuidPos).start();
+//					////////////////////
+//					break;
 				}
 
 			}
+		}
+		
+		private synchronized void connectionLost() {
+//			Log.e(TAG, "disconnected", e);
+//			connectionLost();
+			if (connectedThread != null)
+			{
+//			mConnThreads.remove(connectedThread);
+			mHandler.obtainMessage(Constants.CANCEL_MARK,
+					0, 0, studentId)
+					.sendToTarget();
+//			mConnThreads.set(posInConnectedThreadList,null);
+			mConnThreads.remove(posInConnectedThreadList);///
+			updatePoistions(posInConnectedThreadList);////
+			lastPosInConnectedThreadList--;///
+			connectedThread = null;
+//			ServerBT.this.lastPosInConnectedThreadList--;
+			}
+//			mHandler.obtainMessage(Constants.CANCEL_MARK,//////////////////////////////
+//					0, 0, getStudentId())//////////////////////
+//					.sendToTarget();/////////////////////////////
+
+			cancel();////////////////////////////////////////////////////////////
+
+			////////////////////
+//			mAcceptThreads.remove(uuidPos);
+//			mAcceptThreads.add(uuidPos, new AcceptThread(uuidPos));
+//			mAcceptThreads.get(uuidPos).start();
+			////////////////////
 		}
 		
 		private void updatePoistions(int startFrom)

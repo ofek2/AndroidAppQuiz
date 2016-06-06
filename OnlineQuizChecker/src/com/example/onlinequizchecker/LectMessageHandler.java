@@ -21,11 +21,13 @@ public class LectMessageHandler extends Handler{
 	private MainActivity activity;
 	private LectStudentRegListController lectStudentRegListController;
 	public static int inRecoveryMode;
+	private Object lock;
 	public LectMessageHandler(MainActivity activity, LectStudentRegListController lectStudentRegListController)
 	{
 		super();
 		this.activity = activity;
 		this.lectStudentRegListController = lectStudentRegListController;
+		lock = new Object();
 		inRecoveryMode = 0;
 	}
 	@Override
@@ -45,10 +47,12 @@ public class LectMessageHandler extends Handler{
 					
 				else {
 					String readMessage = (String)msg.obj;
-					if(!LectStudentRegListController.receivePos(studentPosInList(readMessage,LectStudentRegListController.students)))
-					{
-			            byte [] sendMsg = toByteArray("This id is already connected");
-						LectStudentRegListController.serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
+					synchronized (lock) {
+						if(!LectStudentRegListController.receivePos(studentPosInList(readMessage,LectStudentRegListController.students)))
+						{
+							byte [] sendMsg = toByteArray("This id is already connected");
+							LectStudentRegListController.serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
+						}
 					}
 				}
 
