@@ -75,7 +75,8 @@ public class LectMessageHandler extends Handler{
 				break;
 			case Constants.BLINK_RECOVERY:
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
-				inRecoveryMode++;
+				synchronized (LectStudentRegListController.lockA) {									
+//				inRecoveryMode++;
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 				quizSelectionBtn.setOnClickListener(new whileRecoveryBtnListener());
 				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
@@ -88,6 +89,7 @@ public class LectMessageHandler extends Handler{
 				    Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				    recoveryBtn.setOnClickListener(lectStudentRegListController.new recoveryBtnListener());
 				    recoveryBtn.startAnimation(animation);
+				}
 				break;
         }
     }
