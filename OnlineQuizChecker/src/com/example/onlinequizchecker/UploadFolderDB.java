@@ -15,8 +15,8 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	private String pathToDelete;
 	private MainActivity activity;
 	private boolean executeOnPost;
-	private Object lockUpload;	
-	private View RecoveryBtnView;
+//	private Object lockUpload;	
+//	private View RecoveryBtnView;
 	private LectStudentRegListController lectStudentRegListController;
 	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost,
 			LectStudentRegListController lectStudentRegListController) {
@@ -25,12 +25,12 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		this.activity = activity;
 		this.executeOnPost = executeOnPost;
 		this.lectStudentRegListController = lectStudentRegListController;
-		lockUpload = new Object();
+//		lockUpload = new Object();
 	}
-	public void setRecoveyBtnView(View view)
-	{
-		RecoveryBtnView = view;
-	}
+//	public void setRecoveyBtnView(View view)
+//	{
+//		RecoveryBtnView = view;
+//	}
 	
 	@Override
 	protected Long doInBackground(String... params) {

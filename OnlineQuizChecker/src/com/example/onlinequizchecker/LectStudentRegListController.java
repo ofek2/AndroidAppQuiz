@@ -271,7 +271,7 @@ public class LectStudentRegListController extends ListActivity {
 //				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
 //						LectStudentRegListController.this).
 //				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
-				uploadFolderDB.setRecoveyBtnView(v);
+//				uploadFolderDB.setRecoveyBtnView(v);
 				uploadFolderDB.execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
 //				if (LectMessageHandler.inRecoveryMode<2) {
 //					v.clearAnimation();
