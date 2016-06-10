@@ -39,6 +39,7 @@ public class LectStudentRegListController extends ListActivity {
 	private ArrayAdapter<String> adapter;
 	private CharSequence PINCODE;
 	private UploadFolderDB uploadFolderDB;
+	public static Object lockA;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -49,7 +50,8 @@ public class LectStudentRegListController extends ListActivity {
 		LectQuizSelectionController.studentsAnswersPath = "";
 		LectQuizInitiationController.selectedTimePeriodInt=0;
 		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity,this),course);/////////////////////////////
-		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();		
+		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();	
+		lockA = new Object();
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);
@@ -246,6 +248,7 @@ public class LectStudentRegListController extends ListActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
+			synchronized (lockA) {							
 			try {
 //				boolean executeOnPost = false;
 				///
@@ -265,17 +268,18 @@ public class LectStudentRegListController extends ListActivity {
 //				new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,executeOnPost,
 //						LectStudentRegListController.this).
 //				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
+				uploadFolderDB.setRecoveyBtnView(v);
 				uploadFolderDB.execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
-				if (LectMessageHandler.inRecoveryMode<2) {
-					v.clearAnimation();
-				}
-//				v.clearAnimation();
+//				if (LectMessageHandler.inRecoveryMode<2) {
+//					v.clearAnimation();
+//				}
+				v.clearAnimation();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
+		}
 	}
 	public static int studentPosInList(String Id,ArrayList<String> studentsInClass)
 	{
