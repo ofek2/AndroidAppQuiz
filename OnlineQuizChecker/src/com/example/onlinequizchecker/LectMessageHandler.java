@@ -77,6 +77,8 @@ public class LectMessageHandler extends Handler{
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				synchronized (LectStudentRegListController.lockA) {									
 //				inRecoveryMode++;
+				if(!LectStudentRegListController.inRecovery)
+				{
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 				quizSelectionBtn.setOnClickListener(new whileRecoveryBtnListener());
 				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
@@ -89,6 +91,7 @@ public class LectMessageHandler extends Handler{
 				    Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				    recoveryBtn.setOnClickListener(lectStudentRegListController.new recoveryBtnListener());
 				    recoveryBtn.startAnimation(animation);
+				}
 				}
 				break;
         }

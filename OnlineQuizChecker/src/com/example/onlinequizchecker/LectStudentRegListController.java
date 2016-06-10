@@ -40,6 +40,7 @@ public class LectStudentRegListController extends ListActivity {
 	private CharSequence PINCODE;
 	private UploadFolderDB uploadFolderDB;
 	public static Object lockA;
+	public static boolean inRecovery;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -52,6 +53,7 @@ public class LectStudentRegListController extends ListActivity {
 		serverBT = new ServerBT(this.activity,new LectMessageHandler(this.activity,this),course);/////////////////////////////
 		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();	
 		lockA = new Object();
+		inRecovery = false;
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);
@@ -250,6 +252,7 @@ public class LectStudentRegListController extends ListActivity {
 			// TODO Auto-generated method stub
 			synchronized (lockA) {							
 			try {
+				inRecovery = true;
 //				boolean executeOnPost = false;
 				///
 				recoveryBtn.setOnClickListener(new OnClickListener() {

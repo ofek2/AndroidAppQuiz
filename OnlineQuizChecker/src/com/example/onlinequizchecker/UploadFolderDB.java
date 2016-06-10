@@ -16,7 +16,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	private MainActivity activity;
 	private boolean executeOnPost;
 	private Object lockUpload;	
-	private View RecoveyBtnView;
+	private View RecoveryBtnView;
 	private LectStudentRegListController lectStudentRegListController;
 	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost,
 			LectStudentRegListController lectStudentRegListController) {
@@ -29,14 +29,41 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	}
 	public void setRecoveyBtnView(View view)
 	{
-		RecoveyBtnView = view;
+		RecoveryBtnView = view;
 	}
 	
 	@Override
 	protected Long doInBackground(String... params) {
 		synchronized (LectStudentRegListController.lockA) {
-			RecoveyBtnView.clearAnimation();
+			LectStudentRegListController.inRecovery = false;
+//			RecoveryBtnView.clearAnimation();
 			DropBoxSimple.uploadFolder(new File(params[0]), params[1]);
+			if(!executeOnPost)
+			{
+//				RecoveryBtnView.clearAnimation();
+//				 if(LectMessageHandler.inRecoveryMode<2)
+//				 {
+					Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
+					recoveryBtn.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
+									Toast.LENGTH_SHORT);
+							toast.show();
+						}
+					});
+				 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
+					quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
+					Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+					backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
+//				 }
+//				 LectMessageHandler.inRecoveryMode--;
+				 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
+					 	 ,Toast.LENGTH_SHORT);
+				 toast.show();
+			}
 			return null;
 		}
 		// TODO Auto-generated method stub
@@ -63,29 +90,29 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 else
 		 {
 			 
-			 RecoveyBtnView.clearAnimation();
-//			 if(LectMessageHandler.inRecoveryMode<2)
-//			 {
-				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
-				recoveryBtn.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
-								Toast.LENGTH_SHORT);
-						toast.show();
-					}
-				});
-			 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
-				quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
-				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
-				backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
-//			 }
-//			 LectMessageHandler.inRecoveryMode--;
-			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
-				 	 ,Toast.LENGTH_SHORT);
-			 toast.show();
+//			 RecoveryBtnView.clearAnimation();
+////			 if(LectMessageHandler.inRecoveryMode<2)
+////			 {
+//				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
+//				recoveryBtn.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						// TODO Auto-generated method stub
+//						Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
+//								Toast.LENGTH_SHORT);
+//						toast.show();
+//					}
+//				});
+//			 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
+//				quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
+//				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
+//				backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
+////			 }
+////			 LectMessageHandler.inRecoveryMode--;
+//			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
+//				 	 ,Toast.LENGTH_SHORT);
+//			 toast.show();
 		}
 	 }
     }
