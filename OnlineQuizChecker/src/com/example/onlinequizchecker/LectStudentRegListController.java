@@ -42,7 +42,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static Object lockA;
 	public static boolean inRecovery;
 	public static boolean finishedUploadRecovery;
-	public static AlertDialog alert;
+	public static AlertDialog alert = null;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
