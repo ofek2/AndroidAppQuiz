@@ -104,7 +104,7 @@ public class LectMessageHandler extends Handler{
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Toast toast = Toast.makeText(activity.getApplicationContext(), "Please recover the data first",
+			Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery has to be finished",
 					Toast.LENGTH_SHORT);
 			toast.show();
 		}
