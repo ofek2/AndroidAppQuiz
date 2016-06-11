@@ -42,6 +42,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static Object lockA;
 	public static boolean inRecovery;
 	public static boolean finishedUploadRecovery;
+	public static AlertDialog alert;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -192,7 +193,7 @@ public class LectStudentRegListController extends ListActivity {
 		            dialog.dismiss();
 		        }
 		    });
-		    AlertDialog alert = builder.create();
+		    alert = builder.create();
 		    alert.show();
         	}
         	else
@@ -240,7 +241,7 @@ public class LectStudentRegListController extends ListActivity {
 		            dialog.dismiss();
 		        }
 		    });
-		    AlertDialog alert = builder.create();
+		    alert = builder.create();
 		    alert.show();
 			
 		}
