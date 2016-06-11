@@ -57,6 +57,7 @@ public class LectStudentRegListController extends ListActivity {
 		lockA = new Object();
 		inRecovery = false;
 		finishedUploadRecovery = true;
+		alert = null;
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);
