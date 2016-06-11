@@ -79,6 +79,7 @@ public class LectMessageHandler extends Handler{
 //				inRecoveryMode++;
 				if(!LectStudentRegListController.inRecovery)
 				{
+				LectStudentRegListController.inRecovery = true;
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
 				quizSelectionBtn.setOnClickListener(new whileRecoveryBtnListener());
 				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);

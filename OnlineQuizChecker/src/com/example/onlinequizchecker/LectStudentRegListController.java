@@ -41,6 +41,7 @@ public class LectStudentRegListController extends ListActivity {
 	private UploadFolderDB uploadFolderDB;
 	public static Object lockA;
 	public static boolean inRecovery;
+	public static boolean finishedUploadRecovery;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -54,6 +55,7 @@ public class LectStudentRegListController extends ListActivity {
 		PINCODE =((TextView) this.activity.findViewById(R.id.PINCodeTxt)).getText();	
 		lockA = new Object();
 		inRecovery = false;
+		finishedUploadRecovery = true;
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);
@@ -252,9 +254,11 @@ public class LectStudentRegListController extends ListActivity {
 			// TODO Auto-generated method stub
 			synchronized (lockA) {							
 			try {
-				inRecovery = true;
+//				inRecovery = true;
 //				boolean executeOnPost = false;
 				///
+				if(finishedUploadRecovery)
+				{
 				recoveryBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -277,10 +281,18 @@ public class LectStudentRegListController extends ListActivity {
 //					v.clearAnimation();
 //				}
 				v.clearAnimation();
+				}
+				else
+				{
+					Toast toast = Toast.makeText(activity.getApplicationContext(), "Wait for past recovery to be finished"
+							,Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 		}
 	}

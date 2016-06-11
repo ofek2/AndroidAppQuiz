@@ -36,6 +36,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	protected Long doInBackground(String... params) {
 		synchronized (LectStudentRegListController.lockA) {
 			LectStudentRegListController.inRecovery = false;
+			LectStudentRegListController.finishedUploadRecovery = false;
 //			RecoveryBtnView.clearAnimation();
 			DropBoxSimple.uploadFolder(new File(params[0]), params[1]);
 			if(!executeOnPost)
@@ -92,6 +93,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
 		 	 ,Toast.LENGTH_SHORT);
 			 toast.show();
+			 LectStudentRegListController.finishedUploadRecovery = true;
 //			 RecoveryBtnView.clearAnimation();
 ////			 if(LectMessageHandler.inRecoveryMode<2)
 ////			 {
