@@ -59,13 +59,13 @@ public class LectQuizProgressController {
     	this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxtLect);
 		timeLeftLbl = (TextView) this.activity.findViewById(R.id.timeLeftLblLect);
-//		timer = new CounterClass(this.timePeriod *60000, 1000);
+		timer = new CounterClass(this.timePeriod *60000, 1000);
 		lock = new Object();
 		canFinish = false;
 		startUploading = false;
 		finishButtonAlert = null;
 		reconnectionDialog = null;
-		timer = new CounterClass(30000, 1000);
+//		timer = new CounterClass(30000, 1000);
 		timer.start();
     }
     private void populateList(ArrayList<String> students) {
