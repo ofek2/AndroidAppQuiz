@@ -138,22 +138,22 @@ public class LectViewQuizController {
 		
 			
 		}
-		@JavascriptInterface
-		public void openDrawingBoard(final String formName)
-		{
-			Utils.runOnUiThread(new Runnable() {
-			     @Override
-			     public void run() {
-			    	 try {
-							new LectDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			     }
-			});
-//			
-		}
+//		@JavascriptInterface
+//		public void openDrawingBoard(final String formName)
+//		{
+//			Utils.runOnUiThread(new Runnable() {
+//			     @Override
+//			     public void run() {
+//			    	 try {
+//							new LectDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//			     }
+//			});
+////			
+//		}
 		
 	}
 	 static class Utils {
@@ -182,50 +182,50 @@ public class LectViewQuizController {
 		}
 		
 	}
-	public void updateQuizAfterDrawing(String qNumber)
-	{
-		activity.setContentView(R.layout.lect_viewquiz);
-		back = (Button)activity.findViewById(R.id.backBtnLectViewQuiz);
-		back.setOnClickListener(prevListener);
-		webView = (WebView) activity.findViewById(R.id.webView);
-		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
-		WebSettings settings = webView.getSettings();
-		settings.setJavaScriptEnabled(true);
-		webView.clearCache(true);
-		settings.setBuiltInZoomControls(true);
-		settings.setDisplayZoomControls(false);
-//		webView.loadUrl("file:///android_asset/1.html");
-		try {
-			webView.addJavascriptInterface(new JavaScriptInterface(quizFileToView.getCanonicalPath()),"Android");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		File studentQuizFile = quizFileToView;
-		FileInputStream in;
-
-			try {
-				in = new FileInputStream(studentQuizFile);
-				HtmlParser studentQuiz = new HtmlParser(in);
-				NodeList studentDrawings = studentQuiz.document.getElementsByTagName("studentdrawing"+qNumber);
-				Element studentDrawing = (Element)studentDrawings.item(0);
-				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
-				{
-					studentDrawing.removeChild(studentDrawing.getFirstChild());
-					Element img = studentQuiz.document.createElement("img");
-					img.setAttribute("src", "SDraw"+qNumber+".PNG");
-					studentDrawing.appendChild(img);
-				}
-				studentQuiz.writeHtml(studentQuizFile.getCanonicalPath());
-				
-				webView.loadUrl("file://" + studentQuizFile.getAbsolutePath());
-			} catch (TransformerException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-				
-			
-	}
+//	public void updateQuizAfterDrawing(String qNumber)
+//	{
+//		activity.setContentView(R.layout.lect_viewquiz);
+//		back = (Button)activity.findViewById(R.id.backBtnLectViewQuiz);
+//		back.setOnClickListener(prevListener);
+//		webView = (WebView) activity.findViewById(R.id.webView);
+//		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
+//		WebSettings settings = webView.getSettings();
+//		settings.setJavaScriptEnabled(true);
+//		webView.clearCache(true);
+//		settings.setBuiltInZoomControls(true);
+//		settings.setDisplayZoomControls(false);
+////		webView.loadUrl("file:///android_asset/1.html");
+//		try {
+//			webView.addJavascriptInterface(new JavaScriptInterface(quizFileToView.getCanonicalPath()),"Android");
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
+//		File studentQuizFile = quizFileToView;
+//		FileInputStream in;
+//
+//			try {
+//				in = new FileInputStream(studentQuizFile);
+//				HtmlParser studentQuiz = new HtmlParser(in);
+//				NodeList studentDrawings = studentQuiz.document.getElementsByTagName("studentdrawing"+qNumber);
+//				Element studentDrawing = (Element)studentDrawings.item(0);
+//				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
+//				{
+//					studentDrawing.removeChild(studentDrawing.getFirstChild());
+//					Element img = studentQuiz.document.createElement("img");
+//					img.setAttribute("src", "SDraw"+qNumber+".PNG");
+//					studentDrawing.appendChild(img);
+//				}
+//				studentQuiz.writeHtml(studentQuizFile.getCanonicalPath());
+//				
+//				webView.loadUrl("file://" + studentQuizFile.getAbsolutePath());
+//			} catch (TransformerException | IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//				
+//			
+//	}
 }

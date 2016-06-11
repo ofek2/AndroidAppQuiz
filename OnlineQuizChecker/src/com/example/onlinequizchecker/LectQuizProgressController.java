@@ -241,7 +241,8 @@ public class LectQuizProgressController {
         finishBtn.setOnClickListener(new finishBtnListener());
         viewQuizBtn = (Button)activity.findViewById(R.id.viewQuizBtn);
         viewQuizBtn.setOnClickListener(new viewQuizBtnListener());
-		timeLeftLbl = (TextView) this.activity.findViewById(R.id.timeLeftLblLect);
+		timeLeftLbl = (TextView) activity.findViewById(R.id.timeLeftLblLect);
+		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxtLect);
     	ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
     	tempListView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
     	tempListView.setTextFilterEnabled(true);
