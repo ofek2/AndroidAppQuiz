@@ -230,7 +230,10 @@ public class LectStudentRegListController extends ListActivity {
 		        	
 		            dialog.dismiss();
 					if(serverBT != null)
+					{
 						serverBT.stop();
+						serverBT = null;
+					}
 					new LectCourseSelectionController(activity);
 		        }
 		    });
