@@ -43,6 +43,7 @@ public class LectStudentRegListController extends ListActivity {
 	public static boolean inRecovery;
 	public static boolean finishedUploadRecovery;
 	public static AlertDialog alert = null;
+	public static boolean recoveryPressed = false;
 	public LectStudentRegListController(MainActivity activity,String course) {
 		super();
 		this.course = course;
@@ -58,6 +59,7 @@ public class LectStudentRegListController extends ListActivity {
 		inRecovery = false;
 		finishedUploadRecovery = true;
 		alert = null;
+		recoveryPressed = false;
 		try {
 			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
 					LectStudentRegListController.this);
@@ -259,8 +261,9 @@ public class LectStudentRegListController extends ListActivity {
 //				inRecovery = true;
 //				boolean executeOnPost = false;
 				///
-				if(finishedUploadRecovery)
+				if(finishedUploadRecovery&&!recoveryPressed)
 				{
+				recoveryPressed = true;
 				recoveryBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
