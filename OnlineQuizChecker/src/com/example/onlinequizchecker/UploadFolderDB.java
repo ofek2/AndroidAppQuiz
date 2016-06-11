@@ -60,9 +60,9 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 					backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
 //				 }
 //				 LectMessageHandler.inRecoveryMode--;
-				 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
-					 	 ,Toast.LENGTH_SHORT);
-				 toast.show();
+//				 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
+//					 	 ,Toast.LENGTH_SHORT);
+//				 toast.show();
 			}
 			return null;
 		}
@@ -89,7 +89,9 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 }
 		 else
 		 {
-			 
+			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
+		 	 ,Toast.LENGTH_SHORT);
+			 toast.show();
 //			 RecoveryBtnView.clearAnimation();
 ////			 if(LectMessageHandler.inRecoveryMode<2)
 ////			 {
