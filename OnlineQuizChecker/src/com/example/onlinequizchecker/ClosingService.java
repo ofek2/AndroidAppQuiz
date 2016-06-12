@@ -46,22 +46,22 @@ public class ClosingService extends Service {
     }
     @Override
     public void onTaskRemoved(Intent rootIntent){
-        finished = true;
-//        if (blueToothReceiver != null) {
-//            unregisterReceiver(blueToothReceiver);
-//            StudLoginController.loginsuccedded = false;
+//        finished = true;
+////        if (blueToothReceiver != null) {
+////            unregisterReceiver(blueToothReceiver);
+////            StudLoginController.loginsuccedded = false;
+////        }
+//        String zipFilesPassword = MainActivity.zipFilesPassword;
+//
+//        if (!StudQuizActivity.submited&&ClientBT.quizWasInitiated)
+//        {
+//            CharSequence studentId = StudQuizActivity.studentId;
+//            zipProtectedFile.createZipFileFromSpecificFiles(zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
+//            //-------Check this!!!! ---------
+//            Toast.makeText(getApplicationContext(), "Your quiz was successfully saved on your storage",
+//                    Toast.LENGTH_LONG).show();
+//            //-------------------------------
 //        }
-        String zipFilesPassword = MainActivity.zipFilesPassword;
-
-        if (!StudQuizActivity.submited&&ClientBT.quizWasInitiated)
-        {
-            CharSequence studentId = StudQuizActivity.studentId;
-            zipProtectedFile.createZipFileFromSpecificFiles(zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
-            //-------Check this!!!! ---------
-            Toast.makeText(getApplicationContext(), "Your quiz was successfully saved on your storage",
-                    Toast.LENGTH_LONG).show();
-            //-------------------------------
-        }
         //-------lecturer!!!! ---------
         
         
