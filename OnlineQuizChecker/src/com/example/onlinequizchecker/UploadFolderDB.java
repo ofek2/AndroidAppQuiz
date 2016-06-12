@@ -1,6 +1,7 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
 
@@ -94,6 +95,13 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 	 ,Toast.LENGTH_SHORT);
 			 toast.show();
 			 LectStudentRegListController.finishedUploadRecovery = true;
+			 try {
+				File uploadedZipFile = new File(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
+				uploadedZipFile.delete();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 //			 RecoveryBtnView.clearAnimation();
 ////			 if(LectMessageHandler.inRecoveryMode<2)
 ////			 {
