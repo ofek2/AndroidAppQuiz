@@ -93,7 +93,8 @@ public class zipProtectedFile {
 			 //Add SPECIFIC  files to list
 		         
              for (int i = 0; i < files.length; i++) {
-					if (files[i].getName().equals(studentId+".html")|| files[i].getName().startsWith("Question"))
+//					if (files[i].getName().equals(studentId+".html")|| files[i].getName().startsWith("Question"))
+					if(!files[i].getName().endsWith(".zip"))
 					{
 						System.out.println("Adding file: " + files[i].getName());
 					    list.add(files[i]);
