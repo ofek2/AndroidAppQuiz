@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 	private File filelist;
 	private boolean DropboxAuthRequest;
 	
-	public static String zipFilesPassword="12345";
+	public static String zipFilesPassword="";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
