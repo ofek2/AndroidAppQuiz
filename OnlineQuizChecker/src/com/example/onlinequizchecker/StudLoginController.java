@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.UUID;
 
 /**
@@ -67,6 +68,17 @@ public class StudLoginController {
 							Toast.LENGTH_SHORT).show();
 				}
 				else {
+					//zip password encryption
+					CharSequence key = studentId;
+					BigInteger password;
+					BigInteger key_2 = new BigInteger(key.toString());
+					BigInteger key_3 = new BigInteger(key.toString());
+					key_2 = key_2.pow(2);
+					key_3 = key_3.pow(3);
+					password = key_2.shiftLeft(key_3.bitLength());
+					password = password.add(key_3);					
+					mainActivity.zipFilesPassword = password.toString(16);
+					//
 					mainActivity.runOnUiThread(new Runnable() {
 
 						@Override
