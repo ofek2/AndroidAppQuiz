@@ -183,6 +183,11 @@ public class LectStudentRegListController extends ListActivity {
 		            // Do nothing but close the dialog
 		        	
 		            dialog.dismiss();
+		    		if(LectMessageHandler.lecturerServiceStarted)
+		            {
+		    			ClosingService.thread.interrupt();
+		    			LectMessageHandler.lecturerServiceStarted = false;
+		            }
 		            new LectQuizSelectionController(activity,LectStudentRegListController.this,course,0);
 		        }
 		    });
@@ -234,6 +239,11 @@ public class LectStudentRegListController extends ListActivity {
 						serverBT.stop();
 						serverBT = null;
 					}
+					if(LectMessageHandler.lecturerServiceStarted)
+			        {
+						ClosingService.thread.interrupt();
+						LectMessageHandler.lecturerServiceStarted = false;
+			        }
 					new LectCourseSelectionController(activity);
 		        }
 		    });

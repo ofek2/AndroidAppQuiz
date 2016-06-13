@@ -35,16 +35,19 @@ public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
 		
 	
 	 protected void onPostExecute(Long result) {
-		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
-		 //////////////////////////////////
-         
-//       close the connection to the students
-//         LectStudentRegListController.serverBT.stop();/////////////////////////////////////////////////////////
-
-         //////////////////////////////////
-		 Toast toast = Toast.makeText(applicationContext,  "The files were successfully saved",
-                    Toast.LENGTH_SHORT);
-         toast.show();
+//		 Toast toast = Toast.makeText(applicationContext,  "The files were successfully saved",
+//                 Toast.LENGTH_SHORT);
+//      toast.show();
+//		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
+//		 //////////////////////////////////
+//         
+////       close the connection to the students
+////         LectStudentRegListController.serverBT.stop();/////////////////////////////////////////////////////////
+//
+//         //////////////////////////////////
+//		 toast = Toast.makeText(applicationContext,  "The files were successfully saved",
+//                    Toast.LENGTH_SHORT);
+//         toast.show();
 		 }
 		
 	 

@@ -25,6 +25,23 @@ public class ClosingService extends Service {
 
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
+    	if(LectMessageHandler.lecturerServiceStarted)
+        {
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(30*60000+15000);
+                    } catch (InterruptedException e) {
+                    	stopSelf();
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        }
+    	else
+    	{
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,7 +54,7 @@ public class ClosingService extends Service {
             }
         });
         thread.start();
-
+    	}
         // If we get killed, after returning from here, restart
         return START_STICKY;
     }
@@ -55,7 +72,8 @@ public class ClosingService extends Service {
 //            StudLoginController.loginsuccedded = false;
 //        }
         String zipFilesPassword = MainActivity.zipFilesPassword;
-
+        if(!LectMessageHandler.lecturerServiceStarted)
+        {
         if (!StudQuizActivity.submited&&ClientBT.quizWasInitiated)
         {
             CharSequence studentId = StudQuizActivity.studentId;
@@ -65,14 +83,26 @@ public class ClosingService extends Service {
                     Toast.LENGTH_LONG).show();
             //-------------------------------
         }
+        }
         //-------lecturer!!!! ---------
-        if(LectMessageHandler.lecturerServiceStarted)
+        else
         {
 			String path;
 			try {
 				path = getApplicationContext().getFilesDir().getCanonicalPath();
 	        	new OnTaskRemovedUpload(path,getApplicationContext()).
 				execute(path +"/"+Constants.APP_NAME + "/"+Constants.APP_NAME+".zip", "/");
+//				DropBoxSimple.uploadFolder(new File(path +"/"+Constants.APP_NAME + "/"+Constants.APP_NAME+".zip"), "/");	//
+//				 LectDownloadProgress.folderRecursiveDelete(new File(path+"/"+Constants.APP_NAME));//
+				 //////////////////////////////////
+		         
+//		       close the connection to the students
+//		         LectStudentRegListController.serverBT.stop();/////////////////////////////////////////////////////////
+
+		         //////////////////////////////////
+				 Toast toast = Toast.makeText(getApplicationContext(),  "The files were successfully saved",
+		                    Toast.LENGTH_SHORT);
+		         toast.show();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

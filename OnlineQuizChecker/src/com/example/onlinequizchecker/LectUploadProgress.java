@@ -13,6 +13,11 @@ public class LectUploadProgress {
 			timer.cancel();
 			timer = null;
 		}
+		if(LectMessageHandler.lecturerServiceStarted)
+        {
+			ClosingService.thread.interrupt();
+			LectMessageHandler.lecturerServiceStarted = false;
+        }
 		if(LectQuizProgressController.finishBtn!=null)
 		{
 			LectQuizProgressController.finishBtn.setOnClickListener(null);

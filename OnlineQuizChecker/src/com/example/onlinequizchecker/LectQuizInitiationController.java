@@ -71,13 +71,13 @@ public class LectQuizInitiationController {
 				if(LectStudentRegListController.listview.isItemChecked(i))
 					studentsInClass.add(LectStudentRegListController.students.get(i));
 			}
+			startQuiz(selectedTimePeriodInt);
 			if(!LectMessageHandler.lecturerServiceStarted)
 			{
 				LectMessageHandler.lecturerServiceStarted = true;
 				Intent intent = new Intent(activity,ClosingService.class);
 				activity.startService(intent);
 			}
-			startQuiz(selectedTimePeriodInt);
 		}
 
         private byte[] toByteArray(CharSequence charSequence) {
