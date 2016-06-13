@@ -6,6 +6,7 @@ import java.util.Set;
 import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
 import com.example.onlinequizchecker.R.color;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,7 @@ public class LectMessageHandler extends Handler{
 	private LectStudentRegListController lectStudentRegListController;
 	public static int inRecoveryMode;
 	private Object lock;
+	public static boolean lecturerServiceStarted;
 	public LectMessageHandler(MainActivity activity, LectStudentRegListController lectStudentRegListController)
 	{
 		super();
@@ -81,6 +83,12 @@ public class LectMessageHandler extends Handler{
 				{
 				if(LectStudentRegListController.alert!=null&&LectStudentRegListController.alert.isShowing())
 					LectStudentRegListController.alert.dismiss();
+				if(!lecturerServiceStarted)
+				{
+					lecturerServiceStarted = true;
+					Intent intent = new Intent(activity,ClosingService.class);
+					activity.startService(intent);
+				}
 				LectStudentRegListController.inRecovery = true;
 				LectStudentRegListController.recoveryPressed = false;
 				Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);

@@ -1,5 +1,8 @@
 package com.example.onlinequizchecker;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -63,8 +66,19 @@ public class ClosingService extends Service {
             //-------------------------------
         }
         //-------lecturer!!!! ---------
-        
-        
+        if(LectMessageHandler.lecturerServiceStarted)
+        {
+			String path;
+			try {
+				path = getApplicationContext().getFilesDir().getCanonicalPath();
+	        	new OnTaskRemovedUpload(path,getApplicationContext()).
+				execute(path +"/"+Constants.APP_NAME + "/"+Constants.APP_NAME+".zip", "/");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+        }
         
         //-------------------------------
         BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();

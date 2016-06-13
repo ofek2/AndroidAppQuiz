@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,12 @@ public class LectQuizInitiationController {
 			for (int i = 0; i < LectStudentRegListController.students.size(); i++) {
 				if(LectStudentRegListController.listview.isItemChecked(i))
 					studentsInClass.add(LectStudentRegListController.students.get(i));
+			}
+			if(!LectMessageHandler.lecturerServiceStarted)
+			{
+				LectMessageHandler.lecturerServiceStarted = true;
+				Intent intent = new Intent(activity,ClosingService.class);
+				activity.startService(intent);
 			}
 			startQuiz(selectedTimePeriodInt);
 		}
