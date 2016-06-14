@@ -67,7 +67,7 @@ public class DropBoxSimple {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
+//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 				for (File f : file.listFiles()) {
 					uploadFolder(f, path);
@@ -76,7 +76,7 @@ public class DropBoxSimple {
 				} catch (IOException | DropboxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
+//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 		} else {
 			
@@ -87,7 +87,7 @@ public class DropBoxSimple {
 				} catch (FileNotFoundException | DropboxException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
+//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 			
 				
@@ -115,14 +115,14 @@ public class DropBoxSimple {
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
+//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
 			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
+//			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 		}
 	}
 
