@@ -60,13 +60,13 @@ public class LectStudentRegListController extends ListActivity {
 		finishedUploadRecovery = true;
 		alert = null;
 		recoveryPressed = false;
-		try {
-			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
-					LectStudentRegListController.this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
+//					LectStudentRegListController.this);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		serverBT.start(listview);///////////////////////////////////
 
 
@@ -294,6 +294,8 @@ public class LectStudentRegListController extends ListActivity {
 //						LectStudentRegListController.this).
 //				execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
 //				uploadFolderDB.setRecoveyBtnView(v);
+				uploadFolderDB = new UploadFolderDB(activity.getApplicationContext().getFilesDir().getCanonicalPath(),activity,false,
+						LectStudentRegListController.this);
 				uploadFolderDB.execute(activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip", "/");
 //				if (LectMessageHandler.inRecoveryMode<2) {
 //					v.clearAnimation();
