@@ -429,7 +429,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		{
 			submited = true;
 			ClientBT.quizWasInitiated = false;
-			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");        
+			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip",false);        
 			submit.setOnClickListener(null);
 			if(alert!=null)
 				alert.dismiss();
@@ -448,7 +448,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 					if(clientBT.mConnectedThread!=null)
 					{
 						cancel();
-						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
+						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip",false);
 						submited = true;
 						ClientBT.quizWasInitiated = false;
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
@@ -493,7 +493,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// fileInputStream.read(bFile);
+		
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
