@@ -1,20 +1,12 @@
 package com.example.onlinequizchecker;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.widget.Toast;
-
-import java.util.concurrent.TimeUnit;
-
 import static com.example.onlinequizchecker.LectMessageHandler.toByteArray;
 
 /**
@@ -54,6 +46,7 @@ public class MotionSensor implements SensorEventListener {
 	 * @param studentId
 	 *            the student id
 	 */
+	@SuppressLint("InlinedApi")
 	public MotionSensor(MainActivity activity, ClientBT clientBT, CharSequence studentId) {
 		this.activity = activity;
 		this.clientBT = clientBT;

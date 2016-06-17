@@ -71,8 +71,8 @@ public class LectQuizInitiationController {
 		this.activity = activity;
 		this.activity.setContentView(R.layout.lect_quizinitiationview);
 		this.previousController = previousController;
-		this.course = course;
-		this.quiz = quiz;
+		LectQuizInitiationController.course = course;
+		LectQuizInitiationController.quiz = quiz;
 		initComponents();
 	}
 
@@ -141,25 +141,6 @@ public class LectQuizInitiationController {
 				Intent intent = new Intent(activity, ClosingService.class);
 				activity.startService(intent);
 			}
-		}
-
-		/**
-		 * Turns charSequence to byte array.
-		 *
-		 * @param charSequence
-		 *            the char sequence
-		 * @return the byte[]
-		 */
-		private byte[] toByteArray(CharSequence charSequence) {
-			if (charSequence == null) {
-				return null;
-			}
-			byte[] bytesArray = new byte[charSequence.length()];
-			for (int i = 0; i < bytesArray.length; i++) {
-				bytesArray[i] = (byte) charSequence.charAt(i);
-			}
-
-			return bytesArray;
 		}
 
 		/**

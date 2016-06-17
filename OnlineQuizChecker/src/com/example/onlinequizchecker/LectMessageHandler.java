@@ -1,17 +1,10 @@
 package com.example.onlinequizchecker;
 
 import java.util.ArrayList;
-import java.util.Set;
-
-import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
-import com.example.onlinequizchecker.R.color;
-
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -80,12 +73,11 @@ public class LectMessageHandler extends Handler{
 						if(!LectStudentRegListController.receivePos(studentPosInList(readMessage,LectStudentRegListController.students)))
 						{
 							byte [] sendMsg = toByteArray("This id is already connected");
-							LectStudentRegListController.serverBT.mConnThreads.get(msg.arg2).write(sendMsg);
+							ServerBT.mConnThreads.get(msg.arg2).write(sendMsg);
 						}
 					}
 				}
-
-                break;
+               break;
             //-------- Handle motion sensor triggered event ---------//
             case Constants.MOTION_SENSOR_TRIGGERED:
             	String receivedStudentId = (String)msg.obj;

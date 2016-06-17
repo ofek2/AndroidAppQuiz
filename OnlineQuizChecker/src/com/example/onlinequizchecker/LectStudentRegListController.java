@@ -3,25 +3,16 @@ package com.example.onlinequizchecker;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import com.example.onlinequizchecker.LectQuizProgressController.itemListener;
-import com.example.onlinequizchecker.MainController.lecturerBtnListener;
-import com.example.onlinequizchecker.R.color;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,24 +103,6 @@ public class LectStudentRegListController extends ListActivity {
 	}
 
 	/**
-	 * Turn charSequence to byte array.
-	 *
-	 * @param charSequence the char sequence
-	 * @return the byte[]
-	 */
-	private byte[] toByteArray(CharSequence charSequence) {
-		if (charSequence == null) {
-			return null;
-		}
-		byte[] bytesArray = new byte[charSequence.length()];
-		for (int i = 0; i < bytesArray.length; i++) {
-			bytesArray[i] = (byte) charSequence.charAt(i);
-		}
-
-		return bytesArray;
-	}
-
-	/**
 	 * Initiates the view.
 	 */
 	private void initView() {
@@ -187,7 +160,7 @@ public class LectStudentRegListController extends ListActivity {
 	 */
 	private void populateList(ArrayList<String> students) {
 		// TODO Auto-generated method stub
-		listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+		listview.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 		listview.setTextFilterEnabled(true);
 		adapter = new ArrayAdapter<String>(this.activity, android.R.layout.simple_list_item_multiple_choice, students);
 
@@ -429,15 +402,6 @@ public class LectStudentRegListController extends ListActivity {
 	}
 
 	/**
-	 * Mark pos in finish list.
-	 *
-	 * @param pos the pos
-	 */
-	private void markPosInFinishList(int pos) {
-		LectQuizProgressController.listView.setItemChecked(pos, true);
-	}
-
-	/**
 	 * Retrieve view if the user goes back from quiz selection screen.
 	 */
 	public void retrieveView() {
@@ -461,7 +425,7 @@ public class LectStudentRegListController extends ListActivity {
 			}
 		});
 		ListView tempListView = (ListView) activity.findViewById(R.id.studentListView);
-		tempListView.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+		tempListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 		tempListView.setTextFilterEnabled(true);
 		tempListView.setAdapter(adapter);
 		for (int i = 0; i < adapter.getCount(); i++)

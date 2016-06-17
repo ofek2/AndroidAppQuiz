@@ -6,8 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * The Class StudAuthController.
+ * This class controls the students authorization process
  */
 public class StudAuthController{
     
@@ -27,16 +26,16 @@ public class StudAuthController{
     /** The max discovery iteration. */
     public static int maxDiscoveryIteration;
     
-    /** The m bluetooth adapter. */
+    /** The Bluetooth adapter. */
     BluetoothAdapter mBluetoothAdapter;
     
-    /** The bluetooth device. */
+    /** The Bluetooth device. */
     BluetoothDevice bluetoothDevice;
     
-    /** The client bt. */
+    /** The Bluetooth client. */
     public static ClientBT clientBT;
     
-    /** The PI ncode. */
+    /** The PIN code. */
     public static CharSequence PINcode;
     
     /** The student id. */
@@ -66,22 +65,22 @@ public class StudAuthController{
     /** The student authorized. */
     public static boolean studentAuthorized;
     
-    /** The studtent quiz activity. */
-    private StudQuizActivity studtentQuizActivity;
+    /** The student quiz activity. */
+    private StudQuizActivity studentQuizActivity;
     
     /**
      * Instantiates a new stud auth controller.
      *
      * @param activity the activity
-     * @param PINcode the PI ncode
+     * @param PINcode the PIN code
      * @param studentId the student id
      */
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
-        this.PINcode = PINcode;
+        StudAuthController.PINcode = PINcode;
         this.studentId = studentId;
-        this.scanDevices = new ArrayList<BluetoothDevice>();
+        StudAuthController.scanDevices = new ArrayList<BluetoothDevice>();
         StudQuizActivity.submited = false;
         lecturerFound = false;
         currentlyCheckingDevice = false;
@@ -103,7 +102,7 @@ public class StudAuthController{
     }
     
     /**
-     * Start auth.
+     * Start authorization process.
      */
     public void startAuth()
     {
@@ -111,17 +110,13 @@ public class StudAuthController{
             public void onReceive(Context context, Intent intent) {
 
                 String action = intent.getAction();
-                boolean matchingUuids = true;
-
                 // When discovery finds a device
                 if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 
                     // Get the BluetoothDevice object from the Intent
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     bluetoothDevice = device;
-                    String name = device.getName();
-                    StudLoginController.loginPressed = false;////////////////////////////////////////////////////////////////
-//                        scanDevices.add(device);
+                    StudLoginController.loginPressed = false;
                     if (!isFound(device)&&lecturerFound==false)
                         clientBT.connect(device);
                 }
@@ -140,15 +135,6 @@ public class StudAuthController{
                                 Toast.LENGTH_LONG).show();
                     }
                 }
-            }
-            private int findInArray(char ch,char [] array)
-            {
-                for (int i = 0; i < array.length; i++) {
-                    if(array[i]==ch)
-                        return i;
-                }
-                return -1;
-
             }
         };
         if(studentId.length()>0&&PINcode.length()>0)
@@ -174,17 +160,12 @@ public class StudAuthController{
                     activity.registerReceiver(mReceiver, actionUuid);
                     activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
                     loginsuccedded = true;
-                    /*****/////*****//////******/////****////
-
                 }
             }
             mBluetoothAdapter.startDiscovery();
         }
 
         activity.setBlueToothReceiver(mReceiver);
-//				/*****/////*****//////******/////****////
-//				mBluetoothAdapter.startDiscovery();
-//				/*****/////*****//////******/////****////
     }
 //    
 //    /** The m handler. */
@@ -333,9 +314,9 @@ public class StudAuthController{
 //    };
     
     /**
-     * Checks if is found.
+     * Checks if a device was found already.
      *
-     * @param bluetoothDevice the bluetooth device
+     * @param bluetoothDevice the Bluetooth device
      * @return true, if is found
      */
     private boolean isFound(BluetoothDevice bluetoothDevice)
@@ -424,21 +405,21 @@ public class StudAuthController{
 	}
 	
 	/**
-	 * Gets the studtent quiz activity.
+	 * Gets the student quiz activity.
 	 *
-	 * @return the studtent quiz activity
+	 * @return the student quiz activity
 	 */
 	public StudQuizActivity getStudtentQuizActivity() {
-		return studtentQuizActivity;
+		return studentQuizActivity;
 	}
 	
 	/**
-	 * Sets the studtent quiz activity.
+	 * Sets the student quiz activity.
 	 *
-	 * @param studtentQuizActivity the new studtent quiz activity
+	 * @param studtentQuizActivity the new student quiz activity
 	 */
 	public void setStudtentQuizActivity(StudQuizActivity studtentQuizActivity) {
-		this.studtentQuizActivity = studtentQuizActivity;
+		this.studentQuizActivity = studtentQuizActivity;
 	}
     
 }

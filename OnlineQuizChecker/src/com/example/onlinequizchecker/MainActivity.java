@@ -1,11 +1,8 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -13,17 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -116,7 +106,7 @@ public class MainActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (userClassification.equals(Constants.LECTURER)) {
 			// LectStudentRegListController.listview.setItemChecked(0,true);
-			LectStudentRegListController.serverBT.start(LectStudentRegListController.listview);
+			LectStudentRegListController.serverBT.start();
 		}
 	}
 
@@ -147,12 +137,10 @@ public class MainActivity extends Activity {
 		try {
 			// Required to complete auth, sets the access token on the session
 			DropBoxSimple.mDBApi.getSession().finishAuthentication();
-			String path = getApplicationContext().getFilesDir().getCanonicalPath() + "/" + Constants.APP_NAME;
 			// folderRecursiveDelete(new File(path));
 			new LectDownloadProgress(this);
-			String accessToken = DropBoxSimple.mDBApi.getSession().getOAuth2AccessToken();
 
-		} catch (IllegalStateException | IOException e) {
+		} catch (IllegalStateException e) {
 			Log.i("DbAuthLog", "Error authenticating", e);
 			Toast.makeText(this.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 		}

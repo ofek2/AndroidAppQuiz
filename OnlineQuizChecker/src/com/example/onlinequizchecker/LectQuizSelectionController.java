@@ -1,24 +1,16 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import com.example.onlinequizchecker.LectStudentRegListController.itemListener;
-import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
-
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * The Class LectQuizSelectionController.
@@ -130,7 +122,7 @@ public class LectQuizSelectionController {
 	 */
 	private void populateList(ArrayList<String> quizzes) {
 		// TODO Auto-generated method stub
-		listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
+		listview.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 		listview.setTextFilterEnabled(true);
 		adapter = new ArrayAdapter<String>(this.activity,
 				android.R.layout.simple_list_item_single_choice, quizzes);

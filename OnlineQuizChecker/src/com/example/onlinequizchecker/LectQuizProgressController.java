@@ -1,10 +1,12 @@
 package com.example.onlinequizchecker;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -13,15 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import static com.example.onlinequizchecker.LectMessageHandler.toByteArray;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-
-import com.example.onlinequizchecker.StudQuizActivity.CounterClass;
-
-import org.w3c.dom.Text;
 
 /**
  * The Class LectQuizProgressController.
@@ -119,7 +114,7 @@ public class LectQuizProgressController {
 	 */
 	private void populateList(ArrayList<String> students) {
 		// TODO Auto-generated method stub
-		listView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
+		listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 		listView.setTextFilterEnabled(true);
 		adapter = new ArrayAdapter<String>(this.activity, android.R.layout.simple_list_item_multiple_choice, students);
 		listView.setAdapter(adapter);
@@ -178,14 +173,14 @@ public class LectQuizProgressController {
 				if (listView.getChildAt(position)
 						.getDrawingCacheBackgroundColor() == Constants.STUDENT_IS_MOVING_COLOR) {
 					// Do something to enable the moving student's quiz.
-					for (int i = 0; i < LectStudentRegListController.serverBT.mConnThreads.size(); i++) {
+					for (int i = 0; i < ServerBT.mConnThreads.size(); i++) {
 						String studentId = (String) parent.getItemAtPosition(position);
 						if (studentId
-								.equals(LectStudentRegListController.serverBT.mConnThreads.get(i).getStudentId())) {
+								.equals(ServerBT.mConnThreads.get(i).getStudentId())) {
 							String message = "Enable Quiz";
 							byte[] buffer = toByteArray(message);
-							if (LectStudentRegListController.serverBT.mConnThreads.get(i) != null)
-								LectStudentRegListController.serverBT.mConnThreads.get(i).write(buffer);
+							if (ServerBT.mConnThreads.get(i) != null)
+								ServerBT.mConnThreads.get(i).write(buffer);
 							else {
 								Toast toast = Toast.makeText(activity.getApplicationContext(),
 										(String) parent.getItemAtPosition(position) + " has disconnected",
@@ -300,7 +295,7 @@ public class LectQuizProgressController {
 		timeLeftLbl = (TextView) activity.findViewById(R.id.timeLeftLblLect);
 		timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxtLect);
 		ListView tempListView = (ListView) activity.findViewById(R.id.studentsFinalListView);
-		tempListView.setChoiceMode(listView.CHOICE_MODE_MULTIPLE);
+		tempListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
 		tempListView.setTextFilterEnabled(true);
 		tempListView.setAdapter(adapter);
 		for (int i = 0; i < adapter.getCount(); i++)
@@ -332,6 +327,7 @@ public class LectQuizProgressController {
 		 * 
 		 * @see android.os.CountDownTimer#onTick(long)
 		 */
+		@SuppressLint("DefaultLocale")
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
@@ -361,6 +357,7 @@ public class LectQuizProgressController {
 					showAlertDialog("Trying to reconnect to the students that\n have lost the connection");
 					timeLeftLbl.setText("Reconnection ends in:");
 					new CountDownTimer(15000, 1000) {
+						@SuppressLint("DefaultLocale")
 						public void onTick(long millisUntilFinished) {
 							long millis = millisUntilFinished;
 							String ms = String.format("%02d:%02d",

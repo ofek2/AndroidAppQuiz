@@ -1,16 +1,10 @@
 package com.example.onlinequizchecker;
 
-import android.app.ListActivity;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

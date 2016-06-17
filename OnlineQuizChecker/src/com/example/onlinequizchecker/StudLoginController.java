@@ -24,6 +24,7 @@ import java.util.UUID;
 
 /**
  * The Class StudLoginController.
+ * This class controls the login screen.
  */
 public class StudLoginController {
 	
@@ -33,14 +34,14 @@ public class StudLoginController {
 	/** The login pressed. */
 	public static boolean loginPressed = false;
 	
-	/** The m bluetooth adapter. */
+	/** The Bluetooth adapter. */
 	BluetoothAdapter mBluetoothAdapter;
 	
-	/** The bluetooth device. */
+	/** The Bluetooth device. */
 	BluetoothDevice bluetoothDevice;
 	
     
-	/** The PI ncode. */
+	/** The PIN code. */
 	private CharSequence PINcode;
 	
 	/** The student id. */
@@ -48,9 +49,6 @@ public class StudLoginController {
 	
 	/** The loginsuccedded. */
 	public static boolean loginsuccedded;
-	
-	/** The application path. */
-	private String applicationPath;
 	
 	/** The back button. */
 	private Button backBtn;
@@ -67,7 +65,7 @@ public class StudLoginController {
 		try {
 			mainActivity.setContentView(R.layout.stud_loginview);
 		     mainActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); 
-			applicationPath = mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
+			mainActivity.getApplicationContext().getFilesDir().getCanonicalPath();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -99,32 +97,25 @@ public class StudLoginController {
 					key_3 = key_3.pow(3);
 					password = key_2.shiftLeft(key_3.bitLength());
 					password = password.add(key_3);					
-					mainActivity.zipFilesPassword = password.toString(16);
+					MainActivity.zipFilesPassword = password.toString(16);
 					//
 					mainActivity.runOnUiThread(new Runnable() {
 
 						@Override
 						public void run() {
-							// TODO Auto-generated method stub
 							mainActivity.setContentView(R.layout.stud_authorizationview);
 						}
 					});
 					new StudAuthController(mainActivity, PINcode, studentId);
 				}
-				//.start();
+				
 
 			}
 		});
 	}
 	
 	/**
-	 * The listener interface for receiving backBtn events.
-	 * The class that is interested in processing a backBtn
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addbackBtnListener<code> method. When
-	 * the backBtn event occurs, that object's appropriate
-	 * method is invoked.
+	 * {@link OnClickListener} for the back button.
 	 *
 	 * @see backBtnEvent
 	 */

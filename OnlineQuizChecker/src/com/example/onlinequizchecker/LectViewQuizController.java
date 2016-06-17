@@ -1,27 +1,14 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.xml.transform.TransformerException;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.example.onlinequizchecker.StudQuizActivity.JavaScriptInterface;
-
-import android.os.Handler;
-import android.os.Looper;
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
 
 /**
  * The Class LectViewQuizController.
@@ -40,15 +27,6 @@ public class LectViewQuizController {
 
 	/** The filelist. */
 	private File filelist;
-
-	/** The course. */
-	private String course;
-
-	/** The selected index. */
-	private int selectedIndex;
-
-	/** The quiz. */
-	private String quiz;
 
 	/** The quiz file to view. */
 	private File quizFileToView;
@@ -83,12 +61,9 @@ public class LectViewQuizController {
 		this.activity = activity;
 		this.activity.hideKeyboard();
 		this.activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		this.course = course;
-		this.quiz = quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView) this.activity.findViewById(R.id.webView);
 		this.back = (Button) this.activity.findViewById(R.id.backBtnLectViewQuiz);
-		this.selectedIndex = selectedIndex;
 		prevListener = new backBtnQuizSelectionListener();
 		back.setOnClickListener(prevListener);
 		loadQuiz(course, quiz);
@@ -111,8 +86,6 @@ public class LectViewQuizController {
 		
 		this.prevController2 = previousController;
 		this.activity = activity;
-		this.course = course;
-		this.quiz = quiz;
 		this.activity.setContentView(R.layout.lect_viewquiz);
 		this.webView = (WebView) this.activity.findViewById(R.id.webView);
 		this.back = (Button) this.activity.findViewById(R.id.backBtnLectViewQuiz);
@@ -129,6 +102,7 @@ public class LectViewQuizController {
 	 * @param quiz
 	 *            the quiz to load
 	 */
+	@SuppressLint("SetJavaScriptEnabled")
 	private void loadQuiz(String course, String quiz) {
 		// TODO Auto-generated method stub
 		filelist = activity.getFilelist();

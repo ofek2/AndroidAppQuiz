@@ -3,9 +3,6 @@ package com.example.onlinequizchecker;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.usage.NetworkStats.Bucket;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;

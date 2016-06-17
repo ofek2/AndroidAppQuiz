@@ -2,7 +2,7 @@ package com.example.onlinequizchecker;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -102,14 +102,6 @@ public class DrawingView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;      
         height = h;
-//        if(picPath!=null){
-//        	
-//        	mBitmap = BitmapFactory.decodeFile(picPath);
-//        	mCanvas = new Canvas();
-//        	picPath = null;
-//        }
-//        else
-//        {
         if(cleaning)
         {
         	mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -199,7 +191,8 @@ public class DrawingView extends View {
     /* (non-Javadoc)
      * @see android.view.View#onTouchEvent(android.view.MotionEvent)
      */
-    @Override
+    @SuppressLint("ClickableViewAccessibility")
+	@Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
