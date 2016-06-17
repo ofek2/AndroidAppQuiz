@@ -1,8 +1,6 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
-
-import android.content.BroadcastReceiver;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -12,7 +10,7 @@ import android.widget.Toast;
  */
 public class StudMessageHandler extends Handler {
 	
-	/** The activity. */
+	/** The main activity. */
 	private MainActivity activity;
 	
 	/** The stud auth controller. */
@@ -21,7 +19,7 @@ public class StudMessageHandler extends Handler {
 	/**
 	 * Instantiates a new stud message handler.
 	 *
-	 * @param activity the activity
+	 * @param activity the main activity
 	 * @param studAuthController the stud auth controller
 	 */
 	public StudMessageHandler(MainActivity activity, StudAuthController studAuthController) {
@@ -32,6 +30,7 @@ public class StudMessageHandler extends Handler {
 	/* (non-Javadoc)
 	 * @see android.os.Handler#handleMessage(android.os.Message)
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public void handleMessage(Message msg) {
 		switch (msg.what) {
@@ -41,7 +40,6 @@ public class StudMessageHandler extends Handler {
 			String readMessage = new String(readBuf, 0, msg.arg1);
 			if (readMessage.equals("You have not registered to this course")) {
 				activity.unregisterReceiver(studAuthController.getmReceiver());
-
 				new StudLoginController(activity);
 				Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
 						Toast.LENGTH_LONG).show();
@@ -59,11 +57,9 @@ public class StudMessageHandler extends Handler {
 			break;
 		case Constants.QUIZ_INITIATION:
 			String quizPath = (String) msg.obj;
-
 			int quizPeriod = msg.arg1;
 			activity.setUserClassification(Constants.STUDENT);
-			studAuthController
-					.setStudtentQuizActivity(new StudQuizActivity(activity, quizPeriod, studAuthController.studentId,
+			studAuthController.setStudtentQuizActivity(new StudQuizActivity(activity, quizPeriod, studAuthController.studentId,
 							quizPath, studAuthController.applicationPath, studAuthController.clientBT));
 			break;
 		case Constants.STUDENT_AUTHORIZED:
@@ -84,10 +80,8 @@ public class StudMessageHandler extends Handler {
 						if (answersFiles[j].getName().equals(studAuthController.getStudentId() + ".zip")) {
 							recoveryZipPath = recoveryPath + "/" + studAuthController.getStudentId() + ".zip";
 							pathToSend = "/" + course + "/Quizzes/" + quizzes[i].getName() + "/StudentsAnswers/";
-							File[] files = new File(recoveryPath).listFiles();
 							zipProtectedFile.unzipFile(activity.zipFilesPassword, recoveryZipPath, recoveryPath);
 							new File(recoveryZipPath).delete();
-							files = new File(recoveryPath).listFiles();
 							zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath,false);
 							byte[] byteArrayToSend = StudQuizActivity.zipToByteArray(
 									recoveryPath + "/" + studAuthController.getStudentId() + ".zip", pathToSend);
@@ -95,7 +89,6 @@ public class StudMessageHandler extends Handler {
 							break outerloop;
 						}
 					}
-
 				}
 			}
 			break;
@@ -109,11 +102,11 @@ public class StudMessageHandler extends Handler {
 					Toast.LENGTH_LONG).show();
 			new MainController(activity);
 			break;
+		//Enable the student to continue answering the quiz after he got a moving notification
 		case Constants.ENABLE_QUIZ:
 			if (studAuthController.getStudtentQuizActivity() != null)
 				studAuthController.getStudtentQuizActivity().enableQuiz();
 			break;
-
 		}
 	}
 }
