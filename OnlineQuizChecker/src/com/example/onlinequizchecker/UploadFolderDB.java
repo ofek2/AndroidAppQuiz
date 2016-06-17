@@ -2,9 +2,6 @@ package com.example.onlinequizchecker;
 
 import java.io.File;
 import java.io.IOException;
-
-import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
-
 import android.bluetooth.BluetoothAdapter;
 import android.os.AsyncTask;
 import android.view.View;
