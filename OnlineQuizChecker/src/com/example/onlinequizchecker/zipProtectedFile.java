@@ -10,7 +10,18 @@ import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
+/**
+ * The Class zipProtectedFile.
+ */
 public class zipProtectedFile {
+	
+	/**
+	 * Creates the zip file.
+	 *
+	 * @param password the password
+	 * @param destinationZipFilePath the destination zip file path
+	 * @param directoryToBeZipped the directory to be zipped
+	 */
 	public static void createZipFile(String password,String destinationZipFilePath,String directoryToBeZipped)
 	{
 		 try {
@@ -58,6 +69,15 @@ public class zipProtectedFile {
              e.printStackTrace();
       }
 	}
+	
+	/**
+	 * Creates the zip file from specific files.
+	 *
+	 * @param password the password
+	 * @param studentId the student id
+	 * @param destinationZipFilePath the destination zip file path
+	 * @param directoryToBeZipped the directory to be zipped
+	 */
 	public static void createZipFileFromSpecificFiles(String password,CharSequence studentId,String destinationZipFilePath,String directoryToBeZipped){
 		 try {
 			 
@@ -116,6 +136,14 @@ public class zipProtectedFile {
              e.printStackTrace();
       }
 	}
+	
+	/**
+	 * Unzip file.
+	 *
+	 * @param password the password
+	 * @param sourceZipFilePath the source zip file path
+	 * @param extractedZipFilePath the extracted zip file path
+	 */
 	public static void unzipFile(String password,String sourceZipFilePath ,String extractedZipFilePath)
 	{
 		 try {

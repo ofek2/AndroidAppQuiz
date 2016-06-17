@@ -15,26 +15,67 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
- * Created by 311573943 on 15/05/2016.
+ * The Class StudAuthController.
  */
 public class StudAuthController{
+    
+    /** The activity. */
     private MainActivity activity;
+    
+    /** The max discovery iteration. */
     public static int maxDiscoveryIteration;
+    
+    /** The m bluetooth adapter. */
     BluetoothAdapter mBluetoothAdapter;
+    
+    /** The bluetooth device. */
     BluetoothDevice bluetoothDevice;
+    
+    /** The client bt. */
     public static ClientBT clientBT;
+    
+    /** The PI ncode. */
     public static CharSequence PINcode;
+    
+    /** The student id. */
     public CharSequence studentId;
+    
+    /** The loginsuccedded. */
     public static boolean loginsuccedded;
+    
+    /** The application path. */
     public static String applicationPath;
+    
+    /** The label. */
     private TextView label;
+    
+    /** The m receiver. */
     private BroadcastReceiver mReceiver;
+    
+    /** The scan devices. */
     public static ArrayList<BluetoothDevice> scanDevices;
+    
+    /** The lecturer found. */
     public static boolean lecturerFound;
+    
+    /** The currently checking device. */
     public static boolean currentlyCheckingDevice;
+    
+    /** The student authorized. */
     public static boolean studentAuthorized;
+    
+    /** The studtent quiz activity. */
     private StudQuizActivity studtentQuizActivity;
+    
+    /**
+     * Instantiates a new stud auth controller.
+     *
+     * @param activity the activity
+     * @param PINcode the PI ncode
+     * @param studentId the student id
+     */
     public StudAuthController(MainActivity activity,CharSequence PINcode, CharSequence studentId){
         this.activity = activity;
         this.activity.hideKeyboard();
@@ -60,6 +101,10 @@ public class StudAuthController{
 
         startAuth();
     }
+    
+    /**
+     * Start auth.
+     */
     public void startAuth()
     {
         mReceiver = new BroadcastReceiver() {
@@ -141,6 +186,8 @@ public class StudAuthController{
 //				mBluetoothAdapter.startDiscovery();
 //				/*****/////*****//////******/////****////
     }
+    
+    /** The m handler. */
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -284,6 +331,13 @@ public class StudAuthController{
             }
         }
     };
+    
+    /**
+     * Checks if is found.
+     *
+     * @param bluetoothDevice the bluetooth device
+     * @return true, if is found
+     */
     private boolean isFound(BluetoothDevice bluetoothDevice)
     {
         for (int i=0;i<scanDevices.size();i++)
@@ -292,6 +346,11 @@ public class StudAuthController{
         return  false;
     }
     
+    /**
+     * Folder recursive delete.
+     *
+     * @param file the file
+     */
     public static void folderRecursiveDelete(File file) {
         if (!file.exists())
             return;
@@ -309,27 +368,75 @@ public class StudAuthController{
        }
 
     }
+	
+	/**
+	 * Gets the student id.
+	 *
+	 * @return the student id
+	 */
 	public CharSequence getStudentId() {
 		return studentId;
 	}
+	
+	/**
+	 * Sets the student id.
+	 *
+	 * @param studentId the new student id
+	 */
 	public void setStudentId(CharSequence studentId) {
 		this.studentId = studentId;
 	}
+	
+	/**
+	 * Gets the label.
+	 *
+	 * @return the label
+	 */
 	public TextView getLabel() {
 		return label;
 	}
+	
+	/**
+	 * Sets the label.
+	 *
+	 * @param label the new label
+	 */
 	public void setLabel(TextView label) {
 		this.label = label;
 	}
+	
+	/**
+	 * Gets the m receiver.
+	 *
+	 * @return the m receiver
+	 */
 	public BroadcastReceiver getmReceiver() {
 		return mReceiver;
 	}
+	
+	/**
+	 * Sets the m receiver.
+	 *
+	 * @param mReceiver the new m receiver
+	 */
 	public void setmReceiver(BroadcastReceiver mReceiver) {
 		this.mReceiver = mReceiver;
 	}
+	
+	/**
+	 * Gets the studtent quiz activity.
+	 *
+	 * @return the studtent quiz activity
+	 */
 	public StudQuizActivity getStudtentQuizActivity() {
 		return studtentQuizActivity;
 	}
+	
+	/**
+	 * Sets the studtent quiz activity.
+	 *
+	 * @param studtentQuizActivity the new studtent quiz activity
+	 */
 	public void setStudtentQuizActivity(StudQuizActivity studtentQuizActivity) {
 		this.studtentQuizActivity = studtentQuizActivity;
 	}

@@ -18,16 +18,38 @@ import java.util.concurrent.TimeUnit;
 import static com.example.onlinequizchecker.LectMessageHandler.toByteArray;
 
 /**
- * Created by 311165906 on 18/05/2016.
+ * The Class MotionSensor.
  */
 public class MotionSensor implements SensorEventListener {
+    
+    /** The m sensor manager. */
     private SensorManager mSensorManager;
+    
+    /** The m step detector. */
     private Sensor mStepDetector;
+    
+    /** The activity. */
     private MainActivity activity;
+    
+    /** The step count. */
     private float stepCount;
+    
+    /** The timer. */
     private final CounterClass timer;
+    
+    /** The client bt. */
     private ClientBT clientBT;
+    
+    /** The student id. */
     private CharSequence studentId;
+    
+    /**
+     * Instantiates a new motion sensor.
+     *
+     * @param activity the activity
+     * @param clientBT the client bt
+     * @param studentId the student id
+     */
     public MotionSensor(MainActivity activity, ClientBT clientBT, CharSequence studentId) {
         this.activity = activity;
         this.clientBT = clientBT;
@@ -41,11 +63,17 @@ public class MotionSensor implements SensorEventListener {
     }
 
 
+    /* (non-Javadoc)
+     * @see android.hardware.SensorEventListener#onAccuracyChanged(android.hardware.Sensor, int)
+     */
     @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Do something here if sensor accuracy changes.
     }
 
+    /* (non-Javadoc)
+     * @see android.hardware.SensorEventListener#onSensorChanged(android.hardware.SensorEvent)
+     */
     @Override
     public final void onSensorChanged(SensorEvent event) {
         // The light sensor returns a single value.
@@ -58,13 +86,25 @@ public class MotionSensor implements SensorEventListener {
         // Do something with this sensor value.
     }
 
+    /**
+     * The Class CounterClass.
+     */
     public class CounterClass extends CountDownTimer {
 
+        /**
+         * Instantiates a new counter class.
+         *
+         * @param millisInFuture the millis in future
+         * @param countDownInterval the count down interval
+         */
         public CounterClass(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
             // TODO Auto-generated constructor stub
         }
 
+        /* (non-Javadoc)
+         * @see android.os.CountDownTimer#onTick(long)
+         */
         @Override
         public void onTick(long millisUntilFinished) {
             // TODO Auto-generated method stub
@@ -78,6 +118,9 @@ public class MotionSensor implements SensorEventListener {
 //            }
         }
 
+        /* (non-Javadoc)
+         * @see android.os.CountDownTimer#onFinish()
+         */
         @Override
         public void onFinish() {
             // TODO Auto-generated method stub
@@ -107,6 +150,11 @@ public class MotionSensor implements SensorEventListener {
 
     }
 
+    /**
+     * Show alert dialog.
+     *
+     * @param message the message
+     */
     public void showAlertDialog(String message) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
@@ -125,6 +173,12 @@ public class MotionSensor implements SensorEventListener {
 
         alertDialog.show();
     }
+    
+    /**
+     * Gets the sensor manager.
+     *
+     * @return the sensor manager
+     */
     public SensorManager getSensorManager()
     {
     	return mSensorManager;

@@ -12,6 +12,7 @@ import com.example.onlinequizchecker.LectStudentRegListController.itemListener;
 import com.example.onlinequizchecker.LectStudentRegListController.quizSelectionBtnListener;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,18 +20,54 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * The Class LectQuizSelectionController.
+ * This class controls the quiz selection screen.
+ * In the quiz selection screen the lecturer the quiz he wants to initiate.
+ */
 public class LectQuizSelectionController {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The quizzes. */
 	private ArrayList<String> quizzes;
+	
+	/** The choose quiz button. */
 	private Button chooseQuizBtn;
+	
+	/** The view quiz button. */
 	private Button viewQuizBtn;
+	
+	/** The back button. */
 	private Button backBtn;
+	
+	/** The listview. */
 	private ListView listview;
+	
+	/** The course. */
 	private String course;
+	
+	/** The selected index. */
 	private int selectedIndex;
+	
+	/** The adapter. */
 	private ArrayAdapter<String> adapter;
+	
+	/** The students answers path. */
 	public static String studentsAnswersPath;
+	
+	/** The previous controller. */
 	private LectStudentRegListController previousController;
+	
+	/**
+	 * Instantiates a new lect quiz selection controller.
+	 *
+	 * @param activity the activity
+	 * @param previousController the previous controller
+	 * @param course the course
+	 * @param selectedIndex the selected index
+	 */
 	public LectQuizSelectionController(MainActivity activity,LectStudentRegListController previousController,String course,int selectedIndex)
 	{
 		this.activity = activity;
@@ -49,12 +86,21 @@ public class LectQuizSelectionController {
 		studentsAnswersPath = "";
 		initView();
 	}
+	
+	/**
+	 * Initiates the view.
+	 */
 	private void initView() {
 		// TODO Auto-generated method stub
 		quizzes = getQuizzesListFromDB();
 		populateList(quizzes);
 	}
 
+	/**
+	 * Gets the quizzes list from Dropbox.
+	 *
+	 * @return the quizzes list from Dropbox
+	 */
 	private ArrayList<String> getQuizzesListFromDB() {
 		// TODO Auto-generated method stub
 		ArrayList<String> quizzes = new ArrayList<>();
@@ -77,6 +123,11 @@ public class LectQuizSelectionController {
 		return quizzes;
 	}
 
+	/**
+	 * Populate list with quizzes.
+	 *
+	 * @param quizzes the quizzes
+	 */
 	private void populateList(ArrayList<String> quizzes) {
 		// TODO Auto-generated method stub
 		listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
@@ -87,8 +138,17 @@ public class LectQuizSelectionController {
 		listview.setItemChecked(selectedIndex, true);
 		listview.setOnItemClickListener(new itemListener());
 	}
+	
+	/**
+	 * {@link OnItemClickListener} for the items in the quizzes list.
+	 *
+	 * @see itemEvent
+	 */
 	class itemListener implements OnItemClickListener {
 
+		/* (non-Javadoc)
+		 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+		 */
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			// TODO Auto-generated method stub
@@ -96,8 +156,18 @@ public class LectQuizSelectionController {
 		}
 
 	}
+	
+	/**
+	 * {@link OnClickListener} for the choose quiz button.
+	 *
+	 * @see chooseQuizBtnEvent
+	 */
 	class chooseQuizBtnListener implements View.OnClickListener
 	{
+		
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 		
@@ -114,23 +184,45 @@ public class LectQuizSelectionController {
 	}
 	
     
+	/**
+	 * {@link OnClickListener} for the view quiz button.
+	 *
+	 * @see viewQuizBtnEvent
+	 */
 	class viewQuizBtnListener implements View.OnClickListener
 	{
+		
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			new LectViewQuizController(activity, LectQuizSelectionController.this,course, adapter.getItem(selectedIndex),selectedIndex);
 		}
 		
 	}
+	
+	/**
+	 * {@link OnClickListener} for the back button.
+	 *
+	 * @see backBtnEvent
+	 */
 	class backBtnListener implements View.OnClickListener
 	{
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			previousController.retrieveView();
 		}
 		
 	}
+	
+	/**
+	 * Retrieve view after returning from the quiz viewing screen.
+	 */
 	public void retrieveView()
 	{
 		activity.setContentView(R.layout.lect_quizselectionview);

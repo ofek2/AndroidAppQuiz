@@ -12,13 +12,32 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * The Class UploadFolderDB.
+ */
 public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
+	
+	/** The path to delete. */
 	private String pathToDelete;
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The execute on post. */
 	private boolean executeOnPost;
 //	private Object lockUpload;	
+/** The lect student reg list controller. */
 //	private View RecoveryBtnView;
 	private LectStudentRegListController lectStudentRegListController;
+	
+	/**
+	 * Instantiates a new upload folder db.
+	 *
+	 * @param pathToDelete the path to delete
+	 * @param activity the activity
+	 * @param executeOnPost the execute on post
+	 * @param lectStudentRegListController the lect student reg list controller
+	 */
 	public UploadFolderDB(String pathToDelete, MainActivity activity, boolean executeOnPost,
 			LectStudentRegListController lectStudentRegListController) {
 		super();
@@ -33,7 +52,10 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 //		RecoveryBtnView = view;
 //	}
 	
-	@Override
+	/* (non-Javadoc)
+ * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+ */
+@Override
 	protected Long doInBackground(String... params) {
 		synchronized (LectStudentRegListController.lockA) {
 			LectStudentRegListController.inRecovery = false;
@@ -71,7 +93,11 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		// TODO Auto-generated method stub
 		
 	}
-	 protected void onPostExecute(Long result) {
+	 
+ 	/* (non-Javadoc)
+ 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+ 	 */
+ 	protected void onPostExecute(Long result) {
 		 synchronized (LectStudentRegListController.lockA) {
 		 if(executeOnPost){
 		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));

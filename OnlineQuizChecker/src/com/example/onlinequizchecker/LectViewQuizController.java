@@ -22,19 +22,56 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * The Class LectViewQuizController.
+ */
 public class LectViewQuizController {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The web view. */
 	private WebView webView;
+	
+	/** The back. */
 	private Button back;
+	
+	/** The filelist. */
 	private File filelist;
+	
+	/** The course. */
 	private String course;
+	
+	/** The selected index. */
 	private int selectedIndex;
+	
+	/** The quiz. */
 	private String quiz;
+	
+	/** The quiz file to view. */
 	private File quizFileToView;
+	
+	/** The temp. */
 	private LectViewQuizController temp;
+	
+	/** The prev controller1. */
 	private LectQuizSelectionController prevController1;
+	
+	/** The prev controller2. */
 	private LectQuizProgressController prevController2;
+	
+	/** The prev listener. */
 	private View.OnClickListener prevListener;
+	
+	/**
+	 * Instantiates a new lect view quiz controller.
+	 *
+	 * @param activity the activity
+	 * @param previousController the previous controller
+	 * @param course the course
+	 * @param quiz the quiz
+	 * @param selectedIndex the selected index
+	 */
 	public LectViewQuizController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz, int selectedIndex)
 	{
 		temp=this;
@@ -52,6 +89,15 @@ public class LectViewQuizController {
 		back.setOnClickListener(prevListener);
 		loadQuiz(course,quiz);
 	}
+	
+	/**
+	 * Instantiates a new lect view quiz controller.
+	 *
+	 * @param activity the activity
+	 * @param previousController the previous controller
+	 * @param course the course
+	 * @param quiz the quiz
+	 */
 	public LectViewQuizController(MainActivity activity,LectQuizProgressController previousController,String course,String quiz)
 	{
 		temp=this;
@@ -66,6 +112,13 @@ public class LectViewQuizController {
 		back.setOnClickListener(prevListener);
 		loadQuiz(course,quiz);
 	}
+	
+	/**
+	 * Load quiz.
+	 *
+	 * @param course the course
+	 * @param quiz the quiz
+	 */
 	private void loadQuiz(String course,String quiz) {
 		// TODO Auto-generated method stub
 		filelist = activity.getFilelist();
@@ -85,12 +138,33 @@ public class LectViewQuizController {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * The Class JavaScriptInterface.
+	 */
 	final class JavaScriptInterface
 	{
+		
+		/** The quiz path. */
 		private String quizPath;
+		
+		/**
+		 * Instantiates a new java script interface.
+		 *
+		 * @param quizPath the quiz path
+		 */
 		public JavaScriptInterface(String quizPath){
 			this.quizPath=quizPath;
 		}
+		
+		/**
+		 * Gets the answer.
+		 *
+		 * @param formName the form name
+		 * @param items the items
+		 * @param qType the q type
+		 * @return the answer
+		 */
 		@JavascriptInterface
 		public void getAnswer(String formName,String [] items,String qType)
 		{
@@ -138,34 +212,41 @@ public class LectViewQuizController {
 		
 			
 		}
-//		@JavascriptInterface
-//		public void openDrawingBoard(final String formName)
-//		{
-//			Utils.runOnUiThread(new Runnable() {
-//			     @Override
-//			     public void run() {
-//			    	 try {
-//							new LectDrawingBoardController(activity,temp, formName, (filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form"));
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//			     }
-//			});
-////			
-//		}
-		
 	}
-	 static class Utils {
+	 
+ 	/**
+ 	 * The Class Utils.
+ 	 */
+ 	static class Utils {
 
-	    public static void runOnUiThread(Runnable runnable){
+	    /**
+    	 * Run on ui thread.
+    	 *
+    	 * @param runnable the runnable
+    	 */
+    	public static void runOnUiThread(Runnable runnable){
 	        final Handler UIHandler = new Handler(Looper.getMainLooper());
 	        UIHandler .post(runnable);
 	    } 
 	}
 
+	/**
+	 * The listener interface for receiving backBtnQuizSelection events.
+	 * The class that is interested in processing a backBtnQuizSelection
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addbackBtnQuizSelectionListener<code> method. When
+	 * the backBtnQuizSelection event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see backBtnQuizSelectionEvent
+	 */
 	class backBtnQuizSelectionListener implements View.OnClickListener
 	{
+		
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING); 
@@ -173,8 +254,24 @@ public class LectViewQuizController {
 		}
 		
 	}
+	
+	/**
+	 * The listener interface for receiving backBtnQuizProgress events.
+	 * The class that is interested in processing a backBtnQuizProgress
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addbackBtnQuizProgressListener<code> method. When
+	 * the backBtnQuizProgress event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see backBtnQuizProgressEvent
+	 */
 	class backBtnQuizProgressListener implements View.OnClickListener
 	{
+		
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
@@ -182,50 +279,4 @@ public class LectViewQuizController {
 		}
 		
 	}
-//	public void updateQuizAfterDrawing(String qNumber)
-//	{
-//		activity.setContentView(R.layout.lect_viewquiz);
-//		back = (Button)activity.findViewById(R.id.backBtnLectViewQuiz);
-//		back.setOnClickListener(prevListener);
-//		webView = (WebView) activity.findViewById(R.id.webView);
-//		//timeLeftText = (TextView) activity.findViewById(R.id.timeLeftTxt);
-//		WebSettings settings = webView.getSettings();
-//		settings.setJavaScriptEnabled(true);
-//		webView.clearCache(true);
-//		settings.setBuiltInZoomControls(true);
-//		settings.setDisplayZoomControls(false);
-////		webView.loadUrl("file:///android_asset/1.html");
-//		try {
-//			webView.addJavascriptInterface(new JavaScriptInterface(quizFileToView.getCanonicalPath()),"Android");
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		
-//		File studentQuizFile = quizFileToView;
-//		FileInputStream in;
-//
-//			try {
-//				in = new FileInputStream(studentQuizFile);
-//				HtmlParser studentQuiz = new HtmlParser(in);
-//				NodeList studentDrawings = studentQuiz.document.getElementsByTagName("studentdrawing"+qNumber);
-//				Element studentDrawing = (Element)studentDrawings.item(0);
-//				if(studentDrawing.getChildNodes().getLength()==1) //because of the empty textNode we add to the tag..
-//				{
-//					studentDrawing.removeChild(studentDrawing.getFirstChild());
-//					Element img = studentQuiz.document.createElement("img");
-//					img.setAttribute("src", "SDraw"+qNumber+".PNG");
-//					studentDrawing.appendChild(img);
-//				}
-//				studentQuiz.writeHtml(studentQuizFile.getCanonicalPath());
-//				
-//				webView.loadUrl("file://" + studentQuizFile.getAbsolutePath());
-//			} catch (TransformerException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//				
-//			
-//	}
 }

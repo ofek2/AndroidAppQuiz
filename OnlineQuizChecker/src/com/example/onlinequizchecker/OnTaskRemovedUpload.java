@@ -13,10 +13,23 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * The Class OnTaskRemovedUpload.
+ */
 public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
+	
+	/** The path to delete. */
 	private String pathToDelete;
+	
+	/** The application context. */
 	private Context applicationContext;
 
+	/**
+	 * Instantiates a new on task removed upload.
+	 *
+	 * @param pathToDelete the path to delete
+	 * @param applicationContext the application context
+	 */
 	public OnTaskRemovedUpload(String pathToDelete, Context applicationContext) {
 		super();
 		this.pathToDelete = pathToDelete;
@@ -25,6 +38,9 @@ public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 */
 	@Override
 	protected Long doInBackground(String... params) {
 		
@@ -34,7 +50,10 @@ public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
 		// TODO Auto-generated method stub
 		
 	
-	 protected void onPostExecute(Long result) {
+	 /* (non-Javadoc)
+		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+		 */
+		protected void onPostExecute(Long result) {
 //		 Toast toast = Toast.makeText(applicationContext,  "The files were successfully saved",
 //                 Toast.LENGTH_SHORT);
 //      toast.show();

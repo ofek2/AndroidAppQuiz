@@ -7,15 +7,31 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+/**
+ * The Class StudMessageHandler.
+ */
 public class StudMessageHandler extends Handler {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The stud auth controller. */
 	private StudAuthController studAuthController;
 
+	/**
+	 * Instantiates a new stud message handler.
+	 *
+	 * @param activity the activity
+	 * @param studAuthController the stud auth controller
+	 */
 	public StudMessageHandler(MainActivity activity, StudAuthController studAuthController) {
 		this.activity = activity;
 		this.studAuthController = studAuthController;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.os.Handler#handleMessage(android.os.Message)
+	 */
 	@Override
 	public void handleMessage(Message msg) {
 		switch (msg.what) {

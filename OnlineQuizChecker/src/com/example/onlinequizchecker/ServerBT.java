@@ -30,26 +30,52 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The Class ServerBT.
+ */
 public class ServerBT {
 
+	/** The Constant TAG. */
 	// Debugging
 	private static final String TAG = "ServerBT";
+	
+	/** The Constant D. */
 	private static final boolean D = true;
 
+	/** The Constant NAME. */
 	// Name for the SDP record when creating server socket
 	private static final String NAME = "Lecturer";
 
+	/** The m adapter. */
 	// Member fields
 	private final BluetoothAdapter mAdapter;
-	 private final Handler mHandler;
+	 
+ 	/** The m handler. */
+ 	private final Handler mHandler;
+	
+	/** The m accept thread. */
 	private AcceptThread mAcceptThread = null;
+	
+	/** The m connected thread. */
 	// private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
+	
+	/** The m state. */
 	private int mState;
+	
+	/** The stage. */
 	private int stage = 1;
+	
+	/** The m device addresses. */
 	private ArrayList<String> mDeviceAddresses;
+	
+	/** The m conn threads. */
 	public static ArrayList<ConnectedThread> mConnThreads;
+	
+	/** The m sockets. */
 	private ArrayList<BluetoothSocket> mSockets;
+	
+	/** The max uuid. */
 	private int maxUuid = 1;
 	/**
 	 * A bluetooth piconet can support up to 7 connections. This array holds 7
@@ -59,35 +85,72 @@ public class ServerBT {
 	 * an outgoing connection, the client tries each UUID one at a time.
 	 */
 	private UUID mUuid;
+	
+	/** The course. */
 	private String course;
+	
+	/** The Constant STATE_NONE. */
 	// Constants that indicate the current connection state
 	public static final int STATE_NONE = 0; // we're doing nothing
+	
+	/** The Constant STATE_LISTEN. */
 	public static final int STATE_LISTEN = 1; // now listening for incoming
+												
+												/** The Constant STATE_CONNECTING. */
 												// connections
 	public static final int STATE_CONNECTING = 2; // now initiating an outgoing
+													
+													/** The Constant STATE_CONNECTED. */
 													// connection
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
 													// device
 
-	private char[] randomOrderedMacCharacters = { '0', 'A', '6', '7', 'C', 'D', '8', '9', 'E', '4', '1', '5', 'F', '3',
+	/** The random ordered mac characters. */
+													private char[] randomOrderedMacCharacters = { '0', 'A', '6', '7', 'C', 'D', '8', '9', 'E', '4', '1', '5', 'F', '3',
 			'2', 'B' };
+	
+	/** The mac characters. */
 	private char[] macCharacters = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+	
+	/** The pin code. */
 	private char[] pinCode = new char[8];
+	
+	/** The decimal pos in pin code. */
 	// private String hexaPosInPinCode;
 	private int decimalPosInPinCode;
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The list view. */
 	private ListView listView;
+	
+	/** The last pos in connected thread list. */
 	private int lastPosInConnectedThreadList;
+	
+	/** The students answers path. */
 	private String studentsAnswersPath;
+	
+	/** The application path. */
 	private String applicationPath;
+	
+	/** The string pin code. */
 	private String stringPinCode;
+	
+	/** The stoped. */
 	private boolean stoped;
+	
+	/** The aorqbs. */
 	public int aorqbs;//Amount of received quizzes by students
+	
 	/**
 	 * Constructor. Prepares a new BluetoothChat session. // * @param context
 	 * The UI Activity Context // * @param handler A Handler to send messages
 	 * back to the UI Activity
-	 * @param mHandler 
+	 *
+	 * @param activity the activity
+	 * @param mHandler the m handler
+	 * @param course the course
 	 */
 	@SuppressLint("NewApi")
 	public ServerBT(MainActivity activity, Handler mHandler,String course) {
@@ -139,6 +202,9 @@ public class ServerBT {
 		// mUuids.add(UUID.fromString("5e14d4df-9c8a-4db7-81e4-c937564c86e0"));
 	}
 
+	/**
+	 * Initialize pin code.
+	 */
 	private void initializePINCode() {
 //		String macAddress = mAdapter.getAddress();
 		String macAddress = android.provider.Settings.Secure.getString(activity.getApplicationContext().getContentResolver(), "bluetooth_address");
@@ -175,6 +241,13 @@ public class ServerBT {
 		((TextView) activity.findViewById(R.id.PINCodeTxt)).setText(stringPinCode);
 	}
 
+	/**
+	 * Find in array.
+	 *
+	 * @param ch the ch
+	 * @param array the array
+	 * @return the int
+	 */
 	private int findInArray(char ch, char[] array) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] == ch)
@@ -185,10 +258,9 @@ public class ServerBT {
 	}
 
 	/**
-	 * Set the current state of the chat connection
-	 * 
-	 * @param state
-	 *            An integer defining the current connection state
+	 * Set the current state of the chat connection.
+	 *
+	 * @param state            An integer defining the current connection state
 	 */
 	private synchronized void setState(int state) {
 		if (D)
@@ -202,6 +274,8 @@ public class ServerBT {
 
 	/**
 	 * Return the current connection state.
+	 *
+	 * @return the state
 	 */
 	public synchronized int getState() {
 		return mState;
@@ -210,8 +284,8 @@ public class ServerBT {
 	/**
 	 * Start the chat service. Specifically start AcceptThread to begin a
 	 * session in listening (server) mode. Called by the Activity onResume()
-	 * 
-	 * @param listview
+	 *
+	 * @param listview the listview
 	 */
 	public synchronized void start(ListView listview) {
 		///////////////////////////////////////////////////////////////
@@ -244,13 +318,11 @@ public class ServerBT {
 	}
 
 	/**
-	 * Start the ConnectedThread to begin managing a Bluetooth connection
-	 * 
-	 * @param socket
-	 *            The BluetoothSocket on which the connection was made
-	 * @param device
-	 *            The BluetoothDevice that has been connected
-//	 * @param uuidPos
+	 * Start the ConnectedThread to begin managing a Bluetooth connection.
+	 *
+	 * @param socket            The BluetoothSocket on which the connection was made
+	 * @param device            The BluetoothDevice that has been connected
+	 * //	 * @param uuidPos
 	 */
 	public synchronized void connected(BluetoothSocket socket, BluetoothDevice device){
 //			, int uuidPos) {
@@ -296,7 +368,7 @@ public class ServerBT {
 	}
 
 	/**
-	 * Stop all threads
+	 * Stop all threads.
 	 */
 	///////////////////////////////////////
 	///////////////////////////////////////
@@ -330,10 +402,9 @@ public class ServerBT {
 	///////////////////////////////////////
 	///////////////////////////////////////
 	/**
-	 * Write to the ConnectedThread in an unsynchronized manner
-	 * 
-	 * @param out
-	 *            The bytes to write
+	 * Write to the ConnectedThread in an unsynchronized manner.
+	 *
+	 * @param out            The bytes to write
 	 * @see ConnectedThread#write(byte[])
 	 */
 	public void write(byte[] out) {
@@ -393,13 +464,23 @@ public class ServerBT {
 	 * until cancelled).
 	 */
 	private class AcceptThread extends Thread {
+		
+		/** The server socket. */
 		BluetoothServerSocket serverSocket = null;
+		
+		/** The uuid pos. */
 		private int uuidPos;
 
+		/**
+		 * Instantiates a new accept thread.
+		 */
 		public AcceptThread() {
 			this.uuidPos = uuidPos;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#run()
+		 */
 		public void run() {
 			if (D)
 				Log.d(TAG, "BEGIN mAcceptThread" + this);
@@ -448,6 +529,9 @@ public class ServerBT {
 			// listView.setItemChecked(3,true);
 		}
 
+		/**
+		 * Cancel.
+		 */
 		public void cancel() {
 			if (D)
 				Log.d(TAG, "cancel " + this);
@@ -464,18 +548,38 @@ public class ServerBT {
 	 * incoming and outgoing transmissions.
 	 */
 	class ConnectedThread extends Thread {
+		
+		/** The mm socket. */
 		private final BluetoothSocket mmSocket;
+		
+		/** The mm in stream. */
 		private final InputStream mmInStream;
+		
+		/** The mm out stream. */
 		private final OutputStream mmOutStream;
+		
+		/** The pos in connected thread list. */
 		private int posInConnectedThreadList;
+		
+		/** The student identified. */
 		private boolean studentIdentified = false;
+		
+		/** The student id. */
 		private String studentId="";
+		
+		/** The connected thread. */
 		private ConnectedThread connectedThread;
 //		private int uuidPos;
 
 
 
-		public ConnectedThread(BluetoothSocket socket, int posInConnectedThreadList){
+		/**
+ * Instantiates a new connected thread.
+ *
+ * @param socket the socket
+ * @param posInConnectedThreadList the pos in connected thread list
+ */
+public ConnectedThread(BluetoothSocket socket, int posInConnectedThreadList){
 //				, int uuidPos) {
 			Log.d(TAG, "create ConnectedThread");
 			mmSocket = socket;
@@ -495,14 +599,27 @@ public class ServerBT {
 			mmOutStream = tmpOut;
 		}
 		
+		/**
+		 * Gets the student id.
+		 *
+		 * @return the student id
+		 */
 		public String getStudentId() {
 			return studentId;
 		}
 
+		/**
+		 * Sets the student id.
+		 *
+		 * @param studentId the new student id
+		 */
 		public void setStudentId(String studentId) {
 			this.studentId = studentId;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Thread#run()
+		 */
 		@SuppressWarnings("deprecation")
 		public void run() {
 			Log.i(TAG, "BEGIN mConnectedThread");
@@ -685,6 +802,9 @@ public class ServerBT {
 			}
 		}
 		
+		/**
+		 * Connection lost.
+		 */
 		private synchronized void connectionLost() {
 //			Log.e(TAG, "disconnected", e);
 //			connectionLost();
@@ -714,20 +834,42 @@ public class ServerBT {
 			////////////////////
 		}
 		
+		/**
+		 * Update poistions.
+		 *
+		 * @param startFrom the start from
+		 */
 		private void updatePoistions(int startFrom)
 		{
 			for (int i = startFrom; i<mConnThreads.size();i++) {
 				mConnThreads.get(i).posInConnectedThreadList--; 
 			}
 		}
+        
+        /**
+         * Gets the mm in stream.
+         *
+         * @return the mm in stream
+         */
         public InputStream getMmInStream() {
 			return mmInStream;
 		}
 
+		/**
+		 * Gets the mm out stream.
+		 *
+		 * @return the mm out stream
+		 */
 		public OutputStream getMmOutStream() {
 			return mmOutStream;
 		}
 		
+        /**
+         * To byte array.
+         *
+         * @param charSequence the char sequence
+         * @return the byte[]
+         */
         private byte[] toByteArray(CharSequence charSequence) {
             if (charSequence == null) {
               return null;
@@ -759,6 +901,9 @@ public class ServerBT {
 			}
 		}
 
+		/**
+		 * Cancel.
+		 */
 		public void cancel() {
 			try {
 				mmSocket.close();

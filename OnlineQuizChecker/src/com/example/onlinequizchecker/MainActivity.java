@@ -27,14 +27,32 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+/**
+ * The Class MainActivity.
+ */
 public class MainActivity extends Activity {
+	
+	/** The user classification. */
 	private String userClassification;
+	
+	/** The did dropbox auth. */
 	private boolean didDropboxAuth = false;
+	
+	/** The blue tooth receiver. */
 	private BroadcastReceiver blueToothReceiver = null;
+	
+	/** The filelist. */
 	private File filelist;
+	
+	/** The Dropbox auth request. */
 	private boolean DropboxAuthRequest;
 	
+	/** The zip files password. */
 	public static String zipFilesPassword="";
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,12 +68,19 @@ public class MainActivity extends Activity {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
 	@Override 
 	public void onBackPressed(){ 
 		if(userClassification.equals(Constants.STUDENT))
@@ -64,6 +89,9 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -195,7 +223,10 @@ public class MainActivity extends Activity {
 //
 //	}
 
-	@Override
+	/* (non-Javadoc)
+ * @see android.app.Activity#onActivityResult(int, int, android.content.Intent)
+ */
+@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
@@ -205,6 +236,9 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	protected void onResume() {
 		super.onResume();
 		if(DropboxAuthRequest)
@@ -220,6 +254,9 @@ public class MainActivity extends Activity {
 
 	}
 
+	/**
+	 * Initiate lecturer view.
+	 */
 	private void initiateLecturerView() {
 		// TODO Auto-generated method stub
 		try {
@@ -237,6 +274,9 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Initiate student view.
+	 */
 	private void initiateStudentView() {
 		// TODO Auto-generated method stub
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -257,6 +297,11 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Show alert dialog and exit app.
+	 *
+	 * @param message the message
+	 */
 	public void showAlertDialogAndExitApp(String message) {
 
 	    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -277,6 +322,9 @@ public class MainActivity extends Activity {
 	    alertDialog.show();
 	}
 	
+	/**
+	 * Hide keyboard.
+	 */
 	public void hideKeyboard() {
 	    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 	    //Find the currently focused view, so we can grab the correct window token from it.
@@ -288,31 +336,75 @@ public class MainActivity extends Activity {
 	    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
 	
+	/**
+	 * Gets the user classification.
+	 *
+	 * @return the user classification
+	 */
 	public String getUserClassification() {
 		return userClassification;
 	}
 
+	/**
+	 * Sets the user classification.
+	 *
+	 * @param userClassification the new user classification
+	 */
 	public void setUserClassification(String userClassification) {
 		this.userClassification = userClassification;
 	}
 
+	/**
+	 * Sets the blue tooth receiver.
+	 *
+	 * @param blueToothReceiver the new blue tooth receiver
+	 */
 	public void setBlueToothReceiver(BroadcastReceiver blueToothReceiver) {
 		this.blueToothReceiver = blueToothReceiver;
 	}
+	
+	/**
+	 * Gets the blue tooth receiver.
+	 *
+	 * @return the blue tooth receiver
+	 */
 	public BroadcastReceiver getBlueToothReceiver() {
 		return blueToothReceiver;
 	}
+	
+	/**
+	 * Gets the filelist.
+	 *
+	 * @return the filelist
+	 */
 	public File getFilelist() {
 		return filelist;
 	}
 
+	/**
+	 * Sets the filelist.
+	 *
+	 * @param filelist the new filelist
+	 */
 	public void setFilelist(File filelist) {
 		this.filelist = filelist;
 	}
+	
+	/**
+	 * Sets the did dbx auth.
+	 *
+	 * @param b the new did dbx auth
+	 */
 	public void setDidDbxAuth(boolean b)
 	{
 		didDropboxAuth = b;
 	}
+	
+	/**
+	 * Sets the dropbox auth request.
+	 *
+	 * @param dropboxAuthRequest the new dropbox auth request
+	 */
 	public void setDropboxAuthRequest(boolean dropboxAuthRequest) {
 		DropboxAuthRequest = dropboxAuthRequest;
 	}

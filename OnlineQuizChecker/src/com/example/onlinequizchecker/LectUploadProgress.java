@@ -4,8 +4,20 @@ import android.os.CountDownTimer;
 
 import java.io.IOException;
 
+/**
+ * The Class LectUploadProgress.
+ */
 public class LectUploadProgress {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/**
+	 * Instantiates a new lect upload progress.
+	 *
+	 * @param activity the activity
+	 * @param timer the timer
+	 */
 	public LectUploadProgress(MainActivity activity,CountDownTimer timer)
 	{
 		this.activity=activity;
@@ -47,6 +59,11 @@ public class LectUploadProgress {
 		  
 	}
 	
+	/**
+	 * Start upload.
+	 *
+	 * @param path the path
+	 */
 	private void startUpload(String path) {
 		// TODO Auto-generated method stub
 

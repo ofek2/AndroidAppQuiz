@@ -23,21 +23,43 @@ import java.math.BigInteger;
 import java.util.UUID;
 
 /**
- * Created by 311165906 on 10/03/2016.
+ * The Class StudLoginController.
  */
 public class StudLoginController {
+	
+	/** The main activity. */
 	private MainActivity mainActivity;
+	
+	/** The login pressed. */
 	public static boolean loginPressed = false;
+	
+	/** The m bluetooth adapter. */
 	BluetoothAdapter mBluetoothAdapter;
 	
+	/** The bluetooth device. */
 	BluetoothDevice bluetoothDevice;
 	
     
+	/** The PI ncode. */
 	private CharSequence PINcode;
+	
+	/** The student id. */
 	private CharSequence studentId;
+	
+	/** The loginsuccedded. */
 	public static boolean loginsuccedded;
+	
+	/** The application path. */
 	private String applicationPath;
+	
+	/** The back button. */
 	private Button backBtn;
+	
+	/**
+	 * Instantiates a new stud login controller.
+	 *
+	 * @param activity the activity
+	 */
 	public StudLoginController(MainActivity activity) {
 		mainActivity = activity;
 		mainActivity.hideKeyboard();
@@ -95,9 +117,23 @@ public class StudLoginController {
 		});
 	}
 	
+	/**
+	 * The listener interface for receiving backBtn events.
+	 * The class that is interested in processing a backBtn
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addbackBtnListener<code> method. When
+	 * the backBtn event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see backBtnEvent
+	 */
 	class backBtnListener implements View.OnClickListener
 	{
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			new MainController(mainActivity);

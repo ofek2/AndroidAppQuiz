@@ -13,10 +13,24 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * The Class zipFileManager.
+ */
 public class zipFileManager {
+	
+	/**
+	 * Instantiates a new zip file manager.
+	 */
 	public zipFileManager(){
 		
 	}
+	
+	/**
+	 * Creates the zip file.
+	 *
+	 * @param fileToZip the file to zip
+	 * @param zipFilePath the zip file path
+	 */
 	public static void createZipFile(File fileToZip,String zipFilePath)
 	{
 		 FileOutputStream fos;
@@ -44,6 +58,15 @@ public class zipFileManager {
 		}
 		 
 	}
+	
+	/**
+	 * Adds the dir to zip archive.
+	 *
+	 * @param zos the zos
+	 * @param fileToZip the file to zip
+	 * @param parentDirectoryName the parent directory name
+	 * @throws Exception the exception
+	 */
 	public static void addDirToZipArchive(ZipOutputStream zos, File fileToZip, String parentDirectoryName) throws Exception {
 	    if (fileToZip == null || !fileToZip.exists()) {
 	        return;
@@ -76,6 +99,12 @@ public class zipFileManager {
 	    }
 	}
 	
+	/**
+	 * Un zip it.
+	 *
+	 * @param zipFilePath the zip file path
+	 * @param outputFolder the output folder
+	 */
 	public static  void unZipIt(String zipFilePath, String outputFolder){
 
 		File srcFile = new File(zipFilePath);

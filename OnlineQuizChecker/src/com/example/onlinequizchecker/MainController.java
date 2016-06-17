@@ -12,10 +12,25 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+/**
+ * The Class MainController.
+ */
 public class MainController {
+    
+    /** The lecturer button. */
     private Button lecturerBtn;
+    
+    /** The student button. */
     private Button studentBtn;
+    
+    /** The activity. */
     private MainActivity activity;
+    
+    /**
+     * Instantiates a new main controller.
+     *
+     * @param activity the activity
+     */
     public MainController(MainActivity activity){
         this.activity=activity;
         this.activity.setUserClassification("");
@@ -35,9 +50,24 @@ public class MainController {
         }
        
     }
+    
+    /**
+     * The listener interface for receiving lecturerBtn events.
+     * The class that is interested in processing a lecturerBtn
+     * event implements this interface, and the object created
+     * with that class is registered with a component using the
+     * component's <code>addlecturerBtnListener<code> method. When
+     * the lecturerBtn event occurs, that object's appropriate
+     * method is invoked.
+     *
+     * @see lecturerBtnEvent
+     */
     class lecturerBtnListener implements View.OnClickListener
     {
 
+        /* (non-Javadoc)
+         * @see android.view.View.OnClickListener#onClick(android.view.View)
+         */
         @Override
         public void onClick(View v) {
 //            activity.setUserClassification("Lecturer");
@@ -45,9 +75,24 @@ public class MainController {
            
         }
     }
+    
+    /**
+     * The listener interface for receiving studentBtn events.
+     * The class that is interested in processing a studentBtn
+     * event implements this interface, and the object created
+     * with that class is registered with a component using the
+     * component's <code>addstudentBtnListener<code> method. When
+     * the studentBtn event occurs, that object's appropriate
+     * method is invoked.
+     *
+     * @see studentBtnEvent
+     */
     class studentBtnListener implements View.OnClickListener
     {
 
+        /* (non-Javadoc)
+         * @see android.view.View.OnClickListener#onClick(android.view.View)
+         */
         @SuppressLint("NewApi")
 		@Override
         public void onClick(View v) {
