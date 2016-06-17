@@ -23,15 +23,16 @@ public class zipFileManager {
 	 * @param fileToZip the file to zip
 	 * @param zipFilePath the zip file path
 	 */
-	public static void createZipFile(File fileToZip,String zipFilePath)
+	public static void createZipFile(File fileToZip,String zipFilePath,boolean zipForPc)
 	{
 		 FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(zipFilePath);
 			File[] files = fileToZip.listFiles();
 			ZipOutputStream zos = new ZipOutputStream(fos);
-			addDirToZipArchive(zos,fileToZip,null);
+			addDirToZipArchive(zos,fileToZip,null,zipForPc);
             files = fileToZip.listFiles();
+            if(!zipForPc)
             for (int i = 0; i < files.length; i++) {
 				if(!files[i].getName().endsWith(".zip"))
 					files[i].delete();
@@ -58,20 +59,24 @@ public class zipFileManager {
 	 * @param parentDirectoryName the parent directory name
 	 * @throws Exception the exception
 	 */
-	public static void addDirToZipArchive(ZipOutputStream zos, File fileToZip, String parentDirectoryName) throws Exception {
+	public static void addDirToZipArchive(ZipOutputStream zos, File fileToZip, String parentDirectoryName,boolean zipForPc) throws Exception {
 	    if (fileToZip == null || !fileToZip.exists()) {
 	        return;
 	    }
 
 	    String zipEntryName = fileToZip.getName();
-
+	    if(zipForPc)
+	    if (parentDirectoryName!=null && !parentDirectoryName.isEmpty()) {
+	        zipEntryName = parentDirectoryName + "/" + fileToZip.getName();
+	    }
+	    
 	    if (fileToZip.isDirectory()) {
 	        System.out.println("+" + zipEntryName);
 	        if(fileToZip.getName().equals(Constants.APP_NAME))
 	        	zipEntryName = null;
 	        for (File file : fileToZip.listFiles()) {
 	        	if(!file.getName().endsWith(".zip"))
-	        		addDirToZipArchive(zos, file, zipEntryName);
+	        		addDirToZipArchive(zos, file, zipEntryName,zipForPc);
 	        }
 	    } else {
 	        System.out.println("   " + zipEntryName);
