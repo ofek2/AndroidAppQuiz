@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.transform.TransformerException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -147,6 +148,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	/**
 	 * Load quiz.
 	 */
+	@SuppressLint("SetJavaScriptEnabled")
 	@JavascriptInterface
 	public void loadQuiz(boolean initializeTimer) {
 		// TODO Auto-generated method stub
@@ -295,6 +297,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		/* (non-Javadoc)
 		 * @see android.os.CountDownTimer#onTick(long)
 		 */
+		@SuppressLint("DefaultLocale")
 		@Override
 		public void onTick(long millisUntilFinished) {
 			// TODO Auto-generated method stub
@@ -325,6 +328,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	 *
 	 * @param qNumber the q number
 	 */
+	@SuppressLint("SetJavaScriptEnabled")
 	public void updateQuizAfterDrawing(String qNumber)
 	{
 		activity.setContentView(R.layout.stud_quizview);
