@@ -1,8 +1,6 @@
 package com.example.onlinequizchecker;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,17 +9,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
-
-        import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 
@@ -40,14 +31,12 @@ public class ClientBT {
     private static final boolean D = true;
 
     /** The m adapter. */
-    // Member fields
     private final BluetoothAdapter mAdapter;
     
     /** The m handler. */
     private final Handler mHandler;
 
 /** The m connect thread. */
-//    private AcceptThread mAcceptThread;
     public ConnectThread mConnectThread;
     
     /** The m connected thread. */
@@ -133,8 +122,6 @@ public class ClientBT {
         if (D) Log.d(TAG, "setState() " + mState + " -> " + state);
         mState = state;
 
-        // Give the new state to the Handler so the UI Activity can update
-//        mHandler.obtainMessage(BluetoothChat.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     /**
@@ -144,26 +131,6 @@ public class ClientBT {
      */
     public synchronized int getState() {
         return mState;
-    }
-
-    /**
-     * Start the chat service. Specifically start AcceptThread to begin a
-     * session in listening (server) mode. Called by the Activity onResume() */
-    public synchronized void start() {
-        if (D) Log.d(TAG, "start");
-
-        // Cancel any thread attempting to make a connection
-        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
-
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
-
-        // Start the thread to listen on a BluetoothServerSocket
-//        if (mAcceptThread == null) {
-//            mAcceptThread = new AcceptThread();
-//            mAcceptThread.start();
-//        }
-//        setState(STATE_LISTEN);
     }
 
     /**
@@ -199,26 +166,10 @@ public class ClientBT {
     public synchronized void connected(BluetoothSocket socket, BluetoothDevice device) {
         if (D) Log.d(TAG, "connected");
 
-        //Commented out all the cancellations of existing threads, since we want multiple connections.
-        /*
-        // Cancel the thread that completed the connection
-        if (mConnectThread != null) {mConnectThread.cancel(); mConnectThread = null;}
-        // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
-        // Cancel the accept thread because we only want to connect to one device
-        if (mAcceptThread != null) {mAcceptThread.cancel(); mAcceptThread = null;}
-         */
-//        found=true;
+
         // Start the thread to manage the connection and perform transmissions
         mConnectedThread = new ConnectedThread(socket);
         mConnectedThread.start();
-
-//        // Send the name of the connected device back to the UI Activity
-//        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_DEVICE_NAME);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(BluetoothChat.DEVICE_NAME, device.getName());
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
 
         setState(STATE_CONNECTED);
         
@@ -229,20 +180,12 @@ public class ClientBT {
      */
     @SuppressWarnings("deprecation")
 	public synchronized void stop() {
-//        if (D) Log.d(TAG, "stop");
-//        if (mConnectThread.isAlive()) 
-//        {
-////        	mConnectThread.cancel();
-//        	mConnectThread.destroy();
-//        	mConnectThread = null;
-//        }
+
         if (mConnectedThread != null)
         {
         	mConnectedThread.cancel();
-//        	mConnectedThread.destroy();
         	mConnectedThread = null;
         }
-//        if (mAcceptThread != null) {mAcceptThread.cancel(); mAcceptThread = null;}
         setState(STATE_NONE);
     }
 
@@ -252,24 +195,12 @@ public class ClientBT {
      */
     private void connectionFailed() {
         setState(STATE_LISTEN);
-        // Commented out, because when trying to connect to all 7 UUIDs, failures will occur
-        // for each that was tried and unsuccessful, resulting in multiple failure toasts.
-        /*
-        // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
-        Bundle bundle = new Bundle();
-        bundle.putString(BluetoothChat.TOAST, "Unable to connect device");
-        msg.setData(bundle);
-        mHandler.sendMessage(msg);
-        */
     }
 
     /**
      * Indicate that the connection was lost and notify the UI Activity.
      */
     private void connectionLost() {
-//        mHandler.obtainMessage(Constants.CONNECTION_LOST, 0,
-//                0, null).sendToTarget();
         if (mConnectedThread != null)
         {
         	mConnectedThread = null;
@@ -286,23 +217,12 @@ public class ClientBT {
         		mAdapter.disable();
         		StudQuizActivity.submited = false;
         	}
-//            mConnectedThread = null;
         }
-        // Send a failure message back to the Activity
-//        Message msg = mHandler.obtainMessage(BluetoothChat.MESSAGE_TOAST);
-//        Bundle bundle = new Bundle();
-//        bundle.putString(BluetoothChat.TOAST, "Device connection was lost");
-//        msg.setData(bundle);
-//        mHandler.sendMessage(msg);
+
     }
 
 
 
-    /**
-     * This thread runs while attempting to make an outgoing connection
-     * with a device. It runs straight through; the connection either
-     * succeeds or fails.
-     */
     class ConnectThread {
 
 /** The mm socket. */
@@ -316,7 +236,7 @@ public class ClientBT {
         private UUID tempUuid;
 
         /**
-         * Instantiates a new connect thread.
+         * Trying to connect to device using uuidToTry
          *
          * @param device the device
          * @param uuidToTry the uuid to try
@@ -331,83 +251,20 @@ public class ClientBT {
             try {
 
                 tmp = device.createInsecureRfcommSocketToServiceRecord(uuidToTry);
-//                mAdapter.cancelDiscovery();//
-//                StudAuthController.maxDiscoveryIteration=0;
-//                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
-//                        .sendToTarget();
-
-                    mmSocket = tmp;//
+                mmSocket = tmp;
                 StudAuthController.currentlyCheckingDevice = true;
                 mAdapter.cancelDiscovery();
                 mmSocket.connect();
                 StudAuthController.lecturerFound=true;
-//                mAdapter.cancelDiscovery();
                 lecturerDevice = mmDevice;
                 lecturerDeviceUuid = uuidToTry;
-                    connected(mmSocket, mmDevice);
+                connected(mmSocket, mmDevice);
 
             } catch (IOException e) {
             	if(!StudAuthController.lecturerFound)
                 StudAuthController.scanDevices.add(mmDevice);
-//                StudAuthController.currentlyCheckingDevice = false;
-//                mAdapter.startDiscovery();
-//                Log.e(TAG, "create() failed", e);
             }
-//            mmSocket = tmp;
         }
-//
-//        public void run() {
-//            Log.i(TAG, "BEGIN mConnectThread");
-//            setName("ConnectThread");
-//
-//            // Always cancel discovery because it will slow down a connection
-////            mAdapter.cancelDiscovery();
-//
-//            // Make a connection to the BluetoothSocket
-////            int temp = 0;
-//            try {
-//                // This is a blocking call and will only return on a
-//                // successful connection or an exception
-////            	mAdapter.cancelDiscovery();
-////            	temp = StudAuthController.maxDiscoveryIteration;
-////                StudAuthController.maxDiscoveryIteration=0;
-////                mAdapter.cancelDiscovery();
-//                synchronized (this){
-//                mmSocket.connect();}
-//                StudAuthController.maxDiscoveryIteration=0;
-//                mAdapter.cancelDiscovery();
-////                notify();
-//
-////                mAdapter.cancelDiscovery();
-////              mHandler.obtainMessage(Constants.UNREGISTER_RECEIVER, 0, 0, null)
-////              .sendToTarget();
-////                mHandler.obtainMessage(Constants.STUDENT_AUTHORIZED, 0, 0, null)
-////                .sendToTarget();
-//            } catch (IOException e) {
-////            	notify();
-////            	StudAuthController.maxDiscoveryIteration = temp;
-////                if (tempUuid.toString().contentEquals(mUuids.get(6).toString())) {
-////                    connectionFailed();
-////                }
-//                // Close the socket
-////                try {
-////                    mmSocket.close();
-////                } catch (IOException e2) {
-////                    Log.e(TAG, "unable to close() socket during connection failure", e2);
-////                }
-//                // Start the service over to restart listening mode
-////                ClientBT.this.start();
-//                return;
-//            }
-//
-//            // Reset the ConnectThread because we're done
-////            synchronized (BluetoothChatService.this) {
-////                mConnectThread = null;
-////            }
-//
-//            // Start the connected thread
-//            connected(mmSocket, mmDevice);
-//        }
 
         /**
  * Cancel.
@@ -518,9 +375,6 @@ public void cancel() {
                 try {
                     // Read from the InputStream
                 	
-//					while ((length = fis.read(buffer)) > 0) {
-//						zos.write(buffer, 0, length);
-//					}
                 	
                     bytes = mmInStream.read(buffer);
                     
@@ -531,7 +385,6 @@ public void cancel() {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                               .sendToTarget();
-//                      cancel();
                       ClientBT.this.stop();
 					}
                     else if (receivedMessage.startsWith("You have authorized")) {
@@ -545,16 +398,15 @@ public void cancel() {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                               .sendToTarget();
-//                      cancel();
                       ClientBT.this.stop();
 					}
                     else if (receivedMessage.equals("This id is already connected")) {
                         // Send the obtained bytes to the UI Activity
                       mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                               .sendToTarget();
-//                      cancel();
                       ClientBT.this.stop();
 					}   
+                    //Enable the student to continue answering the quiz after he got a moving notification
                     else if(receivedMessage.equals("Enable Quiz"))
                     {
                     	mHandler.obtainMessage(Constants.ENABLE_QUIZ, 0, 0, buffer)
@@ -567,22 +419,12 @@ public void cancel() {
                     }
                     else
                     {
-//                      StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"));
-//                    	receivedQuiz = true;
                     	String[] splited= receivedMessage.split("-");
                     	String quizName = splited[0];
                     	course = splited[1];
                     	quizPeriod = splited[2];
                     	String fileSize = splited[3];
-                    	///////////////////////////
-//                    	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
-                    	
-                    	///////////////////////////////////
-                    	
-                    	
-                    	/////////////////////////////////
                     	byte[] readFile = new byte[Integer.valueOf(fileSize)];
-//                    	String quizPath = applicationPath+"/"+course;
                     	String quizPath = applicationPath+"/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers";
                     	pathToSend = "/"+course+"/Quizzes/"+ quizName + "/StudentsAnswers/";
                     	int byteStartIndex = String.valueOf(fileSize).length()+
@@ -605,22 +447,10 @@ public void cancel() {
                     		if(bIndex==Integer.valueOf(fileSize))
                     			break;
                     	}
-//                    	receivedQuiz = true;
                     	byte [] msg = toByteArray("Received Quiz");
                         write(msg);
                     	
-                    	String zipFile = quizPath+quizName+".zip";
-
-//                    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    	ZipOutputStream zos = new ZipOutputStream(baos);
-//                    	ZipEntry entry = new ZipEntry(zipFile);
-//                    	entry.setSize(readFile.length);
-//                    	zos.putNextEntry(entry);
-//                    	zos.write(readFile);
-//                    	zos.closeEntry();
-//                    	zos.close();
-                    	
-                    	
+                    	String zipFile = quizPath+quizName+".zip";                    	                    	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
                     	ZipEntry entry = null;
                     	new File(quizPath).mkdirs();
@@ -644,104 +474,16 @@ public void cancel() {
                     	    out.close();
                     	    zipStream.closeEntry();
                     	}
-                    	zipStream.close(); 
-                    	
-                    	
-//                	    ZipOutputStream fileOuputStream = 
-//                                new ZipOutputStream(zipFile); 
-//                	    fileOuputStream.write(readFile);
-//                	    fileOuputStream.close();
-                    	
-//                    	File file = new File(zipFile);
-//                    	if(file.exists())
-//                    	{
-//                    		;
-//                    	}
-//                    	zipFileManager.unZipIt(zipFile, quizPath);
-                    	quizPathToZip = quizPath;
-//      //                  mHandler.obtainMessage(Constants.QUIZ_INITIATION, Integer.valueOf(quizPeriod),
-//      //                  		-1, quizPath+"/"+studentId+".html").sendToTarget();
-                    	
-//                    	new StudQuizActivity(mainActivity,Integer.valueOf(quizPeriod),quizPath+quizName+".html");
-                    	
+                    	zipStream.close();                    	                    	                   	
+                    	quizPathToZip = quizPath;                    	                    	
                     }
 
                 } catch (IOException e) {
-//                    Log.e(TAG, "disconnected", e);
                     connectionLost();
                     break;
                 }
             }
-        }
-
-//        private void folderRecursiveDelete(File file) {
-//            if (!file.exists())
-//                return;
-//            if (file.isDirectory()) {
-//                for (File f : file.listFiles()) {
-//                    folderRecursiveDelete(f);
-//                }
-//            }
-//           try{
-//               if(!file.getCanonicalPath().equals(applicationPath))
-//                   file.delete();
-//           }
-//           catch (IOException e){
-//               ;
-//           }
-//
-//        }
-
-//        public void unZipIt(String zipFile, String outputFolder){
-//
-//            byte[] buffer = new byte[1024];
-//           	
-//            try{
-//           		
-//           	//create output directory is not exists
-//           	File folder = new File(outputFolder);
-//           	if(!folder.exists()){
-//           		folder.mkdir();
-//           	}
-//           		
-//           	//get the zip file content
-//           	ZipInputStream zis = 
-//           		new ZipInputStream(new FileInputStream(zipFile));
-//           	//get the zipped file list entry
-//           	ZipEntry ze = zis.getNextEntry();
-//           		
-//           	while(ze!=null){
-//           			
-//           	   String fileName = ze.getName();
-//                  File newFile = new File(outputFolder + File.separator + fileName);
-//                       
-//                  System.out.println("file unzip : "+ newFile.getAbsoluteFile());
-//                       
-//                   //create all non exists folders
-//                   //else you will hit FileNotFoundException for compressed folder
-//                   new File(newFile.getParent()).mkdirs();
-//                     
-//                   FileOutputStream fos = new FileOutputStream(newFile);             
-//
-//                   int len;
-//                   while ((len = zis.read(buffer)) > 0) {
-//              		fos.write(buffer, 0, len);
-//                   }
-//               		
-//                   fos.close();   
-//                   ze = zis.getNextEntry();
-//           	}
-//           	
-//               zis.closeEntry();
-//           	zis.close();
-//           		
-//           	System.out.println("Done");
-//           		
-//           }catch(IOException ex){
-//              ex.printStackTrace(); 
-//           }
-//          }    
-        
+        }        
         
         /**
          * Write to the connected OutStream.
@@ -752,17 +494,9 @@ public void cancel() {
                 mmOutStream.write(buffer);
 
                 if(StudQuizActivity.submited){
-//                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
                     mHandler.obtainMessage(Constants.STUDENT_SUBMITED, 0, 0, null)
                             .sendToTarget();
-//                    StudQuizActivity.submited = false;
                 }
-//                if(StudAuthController.recovered)
-//                	StudAuthController.folderRecursiveDelete(new File(applicationPath+"/"+course+"/"));
-
-                // Share the sent message back to the UI Activity
-//                mHandler.obtainMessage(BluetoothChat.MESSAGE_WRITE, -1, -1, buffer)
-//                        .sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
             }
@@ -779,7 +513,4 @@ public void cancel() {
             }
         }
     }
-//    public ArrayList<UUID> getUuids() {
-//		return mUuids;
-//	}
 }
