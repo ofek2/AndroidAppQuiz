@@ -57,9 +57,6 @@ public class ClientBT {
 	/** The application path. */
 	private String applicationPath;
 	
-	/** The main activity. */
-	private MainActivity mainActivity;
-	
 	/** The lecturer device. */
 	private BluetoothDevice lecturerDevice;
 	
@@ -102,7 +99,6 @@ public class ClientBT {
         mState = STATE_NONE;
         this.studentId = studentId;
         this.mHandler = mHandler;
-        this.mainActivity = mainActivity;
         this.applicationPath = applicationPath;
         mUuids = new ArrayList<UUID>();
         lecturerDevice = null;
@@ -176,10 +172,9 @@ public class ClientBT {
     }
 
     /**
-     * Stop all threads.
+     * Stop connected thread.
      */
-    @SuppressWarnings("deprecation")
-	public synchronized void stop() {
+    public synchronized void stop() {
 
         if (mConnectedThread != null)
         {
@@ -187,14 +182,6 @@ public class ClientBT {
         	mConnectedThread = null;
         }
         setState(STATE_NONE);
-    }
-
-
-    /**
-     * Indicate that the connection attempt failed and notify the UI Activity.
-     */
-    private void connectionFailed() {
-        setState(STATE_LISTEN);
     }
 
     /**
@@ -232,9 +219,6 @@ public class ClientBT {
         /** The mm device. */
         private final BluetoothDevice mmDevice;
         
-        /** The temp uuid. */
-        private UUID tempUuid;
-
         /**
          * Trying to connect to device using uuidToTry
          *
@@ -244,8 +228,6 @@ public class ClientBT {
         public ConnectThread(BluetoothDevice device, UUID uuidToTry) {
             mmDevice = device;
             BluetoothSocket tmp = null;
-            tempUuid = uuidToTry;
-
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
@@ -450,7 +432,6 @@ public void cancel() {
                     	byte [] msg = toByteArray("Received Quiz");
                         write(msg);
                     	
-                    	String zipFile = quizPath+quizName+".zip";                    	                    	
                     	ZipInputStream zipStream = new ZipInputStream(new ByteArrayInputStream(readFile));
                     	ZipEntry entry = null;
                     	new File(quizPath).mkdirs();
