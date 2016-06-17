@@ -705,7 +705,7 @@ public ConnectedThread(BluetoothSocket socket, int posInConnectedThreadList){
 	                    	}
 	                    	zipStream.close(); 
 	                    	
-	                    	PcZipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip");
+	                    	zipFileManager.createZipFile(new File(applicationPath), activity.getFilelist().getCanonicalPath() + "/"+Constants.APP_NAME+".zip",true);
 							String str = getStudentId();
 							if(!LectQuizSelectionController.studentsAnswersPath.isEmpty())
 								mHandler.obtainMessage(Constants.MESSAGE_READ, posInConnectedThreadList,

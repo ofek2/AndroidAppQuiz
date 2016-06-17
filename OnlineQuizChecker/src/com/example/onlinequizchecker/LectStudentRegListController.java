@@ -438,7 +438,7 @@ public class LectStudentRegListController extends ListActivity {
 	}
 
 	/**
-	 * Retrieve view.
+	 * Retrieve view if the user goes back from quiz selection screen.
 	 */
 	public void retrieveView() {
 

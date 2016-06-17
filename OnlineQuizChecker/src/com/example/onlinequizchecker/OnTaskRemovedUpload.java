@@ -15,20 +15,24 @@ import android.widget.Toast;
 
 /**
  * The Class OnTaskRemovedUpload.
+ * This class is an AsyncTask which uploads the lecturer's files in a case he exits 
+ * the application during quiz time.
  */
-public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
-	
+public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long> {
+
 	/** The path to delete. */
 	private String pathToDelete;
-	
+
 	/** The application context. */
 	private Context applicationContext;
 
 	/**
 	 * Instantiates a new on task removed upload.
 	 *
-	 * @param pathToDelete the path to delete
-	 * @param applicationContext the application context
+	 * @param pathToDelete
+	 *            the path to delete
+	 * @param applicationContext
+	 *            the application context
 	 */
 	public OnTaskRemovedUpload(String pathToDelete, Context applicationContext) {
 		super();
@@ -37,38 +41,23 @@ public class OnTaskRemovedUpload extends AsyncTask<String, Integer, Long>{
 
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
 	 */
 	@Override
 	protected Long doInBackground(String... params) {
-		
-			DropBoxSimple.uploadFolder(new File(params[0]), params[1]);			
-			return null;
-		}
-		// TODO Auto-generated method stub
-		
+		DropBoxSimple.uploadFolder(new File(params[0]), params[1]);
+		return null;
+	}
 	
-	 /* (non-Javadoc)
-		 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-		 */
-		protected void onPostExecute(Long result) {
-//		 Toast toast = Toast.makeText(applicationContext,  "The files were successfully saved",
-//                 Toast.LENGTH_SHORT);
-//      toast.show();
-//		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
-//		 //////////////////////////////////
-//         
-////       close the connection to the students
-////         LectStudentRegListController.serverBT.stop();/////////////////////////////////////////////////////////
-//
-//         //////////////////////////////////
-//		 toast = Toast.makeText(applicationContext,  "The files were successfully saved",
-//                    Toast.LENGTH_SHORT);
-//         toast.show();
-		 }
-		
-	 
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+	 */
+	protected void onPostExecute(Long result) {
+	}
+
 }

@@ -88,7 +88,7 @@ public class StudMessageHandler extends Handler {
 							zipProtectedFile.unzipFile(activity.zipFilesPassword, recoveryZipPath, recoveryPath);
 							new File(recoveryZipPath).delete();
 							files = new File(recoveryPath).listFiles();
-							zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+							zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath,false);
 							byte[] byteArrayToSend = StudQuizActivity.zipToByteArray(
 									recoveryPath + "/" + studAuthController.getStudentId() + ".zip", pathToSend);
 							studAuthController.clientBT.mConnectedThread.write(byteArrayToSend);

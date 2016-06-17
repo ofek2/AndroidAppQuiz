@@ -186,151 +186,151 @@ public class StudAuthController{
 //				mBluetoothAdapter.startDiscovery();
 //				/*****/////*****//////******/////****////
     }
-    
-    /** The m handler. */
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    // construct a string from the valid bytes in the buffer
-                    String readMessage = new String(readBuf, 0, msg.arg1);
-                    if (readMessage.equals("You have not registered to this course"))
-                    {
-                    	activity.unregisterReceiver(mReceiver);
-//                    	loginsuccedded = false;
-                    	new StudLoginController(activity);
-                        Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
-                                Toast.LENGTH_LONG).show();
-                    }
-                    else if (readMessage.equals("This id is already connected"))
-                    {
-//                    	maxDiscoveryIteration=0;
-//                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(mReceiver);
-//                    	loginsuccedded = false;
-                    	new StudLoginController(activity);
-                        Toast.makeText(activity.getApplicationContext(), "This id is already connected",
-                                Toast.LENGTH_LONG).show();
-                    }
-                    else if (readMessage.equals("The PIN code is not correct"))
-                    {
-//                    	maxDiscoveryIteration=0;
-//                        mBluetoothAdapter.cancelDiscovery();
-                    	activity.unregisterReceiver(mReceiver);
-//                    	loginsuccedded = false;
-                    	new StudLoginController(activity);
-                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
-                                Toast.LENGTH_LONG).show();
-                    }
-                    break;
-                case Constants.QUIZ_INITIATION:
-                    String quizPath = (String) msg.obj;
-
-                    int quizPeriod = msg.arg1;
-                    activity.setUserClassification(Constants.STUDENT);
-                    studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
-                    break;
-                case Constants.STUDENT_AUTHORIZED:
-                    activity.unregisterReceiver(mReceiver);
-                    label.setText("Waiting for quiz initiation.");
-                    String course = (String)msg.obj;
-                    if(new File(applicationPath+"/"+course).exists())
-                    {
-                    	File[] quizzes = new File(applicationPath+"/"+course+"/Quizzes").listFiles();
-                    	String recoveryPath;
-                    	String recoveryZipPath;
-                    	String pathToSend;
-                    	outerloop:
-                    	for (int i = 0; i < quizzes.length; i++) {
-                    		recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers"; 
-                        	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers").
-                        			listFiles();
-                        	for (int j = 0; j < answersFiles.length; j++) {
-                        		if(answersFiles[j].getName().equals(studentId+".zip"))
-    							{
-                        		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
-                        		pathToSend = "/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers/";
-                                File[] files = new File(recoveryPath).listFiles();
-                            	zipProtectedFile.unzipFile(activity.zipFilesPassword,
-                            			recoveryZipPath, recoveryPath);
-                            	new File(recoveryZipPath).delete();
-                                files = new File(recoveryPath).listFiles();
-                            	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-//                            	recovered = true;
-                            	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
-                            	clientBT.mConnectedThread.write(byteArrayToSend);	
-                            	break outerloop;
-    							}
-							}
-    						
-                    	}
-//  //                 	recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
-//                    	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers").listFiles();
-//						if(answersFiles[0].getName().equals(studentId+".zip"))
-//							{
-//                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
-//                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
-//                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
-//                        			recoveryZipPath, recoveryPath);
-//                        	new File(recoveryZipPath).delete();
-//                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-//                        	recovered = true;
-//                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
-//                        	clientBT.mConnectedThread.write(byteArrayToSend);	
-//							}////
-//                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
-//                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
-//                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
-//                        			recoveryZipPath, recoveryPath);
-//                        	new File(recoveryZipPath).delete();
-//                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
-//                        	recovered = true;
-//                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
-//                        	clientBT.mConnectedThread.write(byteArrayToSend);
-//						}
-                    }
-//                    Toast.makeText(activity.getApplicationContext(), studentId,
+//    
+//    /** The m handler. */
+//    private Handler mHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case Constants.MESSAGE_READ:
+//                    byte[] readBuf = (byte[]) msg.obj;
+//                    // construct a string from the valid bytes in the buffer
+//                    String readMessage = new String(readBuf, 0, msg.arg1);
+//                    if (readMessage.equals("You have not registered to this course"))
+//                    {
+//                    	activity.unregisterReceiver(mReceiver);
+////                    	loginsuccedded = false;
+//                    	new StudLoginController(activity);
+//                        Toast.makeText(activity.getApplicationContext(), "You have not registered to this course",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//                    else if (readMessage.equals("This id is already connected"))
+//                    {
+////                    	maxDiscoveryIteration=0;
+////                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(mReceiver);
+////                    	loginsuccedded = false;
+//                    	new StudLoginController(activity);
+//                        Toast.makeText(activity.getApplicationContext(), "This id is already connected",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//                    else if (readMessage.equals("The PIN code is not correct"))
+//                    {
+////                    	maxDiscoveryIteration=0;
+////                        mBluetoothAdapter.cancelDiscovery();
+//                    	activity.unregisterReceiver(mReceiver);
+////                    	loginsuccedded = false;
+//                    	new StudLoginController(activity);
+//                        Toast.makeText(activity.getApplicationContext(), "The PIN code is not correct",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//                    break;
+//                case Constants.QUIZ_INITIATION:
+//                    String quizPath = (String) msg.obj;
+//
+//                    int quizPeriod = msg.arg1;
+//                    activity.setUserClassification(Constants.STUDENT);
+//                    studtentQuizActivity = new StudQuizActivity(activity,quizPeriod,studentId,quizPath,applicationPath,clientBT);
+//                    break;
+//                case Constants.STUDENT_AUTHORIZED:
+//                    activity.unregisterReceiver(mReceiver);
+//                    label.setText("Waiting for quiz initiation.");
+//                    String course = (String)msg.obj;
+//                    if(new File(applicationPath+"/"+course).exists())
+//                    {
+//                    	File[] quizzes = new File(applicationPath+"/"+course+"/Quizzes").listFiles();
+//                    	String recoveryPath;
+//                    	String recoveryZipPath;
+//                    	String pathToSend;
+//                    	outerloop:
+//                    	for (int i = 0; i < quizzes.length; i++) {
+//                    		recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers"; 
+//                        	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers").
+//                        			listFiles();
+//                        	for (int j = 0; j < answersFiles.length; j++) {
+//                        		if(answersFiles[j].getName().equals(studentId+".zip"))
+//    							{
+//                        		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+//                        		pathToSend = "/"+course+"/Quizzes/"+ quizzes[i].getName() + "/StudentsAnswers/";
+//                                File[] files = new File(recoveryPath).listFiles();
+//                            	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+//                            			recoveryZipPath, recoveryPath);
+//                            	new File(recoveryZipPath).delete();
+//                                files = new File(recoveryPath).listFiles();
+//                            	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+////                            	recovered = true;
+//                            	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+//                            	clientBT.mConnectedThread.write(byteArrayToSend);	
+//                            	break outerloop;
+//    							}
+//							}
+//    						
+//                    	}
+////  //                 	recoveryPath = applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers"; 
+////                    	File[] answersFiles = new File(applicationPath+"/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers").listFiles();
+////						if(answersFiles[0].getName().equals(studentId+".zip"))
+////							{
+////                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+////                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
+////                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+////                        			recoveryZipPath, recoveryPath);
+////                        	new File(recoveryZipPath).delete();
+////                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+////                        	recovered = true;
+////                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+////                        	clientBT.mConnectedThread.write(byteArrayToSend);	
+////							}////
+////                    		recoveryZipPath = recoveryPath+"/"+studentId+".zip";
+////                    		pathToSend = "/"+course+"/Quizzes/"+ quizzes[0].getName() + "/StudentsAnswers/";
+////                        	zipProtectedFile.unzipFile(activity.zipFilesPassword,
+////                        			recoveryZipPath, recoveryPath);
+////                        	new File(recoveryZipPath).delete();
+////                        	zipFileManager.createZipFile(new File(recoveryPath), recoveryZipPath);
+////                        	recovered = true;
+////                        	byte [] byteArrayToSend = StudQuizActivity.zipToByteArray(recoveryPath+"/"+studentId+".zip",pathToSend);
+////                        	clientBT.mConnectedThread.write(byteArrayToSend);
+////						}
+//                    }
+////                    Toast.makeText(activity.getApplicationContext(), studentId,
+////                            Toast.LENGTH_LONG).show();
+////                	activity.setContentView(R.layout.stud_loginview);
+//                    break;
+//                case Constants.CONNECTION_LOST:
+//                    new StudLoginController(activity);
+//                    Toast.makeText(activity.getApplicationContext(), "The connection with the lecturer was lost",
 //                            Toast.LENGTH_LONG).show();
-//                	activity.setContentView(R.layout.stud_loginview);
-                    break;
-                case Constants.CONNECTION_LOST:
-                    new StudLoginController(activity);
-                    Toast.makeText(activity.getApplicationContext(), "The connection with the lecturer was lost",
-                            Toast.LENGTH_LONG).show();
-                    break;
-                case Constants.STUDENT_SUBMITED:
-                
-//                	folderRecursiveDelete(new File(applicationPath+"/"));
-                    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
-                            Toast.LENGTH_LONG).show();
-                
-//                    clientBT.stop();
-//                    BluetoothAdapter.getDefaultAdapter().disable();
-
-                    new MainController(activity);
-                    break;
-                case Constants.ENABLE_QUIZ:
-                	if(studtentQuizActivity!=null)
-                	studtentQuizActivity.enableQuiz();
-                	break;
-
-                   
-//                case Constants.UNREGISTER_RECEIVER:
-//                	activity.unregisterReceiver(mReceiver);
 //                    break;
-//                case Constants.REGISTER_RECEIVER:
-//                    IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-//                    IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-//                    IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
-//                    activity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
-//                    activity.registerReceiver(mReceiver, actionUuid);
-//                    activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
+//                case Constants.STUDENT_SUBMITED:
+//                
+////                	folderRecursiveDelete(new File(applicationPath+"/"));
+//                    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
+//                            Toast.LENGTH_LONG).show();
+//                
+////                    clientBT.stop();
+////                    BluetoothAdapter.getDefaultAdapter().disable();
+//
+//                    new MainController(activity);
 //                    break;
-            }
-        }
-    };
+//                case Constants.ENABLE_QUIZ:
+//                	if(studtentQuizActivity!=null)
+//                	studtentQuizActivity.enableQuiz();
+//                	break;
+//
+//                   
+////                case Constants.UNREGISTER_RECEIVER:
+////                	activity.unregisterReceiver(mReceiver);
+////                    break;
+////                case Constants.REGISTER_RECEIVER:
+////                    IntentFilter actionFoundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+////                    IntentFilter actionDiscoveryFinishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+////                    IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
+////                    activity.registerReceiver(mReceiver, actionFoundFilter); // Don't forget to unregister during onDestroy
+////                    activity.registerReceiver(mReceiver, actionUuid);
+////                    activity.registerReceiver(mReceiver, actionDiscoveryFinishedFilter);
+////                    break;
+//            }
+//        }
+//    };
     
     /**
      * Checks if is found.
