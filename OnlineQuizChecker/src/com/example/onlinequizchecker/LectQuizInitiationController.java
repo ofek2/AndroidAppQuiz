@@ -13,19 +13,53 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+/**
+ * The Class LectQuizInitiationController.
+ * This class controls
+ */
 public class LectQuizInitiationController {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The previous controller. */
 	private LectQuizSelectionController previousController;
+	
+	/** The course. */
 	public static String course;
+	
+	/** The quiz. */
 	public static String quiz;
 	
+	/** The course id text. */
 	private EditText courseIDText;
+	
+	/** The quiz name text. */
 	private EditText quizNameText;
+	
+	/** The time spinner. */
 	private Spinner timeSpinner;
+	
+	/** The start quiz button. */
 	private Button startQuizBtn;
+	
+	/** The back button. */
 	private Button backBtn;
+	
+	/** The students in class. */
 	public static ArrayList<String> studentsInClass;
+	
+	/** The selected time period int. */
 	public static int selectedTimePeriodInt = 0;
+	
+	/**
+	 * Instantiates a new lect quiz initiation controller.
+	 *
+	 * @param activity the activity
+	 * @param previousController the previous controller
+	 * @param course the course
+	 * @param quiz the quiz
+	 */
 	public LectQuizInitiationController(MainActivity activity,LectQuizSelectionController previousController,String course,String quiz)
 	{
 		this.activity = activity;
@@ -35,6 +69,10 @@ public class LectQuizInitiationController {
 		this.quiz = quiz;
 		initComponents();
 	}
+	
+	/**
+	 * Inits the components.
+	 */
 	private void initComponents() {
 		// TODO Auto-generated method stub
 		courseIDText = (EditText)activity.findViewById(R.id.courseIDTxt);
@@ -49,9 +87,24 @@ public class LectQuizInitiationController {
 		startQuizBtn.setOnClickListener(new startQuizBtnListener());
 		backBtn.setOnClickListener(new backBtnListener());
 	}
+	
+	/**
+	 * The listener interface for receiving backBtn events.
+	 * The class that is interested in processing a backBtn
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addbackBtnListener<code> method. When
+	 * the backBtn event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see backBtnEvent
+	 */
 	class backBtnListener implements View.OnClickListener
 	{
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			previousController.retrieveView();
@@ -59,9 +112,24 @@ public class LectQuizInitiationController {
 		}
 		
 	}
+	
+	/**
+	 * The listener interface for receiving startQuizBtn events.
+	 * The class that is interested in processing a startQuizBtn
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addstartQuizBtnListener<code> method. When
+	 * the startQuizBtn event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see startQuizBtnEvent
+	 */
 	class startQuizBtnListener implements View.OnClickListener
 	{
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
@@ -80,6 +148,12 @@ public class LectQuizInitiationController {
 			}
 		}
 
+        /**
+         * To byte array.
+         *
+         * @param charSequence the char sequence
+         * @return the byte[]
+         */
         private byte[] toByteArray(CharSequence charSequence) {
             if (charSequence == null) {
               return null;
@@ -92,6 +166,11 @@ public class LectQuizInitiationController {
             return bytesArray;
         }
         
+		/**
+		 * Start quiz.
+		 *
+		 * @param quizPeriod the quiz period
+		 */
 		private void startQuiz(int quizPeriod) {
 			// TODO Auto-generated method stub
 //			new LectQuizProgressController(activity,quizPeriod);
