@@ -8,17 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.android.AndroidAuthSession;
 import com.dropbox.client2.exception.DropboxException;
 import com.dropbox.client2.session.AppKeyPair;
-
-import android.app.Activity;
-import android.content.Context;
 import android.widget.Toast;
 
 
@@ -39,9 +34,6 @@ public class DropBoxSimple {
     /** The Dropbox api component. */
     public static DropboxAPI<AndroidAuthSession> mDBApi;
     
-    /** The activity. */
-    private static MainActivity activity;
-    
     /**
      * Instantiates a new drop box simple.
      *
@@ -54,11 +46,9 @@ public class DropBoxSimple {
     	try {
 			rootPath = new File(".").getCanonicalPath() + "\\"+Constants.APP_NAME;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 			e.printStackTrace();
 		}
-        this.activity=activity;
         AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
         AndroidAuthSession session = new AndroidAuthSession(appKeys);
         mDBApi = new DropboxAPI<AndroidAuthSession>(session);
@@ -88,18 +78,14 @@ public class DropBoxSimple {
 					if (!file.getCanonicalPath().equals(rootPath))
 						path = path + file.getName() + "/";
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 				for (File f : file.listFiles()) {
 					uploadFolder(f, path);
 				}
 			}
 				} catch (IOException | DropboxException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 		} else {
 			
@@ -108,9 +94,7 @@ public class DropBoxSimple {
 					in = new FileInputStream(file);
 					mDBApi.putFileOverwrite(path + file.getName(), in, file.length(), null);
 				} catch (FileNotFoundException | DropboxException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
 			
 				
@@ -144,14 +128,12 @@ public class DropBoxSimple {
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-//					Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 				}
-				DropboxFileInfo info = mDBApi.getFile(dropPath, null, outputStream, null);
+				mDBApi.getFile(dropPath, null, outputStream, null);
 			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-//			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 		}
 	}
 }
