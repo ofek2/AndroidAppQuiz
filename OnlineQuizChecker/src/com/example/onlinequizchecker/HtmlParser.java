@@ -16,11 +16,21 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+/**
+ * The Class HtmlParser.
+ * This class is used for reading the quiz files
+ * and changing them during the quiz.
+ */
 public class HtmlParser {
 	
-	public Document document;
-	protected NodeList nList;
+	/** The document. */
+	public Document document;	
 
+	/**
+	 * Instantiates a new html parser.
+	 *
+	 * @param xmlFile the file to read
+	 */
 	public HtmlParser(InputStream xmlFile) {
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -32,6 +42,12 @@ public class HtmlParser {
 		}
 	}
 
+	/**
+	 * Write html.
+	 *
+	 * @param path the path to save the file to
+	 * @throws TransformerException the transformer exception
+	 */
 	public void writeHtml(String path) throws TransformerException{
 		// write the content into HTML file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

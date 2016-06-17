@@ -21,16 +21,32 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+
 /**
- * Created by 311165906 on 10/03/2016.
+ * The Class DropBoxSimple.
  */
 public class DropBoxSimple {
+    
+    /** The Constant APP_KEY. */
     final static private String APP_KEY = "6uzu0uyprajxb0p";
+    
+    /** The Constant APP_SECRET. */
     final static private String APP_SECRET = "e7iwzdqp4rwtu88";
 
+    /** The root path. */
     private static String rootPath;
+    
+    /** The Dropbox api component. */
     public static DropboxAPI<AndroidAuthSession> mDBApi;
+    
+    /** The activity. */
     private static MainActivity activity;
+    
+    /**
+     * Instantiates a new drop box simple.
+     *
+     * @param activity the activity
+     */
     public DropBoxSimple(MainActivity activity)
 
     {
@@ -49,6 +65,13 @@ public class DropBoxSimple {
         mDBApi.getSession().startOAuth2Authentication(activity);
         
     }
+    
+    /**
+     * Upload folder to Dropbox.
+     *
+     * @param file the folder to upload
+     * @param path the upload path
+     */
     public static void uploadFolder(File file, String path) {
 
 		if (!file.exists())
@@ -96,6 +119,12 @@ public class DropBoxSimple {
 
 	}
     
+    /**
+     * Download folder from Dropbox.
+     *
+     * @param path the path to download the files to
+     * @param dropPath the path to download from Dropbox
+     */
     public static void downloadFolder(String path, String dropPath) {
 		FileOutputStream outputStream=null;
 		
@@ -125,11 +154,4 @@ public class DropBoxSimple {
 //			Toast.makeText(activity.getApplicationContext(), "exception", Toast.LENGTH_SHORT).show();//////////////////
 		}
 	}
-
-    public static ArrayList<String> getCoursesInfo()
-    {
-    	ArrayList<String> courses = new ArrayList<String>();
-    	return null;
-    	//mDBApi.
-    }
 }

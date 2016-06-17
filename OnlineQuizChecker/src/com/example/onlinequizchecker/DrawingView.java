@@ -14,26 +14,64 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * The Class DrawingView.
+ * This class is used for drawing answers during the quiz.
+ */
 public class DrawingView extends View {
 
+    /** The width. */
     public int width;
+    
+    /** The height. */
     public  int height;
+    
+    /** The bitmap. */
     private Bitmap  mBitmap;
+    
+    /** The canvas. */
     private Canvas  mCanvas;
+    
+    /** The path. */
     private Path    mPath;
+    
+    /** The bitmap paint. */
     private Paint   mBitmapPaint;
+    
+    /** The context. */
     Context context;
+    
+    /** The circle paint. */
     private Paint circlePaint;
+    
+    /** The circle path. */
     private Path circlePath;
+	
+	/** The paint. */
 	private Paint mPaint;
+	
+	/** The picture path. */
 	private String picPath;
+	
+	/** The cleaning. */
 	private boolean cleaning; 
+    
+    /**
+     * Instantiates a new drawing view.
+     *
+     * @param c the c
+     * @param a the a
+     */
     public DrawingView(Context c,AttributeSet a) {
         super(c,a);
         context=c;
         cleaning = false;
         initView();
     }
+    
+    /**
+     * Inits the view.
+     */
     private void initView()
     {
     	setDrawingCacheEnabled(true);
@@ -55,6 +93,10 @@ public class DrawingView extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
     }
+    
+    /* (non-Javadoc)
+     * @see android.view.View#onSizeChanged(int, int, int, int)
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -92,6 +134,9 @@ public class DrawingView extends View {
 //        
     }
 
+    /* (non-Javadoc)
+     * @see android.view.View#onDraw(android.graphics.Canvas)
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -101,9 +146,18 @@ public class DrawingView extends View {
         canvas.drawPath( circlePath,  circlePaint);
     }
 
+    /** The m y. */
     private float mX, mY;
+    
+    /** The Constant TOUCH_TOLERANCE. */
     private static final float TOUCH_TOLERANCE = 4;
 
+    /**
+     * Touch_start.
+     *
+     * @param x the x
+     * @param y the y
+     */
     private void touch_start(float x, float y) {
         mPath.reset();
         mPath.moveTo(x, y);
@@ -111,6 +165,12 @@ public class DrawingView extends View {
         mY = y;
     }
 
+    /**
+     * Touch_move.
+     *
+     * @param x the x
+     * @param y the y
+     */
     private void touch_move(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
@@ -124,6 +184,9 @@ public class DrawingView extends View {
         }
     }
 
+    /**
+     * Touch_up.
+     */
     private void touch_up() {
         mPath.lineTo(mX, mY);
         circlePath.reset();
@@ -133,6 +196,9 @@ public class DrawingView extends View {
         mPath.reset();
     }
 
+    /* (non-Javadoc)
+     * @see android.view.View#onTouchEvent(android.view.MotionEvent)
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -154,6 +220,10 @@ public class DrawingView extends View {
         }
         return true;
     }
+    
+    /**
+     * Clear drawing.
+     */
     public void clearDrawing()
     {
 
@@ -165,6 +235,11 @@ public class DrawingView extends View {
     setDrawingCacheEnabled(true);
     }
 
+    /**
+     * Save drawing.
+     *
+     * @param path the path
+     */
     public void saveDrawing(String path)
     {
     	Bitmap whatTheUserDrewBitmap = getDrawingCache();
@@ -184,6 +259,12 @@ public class DrawingView extends View {
     	    }
     	}
     }
+    
+    /**
+     * Sets the picture.
+     *
+     * @param picturePath the new picture
+     */
     public void setPicture(String picturePath)
     {
     	picPath = picturePath;

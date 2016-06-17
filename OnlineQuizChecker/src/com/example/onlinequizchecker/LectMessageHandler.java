@@ -18,12 +18,35 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * The Class LectMessageHandler.
+ * This class handles messages sent by the server
+ * to initiate GUI events like changing screens 
+ * and animations.
+ */
 public class LectMessageHandler extends Handler{
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/** The lect student reg list controller. */
 	private LectStudentRegListController lectStudentRegListController;
+	
+	/** The in recovery mode. */
 	public static int inRecoveryMode;
+	
+	/** The lock. */
 	private Object lock;
+	
+	/** The lecturer service started. */
 	public static boolean lecturerServiceStarted;
+	
+	/**
+	 * Instantiates a new lect message handler.
+	 *
+	 * @param activity the activity
+	 * @param lectStudentRegListController the lect student reg list controller
+	 */
 	public LectMessageHandler(MainActivity activity, LectStudentRegListController lectStudentRegListController)
 	{
 		super();
@@ -32,11 +55,15 @@ public class LectMessageHandler extends Handler{
 		lock = new Object();
 		inRecoveryMode = 0;
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.os.Handler#handleMessage(android.os.Message)
+	 */
 	@Override
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case Constants.MESSAGE_READ:
-            	
+            	//-------- Mark a student in the LectQuizProgress list indicating that this student has finished is quiz---------//
 				if (msg.arg2==-1)
 				{
 					String receivedStudentId = (String)msg.obj;
@@ -46,7 +73,7 @@ public class LectMessageHandler extends Handler{
 //					markPosInFinishList(studentPosInList(receivedStudentId,LectQuizInitiationController.studentsInClass));
 					ServerBT.mConnThreads.get(msg.arg1).cancel();
 				}
-					
+				//-------- Check if a student is already connected from another phone ---------//	
 				else {
 					String readMessage = (String)msg.obj;
 					synchronized (lock) {
@@ -59,22 +86,27 @@ public class LectMessageHandler extends Handler{
 				}
 
                 break;
+            //-------- Handle motion sensor triggered event ---------//
             case Constants.MOTION_SENSOR_TRIGGERED:
             	String receivedStudentId = (String)msg.obj;
             	int studentPos = studentPosInList(receivedStudentId, LectQuizInitiationController.studentsInClass);
             	markMovingStudentInFinishList(studentPos);
 				break;
+			//-------- cancel a mark of a student who lost his connection in the login process ---------//
 			case Constants.CANCEL_MARK:
 				receivedStudentId = (String)msg.obj;
 				studentPos = studentPosInList(receivedStudentId, LectStudentRegListController.students);
 				cancelMark(studentPos);
 				break;
+			//-------- Handle connection lost event ---------//
 			case Constants.CONNECTION_LOST:
 				new MainController(activity);
 				break;
+			//-------- Open quiz progress screen ---------//
 			case Constants.QUIZ_INITIATION:
 				new LectQuizProgressController(activity,LectQuizInitiationController.selectedTimePeriodInt);
 				break;
+			//-------- In a case of recovery, this will make the "Recovery" button blink ---------//
 			case Constants.BLINK_RECOVERY:
 //				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 				synchronized (LectStudentRegListController.lockA) {									
@@ -109,9 +141,17 @@ public class LectMessageHandler extends Handler{
         }
     }
 
+	/**
+	 *This class prevents any buttons to be clicked while the recovery is in progress
+	 *
+	 * @see whileRecoveryBtnEvent
+	 */
 	class whileRecoveryBtnListener implements View.OnClickListener
 	{
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
@@ -122,6 +162,12 @@ public class LectMessageHandler extends Handler{
 		
 	}
 	
+    /**
+     * Turns charSequence to byte array.
+     *
+     * @param charSequence the char sequence to turn to byte array
+     * @return the byte[]
+     */
     public static byte[] toByteArray(CharSequence charSequence) {
         if (charSequence == null) {
           return null;
@@ -133,6 +179,14 @@ public class LectMessageHandler extends Handler{
 
         return bytesArray;
     }
+    
+    /**
+     * Returns the student position in the list(quiz progress list).
+     *
+     * @param Id the id
+     * @param studentsInClass the students in class
+     * @return the int
+     */
     public static int studentPosInList(String Id,ArrayList<String> studentsInClass)
 	{
 		for (int i = 0; i < studentsInClass.size(); i++) {
@@ -142,14 +196,32 @@ public class LectMessageHandler extends Handler{
 		}
 		return -1;
 	}
+    
+    /**
+     * Mark position in finish list.
+     *
+     * @param pos the position to mark
+     */
     private void markPosInFinishList(int pos)
 	{
 		LectQuizProgressController.listView.setItemChecked(pos, true);	
 	}
+	
+	/**
+	 * Cancel mark.
+	 *
+	 * @param pos the position to cancel
+	 */
 	private void cancelMark(int pos)
 	{
 		LectStudentRegListController.listview.setItemChecked(pos, false);
 	}
+    
+    /**
+     * Mark moving student in finish list.
+     *
+     * @param pos the position to mark
+     */
     private void markMovingStudentInFinishList(int pos)
     {
     	LectQuizProgressController.listView.getChildAt(pos).setBackgroundColor(Constants.STUDENT_IS_MOVING_COLOR);

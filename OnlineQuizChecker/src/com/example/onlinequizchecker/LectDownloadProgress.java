@@ -3,8 +3,21 @@ package com.example.onlinequizchecker;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The Class LectDownloadProgress.
+ * This class is used to initiate the download process from Dropbox to
+ * the lecturer's phone.
+ */
 public class LectDownloadProgress {
+	
+	/** The activity. */
 	private MainActivity activity;
+	
+	/**
+	 * Instantiates a new lecturer download progress.
+	 *
+	 * @param activity the activity
+	 */
 	public LectDownloadProgress(MainActivity activity)
 	{
 		this.activity=activity;
@@ -22,6 +35,11 @@ public class LectDownloadProgress {
  
 	}
 	
+	/**
+	 * Folder recursive delete.
+	 *
+	 * @param file the file
+	 */
 	public static void folderRecursiveDelete(File file) {
         if (!file.exists())
             return;
@@ -33,6 +51,11 @@ public class LectDownloadProgress {
         file.delete();
     }
 	
+	/**
+	 * Start download.
+	 *
+	 * @param path the path
+	 */
 	private void startDownload(String path) {
 		// TODO Auto-generated method stub
 

@@ -16,18 +16,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by 311165906 on 10/03/2016.
+ * The Class LectCourseSelectionController.
+ * This class controls the course selection screen.
  */
 public class LectCourseSelectionController{
+    
+    /** The activity. */
     private MainActivity activity;
+    
+    /** The spinner. */
     private Spinner spinner;
+    
+    /** The connection button. */
     private Button connectionBtn;
+    
+    /** The logout button. */
     private Button logoutBtn;
+    
+    /**
+     * Instantiates a new lecturer course selection controller.
+     *
+     * @param activity the activity
+     */
     public LectCourseSelectionController(MainActivity activity) {
         this.activity = activity;
         initView();
     }
 
+	/**
+	 * Initializes the view.
+	 */
 	private void initView() {
 		// TODO Auto-generated method stub
 		ArrayList<String> courses = getCoursesFromDB();
@@ -50,6 +68,11 @@ public class LectCourseSelectionController{
 		
 	}
 
+	/**
+	 * Gets the courses from Dropbox.
+	 *
+	 * @return the courses from Dropbox
+	 */
 	private ArrayList<String> getCoursesFromDB() {
 		// TODO Auto-generated method stub
 		
@@ -89,6 +112,11 @@ public class LectCourseSelectionController{
 	
 	}
 
+	/**
+	 * Populate courses spinner.
+	 *
+	 * @param courses the courses
+	 */
 	private void populateSpinner(ArrayList<String> courses) {
 		// TODO Auto-generated method stub
 		
@@ -99,17 +127,47 @@ public class LectCourseSelectionController{
 		
 	}
 	
-	 class connectionBtnListener implements View.OnClickListener
+	 /**
+ 	 * The listener interface for receiving connectionBtn events.
+ 	 * The class that is interested in processing a connectionBtn
+ 	 * event implements this interface, and the object created
+ 	 * with that class is registered with a component using the
+ 	 * component's <code>addconnectionBtnListener<code> method. When
+ 	 * the connectionBtn event occurs, that object's appropriate
+ 	 * method is invoked.
+ 	 *
+ 	 * @see connectionBtnEvent
+ 	 */
+ 	class connectionBtnListener implements View.OnClickListener
      {
+        
+        /* (non-Javadoc)
+         * @see android.view.View.OnClickListener#onClick(android.view.View)
+         */
         @Override
         public void onClick(View v) {
           
             new LectStudentRegListController(activity,spinner.getSelectedItem().toString());
         }
      }
-	 class logoutBtnListener implements View.OnClickListener
+	 
+ 	/**
+ 	 * The listener interface for receiving logoutBtn events.
+ 	 * The class that is interested in processing a logoutBtn
+ 	 * event implements this interface, and the object created
+ 	 * with that class is registered with a component using the
+ 	 * component's <code>addlogoutBtnListener<code> method. When
+ 	 * the logoutBtn event occurs, that object's appropriate
+ 	 * method is invoked.
+ 	 *
+ 	 * @see logoutBtnEvent
+ 	 */
+ 	class logoutBtnListener implements View.OnClickListener
 	 {
 
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub

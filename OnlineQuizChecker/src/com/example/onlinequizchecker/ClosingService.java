@@ -13,13 +13,24 @@ import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 
+/**
+ * The Class ClosingService.
+ * This service is used for handling the closing of the application.
+ */
 public class ClosingService extends Service {
+    
+    /** The finished. */
     private boolean finished = false;
+    
+    /** The thread. */
     public static Thread thread = null;
 
 
 
 
+    /* (non-Javadoc)
+     * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
@@ -59,11 +70,18 @@ public class ClosingService extends Service {
         return START_STICKY;
     }
 
+    /* (non-Javadoc)
+     * @see android.app.Service#onBind(android.content.Intent)
+     */
     @Override
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
         return null;
     }
+    
+    /* (non-Javadoc)
+     * @see android.app.Service#onTaskRemoved(android.content.Intent)
+     */
     @Override
     public void onTaskRemoved(Intent rootIntent){
         finished = true;

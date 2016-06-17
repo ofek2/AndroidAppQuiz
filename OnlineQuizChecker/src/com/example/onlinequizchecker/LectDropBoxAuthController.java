@@ -3,12 +3,25 @@ package com.example.onlinequizchecker;
 
 import android.app.Activity;
 
+
+
 /**
- * Created by 311165906 on 10/03/2016.
+ * The Class LectDropBoxAuthController.
+ * This class initiates the authorization process in the lecturer's phone.
  */
 public class LectDropBoxAuthController {
+    
+    /** The activity. */
     private MainActivity activity;
+    
+    /** The dbx. */
     private DropBoxSimple dbx;
+    
+    /**
+     * Instantiates a new lect drop box auth controller.
+     *
+     * @param activity the activity
+     */
     public LectDropBoxAuthController(MainActivity activity)
     {
         this.activity = activity;

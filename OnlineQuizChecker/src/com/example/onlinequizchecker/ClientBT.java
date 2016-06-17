@@ -1,6 +1,5 @@
 package com.example.onlinequizchecker;
-
-        import java.io.ByteArrayInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,57 +24,89 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClientBT.
+ * This class is the Bluetooth Client used to connect to the Bluetooth Server.
+ */
 public class ClientBT {
+    
+    /** The Constant TAG. */
     // Debugging
     private static final String TAG = "ClientBT";
+    
+    /** The Constant D. */
     private static final boolean D = true;
 
+    /** The m adapter. */
     // Member fields
     private final BluetoothAdapter mAdapter;
+    
+    /** The m handler. */
     private final Handler mHandler;
+
+/** The m connect thread. */
 //    private AcceptThread mAcceptThread;
     public ConnectThread mConnectThread;
+    
+    /** The m connected thread. */
     public ConnectedThread mConnectedThread;
+    
+    /** The quiz path to zip. */
     public static String quizPathToZip;
+    
+    /** The m state. */
     private int mState;
-
-    private ArrayList<String> mDeviceAddresses;
-    private ArrayList<ConnectedThread> mConnThreads;
-    private ArrayList<BluetoothSocket> mSockets;
-//    private boolean studentAuthorized;
-    /**
-     * A bluetooth piconet can support up to 7 connections. This array holds 7 unique UUIDs.
-     * When attempting to make a connection, the UUID on the client must match one that the server
-     * is listening for. When accepting incoming connections server listens for all 7 UUIDs.
-     * When trying to form an outgoing connection, the client tries each UUID one at a time.
-     */
+     
+    /** The uuids. */
     private ArrayList<UUID> mUuids;
-
-
-
-	private boolean found=false;
-    private int stage=1;
+	
+	/** The student id. */
 	private CharSequence studentId;
+	
+	/** The application path. */
 	private String applicationPath;
+	
+	/** The main activity. */
 	private MainActivity mainActivity;
+	
+	/** The lecturer device. */
 	private BluetoothDevice lecturerDevice;
+	
+	/** The lecturer device uuid. */
 	private UUID lecturerDeviceUuid;
+	
+	/** The path to send. */
 	public static String pathToSend;
+	
+	/** The quiz was initiated. */
 	public static boolean quizWasInitiated;
+	
+	/** The quiz period. */
 	private  String quizPeriod;
+    
+    /** The Constant STATE_NONE. */
     // Constants that indicate the current connection state
     public static final int STATE_NONE = 0;       // we're doing nothing
+    
+    /** The Constant STATE_LISTEN. */
     public static final int STATE_LISTEN = 1;     // now listening for incoming connections
+    
+    /** The Constant STATE_CONNECTING. */
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
+    
+    /** The Constant STATE_CONNECTED. */
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
     /**
      * Constructor. Prepares a new BluetoothChat session.
-//     * @param context  The UI Activity Context
-     * @param studentId 
-     * @param mHandler 
-     * @param mainActivity 
-//     * @param handler  A Handler to send messages back to the UI Activity
+     * //     * @param context  The UI Activity Context
+     *
+     * @param studentId the student id
+     * @param mHandler the m handler
+     * @param mainActivity //     * @param handler  A Handler to send messages back to the UI Activity
+     * @param applicationPath the application path
      */
     public ClientBT(CharSequence studentId, Handler mHandler,MainActivity mainActivity, String applicationPath) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -84,21 +115,18 @@ public class ClientBT {
         this.mHandler = mHandler;
         this.mainActivity = mainActivity;
         this.applicationPath = applicationPath;
-        mDeviceAddresses = new ArrayList<String>();
-        mConnThreads = new ArrayList<ConnectedThread>();
-        mSockets = new ArrayList<BluetoothSocket>();
         mUuids = new ArrayList<UUID>();
         lecturerDevice = null;
         pathToSend = "";
         quizWasInitiated = false;
-//      studentAuthorized = false;
-        // 7 randomly-generated UUIDs. These must match on both server and client.
+
         mUuids.add(UUID.fromString("b7746a40-c758-4868-aa19-7ac6b3475dfc"));
 
     }
 
     /**
-     * Set the current state of the chat connection
+     * Set the current state of the chat connection.
+     *
      * @param state  An integer defining the current connection state
      */
     private synchronized void setState(int state) {
@@ -110,7 +138,10 @@ public class ClientBT {
     }
 
     /**
-     * Return the current connection state. */
+     * Return the current connection state.
+     *
+     * @return the state
+     */
     public synchronized int getState() {
         return mState;
     }
@@ -150,55 +181,18 @@ public class ClientBT {
         // Cancel any thread currently running a connection
         if (mConnectedThread != null) {mConnectedThread.cancel(); mConnectedThread = null;}
 
-        // Create a new thread and attempt to connect to each UUID one-by-one.
-//        int i;
-//        int j = 0;
-//        if (stage==1) {
-//			i=0;
-////			j=7;
-//			j=1;
-//		}
-        ///////////////////////////////////////////////////
-        /////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////
-        
-        
-        
-        ////////////////////////////////////////////////////////
-//        else if (stage==2) {
-//			i=7;
-//			j=14;
-//		}
-//        for (i = 0; i < j; i++) {
-            try {
-//            	if(found==false)
-//            	{
+
+            try {         
 					mConnectThread = new ConnectThread(device, mUuids.get(0));
-//					mConnectThread.start();
 					setState(STATE_CONNECTING);
-//				}
-//            	else
-//            		break;
             } catch (Exception e) {
             }
-//        }
-        
-//        if(stage==1&&found==true)
-//        {
-//        	stop();
-//        	stage=2;
-//        	found=false;
-//        	connect(device);
-//        }
-//        else if (stage==1&&found==false) {
-//        	connect(device);
-//		}
-//        
         
     }
 
     /**
-     * Start the ConnectedThread to begin managing a Bluetooth connection
+     * Start the ConnectedThread to begin managing a Bluetooth connection.
+     *
      * @param socket  The BluetoothSocket on which the connection was made
      * @param device  The BluetoothDevice that has been connected
      */
@@ -231,7 +225,7 @@ public class ClientBT {
     }
 
     /**
-     * Stop all threads
+     * Stop all threads.
      */
     @SuppressWarnings("deprecation")
 	public synchronized void stop() {
@@ -310,11 +304,23 @@ public class ClientBT {
      * succeeds or fails.
      */
     class ConnectThread {
+
+/** The mm socket. */
 //            extends Thread {
         private BluetoothSocket mmSocket;
+        
+        /** The mm device. */
         private final BluetoothDevice mmDevice;
+        
+        /** The temp uuid. */
         private UUID tempUuid;
 
+        /**
+         * Instantiates a new connect thread.
+         *
+         * @param device the device
+         * @param uuidToTry the uuid to try
+         */
         public ConnectThread(BluetoothDevice device, UUID uuidToTry) {
             mmDevice = device;
             BluetoothSocket tmp = null;
@@ -403,7 +409,10 @@ public class ClientBT {
 //            connected(mmSocket, mmDevice);
 //        }
 
-        public void cancel() {
+        /**
+ * Cancel.
+ */
+public void cancel() {
             try {
                 mmSocket.close();
             } catch (IOException e) {
@@ -417,11 +426,24 @@ public class ClientBT {
      * It handles all incoming and outgoing transmissions.
      */
     class ConnectedThread extends Thread {
+        
+        /** The mm socket. */
         private final BluetoothSocket mmSocket;
+        
+        /** The mm in stream. */
         private final InputStream mmInStream;
+		
+		/** The mm out stream. */
 		private final OutputStream mmOutStream;
+		
+		/** The course. */
 		private String course;
 		
+        /**
+         * Instantiates a new connected thread.
+         *
+         * @param socket the socket
+         */
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "create ConnectedThread");
             mmSocket = socket;
@@ -447,14 +469,30 @@ public class ClientBT {
             write(msg);
         }
         
+        /**
+         * Gets the mm in stream.
+         *
+         * @return the mm in stream
+         */
         public InputStream getMmInStream() {
 			return mmInStream;
 		}
 
+		/**
+		 * Gets the mm out stream.
+		 *
+		 * @return the mm out stream
+		 */
 		public OutputStream getMmOutStream() {
 			return mmOutStream;
 		}
         
+        /**
+         * To byte array.
+         *
+         * @param charSequence the char sequence
+         * @return the byte[]
+         */
         private byte[] toByteArray(CharSequence charSequence) {
             if (charSequence == null) {
               return null;
@@ -467,6 +505,9 @@ public class ClientBT {
             return bytesArray;
         }
         
+        /* (non-Javadoc)
+         * @see java.lang.Thread#run()
+         */
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
             byte[] buffer = new byte[1024];
@@ -727,6 +768,9 @@ public class ClientBT {
             }
         }
 
+        /**
+         * Cancel.
+         */
         public void cancel() {
             try {
                 mmSocket.close();
