@@ -1,10 +1,7 @@
 package com.example.onlinequizchecker;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -113,7 +110,6 @@ public class zipProtectedFile {
 			 //Add SPECIFIC  files to list
 		         
              for (int i = 0; i < files.length; i++) {
-//					if (files[i].getName().equals(studentId+".html")|| files[i].getName().startsWith("Question"))
 					if(!files[i].getName().endsWith(".zip"))
 					{
 						System.out.println("Adding file: " + files[i].getName());
@@ -151,7 +147,7 @@ public class zipProtectedFile {
              ZipFile zipFile = new ZipFile(sourceZipFilePath);
 
              // check if file was encrypted, if encrypted 
-//then decrypt it using using password
+             //then decrypt it using using password
              if (zipFile.isEncrypted()) {
                    zipFile.setPassword(password);
              }
