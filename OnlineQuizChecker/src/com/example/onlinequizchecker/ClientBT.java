@@ -19,7 +19,7 @@ import android.util.Log;
 // TODO: Auto-generated Javadoc
 /**
  * The Class ClientBT.
- * This class is the Bluetooth Client used to connect to the Bluetooth Server.
+ * This class is the Bluetooth Client. It is used to connect to the Bluetooth Server.
  */
 public class ClientBT {
     
