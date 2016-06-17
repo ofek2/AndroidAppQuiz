@@ -10,20 +10,12 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 /**
  * The Class zipFileManager.
  */
 public class zipFileManager {
-	
-	/**
-	 * Instantiates a new zip file manager.
-	 */
-	public zipFileManager(){
-		
-	}
 	
 	/**
 	 * Creates the zip file.
@@ -35,7 +27,6 @@ public class zipFileManager {
 	{
 		 FileOutputStream fos;
 		try {
-			boolean check;
 			fos = new FileOutputStream(zipFilePath);
 			File[] files = fileToZip.listFiles();
 			ZipOutputStream zos = new ZipOutputStream(fos);
@@ -43,7 +34,7 @@ public class zipFileManager {
             files = fileToZip.listFiles();
             for (int i = 0; i < files.length; i++) {
 				if(!files[i].getName().endsWith(".zip"))
-					check = files[i].delete();
+					files[i].delete();
 			}
 			zos.flush();
 			fos.flush();
@@ -73,9 +64,6 @@ public class zipFileManager {
 	    }
 
 	    String zipEntryName = fileToZip.getName();
-//	    if (parentDirectoryName!=null && !parentDirectoryName.isEmpty()) {
-//	        zipEntryName = parrentDirectoryName + "/" + fileToZip.getName();
-//	    }
 
 	    if (fileToZip.isDirectory()) {
 	        System.out.println("+" + zipEntryName);
