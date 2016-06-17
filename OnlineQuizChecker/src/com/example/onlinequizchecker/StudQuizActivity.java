@@ -6,37 +6,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
 import javax.xml.transform.TransformerException;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.example.onlinequizchecker.ServerBT.ConnectedThread;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
-import android.hardware.TriggerEventListener;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.speech.tts.TextToSpeech;
-import android.util.TimingLogger;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,9 +54,6 @@ public class StudQuizActivity{
 	/** The student id. */
 	public static CharSequence studentId;
 	
-	/** The application path. */
-	private String applicationPath;
-	
 	/** The client bt. */
 	private ClientBT clientBT;
 	
@@ -85,11 +66,7 @@ public class StudQuizActivity{
 	public static AlertDialog alert = null;
 
 /** The submited. */
-//	private BluetoothAdapter bluetoothAdapter;
 	public static boolean submited;
-//	private SensorManager mSensorManager;
-//	private Sensor mSensor;
-//	private TriggerEventListener mTriggerEventListener;
 	
 	/**
  * Instantiates a new stud quiz activity.
@@ -101,6 +78,7 @@ public class StudQuizActivity{
  * @param applicationPath the application path
  * @param clientBT the client bt
  */
+@SuppressWarnings("static-access")
 public StudQuizActivity(MainActivity activity, int timePeriod,
 			CharSequence studentId, String quizPath, String applicationPath, ClientBT clientBT) {
 		super();
@@ -109,28 +87,21 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		this.activity.setContentView(R.layout.stud_quizview);
 		this.quizPath = quizPath;
 		this.studentId = studentId;
-		this.applicationPath = applicationPath;
 		this.clientBT = clientBT;
 		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
 		submited = false;
 		alert = null;
-//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		this.timePeriod = timePeriod;
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
 		timer = new CounterClass(this.timePeriod *60000, 1000);
-//		timer = new CounterClass(30000, 1000);
 		submit.setOnClickListener(new submitBtnListener());
 		
 		initTextToSpeech();
-//		initMotionSensor();
 		motionSensor = new MotionSensor(this.activity,clientBT,studentId);
 		
 		loadQuiz(true);
 	Intent intent = new Intent(activity,ClosingService.class);
-//	intent.putExtra("Password",activity.zipFilesPassword);
-//	intent.putExtra("StudentId", activity.zipFilesPassword);
-//	intent.putExtra("",activity.zipFilesPassword);
 	activity.startService(intent);
 	
 	}
@@ -149,43 +120,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 			);
 		ttobj.setSpeechRate(0.9f);
 	}
-//	@SuppressLint("NewApi")
-//	private void initMotionSensor() {
-//		
-//		mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
-//		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-//
-////		mTriggerEventListener = new TriggerEventListener() {
-////		    @Override
-////		    public void onTrigger(TriggerEvent event) {
-////		        // Do work
-////		    	String message = Constants.MOVING+"-"+studentId;
-////		    	byte[] buffer = toByteArray(message);
-////		    	showAlertDialog("Please return to your sit!");
-////		    	clientBT.mConnectedThread.write(buffer);
-////		    	mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
-////		    }
-////		};
-////
-////		mSensorManager.requestTriggerSensor(mTriggerEventListener, mSensor);
-/**
- * To byte array.
- *
- * @param charSequence the char sequence
- * @return the byte[]
- */
-//	}
-	  private byte[] toByteArray(CharSequence charSequence) {
-          if (charSequence == null) {
-            return null;
-          }
-          byte[] bytesArray = new byte[charSequence.length()];
-          for (int i = 0; i < bytesArray.length; i++) {
-          	bytesArray[i] = (byte) charSequence.charAt(i);
-          }
-
-          return bytesArray;
-      }
 	
 	/**
 	 * Show alert dialog.
@@ -217,27 +151,13 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 	@JavascriptInterface
 	public void loadQuiz(boolean initializeTimer) {
 		// TODO Auto-generated method stub
-//		File filelist = activity.getFilelist();
-		// File quizFileToView = new
-		// File(filelist.getCanonicalPath()+"/"+course+"/Quizzes/"+quiz+"/Form/"+quiz+".html");
-//		File quizFileToView = new File(".");
 		WebSettings settings = webView.getSettings();
 		settings.setJavaScriptEnabled(true);
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
 		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
-		// webView.loadUrl("file:///android_asset/1.html");
 		if(initializeTimer)
 			timer.start();
-//		if(initializeTimer)
-//		webView.setWebViewClient(new WebViewClient() {
-//
-//			   public void onPageFinished(WebView view, String url) {
-//			        // do your stuff here
-//				   
-//				   timer.start();
-//			    }
-//			});
 		webView.loadUrl("file://" + quizPath);
 		ClientBT.quizWasInitiated = true;
 	}
@@ -265,7 +185,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		 *
 		 * @param formName the form name
 		 * @param items the items
-		 * @param qType the q type
+		 * @param qType the question type
 		 * @return the answer
 		 */
 		@JavascriptInterface
@@ -302,15 +222,8 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 						
 							textInCurrentFile.setTextContent(items[0]);
 							break;
-						case Constants.FREE_DRAW:
-							//Handle free draw question
-							
-							
-							//
-							break;
 						}
 						studentQuiz.writeHtml(quizPath);
-//						webView.loadUrl("file://" + quizPath);
 					}
 				}
 			} catch (FileNotFoundException | TransformerException e) {e.printStackTrace();}
@@ -327,12 +240,12 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		public void openDrawingBoard(final String formName)
 		{
 			Utils.runOnUiThread(new Runnable() {
-			     @Override
+			     @SuppressWarnings("static-access")
+				@Override
 			     public void run() {
 			    	 new StudDrawingBoardController(activity,controller, formName, clientBT.quizPathToZip);
 			     }
 			});
-			//
 		}
 		
 		/**
@@ -403,7 +316,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
-
 			submitQuizAndExit();
 		}
 
@@ -425,7 +337,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		settings.setBuiltInZoomControls(true);
 		settings.setDisplayZoomControls(false);
 		webView.addJavascriptInterface(new JavaScriptInterface(this),"Android");
-		// webView.loadUrl("file:///android_asset/1.html");
 		this.submit = (Button)activity.findViewById(R.id.submitBtn);
 		submit.setOnClickListener(new submitBtnListener());
 		
@@ -478,8 +389,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		    	@Override
 		        public void onClick(DialogInterface dialog, int which) {
-		            // Do nothing but close the dialog
-		        	
+		            // Do nothing but close the dialog		        	
 		            dialog.dismiss();
 		            submitQuizAndExit();
 		        }
@@ -489,7 +399,6 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 
 		        @Override
 		        public void onClick(DialogInterface dialog, int which) {
-
 		            // Do nothing
 		            dialog.dismiss();
 		        }
@@ -516,28 +425,17 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 			timer.cancel();
 			timer = null;
 		}
-//		submited = true;
 		if(clientBT.mConnectedThread!=null)
 		{
 			submited = true;
 			ClientBT.quizWasInitiated = false;
-//		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
-			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
-        
-//			    submited = true;
-//	    if(clientBT.mConnectedThread!=null)
+			zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");        
 			submit.setOnClickListener(null);
 			if(alert!=null)
 				alert.dismiss();
 	    	clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
-//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
-//				Toast.LENGTH_LONG).show();
 	    	ClosingService.thread.interrupt();
 			motionSensor.getSensorManager().unregisterListener(motionSensor);
-//		clientBT.stop();
-//		bluetoothAdapter.disable();
-//
-//	    new MainController(activity);
 		}
 		else
 		{
@@ -549,54 +447,30 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 				public void onTick(long millisUntilFinished) {
 					if(clientBT.mConnectedThread!=null)
 					{
-//						submited = true;
 						cancel();
-//		zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip+"/"+studentId+".zip");
 						zipFileManager.createZipFile(new File(ClientBT.quizPathToZip), ClientBT.quizPathToZip + "/" + studentId + ".zip");
 						submited = true;
 						ClientBT.quizWasInitiated = false;
-//			    submited = true;
-//	    if(clientBT.mConnectedThread!=null)
 						clientBT.mConnectedThread.write(zipToByteArray(ClientBT.quizPathToZip+"/"+studentId+".zip",ClientBT.pathToSend));
-//	    Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully sent to your lecturer",
-//				Toast.LENGTH_LONG).show();
 						ClosingService.thread.interrupt();
 						motionSensor.getSensorManager().unregisterListener(motionSensor);
-
-//		clientBT.stop();
-//		bluetoothAdapter.disable();
-//
-//	    new MainController(activity);
 					}
 				}
 
+				@SuppressWarnings("static-access")
 				public void onFinish() {
 					if(!submited) {
-//						submited = true;
 						zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
 						submited = true;
 						ClientBT.quizWasInitiated = false;
-//			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
 						Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
 								Toast.LENGTH_LONG).show();
-//            clientBT.stop();
-//            BluetoothAdapter.getDefaultAdapter().disable();
 						ClosingService.thread.interrupt();
-						motionSensor.getSensorManager().unregisterListener(motionSensor);//////////////////////////////////
-						
+						motionSensor.getSensorManager().unregisterListener(motionSensor);						
 						new MainController(activity);
 					}
 				}
 			}.start();
-
-//			zipProtectedFile.createZipFileFromSpecificFiles(activity.zipFilesPassword, studentId, ClientBT.quizPathToZip + "/" + studentId + ".zip", ClientBT.quizPathToZip);
-////			zipProtectedFile.createZipFile(activity.zipFilesPassword, ClientBT.quizPathToZip+"/"+studentId+".zip", ClientBT.quizPathToZip);
-//            Toast.makeText(activity.getApplicationContext(), "Your quiz was successfully saved on your storage",
-//                    Toast.LENGTH_LONG).show();
-////            clientBT.stop();
-////            BluetoothAdapter.getDefaultAdapter().disable();
-//
-//            new MainController(activity);
 		}
 	}
 
@@ -607,7 +481,7 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
         int fileSize = (int) file.length();
         byte[] bFile = new byte[ pathToSend.length()+String.valueOf(fileSize).length()+fileSize+2];
         
-            //convert file into array of bytes
+        //convert file into array of bytes
         byte[] readFile = new byte[fileSize];
         //convert file into array of bytes
 		try {
@@ -649,16 +523,12 @@ public StudQuizActivity(MainActivity activity, int timePeriod,
 		activity.setContentView(R.layout.stud_quizview);
 		this.submit = (Button)this.activity.findViewById(R.id.submitBtn);
 		submited = false;
-//		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		webView = (WebView) this.activity.findViewById(R.id.quizWebView);
 		webView.clearCache(true);
 		timeLeftText = (TextView) this.activity.findViewById(R.id.timeLeftTxt);
-		submit.setOnClickListener(new submitBtnListener());
-		
+		submit.setOnClickListener(new submitBtnListener());		
 		initTextToSpeech();
-//		initMotionSensor();
-		motionSensor = new MotionSensor(this.activity,clientBT,studentId);
-		
+		motionSensor = new MotionSensor(this.activity,clientBT,studentId);		
 		loadQuiz(false);
 	}
 }
