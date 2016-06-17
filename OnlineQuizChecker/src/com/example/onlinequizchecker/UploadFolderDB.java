@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 /**
  * The Class UploadFolderDB.
+ * Uploading all of the data to the lecturer Dropbox account
  */
 public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	
@@ -25,9 +26,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 	
 	/** The execute on post. */
 	private boolean executeOnPost;
-//	private Object lockUpload;	
 /** The lect student reg list controller. */
-//	private View RecoveryBtnView;
 	private LectStudentRegListController lectStudentRegListController;
 	
 	/**
@@ -45,12 +44,7 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		this.activity = activity;
 		this.executeOnPost = executeOnPost;
 		this.lectStudentRegListController = lectStudentRegListController;
-//		lockUpload = new Object();
 	}
-//	public void setRecoveyBtnView(View view)
-//	{
-//		RecoveryBtnView = view;
-//	}
 	
 	/* (non-Javadoc)
  * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
@@ -60,13 +54,9 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		synchronized (LectStudentRegListController.lockA) {
 			LectStudentRegListController.inRecovery = false;
 			LectStudentRegListController.finishedUploadRecovery = false;
-//			RecoveryBtnView.clearAnimation();
 			DropBoxSimple.uploadFolder(new File(params[0]), params[1]);
 			if(!executeOnPost)
 			{
-//				RecoveryBtnView.clearAnimation();
-//				 if(LectMessageHandler.inRecoveryMode<2)
-//				 {
 					Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
 					recoveryBtn.setOnClickListener(new OnClickListener() {
 						
@@ -82,11 +72,6 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 					quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
 					Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
 					backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
-//				 }
-//				 LectMessageHandler.inRecoveryMode--;
-//				 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
-//					 	 ,Toast.LENGTH_SHORT);
-//				 toast.show();
 			}
 			return null;
 		}
@@ -101,13 +86,8 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 		 synchronized (LectStudentRegListController.lockA) {
 		 if(executeOnPost){
 		 LectDownloadProgress.folderRecursiveDelete(new File(pathToDelete+"/"+Constants.APP_NAME));
-		 activity.setUserClassification("");
-		 //////////////////////////////////
-         
-//       close the connection to the students
+		 activity.setUserClassification("");        
          LectStudentRegListController.serverBT.stop();
-
-         //////////////////////////////////
 		 BluetoothAdapter mAdapter = BluetoothAdapter.getDefaultAdapter();
 		 mAdapter.disable();
 		 new MainController(activity);
@@ -128,29 +108,6 @@ public class UploadFolderDB extends AsyncTask<String, Integer, Long>{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			 RecoveryBtnView.clearAnimation();
-////			 if(LectMessageHandler.inRecoveryMode<2)
-////			 {
-//				Button recoveryBtn = (Button)activity.findViewById(R.id.RecoveryBtn);
-//				recoveryBtn.setOnClickListener(new OnClickListener() {
-//					
-//					@Override
-//					public void onClick(View v) {
-//						// TODO Auto-generated method stub
-//						Toast toast = Toast.makeText(activity.getApplicationContext(), "There is no data to recover",
-//								Toast.LENGTH_SHORT);
-//						toast.show();
-//					}
-//				});
-//			 	Button quizSelectionBtn = (Button)activity.findViewById(R.id.quizSelectionBtn);
-//				quizSelectionBtn.setOnClickListener(lectStudentRegListController.new quizSelectionBtnListener());
-//				Button backBtn = (Button)activity.findViewById(R.id.backBtnStudRegList);
-//				backBtn.setOnClickListener(lectStudentRegListController.new backBtnListener());
-////			 }
-////			 LectMessageHandler.inRecoveryMode--;
-//			 Toast toast = Toast.makeText(activity.getApplicationContext(), "Recovery finished"
-//				 	 ,Toast.LENGTH_SHORT);
-//			 toast.show();
 		}
 	 }
     }
