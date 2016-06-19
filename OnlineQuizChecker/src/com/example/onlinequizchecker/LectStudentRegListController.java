@@ -325,7 +325,7 @@ public class LectStudentRegListController extends ListActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			synchronized (lockA) {
+		
 				try {
 					if (finishedUploadRecovery && !recoveryPressed) {
 						recoveryPressed = true;
@@ -348,7 +348,7 @@ public class LectStudentRegListController extends ListActivity {
 					e.printStackTrace();
 				}
 
-			}
+			
 		}
 	}
 
